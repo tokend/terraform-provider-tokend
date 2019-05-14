@@ -7,4 +7,9 @@
 
 ## Installation
 
-Download binary for your operating system from releases and copy it to `$HOME/.terraform.d/plugins/` (`%APPDATA%\terraform.d\plugins` for Windows). See Terraform [docs](https://www.terraform.io/docs/configuration-0-11/providers.html#third-party-plugins) for details.
+Downloading and installing a pre-compiled release is the recommended method of
+installation since it requires no additional tools or libraries to be installed
+on your workstation.
+
+* Visit the releases page and download the latest release for your target architecture.
+* Follow Terraform's plugin installation [instructions](https://www.terraform.io/docs/configuration-0-11/providers.html#third-party-plugins).
