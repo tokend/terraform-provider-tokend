@@ -1,14 +1,10 @@
 # TokenD Terraform Provider
 
-# What is Terraform? I want my initscripts!
+## Requirements
 
-It's OK, but you still need [`terraform`](https://www.terraform.io/downloads.html) available in your `$GOPATH/bin`.
-Then install provider with `make` and you are basically ready to init.
+ * [Terraform](https://learn.hashicorp.com/terraform/getting-started/install) 0.11
+ * Go 1.11+ (to build the provider plugin)
 
-The only thing you should know about Terraform at this point is that to make magic happen it needs to store *state*
-somewhere. And if you want to provision different environments, you have got to have different state stores. See [workspaces](https://www.terraform.io/docs/state/workspaces.html) for one of the solutions.
+## Installation
 
-# Notes
-
-* Tested with Terraform v0.11
-
+Download binary for your operating system from releases and copy it to `$HOME/.terraform.d/plugins/` (`%APPDATA%\terraform.d\plugins` for Windows). See Terraform [docs](https://www.terraform.io/docs/configuration-0-11/providers.html#third-party-plugins) for details.
