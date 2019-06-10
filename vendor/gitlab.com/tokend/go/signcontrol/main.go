@@ -21,6 +21,8 @@ const (
 	SignatureAlgorithm = "ed25519-sha256"
 
 	signatureExpireAfter = 1 * time.Hour
+
+	realRequestTargetHeader = "Real-Request-Target"
 )
 
 var (
@@ -55,7 +57,19 @@ func SignRequest(request *http.Request, kp keypair.KP) error {
 	if err != nil {
 		return errors.Wrap(err, "failed to get signature algorithm")
 	}
-	signer := httpsignatures.NewSigner(algorithm, "date", httpsignatures.RequestTarget)
+
+	if request.Header.Get(realRequestTargetHeader) == "" {
+		request.Header.Set(
+			realRequestTargetHeader,
+			httpsignatures.RequestTargetValue(request.Method, request.URL.RequestURI()),
+		)
+	}
+
+	if request.Header.Get("date") == "" {
+		request.Header.Set("date", time.Now().UTC().Format(http.TimeFormat))
+	}
+
+	signer := httpsignatures.NewSigner(algorithm, "date", realRequestTargetHeader)
 	if err = signer.SignRequest(kp.Address(), kp, request); err != nil {
 		return err
 	}

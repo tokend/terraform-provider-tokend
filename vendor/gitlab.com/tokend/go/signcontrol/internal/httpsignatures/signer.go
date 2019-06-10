@@ -3,7 +3,6 @@ package httpsignatures
 import (
 	"net/http"
 	"strings"
-	"time"
 )
 
 // Signer is used to create a signature for a given request.
@@ -38,10 +37,6 @@ func (s Signer) SignRequest(keyId string, key interface{}, r *http.Request) erro
 }
 
 func (s Signer) buildSignature(keyId string, key interface{}, r *http.Request) (*Signature, error) {
-	if r.Header.Get("date") == "" {
-		r.Header.Set("date", time.Now().UTC().Format(http.TimeFormat))
-	}
-
 	sig := &Signature{
 		KeyID:     keyId,
 		Algorithm: s.algorithm,
