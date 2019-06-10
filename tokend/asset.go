@@ -3,10 +3,12 @@ package tokend
 import (
 	"context"
 
+	"github.com/tokend/terraform-provider-tokend/tokend/helpers"
+
 	"github.com/spf13/cast"
 
-	"gitlab.com/tokend/go/xdr"
 	"github.com/tokend/terraform-provider-tokend/tokend/helpers/validation"
+	"gitlab.com/tokend/go/xdr"
 
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/pkg/errors"
@@ -88,8 +90,15 @@ func resourceAssetCreate(d *schema.ResourceData, _m interface{}) (err error) {
 			panic(errors.Errorf("invalid policy name: %s", policy))
 		}
 	}
+
+	rawDetails := d.Get("details")
+	details, err := helpers.DetailsFromRaw(rawDetails)
+	if err != nil {
+		return errors.Wrap(err, "failed to get details")
+	}
+
 	env, err := m.Builder.Transaction(m.Source).Op(&xdrbuild.CreateAsset{
-		CreatorDetails:           VoidDetails{},
+		CreatorDetails:           details,
 		Code:                     d.Get("code").(string),
 		MaxIssuanceAmount:        maxIssuanceAmount,
 		PreIssuanceSigner:        d.Get("pre_issuance_signer").(string),

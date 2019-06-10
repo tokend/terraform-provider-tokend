@@ -100,7 +100,7 @@ type AtomicSwapDetails struct{}
 
 func (d AtomicSwapDetails) ReviewRequestDetails() xdr.ReviewRequestOpRequestDetails {
 	return xdr.ReviewRequestOpRequestDetails{
-		RequestType: xdr.ReviewableRequestTypeCreateAtomicSwap,
+		RequestType: xdr.ReviewableRequestTypeCreateAtomicSwapBid,
 	}
 }
 

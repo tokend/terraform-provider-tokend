@@ -1,96 +1,104 @@
-// revision: 91680467ba4dcc7e1f66a1e33b760283407b212a
+// revision: 744e82c8f3e8226b222b1af3a45aaaeebd345216
 // branch:   master
 // Package xdr is generated from:
 //
-//  xdr/Stellar-SCP.x
-//  xdr/Stellar-ledger-entries-account-KYC.x
-//  xdr/Stellar-ledger-entries-account-limits.x
-//  xdr/Stellar-ledger-entries-account-role.x
-//  xdr/Stellar-ledger-entries-account-rule.x
-//  xdr/Stellar-ledger-entries-account.x
-//  xdr/Stellar-ledger-entries-asset-pair.x
-//  xdr/Stellar-ledger-entries-asset.x
-//  xdr/Stellar-ledger-entries-atomic-swap-bid.x
-//  xdr/Stellar-ledger-entries-balance.x
-//  xdr/Stellar-ledger-entries-contract.x
-//  xdr/Stellar-ledger-entries-external-system-id-pool-entry.x
-//  xdr/Stellar-ledger-entries-external-system-id.x
-//  xdr/Stellar-ledger-entries-fee.x
-//  xdr/Stellar-ledger-entries-key-value.x
-//  xdr/Stellar-ledger-entries-license.x
-//  xdr/Stellar-ledger-entries-limits-v2.x
-//  xdr/Stellar-ledger-entries-offer.x
-//  xdr/Stellar-ledger-entries-pending-statistics.x
-//  xdr/Stellar-ledger-entries-poll.x
-//  xdr/Stellar-ledger-entries-reference.x
-//  xdr/Stellar-ledger-entries-reviewable-request.x
-//  xdr/Stellar-ledger-entries-sale.x
-//  xdr/Stellar-ledger-entries-signer-role.x
-//  xdr/Stellar-ledger-entries-signer-rule.x
-//  xdr/Stellar-ledger-entries-signer.x
-//  xdr/Stellar-ledger-entries-stamp.x
-//  xdr/Stellar-ledger-entries-statistics-v2.x
-//  xdr/Stellar-ledger-entries-statistics.x
-//  xdr/Stellar-ledger-entries-vote.x
-//  xdr/Stellar-ledger-entries.x
-//  xdr/Stellar-ledger.x
-//  xdr/Stellar-operation-bind-external-system-id.x
-//  xdr/Stellar-operation-cancel-atomic-swap-bid.x
-//  xdr/Stellar-operation-cancel-sale-creation-request.x
-//  xdr/Stellar-operation-check-sale-state.x
-//  xdr/Stellar-operation-create-AML-alert-request.x
-//  xdr/Stellar-operation-create-account.x
-//  xdr/Stellar-operation-create-aswap-bid-creation-request.x
-//  xdr/Stellar-operation-create-aswap-request.x
-//  xdr/Stellar-operation-create-change-role-request.x
-//  xdr/Stellar-operation-create-issuance-request.x
-//  xdr/Stellar-operation-create-manage-limits-request.x
-//  xdr/Stellar-operation-create-preissuance-request.x
-//  xdr/Stellar-operation-create-sale-creation-request.x
-//  xdr/Stellar-operation-create-withdrawal-request.x
-//  xdr/Stellar-operation-license.x
-//  xdr/Stellar-operation-manage-account-role.x
-//  xdr/Stellar-operation-manage-account-rule.x
-//  xdr/Stellar-operation-manage-asset-pair.x
-//  xdr/Stellar-operation-manage-asset.x
-//  xdr/Stellar-operation-manage-balance.x
-//  xdr/Stellar-operation-manage-contract-request.x
-//  xdr/Stellar-operation-manage-contract.x
-//  xdr/Stellar-operation-manage-create-poll-request.x
-//  xdr/Stellar-operation-manage-external-system-id-pool-entry.x
-//  xdr/Stellar-operation-manage-invoice-request.x
-//  xdr/Stellar-operation-manage-key-value.x
-//  xdr/Stellar-operation-manage-limits.x
-//  xdr/Stellar-operation-manage-offer.x
-//  xdr/Stellar-operation-manage-poll.x
-//  xdr/Stellar-operation-manage-sale.x
-//  xdr/Stellar-operation-manage-signer-role.x
-//  xdr/Stellar-operation-manage-signer-rule.x
-//  xdr/Stellar-operation-manage-signer.x
-//  xdr/Stellar-operation-manage-vote.x
-//  xdr/Stellar-operation-payment.x
-//  xdr/Stellar-operation-payout.x
-//  xdr/Stellar-operation-review-request.x
-//  xdr/Stellar-operation-set-fees.x
-//  xdr/Stellar-operation-stamp.x
-//  xdr/Stellar-overlay.x
-//  xdr/Stellar-resource-account-rule.x
-//  xdr/Stellar-resource-signer-rule.x
-//  xdr/Stellar-reviewable-request-AML-alert.x
-//  xdr/Stellar-reviewable-request-asset.x
-//  xdr/Stellar-reviewable-request-atomic-swap-bid.x
-//  xdr/Stellar-reviewable-request-atomic-swap.x
-//  xdr/Stellar-reviewable-request-change-role.x
-//  xdr/Stellar-reviewable-request-contract.x
-//  xdr/Stellar-reviewable-request-create-poll.x
-//  xdr/Stellar-reviewable-request-invoice.x
-//  xdr/Stellar-reviewable-request-issuance.x
-//  xdr/Stellar-reviewable-request-limits-update.x
-//  xdr/Stellar-reviewable-request-sale.x
-//  xdr/Stellar-reviewable-request-update-sale-details.x
-//  xdr/Stellar-reviewable-request-withdrawal.x
-//  xdr/Stellar-transaction.x
-//  xdr/Stellar-types.x
+//  xdr/SCP.x
+//  xdr/ledger-entries-account-KYC.x
+//  xdr/ledger-entries-account-limits.x
+//  xdr/ledger-entries-account-role.x
+//  xdr/ledger-entries-account-rule.x
+//  xdr/ledger-entries-account-specific-rule.x
+//  xdr/ledger-entries-account.x
+//  xdr/ledger-entries-asset-pair.x
+//  xdr/ledger-entries-asset.x
+//  xdr/ledger-entries-atomic-swap-ask.x
+//  xdr/ledger-entries-balance.x
+//  xdr/ledger-entries-contract.x
+//  xdr/ledger-entries-external-system-id-pool-entry.x
+//  xdr/ledger-entries-external-system-id.x
+//  xdr/ledger-entries-fee.x
+//  xdr/ledger-entries-key-value.x
+//  xdr/ledger-entries-license.x
+//  xdr/ledger-entries-limits-v2.x
+//  xdr/ledger-entries-offer.x
+//  xdr/ledger-entries-pending-statistics.x
+//  xdr/ledger-entries-poll.x
+//  xdr/ledger-entries-reference.x
+//  xdr/ledger-entries-reviewable-request.x
+//  xdr/ledger-entries-sale.x
+//  xdr/ledger-entries-signer-role.x
+//  xdr/ledger-entries-signer-rule.x
+//  xdr/ledger-entries-signer.x
+//  xdr/ledger-entries-stamp.x
+//  xdr/ledger-entries-statistics-v2.x
+//  xdr/ledger-entries-statistics.x
+//  xdr/ledger-entries-vote.x
+//  xdr/ledger-entries.x
+//  xdr/ledger-keys.x
+//  xdr/ledger.x
+//  xdr/operation-bind-external-system-id.x
+//  xdr/operation-cancel-atomic-swap-ask.x
+//  xdr/operation-cancel-change-role-request.x
+//  xdr/operation-cancel-sale-creation-request.x
+//  xdr/operation-check-sale-state.x
+//  xdr/operation-create-AML-alert-request.x
+//  xdr/operation-create-account.x
+//  xdr/operation-create-atomic-swap-ask-request.x
+//  xdr/operation-create-atomic-swap-bid-request.x
+//  xdr/operation-create-change-role-request.x
+//  xdr/operation-create-issuance-request.x
+//  xdr/operation-create-kyc-recovery-request.x
+//  xdr/operation-create-manage-limits-request.x
+//  xdr/operation-create-preissuance-request.x
+//  xdr/operation-create-sale-creation-request.x
+//  xdr/operation-create-withdrawal-request.x
+//  xdr/operation-initiate-kyc-recovery.x
+//  xdr/operation-license.x
+//  xdr/operation-manage-account-role.x
+//  xdr/operation-manage-account-rule.x
+//  xdr/operation-manage-account-specific-rule.x
+//  xdr/operation-manage-asset-pair.x
+//  xdr/operation-manage-asset.x
+//  xdr/operation-manage-balance.x
+//  xdr/operation-manage-contract-request.x
+//  xdr/operation-manage-contract.x
+//  xdr/operation-manage-create-poll-request.x
+//  xdr/operation-manage-external-system-id-pool-entry.x
+//  xdr/operation-manage-invoice-request.x
+//  xdr/operation-manage-key-value.x
+//  xdr/operation-manage-limits.x
+//  xdr/operation-manage-offer.x
+//  xdr/operation-manage-poll.x
+//  xdr/operation-manage-sale.x
+//  xdr/operation-manage-signer-role.x
+//  xdr/operation-manage-signer-rule.x
+//  xdr/operation-manage-signer.x
+//  xdr/operation-manage-vote.x
+//  xdr/operation-payment.x
+//  xdr/operation-payout.x
+//  xdr/operation-remove-asset-pair.x
+//  xdr/operation-review-request.x
+//  xdr/operation-set-fees.x
+//  xdr/operation-stamp.x
+//  xdr/overlay.x
+//  xdr/resource-account-rule.x
+//  xdr/resource-signer-rule.x
+//  xdr/reviewable-request-AML-alert.x
+//  xdr/reviewable-request-asset.x
+//  xdr/reviewable-request-atomic-swap-ask.x
+//  xdr/reviewable-request-atomic-swap-bid.x
+//  xdr/reviewable-request-change-role.x
+//  xdr/reviewable-request-contract.x
+//  xdr/reviewable-request-create-poll.x
+//  xdr/reviewable-request-invoice.x
+//  xdr/reviewable-request-issuance.x
+//  xdr/reviewable-request-kyc-recovery.x
+//  xdr/reviewable-request-limits-update.x
+//  xdr/reviewable-request-sale.x
+//  xdr/reviewable-request-update-sale-details.x
+//  xdr/reviewable-request-withdrawal.x
+//  xdr/transaction.x
+//  xdr/types.x
 //
 // DO NOT EDIT or your changes may be overwritten
 package xdr
@@ -213,6 +221,7 @@ func (e ScpStatementType) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range ScpStatementTypeAll {
 			if (value & e) == value {
@@ -839,6 +848,71 @@ type AccountRuleEntry struct {
 	Ext      AccountRuleEntryExt `json:"ext,omitempty"`
 }
 
+// AccountSpecificRuleEntryExt is an XDR NestedUnion defines as:
+//
+//   union switch (LedgerVersion v)
+//        {
+//        case EMPTY_VERSION:
+//            void;
+//        }
+//
+type AccountSpecificRuleEntryExt struct {
+	V LedgerVersion `json:"v,omitempty"`
+}
+
+// SwitchFieldName returns the field name in which this union's
+// discriminant is stored
+func (u AccountSpecificRuleEntryExt) SwitchFieldName() string {
+	return "V"
+}
+
+// ArmForSwitch returns which field name should be used for storing
+// the value for an instance of AccountSpecificRuleEntryExt
+func (u AccountSpecificRuleEntryExt) ArmForSwitch(sw int32) (string, bool) {
+	switch LedgerVersion(sw) {
+	case LedgerVersionEmptyVersion:
+		return "", true
+	}
+	return "-", false
+}
+
+// NewAccountSpecificRuleEntryExt creates a new  AccountSpecificRuleEntryExt.
+func NewAccountSpecificRuleEntryExt(v LedgerVersion, value interface{}) (result AccountSpecificRuleEntryExt, err error) {
+	result.V = v
+	switch LedgerVersion(v) {
+	case LedgerVersionEmptyVersion:
+		// void
+	}
+	return
+}
+
+// AccountSpecificRuleEntry is an XDR Struct defines as:
+//
+//   struct AccountSpecificRuleEntry
+//    {
+//        uint64 id;
+//
+//        LedgerKey ledgerKey;
+//        AccountID* accountID;
+//        bool forbids;
+//
+//        // reserved for future use
+//        union switch (LedgerVersion v)
+//        {
+//        case EMPTY_VERSION:
+//            void;
+//        }
+//        ext;
+//    };
+//
+type AccountSpecificRuleEntry struct {
+	Id        Uint64                      `json:"id,omitempty"`
+	LedgerKey LedgerKey                   `json:"ledgerKey,omitempty"`
+	AccountId *AccountId                  `json:"accountID,omitempty"`
+	Forbids   bool                        `json:"forbids,omitempty"`
+	Ext       AccountSpecificRuleEntryExt `json:"ext,omitempty"`
+}
+
 // LimitsExt is an XDR NestedUnion defines as:
 //
 //   union switch (LedgerVersion v)
@@ -975,7 +1049,8 @@ type AccountEntry struct {
 
 // AssetPairPolicy is an XDR Enum defines as:
 //
-//   enum AssetPairPolicy
+//   //: Policies that could be applied to AssetPair entry and define applicable operations for AssetPair
+//    enum AssetPairPolicy
 //    {
 //        //: If not set pair can not be traded on secondary market
 //    	TRADEABLE_SECONDARY_MARKET = 1,
@@ -1049,6 +1124,7 @@ func (e AssetPairPolicy) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range AssetPairPolicyAll {
 			if (value & e) == value {
@@ -1118,7 +1194,8 @@ func NewAssetPairEntryExt(v LedgerVersion, value interface{}) (result AssetPairE
 
 // AssetPairEntry is an XDR Struct defines as:
 //
-//   struct AssetPairEntry
+//   //: `AssetPairEntry` is used in system to group different assets into pairs and set particular policies and properties for them
+//    struct AssetPairEntry
 //    {
 //        //: Code of base asset of the asset pair
 //        AssetCode base;
@@ -1259,6 +1336,7 @@ func (e AssetPolicy) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range AssetPolicyAll {
 			if (value & e) == value {
@@ -1366,7 +1444,7 @@ type AssetEntry struct {
 	Ext                   AssetEntryExt `json:"ext,omitempty"`
 }
 
-// ASwapBidQuoteAssetExt is an XDR NestedUnion defines as:
+// AtomicSwapAskQuoteAssetExt is an XDR NestedUnion defines as:
 //
 //   union switch (LedgerVersion v)
 //        {
@@ -1374,19 +1452,19 @@ type AssetEntry struct {
 //            void;
 //        }
 //
-type ASwapBidQuoteAssetExt struct {
+type AtomicSwapAskQuoteAssetExt struct {
 	V LedgerVersion `json:"v,omitempty"`
 }
 
 // SwitchFieldName returns the field name in which this union's
 // discriminant is stored
-func (u ASwapBidQuoteAssetExt) SwitchFieldName() string {
+func (u AtomicSwapAskQuoteAssetExt) SwitchFieldName() string {
 	return "V"
 }
 
 // ArmForSwitch returns which field name should be used for storing
-// the value for an instance of ASwapBidQuoteAssetExt
-func (u ASwapBidQuoteAssetExt) ArmForSwitch(sw int32) (string, bool) {
+// the value for an instance of AtomicSwapAskQuoteAssetExt
+func (u AtomicSwapAskQuoteAssetExt) ArmForSwitch(sw int32) (string, bool) {
 	switch LedgerVersion(sw) {
 	case LedgerVersionEmptyVersion:
 		return "", true
@@ -1394,8 +1472,8 @@ func (u ASwapBidQuoteAssetExt) ArmForSwitch(sw int32) (string, bool) {
 	return "-", false
 }
 
-// NewASwapBidQuoteAssetExt creates a new  ASwapBidQuoteAssetExt.
-func NewASwapBidQuoteAssetExt(v LedgerVersion, value interface{}) (result ASwapBidQuoteAssetExt, err error) {
+// NewAtomicSwapAskQuoteAssetExt creates a new  AtomicSwapAskQuoteAssetExt.
+func NewAtomicSwapAskQuoteAssetExt(v LedgerVersion, value interface{}) (result AtomicSwapAskQuoteAssetExt, err error) {
 	result.V = v
 	switch LedgerVersion(v) {
 	case LedgerVersionEmptyVersion:
@@ -1404,13 +1482,16 @@ func NewASwapBidQuoteAssetExt(v LedgerVersion, value interface{}) (result ASwapB
 	return
 }
 
-// ASwapBidQuoteAsset is an XDR Struct defines as:
+// AtomicSwapAskQuoteAsset is an XDR Struct defines as:
 //
-//   struct ASwapBidQuoteAsset
+//   //: AtomicSwapAskQuoteAsset represents asset with price which can be used to buy base asset
+//    struct AtomicSwapAskQuoteAsset
 //    {
+//        //: Code of quote asset
 //        AssetCode quoteAsset;
+//        //: amount of quote asset which is needed to buy one base asset
 //        uint64 price;
-//
+//        //: reserved for the future use
 //        union switch (LedgerVersion v)
 //        {
 //        case EMPTY_VERSION:
@@ -1419,13 +1500,13 @@ func NewASwapBidQuoteAssetExt(v LedgerVersion, value interface{}) (result ASwapB
 //        ext;
 //    };
 //
-type ASwapBidQuoteAsset struct {
-	QuoteAsset AssetCode             `json:"quoteAsset,omitempty"`
-	Price      Uint64                `json:"price,omitempty"`
-	Ext        ASwapBidQuoteAssetExt `json:"ext,omitempty"`
+type AtomicSwapAskQuoteAsset struct {
+	QuoteAsset AssetCode                  `json:"quoteAsset,omitempty"`
+	Price      Uint64                     `json:"price,omitempty"`
+	Ext        AtomicSwapAskQuoteAssetExt `json:"ext,omitempty"`
 }
 
-// AtomicSwapBidEntryExt is an XDR NestedUnion defines as:
+// AtomicSwapAskEntryExt is an XDR NestedUnion defines as:
 //
 //   union switch (LedgerVersion v)
 //        {
@@ -1433,19 +1514,19 @@ type ASwapBidQuoteAsset struct {
 //            void;
 //        }
 //
-type AtomicSwapBidEntryExt struct {
+type AtomicSwapAskEntryExt struct {
 	V LedgerVersion `json:"v,omitempty"`
 }
 
 // SwitchFieldName returns the field name in which this union's
 // discriminant is stored
-func (u AtomicSwapBidEntryExt) SwitchFieldName() string {
+func (u AtomicSwapAskEntryExt) SwitchFieldName() string {
 	return "V"
 }
 
 // ArmForSwitch returns which field name should be used for storing
-// the value for an instance of AtomicSwapBidEntryExt
-func (u AtomicSwapBidEntryExt) ArmForSwitch(sw int32) (string, bool) {
+// the value for an instance of AtomicSwapAskEntryExt
+func (u AtomicSwapAskEntryExt) ArmForSwitch(sw int32) (string, bool) {
 	switch LedgerVersion(sw) {
 	case LedgerVersionEmptyVersion:
 		return "", true
@@ -1453,8 +1534,8 @@ func (u AtomicSwapBidEntryExt) ArmForSwitch(sw int32) (string, bool) {
 	return "-", false
 }
 
-// NewAtomicSwapBidEntryExt creates a new  AtomicSwapBidEntryExt.
-func NewAtomicSwapBidEntryExt(v LedgerVersion, value interface{}) (result AtomicSwapBidEntryExt, err error) {
+// NewAtomicSwapAskEntryExt creates a new  AtomicSwapAskEntryExt.
+func NewAtomicSwapAskEntryExt(v LedgerVersion, value interface{}) (result AtomicSwapAskEntryExt, err error) {
 	result.V = v
 	switch LedgerVersion(v) {
 	case LedgerVersionEmptyVersion:
@@ -1463,11 +1544,11 @@ func NewAtomicSwapBidEntryExt(v LedgerVersion, value interface{}) (result Atomic
 	return
 }
 
-// AtomicSwapBidEntry is an XDR Struct defines as:
+// AtomicSwapAskEntry is an XDR Struct defines as:
 //
-//   struct AtomicSwapBidEntry
+//   struct AtomicSwapAskEntry
 //    {
-//        uint64 bidID;
+//        uint64 id;
 //        AccountID ownerID;
 //        AssetCode baseAsset;
 //        BalanceID baseBalance;
@@ -1479,7 +1560,7 @@ func NewAtomicSwapBidEntryExt(v LedgerVersion, value interface{}) (result Atomic
 //
 //        longstring details;
 //
-//        ASwapBidQuoteAsset quoteAssets<>;
+//        AtomicSwapAskQuoteAsset quoteAssets<>;
 //
 //        // reserved for future use
 //        union switch (LedgerVersion v)
@@ -1490,18 +1571,18 @@ func NewAtomicSwapBidEntryExt(v LedgerVersion, value interface{}) (result Atomic
 //        ext;
 //    };
 //
-type AtomicSwapBidEntry struct {
-	BidId        Uint64                `json:"bidID,omitempty"`
-	OwnerId      AccountId             `json:"ownerID,omitempty"`
-	BaseAsset    AssetCode             `json:"baseAsset,omitempty"`
-	BaseBalance  BalanceId             `json:"baseBalance,omitempty"`
-	Amount       Uint64                `json:"amount,omitempty"`
-	LockedAmount Uint64                `json:"lockedAmount,omitempty"`
-	CreatedAt    Uint64                `json:"createdAt,omitempty"`
-	IsCancelled  bool                  `json:"isCancelled,omitempty"`
-	Details      Longstring            `json:"details,omitempty"`
-	QuoteAssets  []ASwapBidQuoteAsset  `json:"quoteAssets,omitempty"`
-	Ext          AtomicSwapBidEntryExt `json:"ext,omitempty"`
+type AtomicSwapAskEntry struct {
+	Id           Uint64                    `json:"id,omitempty"`
+	OwnerId      AccountId                 `json:"ownerID,omitempty"`
+	BaseAsset    AssetCode                 `json:"baseAsset,omitempty"`
+	BaseBalance  BalanceId                 `json:"baseBalance,omitempty"`
+	Amount       Uint64                    `json:"amount,omitempty"`
+	LockedAmount Uint64                    `json:"lockedAmount,omitempty"`
+	CreatedAt    Uint64                    `json:"createdAt,omitempty"`
+	IsCancelled  bool                      `json:"isCancelled,omitempty"`
+	Details      Longstring                `json:"details,omitempty"`
+	QuoteAssets  []AtomicSwapAskQuoteAsset `json:"quoteAssets,omitempty"`
+	Ext          AtomicSwapAskEntryExt     `json:"ext,omitempty"`
 }
 
 // BalanceEntryExt is an XDR NestedUnion defines as:
@@ -1665,6 +1746,7 @@ func (e ContractState) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range ContractStateAll {
 			if (value & e) == value {
@@ -1909,7 +1991,8 @@ type ExternalSystemAccountId struct {
 
 // FeeType is an XDR Enum defines as:
 //
-//   enum FeeType
+//   //: `FeeType` represents different types of fees for different operations (e.g. fee charged on withdrawal or on investment)
+//    enum FeeType
 //    {
 //        PAYMENT_FEE = 0,
 //        OFFER_FEE = 1,
@@ -2022,6 +2105,7 @@ func (e FeeType) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range FeeTypeAll {
 			if (value & e) == value {
@@ -2053,7 +2137,8 @@ func (e *FeeType) UnmarshalJSON(data []byte) error {
 
 // EmissionFeeType is an XDR Enum defines as:
 //
-//   enum EmissionFeeType
+//   //: (not used) `EmissionFeeType` is a subtype of `ISSUANCE_FEE`
+//    enum EmissionFeeType
 //    {
 //        PRIMARY_MARKET = 1,
 //        SECONDARY_MARKET = 2
@@ -2118,6 +2203,7 @@ func (e EmissionFeeType) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range EmissionFeeTypeAll {
 			if (value & e) == value {
@@ -2149,7 +2235,8 @@ func (e *EmissionFeeType) UnmarshalJSON(data []byte) error {
 
 // PaymentFeeType is an XDR Enum defines as:
 //
-//   enum PaymentFeeType
+//   //: `PaymentFeeType` is a subtype of the Fee used for payments
+//    enum PaymentFeeType
 //    {
 //        OUTGOING = 1,
 //        INCOMING = 2
@@ -2214,6 +2301,7 @@ func (e PaymentFeeType) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range PaymentFeeTypeAll {
 			if (value & e) == value {
@@ -2283,7 +2371,9 @@ func NewFeeEntryExt(v LedgerVersion, value interface{}) (result FeeEntryExt, err
 
 // FeeEntry is an XDR Struct defines as:
 //
-//   struct FeeEntry
+//   //: `FeeEntry` is used in the system configuration to set fees for different assets, operations (according to FeeType), particular account roles, particular accounts,
+//    //: or globally (only if both parameters particular account role and paticular account are not specified).
+//    struct FeeEntry
 //    {
 //        //: Type of a particular fee depending on the operation (e.g., PAYMENT_FEE for payment operation, WITHDRAWAL_FEE for withdrawal operation, etc.)
 //        FeeType feeType;
@@ -2336,7 +2426,8 @@ type FeeEntry struct {
 
 // KeyValueEntryType is an XDR Enum defines as:
 //
-//   enum KeyValueEntryType
+//   //: `KeyValueEntryType` defines the type of value in the key-value entry
+//        enum KeyValueEntryType
 //        {
 //            UINT32 = 1,
 //            STRING = 2,
@@ -2407,6 +2498,7 @@ func (e KeyValueEntryType) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range KeyValueEntryTypeAll {
 			if (value & e) == value {
@@ -2438,7 +2530,8 @@ func (e *KeyValueEntryType) UnmarshalJSON(data []byte) error {
 
 // KeyValueEntryValue is an XDR Union defines as:
 //
-//   union KeyValueEntryValue switch (KeyValueEntryType type)
+//   //: `KeyValueEntryValue` represents the value based on given `KeyValueEntryType`
+//        union KeyValueEntryValue switch (KeyValueEntryType type)
 //        {
 //            case UINT32:
 //                uint32 ui32Value;
@@ -2619,7 +2712,8 @@ func NewKeyValueEntryExt(v LedgerVersion, value interface{}) (result KeyValueEnt
 
 // KeyValueEntry is an XDR Struct defines as:
 //
-//   struct KeyValueEntry
+//   //: `KeyValueEntry` is an entry used to store key mapped values
+//        struct KeyValueEntry
 //        {
 //            //: String value that must be unique among other keys for kev-value pairs
 //            longstring key;
@@ -2711,7 +2805,8 @@ type LicenseEntry struct {
 
 // StatsOpType is an XDR Enum defines as:
 //
-//   enum StatsOpType
+//   //: `StatsOpType` is a type of operation for which statistics is maintained
+//    enum StatsOpType
 //    {
 //        PAYMENT_OUT = 1,
 //        WITHDRAW = 2,
@@ -2794,6 +2889,7 @@ func (e StatsOpType) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range StatsOpTypeAll {
 			if (value & e) == value {
@@ -2863,7 +2959,10 @@ func NewLimitsV2EntryExt(v LedgerVersion, value interface{}) (result LimitsV2Ent
 
 // LimitsV2Entry is an XDR Struct defines as:
 //
-//   struct LimitsV2Entry
+//   //: `LimitsV2Entry` is used in the system configuration to set limits (daily, weekly, montly, annual)
+//    //: for different assets, operations (according to StatsOpType), particular account roles, particular accounts,
+//    //: or globally (only if both parameters particular account role and paticular account are not specified),
+//    struct LimitsV2Entry
 //    {
 //        //: ID of limits entry
 //        uint64      id;
@@ -3063,7 +3162,8 @@ type PendingStatisticsEntry struct {
 
 // PollType is an XDR Enum defines as:
 //
-//   enum PollType
+//   //: Functional type of poll
+//    enum PollType
 //    {
 //        SINGLE_CHOICE = 0
 //    };
@@ -3122,6 +3222,7 @@ func (e PollType) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range PollTypeAll {
 			if (value & e) == value {
@@ -3153,7 +3254,8 @@ func (e *PollType) UnmarshalJSON(data []byte) error {
 
 // PollData is an XDR Union defines as:
 //
-//   union PollData switch (PollType type)
+//   //: PollData is used to pass `PollType` with necessary params
+//    union PollData switch (PollType type)
 //    {
 //    case SINGLE_CHOICE:
 //        EmptyExt ext;
@@ -3336,8 +3438,9 @@ type ReferenceEntry struct {
 //    	MANAGE_CONTRACT = 12,
 //    	UPDATE_ASSET = 13,
 //    	CREATE_POLL = 14,
-//    	CREATE_ATOMIC_SWAP_BID = 16,
-//    	CREATE_ATOMIC_SWAP = 17
+//    	CREATE_ATOMIC_SWAP_ASK = 16,
+//    	CREATE_ATOMIC_SWAP_BID = 17,
+//    	KYC_RECOVERY = 18
 //    };
 //
 type ReviewableRequestType int32
@@ -3358,8 +3461,9 @@ const (
 	ReviewableRequestTypeManageContract      ReviewableRequestType = 12
 	ReviewableRequestTypeUpdateAsset         ReviewableRequestType = 13
 	ReviewableRequestTypeCreatePoll          ReviewableRequestType = 14
-	ReviewableRequestTypeCreateAtomicSwapBid ReviewableRequestType = 16
-	ReviewableRequestTypeCreateAtomicSwap    ReviewableRequestType = 17
+	ReviewableRequestTypeCreateAtomicSwapAsk ReviewableRequestType = 16
+	ReviewableRequestTypeCreateAtomicSwapBid ReviewableRequestType = 17
+	ReviewableRequestTypeKycRecovery         ReviewableRequestType = 18
 )
 
 var ReviewableRequestTypeAll = []ReviewableRequestType{
@@ -3378,8 +3482,9 @@ var ReviewableRequestTypeAll = []ReviewableRequestType{
 	ReviewableRequestTypeManageContract,
 	ReviewableRequestTypeUpdateAsset,
 	ReviewableRequestTypeCreatePoll,
+	ReviewableRequestTypeCreateAtomicSwapAsk,
 	ReviewableRequestTypeCreateAtomicSwapBid,
-	ReviewableRequestTypeCreateAtomicSwap,
+	ReviewableRequestTypeKycRecovery,
 }
 
 var reviewableRequestTypeMap = map[int32]string{
@@ -3398,8 +3503,9 @@ var reviewableRequestTypeMap = map[int32]string{
 	12: "ReviewableRequestTypeManageContract",
 	13: "ReviewableRequestTypeUpdateAsset",
 	14: "ReviewableRequestTypeCreatePoll",
-	16: "ReviewableRequestTypeCreateAtomicSwapBid",
-	17: "ReviewableRequestTypeCreateAtomicSwap",
+	16: "ReviewableRequestTypeCreateAtomicSwapAsk",
+	17: "ReviewableRequestTypeCreateAtomicSwapBid",
+	18: "ReviewableRequestTypeKycRecovery",
 }
 
 var reviewableRequestTypeShortMap = map[int32]string{
@@ -3418,8 +3524,9 @@ var reviewableRequestTypeShortMap = map[int32]string{
 	12: "manage_contract",
 	13: "update_asset",
 	14: "create_poll",
-	16: "create_atomic_swap_bid",
-	17: "create_atomic_swap",
+	16: "create_atomic_swap_ask",
+	17: "create_atomic_swap_bid",
+	18: "kyc_recovery",
 }
 
 var reviewableRequestTypeRevMap = map[string]int32{
@@ -3438,8 +3545,9 @@ var reviewableRequestTypeRevMap = map[string]int32{
 	"ReviewableRequestTypeManageContract":      12,
 	"ReviewableRequestTypeUpdateAsset":         13,
 	"ReviewableRequestTypeCreatePoll":          14,
-	"ReviewableRequestTypeCreateAtomicSwapBid": 16,
-	"ReviewableRequestTypeCreateAtomicSwap":    17,
+	"ReviewableRequestTypeCreateAtomicSwapAsk": 16,
+	"ReviewableRequestTypeCreateAtomicSwapBid": 17,
+	"ReviewableRequestTypeKycRecovery":         18,
 }
 
 // ValidEnum validates a proposed value for this enum.  Implements
@@ -3474,6 +3582,7 @@ func (e ReviewableRequestType) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range ReviewableRequestTypeAll {
 			if (value & e) == value {
@@ -3594,31 +3703,34 @@ type TasksExt struct {
 //                InvoiceRequest invoiceRequest;
 //            case MANAGE_CONTRACT:
 //                ContractRequest contractRequest;
+//            case CREATE_ATOMIC_SWAP_ASK:
+//                CreateAtomicSwapAskRequest createAtomicSwapAskRequest;
 //            case CREATE_ATOMIC_SWAP_BID:
-//                ASwapBidCreationRequest aSwapBidCreationRequest;
-//            case CREATE_ATOMIC_SWAP:
-//                ASwapRequest aSwapRequest;
+//                CreateAtomicSwapBidRequest createAtomicSwapBidRequest;
 //            case CREATE_POLL:
 //                CreatePollRequest createPollRequest;
+//            case KYC_RECOVERY:
+//                KYCRecoveryRequest kycRecoveryRequest;
 //    	}
 //
 type ReviewableRequestEntryBody struct {
-	Type                     ReviewableRequestType     `json:"type,omitempty"`
-	AssetCreationRequest     *AssetCreationRequest     `json:"assetCreationRequest,omitempty"`
-	AssetUpdateRequest       *AssetUpdateRequest       `json:"assetUpdateRequest,omitempty"`
-	PreIssuanceRequest       *PreIssuanceRequest       `json:"preIssuanceRequest,omitempty"`
-	IssuanceRequest          *IssuanceRequest          `json:"issuanceRequest,omitempty"`
-	WithdrawalRequest        *WithdrawalRequest        `json:"withdrawalRequest,omitempty"`
-	SaleCreationRequest      *SaleCreationRequest      `json:"saleCreationRequest,omitempty"`
-	LimitsUpdateRequest      *LimitsUpdateRequest      `json:"limitsUpdateRequest,omitempty"`
-	AmlAlertRequest          *AmlAlertRequest          `json:"amlAlertRequest,omitempty"`
-	ChangeRoleRequest        *ChangeRoleRequest        `json:"changeRoleRequest,omitempty"`
-	UpdateSaleDetailsRequest *UpdateSaleDetailsRequest `json:"updateSaleDetailsRequest,omitempty"`
-	InvoiceRequest           *InvoiceRequest           `json:"invoiceRequest,omitempty"`
-	ContractRequest          *ContractRequest          `json:"contractRequest,omitempty"`
-	ASwapBidCreationRequest  *ASwapBidCreationRequest  `json:"aSwapBidCreationRequest,omitempty"`
-	ASwapRequest             *ASwapRequest             `json:"aSwapRequest,omitempty"`
-	CreatePollRequest        *CreatePollRequest        `json:"createPollRequest,omitempty"`
+	Type                       ReviewableRequestType       `json:"type,omitempty"`
+	AssetCreationRequest       *AssetCreationRequest       `json:"assetCreationRequest,omitempty"`
+	AssetUpdateRequest         *AssetUpdateRequest         `json:"assetUpdateRequest,omitempty"`
+	PreIssuanceRequest         *PreIssuanceRequest         `json:"preIssuanceRequest,omitempty"`
+	IssuanceRequest            *IssuanceRequest            `json:"issuanceRequest,omitempty"`
+	WithdrawalRequest          *WithdrawalRequest          `json:"withdrawalRequest,omitempty"`
+	SaleCreationRequest        *SaleCreationRequest        `json:"saleCreationRequest,omitempty"`
+	LimitsUpdateRequest        *LimitsUpdateRequest        `json:"limitsUpdateRequest,omitempty"`
+	AmlAlertRequest            *AmlAlertRequest            `json:"amlAlertRequest,omitempty"`
+	ChangeRoleRequest          *ChangeRoleRequest          `json:"changeRoleRequest,omitempty"`
+	UpdateSaleDetailsRequest   *UpdateSaleDetailsRequest   `json:"updateSaleDetailsRequest,omitempty"`
+	InvoiceRequest             *InvoiceRequest             `json:"invoiceRequest,omitempty"`
+	ContractRequest            *ContractRequest            `json:"contractRequest,omitempty"`
+	CreateAtomicSwapAskRequest *CreateAtomicSwapAskRequest `json:"createAtomicSwapAskRequest,omitempty"`
+	CreateAtomicSwapBidRequest *CreateAtomicSwapBidRequest `json:"createAtomicSwapBidRequest,omitempty"`
+	CreatePollRequest          *CreatePollRequest          `json:"createPollRequest,omitempty"`
+	KycRecoveryRequest         *KycRecoveryRequest         `json:"kycRecoveryRequest,omitempty"`
 }
 
 // SwitchFieldName returns the field name in which this union's
@@ -3655,12 +3767,14 @@ func (u ReviewableRequestEntryBody) ArmForSwitch(sw int32) (string, bool) {
 		return "InvoiceRequest", true
 	case ReviewableRequestTypeManageContract:
 		return "ContractRequest", true
+	case ReviewableRequestTypeCreateAtomicSwapAsk:
+		return "CreateAtomicSwapAskRequest", true
 	case ReviewableRequestTypeCreateAtomicSwapBid:
-		return "ASwapBidCreationRequest", true
-	case ReviewableRequestTypeCreateAtomicSwap:
-		return "ASwapRequest", true
+		return "CreateAtomicSwapBidRequest", true
 	case ReviewableRequestTypeCreatePoll:
 		return "CreatePollRequest", true
+	case ReviewableRequestTypeKycRecovery:
+		return "KycRecoveryRequest", true
 	}
 	return "-", false
 }
@@ -3753,20 +3867,20 @@ func NewReviewableRequestEntryBody(aType ReviewableRequestType, value interface{
 			return
 		}
 		result.ContractRequest = &tv
+	case ReviewableRequestTypeCreateAtomicSwapAsk:
+		tv, ok := value.(CreateAtomicSwapAskRequest)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be CreateAtomicSwapAskRequest")
+			return
+		}
+		result.CreateAtomicSwapAskRequest = &tv
 	case ReviewableRequestTypeCreateAtomicSwapBid:
-		tv, ok := value.(ASwapBidCreationRequest)
+		tv, ok := value.(CreateAtomicSwapBidRequest)
 		if !ok {
-			err = fmt.Errorf("invalid value, must be ASwapBidCreationRequest")
+			err = fmt.Errorf("invalid value, must be CreateAtomicSwapBidRequest")
 			return
 		}
-		result.ASwapBidCreationRequest = &tv
-	case ReviewableRequestTypeCreateAtomicSwap:
-		tv, ok := value.(ASwapRequest)
-		if !ok {
-			err = fmt.Errorf("invalid value, must be ASwapRequest")
-			return
-		}
-		result.ASwapRequest = &tv
+		result.CreateAtomicSwapBidRequest = &tv
 	case ReviewableRequestTypeCreatePoll:
 		tv, ok := value.(CreatePollRequest)
 		if !ok {
@@ -3774,6 +3888,13 @@ func NewReviewableRequestEntryBody(aType ReviewableRequestType, value interface{
 			return
 		}
 		result.CreatePollRequest = &tv
+	case ReviewableRequestTypeKycRecovery:
+		tv, ok := value.(KycRecoveryRequest)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be KycRecoveryRequest")
+			return
+		}
+		result.KycRecoveryRequest = &tv
 	}
 	return
 }
@@ -4078,50 +4199,50 @@ func (u ReviewableRequestEntryBody) GetContractRequest() (result ContractRequest
 	return
 }
 
-// MustASwapBidCreationRequest retrieves the ASwapBidCreationRequest value from the union,
+// MustCreateAtomicSwapAskRequest retrieves the CreateAtomicSwapAskRequest value from the union,
 // panicing if the value is not set.
-func (u ReviewableRequestEntryBody) MustASwapBidCreationRequest() ASwapBidCreationRequest {
-	val, ok := u.GetASwapBidCreationRequest()
+func (u ReviewableRequestEntryBody) MustCreateAtomicSwapAskRequest() CreateAtomicSwapAskRequest {
+	val, ok := u.GetCreateAtomicSwapAskRequest()
 
 	if !ok {
-		panic("arm ASwapBidCreationRequest is not set")
+		panic("arm CreateAtomicSwapAskRequest is not set")
 	}
 
 	return val
 }
 
-// GetASwapBidCreationRequest retrieves the ASwapBidCreationRequest value from the union,
+// GetCreateAtomicSwapAskRequest retrieves the CreateAtomicSwapAskRequest value from the union,
 // returning ok if the union's switch indicated the value is valid.
-func (u ReviewableRequestEntryBody) GetASwapBidCreationRequest() (result ASwapBidCreationRequest, ok bool) {
+func (u ReviewableRequestEntryBody) GetCreateAtomicSwapAskRequest() (result CreateAtomicSwapAskRequest, ok bool) {
 	armName, _ := u.ArmForSwitch(int32(u.Type))
 
-	if armName == "ASwapBidCreationRequest" {
-		result = *u.ASwapBidCreationRequest
+	if armName == "CreateAtomicSwapAskRequest" {
+		result = *u.CreateAtomicSwapAskRequest
 		ok = true
 	}
 
 	return
 }
 
-// MustASwapRequest retrieves the ASwapRequest value from the union,
+// MustCreateAtomicSwapBidRequest retrieves the CreateAtomicSwapBidRequest value from the union,
 // panicing if the value is not set.
-func (u ReviewableRequestEntryBody) MustASwapRequest() ASwapRequest {
-	val, ok := u.GetASwapRequest()
+func (u ReviewableRequestEntryBody) MustCreateAtomicSwapBidRequest() CreateAtomicSwapBidRequest {
+	val, ok := u.GetCreateAtomicSwapBidRequest()
 
 	if !ok {
-		panic("arm ASwapRequest is not set")
+		panic("arm CreateAtomicSwapBidRequest is not set")
 	}
 
 	return val
 }
 
-// GetASwapRequest retrieves the ASwapRequest value from the union,
+// GetCreateAtomicSwapBidRequest retrieves the CreateAtomicSwapBidRequest value from the union,
 // returning ok if the union's switch indicated the value is valid.
-func (u ReviewableRequestEntryBody) GetASwapRequest() (result ASwapRequest, ok bool) {
+func (u ReviewableRequestEntryBody) GetCreateAtomicSwapBidRequest() (result CreateAtomicSwapBidRequest, ok bool) {
 	armName, _ := u.ArmForSwitch(int32(u.Type))
 
-	if armName == "ASwapRequest" {
-		result = *u.ASwapRequest
+	if armName == "CreateAtomicSwapBidRequest" {
+		result = *u.CreateAtomicSwapBidRequest
 		ok = true
 	}
 
@@ -4147,6 +4268,31 @@ func (u ReviewableRequestEntryBody) GetCreatePollRequest() (result CreatePollReq
 
 	if armName == "CreatePollRequest" {
 		result = *u.CreatePollRequest
+		ok = true
+	}
+
+	return
+}
+
+// MustKycRecoveryRequest retrieves the KycRecoveryRequest value from the union,
+// panicing if the value is not set.
+func (u ReviewableRequestEntryBody) MustKycRecoveryRequest() KycRecoveryRequest {
+	val, ok := u.GetKycRecoveryRequest()
+
+	if !ok {
+		panic("arm KycRecoveryRequest is not set")
+	}
+
+	return val
+}
+
+// GetKycRecoveryRequest retrieves the KycRecoveryRequest value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u ReviewableRequestEntryBody) GetKycRecoveryRequest() (result KycRecoveryRequest, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.Type))
+
+	if armName == "KycRecoveryRequest" {
+		result = *u.KycRecoveryRequest
 		ok = true
 	}
 
@@ -4227,12 +4373,14 @@ func NewReviewableRequestEntryExt(v LedgerVersion, value interface{}) (result Re
 //                InvoiceRequest invoiceRequest;
 //            case MANAGE_CONTRACT:
 //                ContractRequest contractRequest;
+//            case CREATE_ATOMIC_SWAP_ASK:
+//                CreateAtomicSwapAskRequest createAtomicSwapAskRequest;
 //            case CREATE_ATOMIC_SWAP_BID:
-//                ASwapBidCreationRequest aSwapBidCreationRequest;
-//            case CREATE_ATOMIC_SWAP:
-//                ASwapRequest aSwapRequest;
+//                CreateAtomicSwapBidRequest createAtomicSwapBidRequest;
 //            case CREATE_POLL:
 //                CreatePollRequest createPollRequest;
+//            case KYC_RECOVERY:
+//                KYCRecoveryRequest kycRecoveryRequest;
 //    	} body;
 //
 //    	TasksExt tasks;
@@ -4332,6 +4480,7 @@ func (e SaleType) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range SaleTypeAll {
 			if (value & e) == value {
@@ -4730,6 +4879,8 @@ type SaleQuoteAsset struct {
 //        {
 //        case EMPTY_VERSION:
 //            void;
+//        case ADD_SALE_WHITELISTS:
+//            void;
 //        }
 //
 type SaleEntryExt struct {
@@ -4748,6 +4899,8 @@ func (u SaleEntryExt) ArmForSwitch(sw int32) (string, bool) {
 	switch LedgerVersion(sw) {
 	case LedgerVersionEmptyVersion:
 		return "", true
+	case LedgerVersionAddSaleWhitelists:
+		return "", true
 	}
 	return "-", false
 }
@@ -4757,6 +4910,8 @@ func NewSaleEntryExt(v LedgerVersion, value interface{}) (result SaleEntryExt, e
 	result.V = v
 	switch LedgerVersion(v) {
 	case LedgerVersionEmptyVersion:
+		// void
+	case LedgerVersionAddSaleWhitelists:
 		// void
 	}
 	return
@@ -4786,6 +4941,8 @@ func NewSaleEntryExt(v LedgerVersion, value interface{}) (result SaleEntryExt, e
 //    	union switch (LedgerVersion v)
 //        {
 //        case EMPTY_VERSION:
+//            void;
+//        case ADD_SALE_WHITELISTS:
 //            void;
 //        }
 //        ext;
@@ -5412,6 +5569,7 @@ func (e ThresholdIndexes) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range ThresholdIndexesAll {
 			if (value & e) == value {
@@ -5485,8 +5643,8 @@ func (e *ThresholdIndexes) UnmarshalJSON(data []byte) error {
 //            PendingStatisticsEntry pendingStatistics;
 //        case CONTRACT:
 //            ContractEntry contract;
-//        case ATOMIC_SWAP_BID:
-//            AtomicSwapBidEntry atomicSwapBid;
+//        case ATOMIC_SWAP_ASK:
+//            AtomicSwapAskEntry atomicSwapAsk;
 //        case ACCOUNT_ROLE:
 //            AccountRoleEntry accountRole;
 //        case ACCOUNT_RULE:
@@ -5503,6 +5661,8 @@ func (e *ThresholdIndexes) UnmarshalJSON(data []byte) error {
 //            PollEntry poll;
 //        case VOTE:
 //            VoteEntry vote;
+//        case ACCOUNT_SPECIFIC_RULE:
+//            AccountSpecificRuleEntry accountSpecificRule;
 //        }
 //
 type LedgerEntryData struct {
@@ -5527,7 +5687,7 @@ type LedgerEntryData struct {
 	StatisticsV2                     *StatisticsV2Entry                `json:"statisticsV2,omitempty"`
 	PendingStatistics                *PendingStatisticsEntry           `json:"pendingStatistics,omitempty"`
 	Contract                         *ContractEntry                    `json:"contract,omitempty"`
-	AtomicSwapBid                    *AtomicSwapBidEntry               `json:"atomicSwapBid,omitempty"`
+	AtomicSwapAsk                    *AtomicSwapAskEntry               `json:"atomicSwapAsk,omitempty"`
 	AccountRole                      *AccountRoleEntry                 `json:"accountRole,omitempty"`
 	AccountRule                      *AccountRuleEntry                 `json:"accountRule,omitempty"`
 	SignerRule                       *SignerRuleEntry                  `json:"signerRule,omitempty"`
@@ -5536,6 +5696,7 @@ type LedgerEntryData struct {
 	Stamp                            *StampEntry                       `json:"stamp,omitempty"`
 	Poll                             *PollEntry                        `json:"poll,omitempty"`
 	Vote                             *VoteEntry                        `json:"vote,omitempty"`
+	AccountSpecificRule              *AccountSpecificRuleEntry         `json:"accountSpecificRule,omitempty"`
 }
 
 // SwitchFieldName returns the field name in which this union's
@@ -5588,8 +5749,8 @@ func (u LedgerEntryData) ArmForSwitch(sw int32) (string, bool) {
 		return "PendingStatistics", true
 	case LedgerEntryTypeContract:
 		return "Contract", true
-	case LedgerEntryTypeAtomicSwapBid:
-		return "AtomicSwapBid", true
+	case LedgerEntryTypeAtomicSwapAsk:
+		return "AtomicSwapAsk", true
 	case LedgerEntryTypeAccountRole:
 		return "AccountRole", true
 	case LedgerEntryTypeAccountRule:
@@ -5606,6 +5767,8 @@ func (u LedgerEntryData) ArmForSwitch(sw int32) (string, bool) {
 		return "Poll", true
 	case LedgerEntryTypeVote:
 		return "Vote", true
+	case LedgerEntryTypeAccountSpecificRule:
+		return "AccountSpecificRule", true
 	}
 	return "-", false
 }
@@ -5754,13 +5917,13 @@ func NewLedgerEntryData(aType LedgerEntryType, value interface{}) (result Ledger
 			return
 		}
 		result.Contract = &tv
-	case LedgerEntryTypeAtomicSwapBid:
-		tv, ok := value.(AtomicSwapBidEntry)
+	case LedgerEntryTypeAtomicSwapAsk:
+		tv, ok := value.(AtomicSwapAskEntry)
 		if !ok {
-			err = fmt.Errorf("invalid value, must be AtomicSwapBidEntry")
+			err = fmt.Errorf("invalid value, must be AtomicSwapAskEntry")
 			return
 		}
-		result.AtomicSwapBid = &tv
+		result.AtomicSwapAsk = &tv
 	case LedgerEntryTypeAccountRole:
 		tv, ok := value.(AccountRoleEntry)
 		if !ok {
@@ -5817,6 +5980,13 @@ func NewLedgerEntryData(aType LedgerEntryType, value interface{}) (result Ledger
 			return
 		}
 		result.Vote = &tv
+	case LedgerEntryTypeAccountSpecificRule:
+		tv, ok := value.(AccountSpecificRuleEntry)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be AccountSpecificRuleEntry")
+			return
+		}
+		result.AccountSpecificRule = &tv
 	}
 	return
 }
@@ -6321,25 +6491,25 @@ func (u LedgerEntryData) GetContract() (result ContractEntry, ok bool) {
 	return
 }
 
-// MustAtomicSwapBid retrieves the AtomicSwapBid value from the union,
+// MustAtomicSwapAsk retrieves the AtomicSwapAsk value from the union,
 // panicing if the value is not set.
-func (u LedgerEntryData) MustAtomicSwapBid() AtomicSwapBidEntry {
-	val, ok := u.GetAtomicSwapBid()
+func (u LedgerEntryData) MustAtomicSwapAsk() AtomicSwapAskEntry {
+	val, ok := u.GetAtomicSwapAsk()
 
 	if !ok {
-		panic("arm AtomicSwapBid is not set")
+		panic("arm AtomicSwapAsk is not set")
 	}
 
 	return val
 }
 
-// GetAtomicSwapBid retrieves the AtomicSwapBid value from the union,
+// GetAtomicSwapAsk retrieves the AtomicSwapAsk value from the union,
 // returning ok if the union's switch indicated the value is valid.
-func (u LedgerEntryData) GetAtomicSwapBid() (result AtomicSwapBidEntry, ok bool) {
+func (u LedgerEntryData) GetAtomicSwapAsk() (result AtomicSwapAskEntry, ok bool) {
 	armName, _ := u.ArmForSwitch(int32(u.Type))
 
-	if armName == "AtomicSwapBid" {
-		result = *u.AtomicSwapBid
+	if armName == "AtomicSwapAsk" {
+		result = *u.AtomicSwapAsk
 		ok = true
 	}
 
@@ -6546,6 +6716,31 @@ func (u LedgerEntryData) GetVote() (result VoteEntry, ok bool) {
 	return
 }
 
+// MustAccountSpecificRule retrieves the AccountSpecificRule value from the union,
+// panicing if the value is not set.
+func (u LedgerEntryData) MustAccountSpecificRule() AccountSpecificRuleEntry {
+	val, ok := u.GetAccountSpecificRule()
+
+	if !ok {
+		panic("arm AccountSpecificRule is not set")
+	}
+
+	return val
+}
+
+// GetAccountSpecificRule retrieves the AccountSpecificRule value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u LedgerEntryData) GetAccountSpecificRule() (result AccountSpecificRuleEntry, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.Type))
+
+	if armName == "AccountSpecificRule" {
+		result = *u.AccountSpecificRule
+		ok = true
+	}
+
+	return
+}
+
 // LedgerEntryExt is an XDR NestedUnion defines as:
 //
 //   union switch (LedgerVersion v)
@@ -6632,8 +6827,8 @@ func NewLedgerEntryExt(v LedgerVersion, value interface{}) (result LedgerEntryEx
 //            PendingStatisticsEntry pendingStatistics;
 //        case CONTRACT:
 //            ContractEntry contract;
-//        case ATOMIC_SWAP_BID:
-//            AtomicSwapBidEntry atomicSwapBid;
+//        case ATOMIC_SWAP_ASK:
+//            AtomicSwapAskEntry atomicSwapAsk;
 //        case ACCOUNT_ROLE:
 //            AccountRoleEntry accountRole;
 //        case ACCOUNT_RULE:
@@ -6650,6 +6845,8 @@ func NewLedgerEntryExt(v LedgerVersion, value interface{}) (result LedgerEntryEx
 //            PollEntry poll;
 //        case VOTE:
 //            VoteEntry vote;
+//        case ACCOUNT_SPECIFIC_RULE:
+//            AccountSpecificRuleEntry accountSpecificRule;
 //        }
 //        data;
 //
@@ -6741,6 +6938,7 @@ func (e EnvelopeType) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range EnvelopeTypeAll {
 			if (value & e) == value {
@@ -6770,434 +6968,13 @@ func (e *EnvelopeType) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-// UpgradeType is an XDR Typedef defines as:
-//
-//   typedef opaque UpgradeType<128>;
-//
-type UpgradeType []byte
-
-// StellarValueExt is an XDR NestedUnion defines as:
-//
-//   union switch (LedgerVersion v)
-//        {
-//        case EMPTY_VERSION:
-//            void;
-//        }
-//
-type StellarValueExt struct {
-	V LedgerVersion `json:"v,omitempty"`
-}
-
-// SwitchFieldName returns the field name in which this union's
-// discriminant is stored
-func (u StellarValueExt) SwitchFieldName() string {
-	return "V"
-}
-
-// ArmForSwitch returns which field name should be used for storing
-// the value for an instance of StellarValueExt
-func (u StellarValueExt) ArmForSwitch(sw int32) (string, bool) {
-	switch LedgerVersion(sw) {
-	case LedgerVersionEmptyVersion:
-		return "", true
-	}
-	return "-", false
-}
-
-// NewStellarValueExt creates a new  StellarValueExt.
-func NewStellarValueExt(v LedgerVersion, value interface{}) (result StellarValueExt, err error) {
-	result.V = v
-	switch LedgerVersion(v) {
-	case LedgerVersionEmptyVersion:
-		// void
-	}
-	return
-}
-
-// StellarValue is an XDR Struct defines as:
-//
-//   struct StellarValue
-//    {
-//        Hash txSetHash;   // transaction set to apply to previous ledger
-//        uint64 closeTime; // network close time
-//
-//        // upgrades to apply to the previous ledger (usually empty)
-//        // this is a vector of encoded 'LedgerUpgrade' so that nodes can drop
-//        // unknown steps during consensus if needed.
-//        // see notes below on 'LedgerUpgrade' for more detail
-//        // max size is dictated by number of upgrade types (+ room for future)
-//        UpgradeType upgrades<6>;
-//
-//        // reserved for future use
-//        union switch (LedgerVersion v)
-//        {
-//        case EMPTY_VERSION:
-//            void;
-//        }
-//        ext;
-//    };
-//
-type StellarValue struct {
-	TxSetHash Hash            `json:"txSetHash,omitempty"`
-	CloseTime Uint64          `json:"closeTime,omitempty"`
-	Upgrades  []UpgradeType   `json:"upgrades,omitempty" xdrmaxsize:"6"`
-	Ext       StellarValueExt `json:"ext,omitempty"`
-}
-
-// IdGenerator is an XDR Struct defines as:
-//
-//   struct IdGenerator {
-//    	LedgerEntryType entryType; // type of the entry, for which ids will be generated
-//    	uint64 idPool; // last used entry specific ID, used for generating entry of specified type
-//    };
-//
-type IdGenerator struct {
-	EntryType LedgerEntryType `json:"entryType,omitempty"`
-	IdPool    Uint64          `json:"idPool,omitempty"`
-}
-
-// LedgerHeaderExt is an XDR NestedUnion defines as:
-//
-//   union switch (LedgerVersion v)
-//        {
-//        case EMPTY_VERSION:
-//            void;
-//        }
-//
-type LedgerHeaderExt struct {
-	V LedgerVersion `json:"v,omitempty"`
-}
-
-// SwitchFieldName returns the field name in which this union's
-// discriminant is stored
-func (u LedgerHeaderExt) SwitchFieldName() string {
-	return "V"
-}
-
-// ArmForSwitch returns which field name should be used for storing
-// the value for an instance of LedgerHeaderExt
-func (u LedgerHeaderExt) ArmForSwitch(sw int32) (string, bool) {
-	switch LedgerVersion(sw) {
-	case LedgerVersionEmptyVersion:
-		return "", true
-	}
-	return "-", false
-}
-
-// NewLedgerHeaderExt creates a new  LedgerHeaderExt.
-func NewLedgerHeaderExt(v LedgerVersion, value interface{}) (result LedgerHeaderExt, err error) {
-	result.V = v
-	switch LedgerVersion(v) {
-	case LedgerVersionEmptyVersion:
-		// void
-	}
-	return
-}
-
-// LedgerHeader is an XDR Struct defines as:
-//
-//   struct LedgerHeader
-//    {
-//        uint32 ledgerVersion;    // the protocol version of the ledger
-//        Hash previousLedgerHash; // hash of the previous ledger header
-//        StellarValue scpValue;   // what consensus agreed to
-//        Hash txSetResultHash;    // the TransactionResultSet that led to this ledger
-//        Hash bucketListHash;     // hash of the ledger state
-//
-//        uint32 ledgerSeq; // sequence number of this ledger
-//
-//        IdGenerator idGenerators<>; // generators of ids
-//
-//        uint32 baseFee;     // base fee per operation in stroops
-//        uint32 baseReserve; // account base reserve in stroops
-//
-//        uint32 maxTxSetSize; // maximum size a transaction set can be
-//
-//        int64 txExpirationPeriod;
-//
-//        Hash skipList[4]; // hashes of ledgers in the past. allows you to jump back
-//                          // in time without walking the chain back ledger by ledger
-//                          // each slot contains the oldest ledger that is mod of
-//                          // either 50  5000  50000 or 500000 depending on index
-//                          // skipList[0] mod(50), skipList[1] mod(5000), etc
-//
-//        // reserved for future use
-//        union switch (LedgerVersion v)
-//        {
-//        case EMPTY_VERSION:
-//            void;
-//        }
-//        ext;
-//    };
-//
-type LedgerHeader struct {
-	LedgerVersion      Uint32          `json:"ledgerVersion,omitempty"`
-	PreviousLedgerHash Hash            `json:"previousLedgerHash,omitempty"`
-	ScpValue           StellarValue    `json:"scpValue,omitempty"`
-	TxSetResultHash    Hash            `json:"txSetResultHash,omitempty"`
-	BucketListHash     Hash            `json:"bucketListHash,omitempty"`
-	LedgerSeq          Uint32          `json:"ledgerSeq,omitempty"`
-	IdGenerators       []IdGenerator   `json:"idGenerators,omitempty"`
-	BaseFee            Uint32          `json:"baseFee,omitempty"`
-	BaseReserve        Uint32          `json:"baseReserve,omitempty"`
-	MaxTxSetSize       Uint32          `json:"maxTxSetSize,omitempty"`
-	TxExpirationPeriod Int64           `json:"txExpirationPeriod,omitempty"`
-	SkipList           [4]Hash         `json:"skipList,omitempty"`
-	Ext                LedgerHeaderExt `json:"ext,omitempty"`
-}
-
-// LedgerUpgradeType is an XDR Enum defines as:
-//
-//   enum LedgerUpgradeType
-//    {
-//        VERSION = 1,
-//        MAX_TX_SET_SIZE = 2,
-//        TX_EXPIRATION_PERIOD = 3
-//    };
-//
-type LedgerUpgradeType int32
-
-const (
-	LedgerUpgradeTypeVersion            LedgerUpgradeType = 1
-	LedgerUpgradeTypeMaxTxSetSize       LedgerUpgradeType = 2
-	LedgerUpgradeTypeTxExpirationPeriod LedgerUpgradeType = 3
-)
-
-var LedgerUpgradeTypeAll = []LedgerUpgradeType{
-	LedgerUpgradeTypeVersion,
-	LedgerUpgradeTypeMaxTxSetSize,
-	LedgerUpgradeTypeTxExpirationPeriod,
-}
-
-var ledgerUpgradeTypeMap = map[int32]string{
-	1: "LedgerUpgradeTypeVersion",
-	2: "LedgerUpgradeTypeMaxTxSetSize",
-	3: "LedgerUpgradeTypeTxExpirationPeriod",
-}
-
-var ledgerUpgradeTypeShortMap = map[int32]string{
-	1: "version",
-	2: "max_tx_set_size",
-	3: "tx_expiration_period",
-}
-
-var ledgerUpgradeTypeRevMap = map[string]int32{
-	"LedgerUpgradeTypeVersion":            1,
-	"LedgerUpgradeTypeMaxTxSetSize":       2,
-	"LedgerUpgradeTypeTxExpirationPeriod": 3,
-}
-
-// ValidEnum validates a proposed value for this enum.  Implements
-// the Enum interface for LedgerUpgradeType
-func (e LedgerUpgradeType) ValidEnum(v int32) bool {
-	_, ok := ledgerUpgradeTypeMap[v]
-	return ok
-}
-func (e LedgerUpgradeType) isFlag() bool {
-	for i := len(LedgerUpgradeTypeAll) - 1; i >= 0; i-- {
-		expected := LedgerUpgradeType(2) << uint64(len(LedgerUpgradeTypeAll)-1) >> uint64(len(LedgerUpgradeTypeAll)-i)
-		if expected != LedgerUpgradeTypeAll[i] {
-			return false
-		}
-	}
-	return true
-}
-
-// String returns the name of `e`
-func (e LedgerUpgradeType) String() string {
-	name, _ := ledgerUpgradeTypeMap[int32(e)]
-	return name
-}
-
-func (e LedgerUpgradeType) ShortString() string {
-	name, _ := ledgerUpgradeTypeShortMap[int32(e)]
-	return name
-}
-
-func (e LedgerUpgradeType) MarshalJSON() ([]byte, error) {
-	if e.isFlag() {
-		// marshal as mask
-		result := flag{
-			Value: int32(e),
-		}
-		for _, value := range LedgerUpgradeTypeAll {
-			if (value & e) == value {
-				result.Flags = append(result.Flags, flagValue{
-					Value: int32(value),
-					Name:  value.ShortString(),
-				})
-			}
-		}
-		return json.Marshal(&result)
-	} else {
-		// marshal as enum
-		result := enum{
-			Value:  int32(e),
-			String: e.ShortString(),
-		}
-		return json.Marshal(&result)
-	}
-}
-
-func (e *LedgerUpgradeType) UnmarshalJSON(data []byte) error {
-	var t value
-	if err := json.Unmarshal(data, &t); err != nil {
-		return err
-	}
-	*e = LedgerUpgradeType(t.Value)
-	return nil
-}
-
-// LedgerUpgrade is an XDR Union defines as:
-//
-//   union LedgerUpgrade switch (LedgerUpgradeType type)
-//    {
-//    case VERSION:
-//        uint32 newLedgerVersion; // update ledgerVersion
-//    case MAX_TX_SET_SIZE:
-//        uint32 newMaxTxSetSize; // update maxTxSetSize
-//    case TX_EXPIRATION_PERIOD:
-//        int64 newTxExpirationPeriod;
-//    };
-//
-type LedgerUpgrade struct {
-	Type                  LedgerUpgradeType `json:"type,omitempty"`
-	NewLedgerVersion      *Uint32           `json:"newLedgerVersion,omitempty"`
-	NewMaxTxSetSize       *Uint32           `json:"newMaxTxSetSize,omitempty"`
-	NewTxExpirationPeriod *Int64            `json:"newTxExpirationPeriod,omitempty"`
-}
-
-// SwitchFieldName returns the field name in which this union's
-// discriminant is stored
-func (u LedgerUpgrade) SwitchFieldName() string {
-	return "Type"
-}
-
-// ArmForSwitch returns which field name should be used for storing
-// the value for an instance of LedgerUpgrade
-func (u LedgerUpgrade) ArmForSwitch(sw int32) (string, bool) {
-	switch LedgerUpgradeType(sw) {
-	case LedgerUpgradeTypeVersion:
-		return "NewLedgerVersion", true
-	case LedgerUpgradeTypeMaxTxSetSize:
-		return "NewMaxTxSetSize", true
-	case LedgerUpgradeTypeTxExpirationPeriod:
-		return "NewTxExpirationPeriod", true
-	}
-	return "-", false
-}
-
-// NewLedgerUpgrade creates a new  LedgerUpgrade.
-func NewLedgerUpgrade(aType LedgerUpgradeType, value interface{}) (result LedgerUpgrade, err error) {
-	result.Type = aType
-	switch LedgerUpgradeType(aType) {
-	case LedgerUpgradeTypeVersion:
-		tv, ok := value.(Uint32)
-		if !ok {
-			err = fmt.Errorf("invalid value, must be Uint32")
-			return
-		}
-		result.NewLedgerVersion = &tv
-	case LedgerUpgradeTypeMaxTxSetSize:
-		tv, ok := value.(Uint32)
-		if !ok {
-			err = fmt.Errorf("invalid value, must be Uint32")
-			return
-		}
-		result.NewMaxTxSetSize = &tv
-	case LedgerUpgradeTypeTxExpirationPeriod:
-		tv, ok := value.(Int64)
-		if !ok {
-			err = fmt.Errorf("invalid value, must be Int64")
-			return
-		}
-		result.NewTxExpirationPeriod = &tv
-	}
-	return
-}
-
-// MustNewLedgerVersion retrieves the NewLedgerVersion value from the union,
-// panicing if the value is not set.
-func (u LedgerUpgrade) MustNewLedgerVersion() Uint32 {
-	val, ok := u.GetNewLedgerVersion()
-
-	if !ok {
-		panic("arm NewLedgerVersion is not set")
-	}
-
-	return val
-}
-
-// GetNewLedgerVersion retrieves the NewLedgerVersion value from the union,
-// returning ok if the union's switch indicated the value is valid.
-func (u LedgerUpgrade) GetNewLedgerVersion() (result Uint32, ok bool) {
-	armName, _ := u.ArmForSwitch(int32(u.Type))
-
-	if armName == "NewLedgerVersion" {
-		result = *u.NewLedgerVersion
-		ok = true
-	}
-
-	return
-}
-
-// MustNewMaxTxSetSize retrieves the NewMaxTxSetSize value from the union,
-// panicing if the value is not set.
-func (u LedgerUpgrade) MustNewMaxTxSetSize() Uint32 {
-	val, ok := u.GetNewMaxTxSetSize()
-
-	if !ok {
-		panic("arm NewMaxTxSetSize is not set")
-	}
-
-	return val
-}
-
-// GetNewMaxTxSetSize retrieves the NewMaxTxSetSize value from the union,
-// returning ok if the union's switch indicated the value is valid.
-func (u LedgerUpgrade) GetNewMaxTxSetSize() (result Uint32, ok bool) {
-	armName, _ := u.ArmForSwitch(int32(u.Type))
-
-	if armName == "NewMaxTxSetSize" {
-		result = *u.NewMaxTxSetSize
-		ok = true
-	}
-
-	return
-}
-
-// MustNewTxExpirationPeriod retrieves the NewTxExpirationPeriod value from the union,
-// panicing if the value is not set.
-func (u LedgerUpgrade) MustNewTxExpirationPeriod() Int64 {
-	val, ok := u.GetNewTxExpirationPeriod()
-
-	if !ok {
-		panic("arm NewTxExpirationPeriod is not set")
-	}
-
-	return val
-}
-
-// GetNewTxExpirationPeriod retrieves the NewTxExpirationPeriod value from the union,
-// returning ok if the union's switch indicated the value is valid.
-func (u LedgerUpgrade) GetNewTxExpirationPeriod() (result Int64, ok bool) {
-	armName, _ := u.ArmForSwitch(int32(u.Type))
-
-	if armName == "NewTxExpirationPeriod" {
-		result = *u.NewTxExpirationPeriod
-		ok = true
-	}
-
-	return
-}
-
 // LedgerKeyAccountExt is an XDR NestedUnion defines as:
 //
 //   union switch (LedgerVersion v)
-//    		{
-//    		case EMPTY_VERSION:
-//    			void;
-//    		}
+//           {
+//           case EMPTY_VERSION:
+//              void;
+//           }
 //
 type LedgerKeyAccountExt struct {
 	V LedgerVersion `json:"v,omitempty"`
@@ -7234,12 +7011,12 @@ func NewLedgerKeyAccountExt(v LedgerVersion, value interface{}) (result LedgerKe
 //   struct
 //        {
 //            AccountID accountID;
-//    		union switch (LedgerVersion v)
-//    		{
-//    		case EMPTY_VERSION:
-//    			void;
-//    		}
-//    		ext;
+//            union switch (LedgerVersion v)
+//           {
+//           case EMPTY_VERSION:
+//              void;
+//           }
+//           ext;
 //        }
 //
 type LedgerKeyAccount struct {
@@ -7309,10 +7086,10 @@ type LedgerKeySigner struct {
 // LedgerKeyFeeStateExt is an XDR NestedUnion defines as:
 //
 //   union switch (LedgerVersion v)
-//    		{
-//    		case EMPTY_VERSION:
-//    			void;
-//    		}
+//            {
+//            case EMPTY_VERSION:
+//                void;
+//            }
 //
 type LedgerKeyFeeStateExt struct {
 	V LedgerVersion `json:"v,omitempty"`
@@ -7348,14 +7125,14 @@ func NewLedgerKeyFeeStateExt(v LedgerVersion, value interface{}) (result LedgerK
 //
 //   struct {
 //            Hash hash;
-//    		int64 lowerBound;
-//    		int64 upperBound;
-//    		 union switch (LedgerVersion v)
-//    		{
-//    		case EMPTY_VERSION:
-//    			void;
-//    		}
-//    		ext;
+//            int64 lowerBound;
+//            int64 upperBound;
+//            union switch (LedgerVersion v)
+//            {
+//            case EMPTY_VERSION:
+//                void;
+//            }
+//            ext;
 //        }
 //
 type LedgerKeyFeeState struct {
@@ -7368,10 +7145,10 @@ type LedgerKeyFeeState struct {
 // LedgerKeyBalanceExt is an XDR NestedUnion defines as:
 //
 //   union switch (LedgerVersion v)
-//    		{
-//    		case EMPTY_VERSION:
-//    			void;
-//    		}
+//            {
+//            case EMPTY_VERSION:
+//                void;
+//            }
 //
 type LedgerKeyBalanceExt struct {
 	V LedgerVersion `json:"v,omitempty"`
@@ -7407,13 +7184,13 @@ func NewLedgerKeyBalanceExt(v LedgerVersion, value interface{}) (result LedgerKe
 //
 //   struct
 //        {
-//    		BalanceID balanceID;
-//    		union switch (LedgerVersion v)
-//    		{
-//    		case EMPTY_VERSION:
-//    			void;
-//    		}
-//    		ext;
+//            BalanceID balanceID;
+//            union switch (LedgerVersion v)
+//            {
+//            case EMPTY_VERSION:
+//                void;
+//            }
+//            ext;
 //        }
 //
 type LedgerKeyBalance struct {
@@ -7424,10 +7201,10 @@ type LedgerKeyBalance struct {
 // LedgerKeyAssetExt is an XDR NestedUnion defines as:
 //
 //   union switch (LedgerVersion v)
-//    		{
-//    		case EMPTY_VERSION:
-//    			void;
-//    		}
+//            {
+//            case EMPTY_VERSION:
+//                void;
+//            }
 //
 type LedgerKeyAssetExt struct {
 	V LedgerVersion `json:"v,omitempty"`
@@ -7463,13 +7240,13 @@ func NewLedgerKeyAssetExt(v LedgerVersion, value interface{}) (result LedgerKeyA
 //
 //   struct
 //        {
-//    		AssetCode code;
-//    		union switch (LedgerVersion v)
-//    		{
-//    		case EMPTY_VERSION:
-//    			void;
-//    		}
-//    		ext;
+//            AssetCode code;
+//            union switch (LedgerVersion v)
+//            {
+//            case EMPTY_VERSION:
+//                void;
+//            }
+//            ext;
 //        }
 //
 type LedgerKeyAsset struct {
@@ -7648,10 +7425,10 @@ type LedgerKeyAccountLimits struct {
 // LedgerKeyAssetPairExt is an XDR NestedUnion defines as:
 //
 //   union switch (LedgerVersion v)
-//    		{
-//    		case EMPTY_VERSION:
-//    			void;
-//    		}
+//            {
+//            case EMPTY_VERSION:
+//                void;
+//            }
 //
 type LedgerKeyAssetPairExt struct {
 	V LedgerVersion `json:"v,omitempty"`
@@ -7686,14 +7463,14 @@ func NewLedgerKeyAssetPairExt(v LedgerVersion, value interface{}) (result Ledger
 // LedgerKeyAssetPair is an XDR NestedStruct defines as:
 //
 //   struct {
-//             AssetCode base;
-//    		 AssetCode quote;
-//    		 union switch (LedgerVersion v)
-//    		{
-//    		case EMPTY_VERSION:
-//    			void;
-//    		}
-//    		ext;
+//            AssetCode base;
+//            AssetCode quote;
+//            union switch (LedgerVersion v)
+//            {
+//            case EMPTY_VERSION:
+//                void;
+//            }
+//            ext;
 //        }
 //
 type LedgerKeyAssetPair struct {
@@ -7705,9 +7482,9 @@ type LedgerKeyAssetPair struct {
 // LedgerKeyOffer is an XDR NestedStruct defines as:
 //
 //   struct {
-//    		uint64 offerID;
-//    		AccountID ownerID;
-//    	}
+//            uint64 offerID;
+//            AccountID ownerID;
+//        }
 //
 type LedgerKeyOffer struct {
 	OfferId Uint64    `json:"offerID,omitempty"`
@@ -7717,10 +7494,10 @@ type LedgerKeyOffer struct {
 // LedgerKeyReviewableRequestExt is an XDR NestedUnion defines as:
 //
 //   union switch (LedgerVersion v)
-//    		{
-//    		case EMPTY_VERSION:
-//    			void;
-//    		}
+//            {
+//            case EMPTY_VERSION:
+//                void;
+//            }
 //
 type LedgerKeyReviewableRequestExt struct {
 	V LedgerVersion `json:"v,omitempty"`
@@ -7756,12 +7533,12 @@ func NewLedgerKeyReviewableRequestExt(v LedgerVersion, value interface{}) (resul
 //
 //   struct {
 //            uint64 requestID;
-//    		union switch (LedgerVersion v)
-//    		{
-//    		case EMPTY_VERSION:
-//    			void;
-//    		}
-//    		ext;
+//            union switch (LedgerVersion v)
+//            {
+//            case EMPTY_VERSION:
+//                void;
+//            }
+//            ext;
 //        }
 //
 type LedgerKeyReviewableRequest struct {
@@ -7829,10 +7606,10 @@ type LedgerKeyExternalSystemAccountId struct {
 // LedgerKeySaleExt is an XDR NestedUnion defines as:
 //
 //   union switch (LedgerVersion v)
-//    		{
-//    		case EMPTY_VERSION:
-//    			void;
-//    		}
+//            {
+//            case EMPTY_VERSION:
+//                void;
+//            }
 //
 type LedgerKeySaleExt struct {
 	V LedgerVersion `json:"v,omitempty"`
@@ -7867,14 +7644,14 @@ func NewLedgerKeySaleExt(v LedgerVersion, value interface{}) (result LedgerKeySa
 // LedgerKeySale is an XDR NestedStruct defines as:
 //
 //   struct {
-//    		uint64 saleID;
-//    		union switch (LedgerVersion v)
-//    		{
-//    		case EMPTY_VERSION:
-//    			void;
-//    		}
-//    		ext;
-//    	}
+//            uint64 saleID;
+//            union switch (LedgerVersion v)
+//            {
+//            case EMPTY_VERSION:
+//                void;
+//            }
+//            ext;
+//        }
 //
 type LedgerKeySale struct {
 	SaleId Uint64           `json:"saleID,omitempty"`
@@ -7885,8 +7662,8 @@ type LedgerKeySale struct {
 //
 //   union switch (LedgerVersion v)
 //            {
-//            	case EMPTY_VERSION:
-//            		void;
+//            case EMPTY_VERSION:
+//                void;
 //            }
 //
 type LedgerKeyKeyValueExt struct {
@@ -7925,8 +7702,8 @@ func NewLedgerKeyKeyValueExt(v LedgerVersion, value interface{}) (result LedgerK
 //            longstring key;
 //            union switch (LedgerVersion v)
 //            {
-//            	case EMPTY_VERSION:
-//            		void;
+//            case EMPTY_VERSION:
+//                void;
 //            }
 //            ext;
 //        }
@@ -8267,7 +8044,7 @@ type LedgerKeyContract struct {
 	Ext        LedgerKeyContractExt `json:"ext,omitempty"`
 }
 
-// LedgerKeyAtomicSwapBidExt is an XDR NestedUnion defines as:
+// LedgerKeyAtomicSwapAskExt is an XDR NestedUnion defines as:
 //
 //   union switch (LedgerVersion v)
 //            {
@@ -8275,19 +8052,19 @@ type LedgerKeyContract struct {
 //                void;
 //            }
 //
-type LedgerKeyAtomicSwapBidExt struct {
+type LedgerKeyAtomicSwapAskExt struct {
 	V LedgerVersion `json:"v,omitempty"`
 }
 
 // SwitchFieldName returns the field name in which this union's
 // discriminant is stored
-func (u LedgerKeyAtomicSwapBidExt) SwitchFieldName() string {
+func (u LedgerKeyAtomicSwapAskExt) SwitchFieldName() string {
 	return "V"
 }
 
 // ArmForSwitch returns which field name should be used for storing
-// the value for an instance of LedgerKeyAtomicSwapBidExt
-func (u LedgerKeyAtomicSwapBidExt) ArmForSwitch(sw int32) (string, bool) {
+// the value for an instance of LedgerKeyAtomicSwapAskExt
+func (u LedgerKeyAtomicSwapAskExt) ArmForSwitch(sw int32) (string, bool) {
 	switch LedgerVersion(sw) {
 	case LedgerVersionEmptyVersion:
 		return "", true
@@ -8295,8 +8072,8 @@ func (u LedgerKeyAtomicSwapBidExt) ArmForSwitch(sw int32) (string, bool) {
 	return "-", false
 }
 
-// NewLedgerKeyAtomicSwapBidExt creates a new  LedgerKeyAtomicSwapBidExt.
-func NewLedgerKeyAtomicSwapBidExt(v LedgerVersion, value interface{}) (result LedgerKeyAtomicSwapBidExt, err error) {
+// NewLedgerKeyAtomicSwapAskExt creates a new  LedgerKeyAtomicSwapAskExt.
+func NewLedgerKeyAtomicSwapAskExt(v LedgerVersion, value interface{}) (result LedgerKeyAtomicSwapAskExt, err error) {
 	result.V = v
 	switch LedgerVersion(v) {
 	case LedgerVersionEmptyVersion:
@@ -8305,10 +8082,10 @@ func NewLedgerKeyAtomicSwapBidExt(v LedgerVersion, value interface{}) (result Le
 	return
 }
 
-// LedgerKeyAtomicSwapBid is an XDR NestedStruct defines as:
+// LedgerKeyAtomicSwapAsk is an XDR NestedStruct defines as:
 //
 //   struct {
-//            uint64 bidID;
+//            uint64 id;
 //            union switch (LedgerVersion v)
 //            {
 //            case EMPTY_VERSION:
@@ -8317,9 +8094,9 @@ func NewLedgerKeyAtomicSwapBidExt(v LedgerVersion, value interface{}) (result Le
 //            ext;
 //        }
 //
-type LedgerKeyAtomicSwapBid struct {
-	BidId Uint64                    `json:"bidID,omitempty"`
-	Ext   LedgerKeyAtomicSwapBidExt `json:"ext,omitempty"`
+type LedgerKeyAtomicSwapAsk struct {
+	Id  Uint64                    `json:"id,omitempty"`
+	Ext LedgerKeyAtomicSwapAskExt `json:"ext,omitempty"`
 }
 
 // LedgerKeyAccountRoleExt is an XDR NestedUnion defines as:
@@ -8681,6 +8458,19 @@ type LedgerKeyVote struct {
 	Ext     EmptyExt  `json:"ext,omitempty"`
 }
 
+// LedgerKeyAccountSpecificRule is an XDR NestedStruct defines as:
+//
+//   struct {
+//            uint64 id;
+//
+//            EmptyExt ext;
+//        }
+//
+type LedgerKeyAccountSpecificRule struct {
+	Id  Uint64   `json:"id,omitempty"`
+	Ext EmptyExt `json:"ext,omitempty"`
+}
+
 // LedgerKey is an XDR Union defines as:
 //
 //   union LedgerKey switch (LedgerEntryType type)
@@ -8689,12 +8479,12 @@ type LedgerKeyVote struct {
 //        struct
 //        {
 //            AccountID accountID;
-//    		union switch (LedgerVersion v)
-//    		{
-//    		case EMPTY_VERSION:
-//    			void;
-//    		}
-//    		ext;
+//            union switch (LedgerVersion v)
+//           {
+//           case EMPTY_VERSION:
+//              void;
+//           }
+//           ext;
 //        } account;
 //    case SIGNER:
 //        struct
@@ -8712,36 +8502,36 @@ type LedgerKeyVote struct {
 //    case FEE:
 //        struct {
 //            Hash hash;
-//    		int64 lowerBound;
-//    		int64 upperBound;
-//    		 union switch (LedgerVersion v)
-//    		{
-//    		case EMPTY_VERSION:
-//    			void;
-//    		}
-//    		ext;
+//            int64 lowerBound;
+//            int64 upperBound;
+//            union switch (LedgerVersion v)
+//            {
+//            case EMPTY_VERSION:
+//                void;
+//            }
+//            ext;
 //        } feeState;
 //    case BALANCE:
 //        struct
 //        {
-//    		BalanceID balanceID;
-//    		union switch (LedgerVersion v)
-//    		{
-//    		case EMPTY_VERSION:
-//    			void;
-//    		}
-//    		ext;
+//            BalanceID balanceID;
+//            union switch (LedgerVersion v)
+//            {
+//            case EMPTY_VERSION:
+//                void;
+//            }
+//            ext;
 //        } balance;
 //    case ASSET:
 //        struct
 //        {
-//    		AssetCode code;
-//    		union switch (LedgerVersion v)
-//    		{
-//    		case EMPTY_VERSION:
-//    			void;
-//    		}
-//    		ext;
+//            AssetCode code;
+//            union switch (LedgerVersion v)
+//            {
+//            case EMPTY_VERSION:
+//                void;
+//            }
+//            ext;
 //        } asset;
 //    case REFERENCE_ENTRY:
 //        struct
@@ -8776,30 +8566,30 @@ type LedgerKeyVote struct {
 //    		ext;
 //        } accountLimits;
 //    case ASSET_PAIR:
-//    	struct {
-//             AssetCode base;
-//    		 AssetCode quote;
-//    		 union switch (LedgerVersion v)
-//    		{
-//    		case EMPTY_VERSION:
-//    			void;
-//    		}
-//    		ext;
+//        struct {
+//            AssetCode base;
+//            AssetCode quote;
+//            union switch (LedgerVersion v)
+//            {
+//            case EMPTY_VERSION:
+//                void;
+//            }
+//            ext;
 //        } assetPair;
 //    case OFFER_ENTRY:
-//    	struct {
-//    		uint64 offerID;
-//    		AccountID ownerID;
-//    	} offer;
+//        struct {
+//            uint64 offerID;
+//            AccountID ownerID;
+//        } offer;
 //    case REVIEWABLE_REQUEST:
 //        struct {
 //            uint64 requestID;
-//    		union switch (LedgerVersion v)
-//    		{
-//    		case EMPTY_VERSION:
-//    			void;
-//    		}
-//    		ext;
+//            union switch (LedgerVersion v)
+//            {
+//            case EMPTY_VERSION:
+//                void;
+//            }
+//            ext;
 //        } reviewableRequest;
 //    case EXTERNAL_SYSTEM_ACCOUNT_ID:
 //    	struct {
@@ -8813,22 +8603,22 @@ type LedgerKeyVote struct {
 //    		ext;
 //    	} externalSystemAccountID;
 //    case SALE:
-//    	struct {
-//    		uint64 saleID;
-//    		union switch (LedgerVersion v)
-//    		{
-//    		case EMPTY_VERSION:
-//    			void;
-//    		}
-//    		ext;
-//    	} sale;
+//        struct {
+//            uint64 saleID;
+//            union switch (LedgerVersion v)
+//            {
+//            case EMPTY_VERSION:
+//                void;
+//            }
+//            ext;
+//        } sale;
 //    case KEY_VALUE:
 //        struct {
 //            longstring key;
 //            union switch (LedgerVersion v)
 //            {
-//            	case EMPTY_VERSION:
-//            		void;
+//            case EMPTY_VERSION:
+//                void;
 //            }
 //            ext;
 //        } keyValue;
@@ -8892,16 +8682,16 @@ type LedgerKeyVote struct {
 //            }
 //            ext;
 //        } contract;
-//    case ATOMIC_SWAP_BID:
+//    case ATOMIC_SWAP_ASK:
 //        struct {
-//            uint64 bidID;
+//            uint64 id;
 //            union switch (LedgerVersion v)
 //            {
 //            case EMPTY_VERSION:
 //                void;
 //            }
 //            ext;
-//        } atomicSwapBid;
+//        } atomicSwapAsk;
 //    case ACCOUNT_ROLE:
 //        struct {
 //            uint64 id;
@@ -8975,6 +8765,12 @@ type LedgerKeyVote struct {
 //
 //            EmptyExt ext;
 //        } vote;
+//    case ACCOUNT_SPECIFIC_RULE:
+//        struct {
+//            uint64 id;
+//
+//            EmptyExt ext;
+//        } accountSpecificRule;
 //    };
 //
 type LedgerKey struct {
@@ -8999,7 +8795,7 @@ type LedgerKey struct {
 	StatisticsV2                     *LedgerKeyStatisticsV2                     `json:"statisticsV2,omitempty"`
 	PendingStatistics                *LedgerKeyPendingStatistics                `json:"pendingStatistics,omitempty"`
 	Contract                         *LedgerKeyContract                         `json:"contract,omitempty"`
-	AtomicSwapBid                    *LedgerKeyAtomicSwapBid                    `json:"atomicSwapBid,omitempty"`
+	AtomicSwapAsk                    *LedgerKeyAtomicSwapAsk                    `json:"atomicSwapAsk,omitempty"`
 	AccountRole                      *LedgerKeyAccountRole                      `json:"accountRole,omitempty"`
 	AccountRule                      *LedgerKeyAccountRule                      `json:"accountRule,omitempty"`
 	SignerRole                       *LedgerKeySignerRole                       `json:"signerRole,omitempty"`
@@ -9008,6 +8804,7 @@ type LedgerKey struct {
 	License                          *LedgerKeyLicense                          `json:"license,omitempty"`
 	Poll                             *LedgerKeyPoll                             `json:"poll,omitempty"`
 	Vote                             *LedgerKeyVote                             `json:"vote,omitempty"`
+	AccountSpecificRule              *LedgerKeyAccountSpecificRule              `json:"accountSpecificRule,omitempty"`
 }
 
 // SwitchFieldName returns the field name in which this union's
@@ -9060,8 +8857,8 @@ func (u LedgerKey) ArmForSwitch(sw int32) (string, bool) {
 		return "PendingStatistics", true
 	case LedgerEntryTypeContract:
 		return "Contract", true
-	case LedgerEntryTypeAtomicSwapBid:
-		return "AtomicSwapBid", true
+	case LedgerEntryTypeAtomicSwapAsk:
+		return "AtomicSwapAsk", true
 	case LedgerEntryTypeAccountRole:
 		return "AccountRole", true
 	case LedgerEntryTypeAccountRule:
@@ -9078,6 +8875,8 @@ func (u LedgerKey) ArmForSwitch(sw int32) (string, bool) {
 		return "Poll", true
 	case LedgerEntryTypeVote:
 		return "Vote", true
+	case LedgerEntryTypeAccountSpecificRule:
+		return "AccountSpecificRule", true
 	}
 	return "-", false
 }
@@ -9226,13 +9025,13 @@ func NewLedgerKey(aType LedgerEntryType, value interface{}) (result LedgerKey, e
 			return
 		}
 		result.Contract = &tv
-	case LedgerEntryTypeAtomicSwapBid:
-		tv, ok := value.(LedgerKeyAtomicSwapBid)
+	case LedgerEntryTypeAtomicSwapAsk:
+		tv, ok := value.(LedgerKeyAtomicSwapAsk)
 		if !ok {
-			err = fmt.Errorf("invalid value, must be LedgerKeyAtomicSwapBid")
+			err = fmt.Errorf("invalid value, must be LedgerKeyAtomicSwapAsk")
 			return
 		}
-		result.AtomicSwapBid = &tv
+		result.AtomicSwapAsk = &tv
 	case LedgerEntryTypeAccountRole:
 		tv, ok := value.(LedgerKeyAccountRole)
 		if !ok {
@@ -9289,6 +9088,13 @@ func NewLedgerKey(aType LedgerEntryType, value interface{}) (result LedgerKey, e
 			return
 		}
 		result.Vote = &tv
+	case LedgerEntryTypeAccountSpecificRule:
+		tv, ok := value.(LedgerKeyAccountSpecificRule)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be LedgerKeyAccountSpecificRule")
+			return
+		}
+		result.AccountSpecificRule = &tv
 	}
 	return
 }
@@ -9793,25 +9599,25 @@ func (u LedgerKey) GetContract() (result LedgerKeyContract, ok bool) {
 	return
 }
 
-// MustAtomicSwapBid retrieves the AtomicSwapBid value from the union,
+// MustAtomicSwapAsk retrieves the AtomicSwapAsk value from the union,
 // panicing if the value is not set.
-func (u LedgerKey) MustAtomicSwapBid() LedgerKeyAtomicSwapBid {
-	val, ok := u.GetAtomicSwapBid()
+func (u LedgerKey) MustAtomicSwapAsk() LedgerKeyAtomicSwapAsk {
+	val, ok := u.GetAtomicSwapAsk()
 
 	if !ok {
-		panic("arm AtomicSwapBid is not set")
+		panic("arm AtomicSwapAsk is not set")
 	}
 
 	return val
 }
 
-// GetAtomicSwapBid retrieves the AtomicSwapBid value from the union,
+// GetAtomicSwapAsk retrieves the AtomicSwapAsk value from the union,
 // returning ok if the union's switch indicated the value is valid.
-func (u LedgerKey) GetAtomicSwapBid() (result LedgerKeyAtomicSwapBid, ok bool) {
+func (u LedgerKey) GetAtomicSwapAsk() (result LedgerKeyAtomicSwapAsk, ok bool) {
 	armName, _ := u.ArmForSwitch(int32(u.Type))
 
-	if armName == "AtomicSwapBid" {
-		result = *u.AtomicSwapBid
+	if armName == "AtomicSwapAsk" {
+		result = *u.AtomicSwapAsk
 		ok = true
 	}
 
@@ -10018,6 +9824,453 @@ func (u LedgerKey) GetVote() (result LedgerKeyVote, ok bool) {
 	return
 }
 
+// MustAccountSpecificRule retrieves the AccountSpecificRule value from the union,
+// panicing if the value is not set.
+func (u LedgerKey) MustAccountSpecificRule() LedgerKeyAccountSpecificRule {
+	val, ok := u.GetAccountSpecificRule()
+
+	if !ok {
+		panic("arm AccountSpecificRule is not set")
+	}
+
+	return val
+}
+
+// GetAccountSpecificRule retrieves the AccountSpecificRule value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u LedgerKey) GetAccountSpecificRule() (result LedgerKeyAccountSpecificRule, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.Type))
+
+	if armName == "AccountSpecificRule" {
+		result = *u.AccountSpecificRule
+		ok = true
+	}
+
+	return
+}
+
+// UpgradeType is an XDR Typedef defines as:
+//
+//   typedef opaque UpgradeType<128>;
+//
+type UpgradeType []byte
+
+// StellarValueExt is an XDR NestedUnion defines as:
+//
+//   union switch (LedgerVersion v)
+//        {
+//        case EMPTY_VERSION:
+//            void;
+//        }
+//
+type StellarValueExt struct {
+	V LedgerVersion `json:"v,omitempty"`
+}
+
+// SwitchFieldName returns the field name in which this union's
+// discriminant is stored
+func (u StellarValueExt) SwitchFieldName() string {
+	return "V"
+}
+
+// ArmForSwitch returns which field name should be used for storing
+// the value for an instance of StellarValueExt
+func (u StellarValueExt) ArmForSwitch(sw int32) (string, bool) {
+	switch LedgerVersion(sw) {
+	case LedgerVersionEmptyVersion:
+		return "", true
+	}
+	return "-", false
+}
+
+// NewStellarValueExt creates a new  StellarValueExt.
+func NewStellarValueExt(v LedgerVersion, value interface{}) (result StellarValueExt, err error) {
+	result.V = v
+	switch LedgerVersion(v) {
+	case LedgerVersionEmptyVersion:
+		// void
+	}
+	return
+}
+
+// StellarValue is an XDR Struct defines as:
+//
+//   struct StellarValue
+//    {
+//        Hash txSetHash;   // transaction set to apply to previous ledger
+//        uint64 closeTime; // network close time
+//
+//        // upgrades to apply to the previous ledger (usually empty)
+//        // this is a vector of encoded 'LedgerUpgrade' so that nodes can drop
+//        // unknown steps during consensus if needed.
+//        // see notes below on 'LedgerUpgrade' for more detail
+//        // max size is dictated by number of upgrade types (+ room for future)
+//        UpgradeType upgrades<6>;
+//
+//        // reserved for future use
+//        union switch (LedgerVersion v)
+//        {
+//        case EMPTY_VERSION:
+//            void;
+//        }
+//        ext;
+//    };
+//
+type StellarValue struct {
+	TxSetHash Hash            `json:"txSetHash,omitempty"`
+	CloseTime Uint64          `json:"closeTime,omitempty"`
+	Upgrades  []UpgradeType   `json:"upgrades,omitempty" xdrmaxsize:"6"`
+	Ext       StellarValueExt `json:"ext,omitempty"`
+}
+
+// IdGenerator is an XDR Struct defines as:
+//
+//   struct IdGenerator {
+//    	LedgerEntryType entryType; // type of the entry, for which ids will be generated
+//    	uint64 idPool; // last used entry specific ID, used for generating entry of specified type
+//    };
+//
+type IdGenerator struct {
+	EntryType LedgerEntryType `json:"entryType,omitempty"`
+	IdPool    Uint64          `json:"idPool,omitempty"`
+}
+
+// LedgerHeaderExt is an XDR NestedUnion defines as:
+//
+//   union switch (LedgerVersion v)
+//        {
+//        case EMPTY_VERSION:
+//            void;
+//        }
+//
+type LedgerHeaderExt struct {
+	V LedgerVersion `json:"v,omitempty"`
+}
+
+// SwitchFieldName returns the field name in which this union's
+// discriminant is stored
+func (u LedgerHeaderExt) SwitchFieldName() string {
+	return "V"
+}
+
+// ArmForSwitch returns which field name should be used for storing
+// the value for an instance of LedgerHeaderExt
+func (u LedgerHeaderExt) ArmForSwitch(sw int32) (string, bool) {
+	switch LedgerVersion(sw) {
+	case LedgerVersionEmptyVersion:
+		return "", true
+	}
+	return "-", false
+}
+
+// NewLedgerHeaderExt creates a new  LedgerHeaderExt.
+func NewLedgerHeaderExt(v LedgerVersion, value interface{}) (result LedgerHeaderExt, err error) {
+	result.V = v
+	switch LedgerVersion(v) {
+	case LedgerVersionEmptyVersion:
+		// void
+	}
+	return
+}
+
+// LedgerHeader is an XDR Struct defines as:
+//
+//   struct LedgerHeader
+//    {
+//        uint32 ledgerVersion;    // the protocol version of the ledger
+//        Hash previousLedgerHash; // hash of the previous ledger header
+//        StellarValue scpValue;   // what consensus agreed to
+//        Hash txSetResultHash;    // the TransactionResultSet that led to this ledger
+//        Hash bucketListHash;     // hash of the ledger state
+//
+//        uint32 ledgerSeq; // sequence number of this ledger
+//
+//        IdGenerator idGenerators<>; // generators of ids
+//
+//        uint32 baseFee;     // base fee per operation in stroops
+//        uint32 baseReserve; // account base reserve in stroops
+//
+//        uint32 maxTxSetSize; // maximum size a transaction set can be
+//
+//        int64 txExpirationPeriod;
+//
+//        Hash skipList[4]; // hashes of ledgers in the past. allows you to jump back
+//                          // in time without walking the chain back ledger by ledger
+//                          // each slot contains the oldest ledger that is mod of
+//                          // either 50  5000  50000 or 500000 depending on index
+//                          // skipList[0] mod(50), skipList[1] mod(5000), etc
+//
+//        // reserved for future use
+//        union switch (LedgerVersion v)
+//        {
+//        case EMPTY_VERSION:
+//            void;
+//        }
+//        ext;
+//    };
+//
+type LedgerHeader struct {
+	LedgerVersion      Uint32          `json:"ledgerVersion,omitempty"`
+	PreviousLedgerHash Hash            `json:"previousLedgerHash,omitempty"`
+	ScpValue           StellarValue    `json:"scpValue,omitempty"`
+	TxSetResultHash    Hash            `json:"txSetResultHash,omitempty"`
+	BucketListHash     Hash            `json:"bucketListHash,omitempty"`
+	LedgerSeq          Uint32          `json:"ledgerSeq,omitempty"`
+	IdGenerators       []IdGenerator   `json:"idGenerators,omitempty"`
+	BaseFee            Uint32          `json:"baseFee,omitempty"`
+	BaseReserve        Uint32          `json:"baseReserve,omitempty"`
+	MaxTxSetSize       Uint32          `json:"maxTxSetSize,omitempty"`
+	TxExpirationPeriod Int64           `json:"txExpirationPeriod,omitempty"`
+	SkipList           [4]Hash         `json:"skipList,omitempty"`
+	Ext                LedgerHeaderExt `json:"ext,omitempty"`
+}
+
+// LedgerUpgradeType is an XDR Enum defines as:
+//
+//   enum LedgerUpgradeType
+//    {
+//        VERSION = 1,
+//        MAX_TX_SET_SIZE = 2,
+//        TX_EXPIRATION_PERIOD = 3
+//    };
+//
+type LedgerUpgradeType int32
+
+const (
+	LedgerUpgradeTypeVersion            LedgerUpgradeType = 1
+	LedgerUpgradeTypeMaxTxSetSize       LedgerUpgradeType = 2
+	LedgerUpgradeTypeTxExpirationPeriod LedgerUpgradeType = 3
+)
+
+var LedgerUpgradeTypeAll = []LedgerUpgradeType{
+	LedgerUpgradeTypeVersion,
+	LedgerUpgradeTypeMaxTxSetSize,
+	LedgerUpgradeTypeTxExpirationPeriod,
+}
+
+var ledgerUpgradeTypeMap = map[int32]string{
+	1: "LedgerUpgradeTypeVersion",
+	2: "LedgerUpgradeTypeMaxTxSetSize",
+	3: "LedgerUpgradeTypeTxExpirationPeriod",
+}
+
+var ledgerUpgradeTypeShortMap = map[int32]string{
+	1: "version",
+	2: "max_tx_set_size",
+	3: "tx_expiration_period",
+}
+
+var ledgerUpgradeTypeRevMap = map[string]int32{
+	"LedgerUpgradeTypeVersion":            1,
+	"LedgerUpgradeTypeMaxTxSetSize":       2,
+	"LedgerUpgradeTypeTxExpirationPeriod": 3,
+}
+
+// ValidEnum validates a proposed value for this enum.  Implements
+// the Enum interface for LedgerUpgradeType
+func (e LedgerUpgradeType) ValidEnum(v int32) bool {
+	_, ok := ledgerUpgradeTypeMap[v]
+	return ok
+}
+func (e LedgerUpgradeType) isFlag() bool {
+	for i := len(LedgerUpgradeTypeAll) - 1; i >= 0; i-- {
+		expected := LedgerUpgradeType(2) << uint64(len(LedgerUpgradeTypeAll)-1) >> uint64(len(LedgerUpgradeTypeAll)-i)
+		if expected != LedgerUpgradeTypeAll[i] {
+			return false
+		}
+	}
+	return true
+}
+
+// String returns the name of `e`
+func (e LedgerUpgradeType) String() string {
+	name, _ := ledgerUpgradeTypeMap[int32(e)]
+	return name
+}
+
+func (e LedgerUpgradeType) ShortString() string {
+	name, _ := ledgerUpgradeTypeShortMap[int32(e)]
+	return name
+}
+
+func (e LedgerUpgradeType) MarshalJSON() ([]byte, error) {
+	if e.isFlag() {
+		// marshal as mask
+		result := flag{
+			Value: int32(e),
+			Flags: make([]flagValue, 0),
+		}
+		for _, value := range LedgerUpgradeTypeAll {
+			if (value & e) == value {
+				result.Flags = append(result.Flags, flagValue{
+					Value: int32(value),
+					Name:  value.ShortString(),
+				})
+			}
+		}
+		return json.Marshal(&result)
+	} else {
+		// marshal as enum
+		result := enum{
+			Value:  int32(e),
+			String: e.ShortString(),
+		}
+		return json.Marshal(&result)
+	}
+}
+
+func (e *LedgerUpgradeType) UnmarshalJSON(data []byte) error {
+	var t value
+	if err := json.Unmarshal(data, &t); err != nil {
+		return err
+	}
+	*e = LedgerUpgradeType(t.Value)
+	return nil
+}
+
+// LedgerUpgrade is an XDR Union defines as:
+//
+//   union LedgerUpgrade switch (LedgerUpgradeType type)
+//    {
+//    case VERSION:
+//        uint32 newLedgerVersion; // update ledgerVersion
+//    case MAX_TX_SET_SIZE:
+//        uint32 newMaxTxSetSize; // update maxTxSetSize
+//    case TX_EXPIRATION_PERIOD:
+//        int64 newTxExpirationPeriod;
+//    };
+//
+type LedgerUpgrade struct {
+	Type                  LedgerUpgradeType `json:"type,omitempty"`
+	NewLedgerVersion      *Uint32           `json:"newLedgerVersion,omitempty"`
+	NewMaxTxSetSize       *Uint32           `json:"newMaxTxSetSize,omitempty"`
+	NewTxExpirationPeriod *Int64            `json:"newTxExpirationPeriod,omitempty"`
+}
+
+// SwitchFieldName returns the field name in which this union's
+// discriminant is stored
+func (u LedgerUpgrade) SwitchFieldName() string {
+	return "Type"
+}
+
+// ArmForSwitch returns which field name should be used for storing
+// the value for an instance of LedgerUpgrade
+func (u LedgerUpgrade) ArmForSwitch(sw int32) (string, bool) {
+	switch LedgerUpgradeType(sw) {
+	case LedgerUpgradeTypeVersion:
+		return "NewLedgerVersion", true
+	case LedgerUpgradeTypeMaxTxSetSize:
+		return "NewMaxTxSetSize", true
+	case LedgerUpgradeTypeTxExpirationPeriod:
+		return "NewTxExpirationPeriod", true
+	}
+	return "-", false
+}
+
+// NewLedgerUpgrade creates a new  LedgerUpgrade.
+func NewLedgerUpgrade(aType LedgerUpgradeType, value interface{}) (result LedgerUpgrade, err error) {
+	result.Type = aType
+	switch LedgerUpgradeType(aType) {
+	case LedgerUpgradeTypeVersion:
+		tv, ok := value.(Uint32)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be Uint32")
+			return
+		}
+		result.NewLedgerVersion = &tv
+	case LedgerUpgradeTypeMaxTxSetSize:
+		tv, ok := value.(Uint32)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be Uint32")
+			return
+		}
+		result.NewMaxTxSetSize = &tv
+	case LedgerUpgradeTypeTxExpirationPeriod:
+		tv, ok := value.(Int64)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be Int64")
+			return
+		}
+		result.NewTxExpirationPeriod = &tv
+	}
+	return
+}
+
+// MustNewLedgerVersion retrieves the NewLedgerVersion value from the union,
+// panicing if the value is not set.
+func (u LedgerUpgrade) MustNewLedgerVersion() Uint32 {
+	val, ok := u.GetNewLedgerVersion()
+
+	if !ok {
+		panic("arm NewLedgerVersion is not set")
+	}
+
+	return val
+}
+
+// GetNewLedgerVersion retrieves the NewLedgerVersion value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u LedgerUpgrade) GetNewLedgerVersion() (result Uint32, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.Type))
+
+	if armName == "NewLedgerVersion" {
+		result = *u.NewLedgerVersion
+		ok = true
+	}
+
+	return
+}
+
+// MustNewMaxTxSetSize retrieves the NewMaxTxSetSize value from the union,
+// panicing if the value is not set.
+func (u LedgerUpgrade) MustNewMaxTxSetSize() Uint32 {
+	val, ok := u.GetNewMaxTxSetSize()
+
+	if !ok {
+		panic("arm NewMaxTxSetSize is not set")
+	}
+
+	return val
+}
+
+// GetNewMaxTxSetSize retrieves the NewMaxTxSetSize value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u LedgerUpgrade) GetNewMaxTxSetSize() (result Uint32, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.Type))
+
+	if armName == "NewMaxTxSetSize" {
+		result = *u.NewMaxTxSetSize
+		ok = true
+	}
+
+	return
+}
+
+// MustNewTxExpirationPeriod retrieves the NewTxExpirationPeriod value from the union,
+// panicing if the value is not set.
+func (u LedgerUpgrade) MustNewTxExpirationPeriod() Int64 {
+	val, ok := u.GetNewTxExpirationPeriod()
+
+	if !ok {
+		panic("arm NewTxExpirationPeriod is not set")
+	}
+
+	return val
+}
+
+// GetNewTxExpirationPeriod retrieves the NewTxExpirationPeriod value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u LedgerUpgrade) GetNewTxExpirationPeriod() (result Int64, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.Type))
+
+	if armName == "NewTxExpirationPeriod" {
+		result = *u.NewTxExpirationPeriod
+		ok = true
+	}
+
+	return
+}
+
 // BucketEntryType is an XDR Enum defines as:
 //
 //   enum BucketEntryType
@@ -10085,6 +10338,7 @@ func (e BucketEntryType) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range BucketEntryTypeAll {
 			if (value & e) == value {
@@ -10612,6 +10866,7 @@ func (e LedgerEntryChangeType) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range LedgerEntryChangeTypeAll {
 			if (value & e) == value {
@@ -10947,7 +11202,8 @@ func NewBindExternalSystemAccountIdOpExt(v LedgerVersion, value interface{}) (re
 
 // BindExternalSystemAccountIdOp is an XDR Struct defines as:
 //
-//   struct BindExternalSystemAccountIdOp
+//   //: BindExternalSystemAccountIdOp is used to bind a particular account to the external system account which is represented by account ID taken from the pool
+//    struct BindExternalSystemAccountIdOp
 //    {
 //        //: Type of external system to bind
 //        int32 externalSystemType;
@@ -10968,7 +11224,8 @@ type BindExternalSystemAccountIdOp struct {
 
 // BindExternalSystemAccountIdResultCode is an XDR Enum defines as:
 //
-//   enum BindExternalSystemAccountIdResultCode
+//   //: Result codes of BindExternalSystemAccountIdOp
+//    enum BindExternalSystemAccountIdResultCode
 //    {
 //        // codes considered as "success" for the operation
 //        //: Source account has been successfully bound to external system ID taken from the pool
@@ -11045,6 +11302,7 @@ func (e BindExternalSystemAccountIdResultCode) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range BindExternalSystemAccountIdResultCodeAll {
 			if (value & e) == value {
@@ -11114,7 +11372,8 @@ func NewBindExternalSystemAccountIdSuccessExt(v LedgerVersion, value interface{}
 
 // BindExternalSystemAccountIdSuccess is an XDR Struct defines as:
 //
-//   struct BindExternalSystemAccountIdSuccess
+//   //: `BindExternalSystemAccountIdSuccess` represents details of successful result of operation application
+//    struct BindExternalSystemAccountIdSuccess
 //    {
 //        //: `data` is used to pass data about account from external system ID
 //        longstring data;
@@ -11135,7 +11394,8 @@ type BindExternalSystemAccountIdSuccess struct {
 
 // BindExternalSystemAccountIdResult is an XDR Union defines as:
 //
-//   union BindExternalSystemAccountIdResult switch (BindExternalSystemAccountIdResultCode code)
+//   //: Result of operation application
+//    union BindExternalSystemAccountIdResult switch (BindExternalSystemAccountIdResultCode code)
 //    {
 //    case SUCCESS:
 //        //: `success` is used to pass useful fields after successful operation applying
@@ -11208,7 +11468,7 @@ func (u BindExternalSystemAccountIdResult) GetSuccess() (result BindExternalSyst
 	return
 }
 
-// CancelASwapBidOpExt is an XDR NestedUnion defines as:
+// CancelAtomicSwapAskOpExt is an XDR NestedUnion defines as:
 //
 //   union switch (LedgerVersion v)
 //        {
@@ -11216,19 +11476,19 @@ func (u BindExternalSystemAccountIdResult) GetSuccess() (result BindExternalSyst
 //            void;
 //        }
 //
-type CancelASwapBidOpExt struct {
+type CancelAtomicSwapAskOpExt struct {
 	V LedgerVersion `json:"v,omitempty"`
 }
 
 // SwitchFieldName returns the field name in which this union's
 // discriminant is stored
-func (u CancelASwapBidOpExt) SwitchFieldName() string {
+func (u CancelAtomicSwapAskOpExt) SwitchFieldName() string {
 	return "V"
 }
 
 // ArmForSwitch returns which field name should be used for storing
-// the value for an instance of CancelASwapBidOpExt
-func (u CancelASwapBidOpExt) ArmForSwitch(sw int32) (string, bool) {
+// the value for an instance of CancelAtomicSwapAskOpExt
+func (u CancelAtomicSwapAskOpExt) ArmForSwitch(sw int32) (string, bool) {
 	switch LedgerVersion(sw) {
 	case LedgerVersionEmptyVersion:
 		return "", true
@@ -11236,8 +11496,8 @@ func (u CancelASwapBidOpExt) ArmForSwitch(sw int32) (string, bool) {
 	return "-", false
 }
 
-// NewCancelASwapBidOpExt creates a new  CancelASwapBidOpExt.
-func NewCancelASwapBidOpExt(v LedgerVersion, value interface{}) (result CancelASwapBidOpExt, err error) {
+// NewCancelAtomicSwapAskOpExt creates a new  CancelAtomicSwapAskOpExt.
+func NewCancelAtomicSwapAskOpExt(v LedgerVersion, value interface{}) (result CancelAtomicSwapAskOpExt, err error) {
 	result.V = v
 	switch LedgerVersion(v) {
 	case LedgerVersionEmptyVersion:
@@ -11246,13 +11506,15 @@ func NewCancelASwapBidOpExt(v LedgerVersion, value interface{}) (result CancelAS
 	return
 }
 
-// CancelASwapBidOp is an XDR Struct defines as:
+// CancelAtomicSwapAskOp is an XDR Struct defines as:
 //
-//   struct CancelASwapBidOp
+//   //: CancelAtomicSwapAskOp is used to cancel existing atomic swap ask
+//    struct CancelAtomicSwapAskOp
 //    {
-//        uint64 bidID;
+//        //: id of existing atomic swap ask
+//        uint64 askID;
 //
-//        // reserved for future use
+//        //: reserved for future use
 //        union switch (LedgerVersion v)
 //        {
 //        case EMPTY_VERSION:
@@ -11260,65 +11522,68 @@ func NewCancelASwapBidOpExt(v LedgerVersion, value interface{}) (result CancelAS
 //        } ext;
 //    };
 //
-type CancelASwapBidOp struct {
-	BidId Uint64              `json:"bidID,omitempty"`
-	Ext   CancelASwapBidOpExt `json:"ext,omitempty"`
+type CancelAtomicSwapAskOp struct {
+	AskId Uint64                   `json:"askID,omitempty"`
+	Ext   CancelAtomicSwapAskOpExt `json:"ext,omitempty"`
 }
 
-// CancelASwapBidResultCode is an XDR Enum defines as:
+// CancelAtomicSwapAskResultCode is an XDR Enum defines as:
 //
-//   enum CancelASwapBidResultCode
+//   //: Result codes of CancelAtomicSwapAskOp
+//    enum CancelAtomicSwapAskResultCode
 //    {
-//        // codes considered as "success" for the operation
+//        //: Atomic swap ask was successfully removed or marked as canceled
 //        SUCCESS = 0,
 //
 //        // codes considered as "failure" for the operation
+//        //: There is no atomic swap ask with such id
 //        NOT_FOUND = -1, // atomic swap bid does not exist
-//        ALREADY_CANCELLED = -2 // atomic swap bid already cancelled
+//        //: Not allowed to mark canceled atomic swap ask as canceled
+//        ALREADY_CANCELLED = -2 // atomic swap ask already cancelled
 //    };
 //
-type CancelASwapBidResultCode int32
+type CancelAtomicSwapAskResultCode int32
 
 const (
-	CancelASwapBidResultCodeSuccess          CancelASwapBidResultCode = 0
-	CancelASwapBidResultCodeNotFound         CancelASwapBidResultCode = -1
-	CancelASwapBidResultCodeAlreadyCancelled CancelASwapBidResultCode = -2
+	CancelAtomicSwapAskResultCodeSuccess          CancelAtomicSwapAskResultCode = 0
+	CancelAtomicSwapAskResultCodeNotFound         CancelAtomicSwapAskResultCode = -1
+	CancelAtomicSwapAskResultCodeAlreadyCancelled CancelAtomicSwapAskResultCode = -2
 )
 
-var CancelASwapBidResultCodeAll = []CancelASwapBidResultCode{
-	CancelASwapBidResultCodeSuccess,
-	CancelASwapBidResultCodeNotFound,
-	CancelASwapBidResultCodeAlreadyCancelled,
+var CancelAtomicSwapAskResultCodeAll = []CancelAtomicSwapAskResultCode{
+	CancelAtomicSwapAskResultCodeSuccess,
+	CancelAtomicSwapAskResultCodeNotFound,
+	CancelAtomicSwapAskResultCodeAlreadyCancelled,
 }
 
-var cancelASwapBidResultCodeMap = map[int32]string{
-	0:  "CancelASwapBidResultCodeSuccess",
-	-1: "CancelASwapBidResultCodeNotFound",
-	-2: "CancelASwapBidResultCodeAlreadyCancelled",
+var cancelAtomicSwapAskResultCodeMap = map[int32]string{
+	0:  "CancelAtomicSwapAskResultCodeSuccess",
+	-1: "CancelAtomicSwapAskResultCodeNotFound",
+	-2: "CancelAtomicSwapAskResultCodeAlreadyCancelled",
 }
 
-var cancelASwapBidResultCodeShortMap = map[int32]string{
+var cancelAtomicSwapAskResultCodeShortMap = map[int32]string{
 	0:  "success",
 	-1: "not_found",
 	-2: "already_cancelled",
 }
 
-var cancelASwapBidResultCodeRevMap = map[string]int32{
-	"CancelASwapBidResultCodeSuccess":          0,
-	"CancelASwapBidResultCodeNotFound":         -1,
-	"CancelASwapBidResultCodeAlreadyCancelled": -2,
+var cancelAtomicSwapAskResultCodeRevMap = map[string]int32{
+	"CancelAtomicSwapAskResultCodeSuccess":          0,
+	"CancelAtomicSwapAskResultCodeNotFound":         -1,
+	"CancelAtomicSwapAskResultCodeAlreadyCancelled": -2,
 }
 
 // ValidEnum validates a proposed value for this enum.  Implements
-// the Enum interface for CancelASwapBidResultCode
-func (e CancelASwapBidResultCode) ValidEnum(v int32) bool {
-	_, ok := cancelASwapBidResultCodeMap[v]
+// the Enum interface for CancelAtomicSwapAskResultCode
+func (e CancelAtomicSwapAskResultCode) ValidEnum(v int32) bool {
+	_, ok := cancelAtomicSwapAskResultCodeMap[v]
 	return ok
 }
-func (e CancelASwapBidResultCode) isFlag() bool {
-	for i := len(CancelASwapBidResultCodeAll) - 1; i >= 0; i-- {
-		expected := CancelASwapBidResultCode(2) << uint64(len(CancelASwapBidResultCodeAll)-1) >> uint64(len(CancelASwapBidResultCodeAll)-i)
-		if expected != CancelASwapBidResultCodeAll[i] {
+func (e CancelAtomicSwapAskResultCode) isFlag() bool {
+	for i := len(CancelAtomicSwapAskResultCodeAll) - 1; i >= 0; i-- {
+		expected := CancelAtomicSwapAskResultCode(2) << uint64(len(CancelAtomicSwapAskResultCodeAll)-1) >> uint64(len(CancelAtomicSwapAskResultCodeAll)-i)
+		if expected != CancelAtomicSwapAskResultCodeAll[i] {
 			return false
 		}
 	}
@@ -11326,23 +11591,24 @@ func (e CancelASwapBidResultCode) isFlag() bool {
 }
 
 // String returns the name of `e`
-func (e CancelASwapBidResultCode) String() string {
-	name, _ := cancelASwapBidResultCodeMap[int32(e)]
+func (e CancelAtomicSwapAskResultCode) String() string {
+	name, _ := cancelAtomicSwapAskResultCodeMap[int32(e)]
 	return name
 }
 
-func (e CancelASwapBidResultCode) ShortString() string {
-	name, _ := cancelASwapBidResultCodeShortMap[int32(e)]
+func (e CancelAtomicSwapAskResultCode) ShortString() string {
+	name, _ := cancelAtomicSwapAskResultCodeShortMap[int32(e)]
 	return name
 }
 
-func (e CancelASwapBidResultCode) MarshalJSON() ([]byte, error) {
+func (e CancelAtomicSwapAskResultCode) MarshalJSON() ([]byte, error) {
 	if e.isFlag() {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
-		for _, value := range CancelASwapBidResultCodeAll {
+		for _, value := range CancelAtomicSwapAskResultCodeAll {
 			if (value & e) == value {
 				result.Flags = append(result.Flags, flagValue{
 					Value: int32(value),
@@ -11361,16 +11627,16 @@ func (e CancelASwapBidResultCode) MarshalJSON() ([]byte, error) {
 	}
 }
 
-func (e *CancelASwapBidResultCode) UnmarshalJSON(data []byte) error {
+func (e *CancelAtomicSwapAskResultCode) UnmarshalJSON(data []byte) error {
 	var t value
 	if err := json.Unmarshal(data, &t); err != nil {
 		return err
 	}
-	*e = CancelASwapBidResultCode(t.Value)
+	*e = CancelAtomicSwapAskResultCode(t.Value)
 	return nil
 }
 
-// CancelASwapBidResultSuccessExt is an XDR NestedUnion defines as:
+// CancelAtomicSwapAskResultSuccessExt is an XDR NestedUnion defines as:
 //
 //   union switch (LedgerVersion v)
 //        {
@@ -11378,19 +11644,19 @@ func (e *CancelASwapBidResultCode) UnmarshalJSON(data []byte) error {
 //            void;
 //        }
 //
-type CancelASwapBidResultSuccessExt struct {
+type CancelAtomicSwapAskResultSuccessExt struct {
 	V LedgerVersion `json:"v,omitempty"`
 }
 
 // SwitchFieldName returns the field name in which this union's
 // discriminant is stored
-func (u CancelASwapBidResultSuccessExt) SwitchFieldName() string {
+func (u CancelAtomicSwapAskResultSuccessExt) SwitchFieldName() string {
 	return "V"
 }
 
 // ArmForSwitch returns which field name should be used for storing
-// the value for an instance of CancelASwapBidResultSuccessExt
-func (u CancelASwapBidResultSuccessExt) ArmForSwitch(sw int32) (string, bool) {
+// the value for an instance of CancelAtomicSwapAskResultSuccessExt
+func (u CancelAtomicSwapAskResultSuccessExt) ArmForSwitch(sw int32) (string, bool) {
 	switch LedgerVersion(sw) {
 	case LedgerVersionEmptyVersion:
 		return "", true
@@ -11398,8 +11664,8 @@ func (u CancelASwapBidResultSuccessExt) ArmForSwitch(sw int32) (string, bool) {
 	return "-", false
 }
 
-// NewCancelASwapBidResultSuccessExt creates a new  CancelASwapBidResultSuccessExt.
-func NewCancelASwapBidResultSuccessExt(v LedgerVersion, value interface{}) (result CancelASwapBidResultSuccessExt, err error) {
+// NewCancelAtomicSwapAskResultSuccessExt creates a new  CancelAtomicSwapAskResultSuccessExt.
+func NewCancelAtomicSwapAskResultSuccessExt(v LedgerVersion, value interface{}) (result CancelAtomicSwapAskResultSuccessExt, err error) {
 	result.V = v
 	switch LedgerVersion(v) {
 	case LedgerVersionEmptyVersion:
@@ -11408,10 +11674,16 @@ func NewCancelASwapBidResultSuccessExt(v LedgerVersion, value interface{}) (resu
 	return
 }
 
-// CancelASwapBidResultSuccess is an XDR Struct defines as:
+// CancelAtomicSwapAskResultSuccess is an XDR Struct defines as:
 //
-//   struct CancelASwapBidResultSuccess
+//   //: Success result of CancelASwapAskOp application
+//    struct CancelAtomicSwapAskResultSuccess
 //    {
+//        //: Sum of `CREATE_ATOMIC_SWAP_BID` requests' base amounts which are waiting for applying.
+//        //: Zero means that ask successfully removed
+//        uint64 lockedAmount;
+//
+//        //: reserved for the future use
 //        union switch (LedgerVersion v)
 //        {
 //        case EMPTY_VERSION:
@@ -11419,50 +11691,53 @@ func NewCancelASwapBidResultSuccessExt(v LedgerVersion, value interface{}) (resu
 //        } ext;
 //    };
 //
-type CancelASwapBidResultSuccess struct {
-	Ext CancelASwapBidResultSuccessExt `json:"ext,omitempty"`
+type CancelAtomicSwapAskResultSuccess struct {
+	LockedAmount Uint64                              `json:"lockedAmount,omitempty"`
+	Ext          CancelAtomicSwapAskResultSuccessExt `json:"ext,omitempty"`
 }
 
-// CancelASwapBidResult is an XDR Union defines as:
+// CancelAtomicSwapAskResult is an XDR Union defines as:
 //
-//   union CancelASwapBidResult switch (CancelASwapBidResultCode code)
+//   //: Result of CancelASwapAskOp application
+//    union CancelAtomicSwapAskResult switch (CancelAtomicSwapAskResultCode code)
 //    {
 //    case SUCCESS:
-//        CancelASwapBidResultSuccess success;
+//        //: is used to pass useful fields after successful operation applying
+//        CancelAtomicSwapAskResultSuccess success;
 //    default:
 //        void;
 //    };
 //
-type CancelASwapBidResult struct {
-	Code    CancelASwapBidResultCode     `json:"code,omitempty"`
-	Success *CancelASwapBidResultSuccess `json:"success,omitempty"`
+type CancelAtomicSwapAskResult struct {
+	Code    CancelAtomicSwapAskResultCode     `json:"code,omitempty"`
+	Success *CancelAtomicSwapAskResultSuccess `json:"success,omitempty"`
 }
 
 // SwitchFieldName returns the field name in which this union's
 // discriminant is stored
-func (u CancelASwapBidResult) SwitchFieldName() string {
+func (u CancelAtomicSwapAskResult) SwitchFieldName() string {
 	return "Code"
 }
 
 // ArmForSwitch returns which field name should be used for storing
-// the value for an instance of CancelASwapBidResult
-func (u CancelASwapBidResult) ArmForSwitch(sw int32) (string, bool) {
-	switch CancelASwapBidResultCode(sw) {
-	case CancelASwapBidResultCodeSuccess:
+// the value for an instance of CancelAtomicSwapAskResult
+func (u CancelAtomicSwapAskResult) ArmForSwitch(sw int32) (string, bool) {
+	switch CancelAtomicSwapAskResultCode(sw) {
+	case CancelAtomicSwapAskResultCodeSuccess:
 		return "Success", true
 	default:
 		return "", true
 	}
 }
 
-// NewCancelASwapBidResult creates a new  CancelASwapBidResult.
-func NewCancelASwapBidResult(code CancelASwapBidResultCode, value interface{}) (result CancelASwapBidResult, err error) {
+// NewCancelAtomicSwapAskResult creates a new  CancelAtomicSwapAskResult.
+func NewCancelAtomicSwapAskResult(code CancelAtomicSwapAskResultCode, value interface{}) (result CancelAtomicSwapAskResult, err error) {
 	result.Code = code
-	switch CancelASwapBidResultCode(code) {
-	case CancelASwapBidResultCodeSuccess:
-		tv, ok := value.(CancelASwapBidResultSuccess)
+	switch CancelAtomicSwapAskResultCode(code) {
+	case CancelAtomicSwapAskResultCodeSuccess:
+		tv, ok := value.(CancelAtomicSwapAskResultSuccess)
 		if !ok {
-			err = fmt.Errorf("invalid value, must be CancelASwapBidResultSuccess")
+			err = fmt.Errorf("invalid value, must be CancelAtomicSwapAskResultSuccess")
 			return
 		}
 		result.Success = &tv
@@ -11474,7 +11749,7 @@ func NewCancelASwapBidResult(code CancelASwapBidResultCode, value interface{}) (
 
 // MustSuccess retrieves the Success value from the union,
 // panicing if the value is not set.
-func (u CancelASwapBidResult) MustSuccess() CancelASwapBidResultSuccess {
+func (u CancelAtomicSwapAskResult) MustSuccess() CancelAtomicSwapAskResultSuccess {
 	val, ok := u.GetSuccess()
 
 	if !ok {
@@ -11486,7 +11761,310 @@ func (u CancelASwapBidResult) MustSuccess() CancelASwapBidResultSuccess {
 
 // GetSuccess retrieves the Success value from the union,
 // returning ok if the union's switch indicated the value is valid.
-func (u CancelASwapBidResult) GetSuccess() (result CancelASwapBidResultSuccess, ok bool) {
+func (u CancelAtomicSwapAskResult) GetSuccess() (result CancelAtomicSwapAskResultSuccess, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.Code))
+
+	if armName == "Success" {
+		result = *u.Success
+		ok = true
+	}
+
+	return
+}
+
+// CancelChangeRoleRequestOpExt is an XDR NestedUnion defines as:
+//
+//   union switch (LedgerVersion v)
+//        {
+//        case EMPTY_VERSION:
+//            void;
+//        }
+//
+type CancelChangeRoleRequestOpExt struct {
+	V LedgerVersion `json:"v,omitempty"`
+}
+
+// SwitchFieldName returns the field name in which this union's
+// discriminant is stored
+func (u CancelChangeRoleRequestOpExt) SwitchFieldName() string {
+	return "V"
+}
+
+// ArmForSwitch returns which field name should be used for storing
+// the value for an instance of CancelChangeRoleRequestOpExt
+func (u CancelChangeRoleRequestOpExt) ArmForSwitch(sw int32) (string, bool) {
+	switch LedgerVersion(sw) {
+	case LedgerVersionEmptyVersion:
+		return "", true
+	}
+	return "-", false
+}
+
+// NewCancelChangeRoleRequestOpExt creates a new  CancelChangeRoleRequestOpExt.
+func NewCancelChangeRoleRequestOpExt(v LedgerVersion, value interface{}) (result CancelChangeRoleRequestOpExt, err error) {
+	result.V = v
+	switch LedgerVersion(v) {
+	case LedgerVersionEmptyVersion:
+		// void
+	}
+	return
+}
+
+// CancelChangeRoleRequestOp is an XDR Struct defines as:
+//
+//   //: CancelChangeRoleRequestOp is used to cancel reviwable request for changing role.
+//    //: If successful, request with the corresponding ID will be deleted
+//    struct CancelChangeRoleRequestOp
+//    {
+//        //: ID of the ChangeRoleRequest request to be canceled
+//        uint64 requestID;
+//
+//        //: Reserved for future use
+//        union switch (LedgerVersion v)
+//        {
+//        case EMPTY_VERSION:
+//            void;
+//        }
+//        ext;
+//
+//    };
+//
+type CancelChangeRoleRequestOp struct {
+	RequestId Uint64                       `json:"requestID,omitempty"`
+	Ext       CancelChangeRoleRequestOpExt `json:"ext,omitempty"`
+}
+
+// CancelChangeRoleRequestResultCode is an XDR Enum defines as:
+//
+//   //: Result codes for CancelChangeRoleRequest operation
+//    enum CancelChangeRoleRequestResultCode
+//    {
+//        // codes considered as "success" for the operation
+//        //: Operation is successfully applied
+//        SUCCESS = 0,
+//
+//        // codes considered as "failure" for the operation
+//        //: ID of a request cannot be 0
+//        REQUEST_ID_INVALID = -1, // request id can not be equal zero
+//        //: ChangeRole request with provided ID is not found
+//        REQUEST_NOT_FOUND = -2 // trying to cancel not existing reviewable request
+//    };
+//
+type CancelChangeRoleRequestResultCode int32
+
+const (
+	CancelChangeRoleRequestResultCodeSuccess          CancelChangeRoleRequestResultCode = 0
+	CancelChangeRoleRequestResultCodeRequestIdInvalid CancelChangeRoleRequestResultCode = -1
+	CancelChangeRoleRequestResultCodeRequestNotFound  CancelChangeRoleRequestResultCode = -2
+)
+
+var CancelChangeRoleRequestResultCodeAll = []CancelChangeRoleRequestResultCode{
+	CancelChangeRoleRequestResultCodeSuccess,
+	CancelChangeRoleRequestResultCodeRequestIdInvalid,
+	CancelChangeRoleRequestResultCodeRequestNotFound,
+}
+
+var cancelChangeRoleRequestResultCodeMap = map[int32]string{
+	0:  "CancelChangeRoleRequestResultCodeSuccess",
+	-1: "CancelChangeRoleRequestResultCodeRequestIdInvalid",
+	-2: "CancelChangeRoleRequestResultCodeRequestNotFound",
+}
+
+var cancelChangeRoleRequestResultCodeShortMap = map[int32]string{
+	0:  "success",
+	-1: "request_id_invalid",
+	-2: "request_not_found",
+}
+
+var cancelChangeRoleRequestResultCodeRevMap = map[string]int32{
+	"CancelChangeRoleRequestResultCodeSuccess":          0,
+	"CancelChangeRoleRequestResultCodeRequestIdInvalid": -1,
+	"CancelChangeRoleRequestResultCodeRequestNotFound":  -2,
+}
+
+// ValidEnum validates a proposed value for this enum.  Implements
+// the Enum interface for CancelChangeRoleRequestResultCode
+func (e CancelChangeRoleRequestResultCode) ValidEnum(v int32) bool {
+	_, ok := cancelChangeRoleRequestResultCodeMap[v]
+	return ok
+}
+func (e CancelChangeRoleRequestResultCode) isFlag() bool {
+	for i := len(CancelChangeRoleRequestResultCodeAll) - 1; i >= 0; i-- {
+		expected := CancelChangeRoleRequestResultCode(2) << uint64(len(CancelChangeRoleRequestResultCodeAll)-1) >> uint64(len(CancelChangeRoleRequestResultCodeAll)-i)
+		if expected != CancelChangeRoleRequestResultCodeAll[i] {
+			return false
+		}
+	}
+	return true
+}
+
+// String returns the name of `e`
+func (e CancelChangeRoleRequestResultCode) String() string {
+	name, _ := cancelChangeRoleRequestResultCodeMap[int32(e)]
+	return name
+}
+
+func (e CancelChangeRoleRequestResultCode) ShortString() string {
+	name, _ := cancelChangeRoleRequestResultCodeShortMap[int32(e)]
+	return name
+}
+
+func (e CancelChangeRoleRequestResultCode) MarshalJSON() ([]byte, error) {
+	if e.isFlag() {
+		// marshal as mask
+		result := flag{
+			Value: int32(e),
+			Flags: make([]flagValue, 0),
+		}
+		for _, value := range CancelChangeRoleRequestResultCodeAll {
+			if (value & e) == value {
+				result.Flags = append(result.Flags, flagValue{
+					Value: int32(value),
+					Name:  value.ShortString(),
+				})
+			}
+		}
+		return json.Marshal(&result)
+	} else {
+		// marshal as enum
+		result := enum{
+			Value:  int32(e),
+			String: e.ShortString(),
+		}
+		return json.Marshal(&result)
+	}
+}
+
+func (e *CancelChangeRoleRequestResultCode) UnmarshalJSON(data []byte) error {
+	var t value
+	if err := json.Unmarshal(data, &t); err != nil {
+		return err
+	}
+	*e = CancelChangeRoleRequestResultCode(t.Value)
+	return nil
+}
+
+// CancelChangeRoleSuccessExt is an XDR NestedUnion defines as:
+//
+//   union switch (LedgerVersion v)
+//        {
+//        case EMPTY_VERSION:
+//            void;
+//        }
+//
+type CancelChangeRoleSuccessExt struct {
+	V LedgerVersion `json:"v,omitempty"`
+}
+
+// SwitchFieldName returns the field name in which this union's
+// discriminant is stored
+func (u CancelChangeRoleSuccessExt) SwitchFieldName() string {
+	return "V"
+}
+
+// ArmForSwitch returns which field name should be used for storing
+// the value for an instance of CancelChangeRoleSuccessExt
+func (u CancelChangeRoleSuccessExt) ArmForSwitch(sw int32) (string, bool) {
+	switch LedgerVersion(sw) {
+	case LedgerVersionEmptyVersion:
+		return "", true
+	}
+	return "-", false
+}
+
+// NewCancelChangeRoleSuccessExt creates a new  CancelChangeRoleSuccessExt.
+func NewCancelChangeRoleSuccessExt(v LedgerVersion, value interface{}) (result CancelChangeRoleSuccessExt, err error) {
+	result.V = v
+	switch LedgerVersion(v) {
+	case LedgerVersionEmptyVersion:
+		// void
+	}
+	return
+}
+
+// CancelChangeRoleSuccess is an XDR Struct defines as:
+//
+//   //: Result of successful `CancelChangeRoleRequestOp` application
+//    struct CancelChangeRoleSuccess {
+//
+//        //: Reserved for future use
+//        union switch (LedgerVersion v)
+//        {
+//        case EMPTY_VERSION:
+//            void;
+//        }
+//        ext;
+//    };
+//
+type CancelChangeRoleSuccess struct {
+	Ext CancelChangeRoleSuccessExt `json:"ext,omitempty"`
+}
+
+// CancelChangeRoleRequestResult is an XDR Union defines as:
+//
+//   //: Result of CancelChangeRoleRequest operation application along with the result code
+//    union CancelChangeRoleRequestResult switch (CancelChangeRoleRequestResultCode code)
+//    {
+//        case SUCCESS:
+//            CancelSaleCreationSuccess success;
+//        default:
+//            void;
+//    };
+//
+type CancelChangeRoleRequestResult struct {
+	Code    CancelChangeRoleRequestResultCode `json:"code,omitempty"`
+	Success *CancelSaleCreationSuccess        `json:"success,omitempty"`
+}
+
+// SwitchFieldName returns the field name in which this union's
+// discriminant is stored
+func (u CancelChangeRoleRequestResult) SwitchFieldName() string {
+	return "Code"
+}
+
+// ArmForSwitch returns which field name should be used for storing
+// the value for an instance of CancelChangeRoleRequestResult
+func (u CancelChangeRoleRequestResult) ArmForSwitch(sw int32) (string, bool) {
+	switch CancelChangeRoleRequestResultCode(sw) {
+	case CancelChangeRoleRequestResultCodeSuccess:
+		return "Success", true
+	default:
+		return "", true
+	}
+}
+
+// NewCancelChangeRoleRequestResult creates a new  CancelChangeRoleRequestResult.
+func NewCancelChangeRoleRequestResult(code CancelChangeRoleRequestResultCode, value interface{}) (result CancelChangeRoleRequestResult, err error) {
+	result.Code = code
+	switch CancelChangeRoleRequestResultCode(code) {
+	case CancelChangeRoleRequestResultCodeSuccess:
+		tv, ok := value.(CancelSaleCreationSuccess)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be CancelSaleCreationSuccess")
+			return
+		}
+		result.Success = &tv
+	default:
+		// void
+	}
+	return
+}
+
+// MustSuccess retrieves the Success value from the union,
+// panicing if the value is not set.
+func (u CancelChangeRoleRequestResult) MustSuccess() CancelSaleCreationSuccess {
+	val, ok := u.GetSuccess()
+
+	if !ok {
+		panic("arm Success is not set")
+	}
+
+	return val
+}
+
+// GetSuccess retrieves the Success value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u CancelChangeRoleRequestResult) GetSuccess() (result CancelSaleCreationSuccess, ok bool) {
 	armName, _ := u.ArmForSwitch(int32(u.Code))
 
 	if armName == "Success" {
@@ -11537,7 +12115,10 @@ func NewCancelSaleCreationRequestOpExt(v LedgerVersion, value interface{}) (resu
 
 // CancelSaleCreationRequestOp is an XDR Struct defines as:
 //
-//   struct CancelSaleCreationRequestOp
+//   //: CancelSaleCreationRequest operation is used to cancel sale creation request.
+//    //: If successful, request with the corresponding ID will be deleted
+//    //: SaleCreationRequest with provided ID
+//    struct CancelSaleCreationRequestOp
 //    {
 //        //: ID of the SaleCreation request to be canceled
 //        uint64 requestID;
@@ -11559,7 +12140,8 @@ type CancelSaleCreationRequestOp struct {
 
 // CancelSaleCreationRequestResultCode is an XDR Enum defines as:
 //
-//   enum CancelSaleCreationRequestResultCode
+//   //: Result codes for CancelSaleCreationRequest operation
+//    enum CancelSaleCreationRequestResultCode
 //    {
 //        // codes considered as "success" for the operation
 //        //: Operation is successfully applied
@@ -11636,6 +12218,7 @@ func (e CancelSaleCreationRequestResultCode) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range CancelSaleCreationRequestResultCodeAll {
 			if (value & e) == value {
@@ -11705,7 +12288,8 @@ func NewCancelSaleCreationSuccessExt(v LedgerVersion, value interface{}) (result
 
 // CancelSaleCreationSuccess is an XDR Struct defines as:
 //
-//   struct CancelSaleCreationSuccess {
+//   //: Result of successful `CancelSaleCreationRequestOp` application
+//    struct CancelSaleCreationSuccess {
 //
 //        //: Reserved for future use
 //        union switch (LedgerVersion v)
@@ -11722,7 +12306,8 @@ type CancelSaleCreationSuccess struct {
 
 // CancelSaleCreationRequestResult is an XDR Union defines as:
 //
-//   union CancelSaleCreationRequestResult switch (CancelSaleCreationRequestResultCode code)
+//   //: Result of CancelSaleCreationRequest operation application along with the result code
+//    union CancelSaleCreationRequestResult switch (CancelSaleCreationRequestResultCode code)
 //    {
 //        case SUCCESS:
 //            CancelSaleCreationSuccess success;
@@ -11834,7 +12419,8 @@ func NewCheckSaleStateOpExt(v LedgerVersion, value interface{}) (result CheckSal
 
 // CheckSaleStateOp is an XDR Struct defines as:
 //
-//   struct CheckSaleStateOp
+//   //: CheckSaleState operation is used to perform check on sale state - whether the sale was successful or not
+//    struct CheckSaleStateOp
 //    {
 //        //:ID of the sale to check
 //        uint64 saleID;
@@ -11854,7 +12440,8 @@ type CheckSaleStateOp struct {
 
 // CheckSaleStateResultCode is an XDR Enum defines as:
 //
-//   enum CheckSaleStateResultCode
+//   //: Result codes of CheckSaleState operation
+//    enum CheckSaleStateResultCode
 //    {
 //        // codes considered as "success" for the operation
 //        //: CheckSaleState operation was successfully applied
@@ -11931,6 +12518,7 @@ func (e CheckSaleStateResultCode) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range CheckSaleStateResultCodeAll {
 			if (value & e) == value {
@@ -11962,7 +12550,8 @@ func (e *CheckSaleStateResultCode) UnmarshalJSON(data []byte) error {
 
 // CheckSaleStateEffect is an XDR Enum defines as:
 //
-//   enum CheckSaleStateEffect {
+//   //: Effect of performed check sale state operation
+//    enum CheckSaleStateEffect {
 //        //: Sale hasn't reached the soft cap before end time
 //        CANCELED = 1,
 //        //: Sale has either reached the soft cap and ended or reached hard cap
@@ -12035,6 +12624,7 @@ func (e CheckSaleStateEffect) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range CheckSaleStateEffectAll {
 			if (value & e) == value {
@@ -12104,7 +12694,8 @@ func NewSaleCanceledExt(v LedgerVersion, value interface{}) (result SaleCanceled
 
 // SaleCanceled is an XDR Struct defines as:
 //
-//   struct SaleCanceled {
+//   //: Entry for additional information regarding sale cancel
+//    struct SaleCanceled {
 //        //: Reserved for future use
 //        union switch (LedgerVersion v)
 //        {
@@ -12158,7 +12749,8 @@ func NewSaleUpdatedExt(v LedgerVersion, value interface{}) (result SaleUpdatedEx
 
 // SaleUpdated is an XDR Struct defines as:
 //
-//   struct SaleUpdated {
+//   //: Entry for additional information regarding sale update
+//    struct SaleUpdated {
 //        //: Reserved for future use
 //        union switch (LedgerVersion v)
 //        {
@@ -12212,7 +12804,8 @@ func NewCheckSubSaleClosedResultExt(v LedgerVersion, value interface{}) (result 
 
 // CheckSubSaleClosedResult is an XDR Struct defines as:
 //
-//   struct CheckSubSaleClosedResult {
+//   //: Entry for additional information regarding sub sale closing
+//    struct CheckSubSaleClosedResult {
 //        //: Balance in base asset of the closed sale
 //        BalanceID saleBaseBalance;
 //        //: Balance in one of the quote assets of the closed sale
@@ -12275,7 +12868,8 @@ func NewCheckSaleClosedResultExt(v LedgerVersion, value interface{}) (result Che
 
 // CheckSaleClosedResult is an XDR Struct defines as:
 //
-//   struct CheckSaleClosedResult {
+//   //: Entry for additional information regarding sale closing
+//    struct CheckSaleClosedResult {
 //        //: AccountID of the sale owner
 //        AccountID saleOwner;
 //        //: Array of individual's contribution details
@@ -12478,7 +13072,8 @@ func NewCheckSaleStateSuccessExt(v LedgerVersion, value interface{}) (result Che
 
 // CheckSaleStateSuccess is an XDR Struct defines as:
 //
-//   struct CheckSaleStateSuccess
+//   //: Result of the successful application of CheckSaleState operation
+//    struct CheckSaleStateSuccess
 //    {
 //        //: ID of the sale being checked
 //        uint64 saleID;
@@ -12510,7 +13105,8 @@ type CheckSaleStateSuccess struct {
 
 // CheckSaleStateResult is an XDR Union defines as:
 //
-//   union CheckSaleStateResult switch (CheckSaleStateResultCode code)
+//   //: Result of the CheckSaleState operation along with the result code
+//    union CheckSaleStateResult switch (CheckSaleStateResultCode code)
 //    {
 //    case SUCCESS:
 //        CheckSaleStateSuccess success;
@@ -12622,7 +13218,9 @@ func NewCreateAmlAlertRequestOpExt(v LedgerVersion, value interface{}) (result C
 
 // CreateAmlAlertRequestOp is an XDR Struct defines as:
 //
-//   struct CreateAMLAlertRequestOp
+//   //: CreateAMLAlertRequest operation creates a reviewable request
+//    //: that will void the specified amount from target balance after the reviewer's approval
+//    struct CreateAMLAlertRequestOp
 //    {
 //        //: Reference of AMLAlertRequest
 //        string64 reference; // TODO longstring ?
@@ -12651,85 +13249,128 @@ type CreateAmlAlertRequestOp struct {
 
 // CreateAmlAlertRequestResultCode is an XDR Enum defines as:
 //
-//   enum CreateAMLAlertRequestResultCode
+//   //: Result codes for CreateAMLAlert operation
+//    enum CreateAMLAlertRequestResultCode
 //    {
 //        // codes considered as "success" for the operation
 //        //: Operation has been successfully performed
 //        SUCCESS = 0,
-//        //: Balance with provided balance ID does not exist
-//        BALANCE_NOT_EXIST = 1, // balance doesn't exist
-//        //: Creator details are not in a valid JSON format
-//        INVALID_CREATOR_DETAILS = 2, //invalid reason for request
-//        //: Specified amount is greater than the amount on the balance
-//        UNDERFUNDED = 3, //when couldn't lock balance
-//        //: AML Alert request with the same reference already exists
-//        REFERENCE_DUPLICATION = 4, // reference already exists
-//        //: Amount must be positive
-//        INVALID_AMOUNT = 5, // amount must be positive
-//        //: Amount precision and asset precision set in the system are mismatched
-//        INCORRECT_PRECISION = 6,
+//        //: DEPRECATED: Balance with provided balance ID does not exist
+//        OLD_BALANCE_NOT_EXIST = 1, // balance doesn't exist
+//        //: DEPRECATED: Creator details are not in a valid JSON format
+//        OLD_INVALID_CREATOR_DETAILS = 2, //invalid reason for request
+//        //: DEPRECATED: Specified amount is greater than the amount on the balance
+//        OLD_UNDERFUNDED = 3, //when couldn't lock balance
+//        //: DEPRECATED: AML Alert request with the same reference already exists
+//        OLD_REFERENCE_DUPLICATION = 4, // reference already exists
+//        //: DEPRECATED: Amount must be positive
+//        OLD_INVALID_AMOUNT = 5, // amount must be positive
+//        //: DEPRECATED: Amount precision and asset precision set in the system are mismatched
+//        OLD_INCORRECT_PRECISION = 6,
 //
 //        //codes considered as "failure" for the operation
 //        //: Update aml alert tasks are not set in the system, i.e. it's not allowed to perform aml alert
-//        AML_ALERT_TASKS_NOT_FOUND = -1
+//        AML_ALERT_TASKS_NOT_FOUND = -1,
+//        //: Balance with provided balance ID does not exist
+//        BALANCE_NOT_EXIST = -2, // balance doesn't exist
+//        //: Creator details are not in a valid JSON format
+//        INVALID_CREATOR_DETAILS = -3, //invalid reason for request
+//        //: Specified amount is greater than the amount on the balance
+//        UNDERFUNDED = -4, //when couldn't lock balance
+//        //: AML Alert request with the same reference already exists
+//        REFERENCE_DUPLICATION = -5, // reference already exists
+//        //: Amount must be positive
+//        INVALID_AMOUNT = -6, // amount must be positive
+//        //: Amount precision and asset precision set in the system are mismatched
+//        INCORRECT_PRECISION = -7
 //
 //    };
 //
 type CreateAmlAlertRequestResultCode int32
 
 const (
-	CreateAmlAlertRequestResultCodeSuccess               CreateAmlAlertRequestResultCode = 0
-	CreateAmlAlertRequestResultCodeBalanceNotExist       CreateAmlAlertRequestResultCode = 1
-	CreateAmlAlertRequestResultCodeInvalidCreatorDetails CreateAmlAlertRequestResultCode = 2
-	CreateAmlAlertRequestResultCodeUnderfunded           CreateAmlAlertRequestResultCode = 3
-	CreateAmlAlertRequestResultCodeReferenceDuplication  CreateAmlAlertRequestResultCode = 4
-	CreateAmlAlertRequestResultCodeInvalidAmount         CreateAmlAlertRequestResultCode = 5
-	CreateAmlAlertRequestResultCodeIncorrectPrecision    CreateAmlAlertRequestResultCode = 6
-	CreateAmlAlertRequestResultCodeAmlAlertTasksNotFound CreateAmlAlertRequestResultCode = -1
+	CreateAmlAlertRequestResultCodeSuccess                  CreateAmlAlertRequestResultCode = 0
+	CreateAmlAlertRequestResultCodeOldBalanceNotExist       CreateAmlAlertRequestResultCode = 1
+	CreateAmlAlertRequestResultCodeOldInvalidCreatorDetails CreateAmlAlertRequestResultCode = 2
+	CreateAmlAlertRequestResultCodeOldUnderfunded           CreateAmlAlertRequestResultCode = 3
+	CreateAmlAlertRequestResultCodeOldReferenceDuplication  CreateAmlAlertRequestResultCode = 4
+	CreateAmlAlertRequestResultCodeOldInvalidAmount         CreateAmlAlertRequestResultCode = 5
+	CreateAmlAlertRequestResultCodeOldIncorrectPrecision    CreateAmlAlertRequestResultCode = 6
+	CreateAmlAlertRequestResultCodeAmlAlertTasksNotFound    CreateAmlAlertRequestResultCode = -1
+	CreateAmlAlertRequestResultCodeBalanceNotExist          CreateAmlAlertRequestResultCode = -2
+	CreateAmlAlertRequestResultCodeInvalidCreatorDetails    CreateAmlAlertRequestResultCode = -3
+	CreateAmlAlertRequestResultCodeUnderfunded              CreateAmlAlertRequestResultCode = -4
+	CreateAmlAlertRequestResultCodeReferenceDuplication     CreateAmlAlertRequestResultCode = -5
+	CreateAmlAlertRequestResultCodeInvalidAmount            CreateAmlAlertRequestResultCode = -6
+	CreateAmlAlertRequestResultCodeIncorrectPrecision       CreateAmlAlertRequestResultCode = -7
 )
 
 var CreateAmlAlertRequestResultCodeAll = []CreateAmlAlertRequestResultCode{
 	CreateAmlAlertRequestResultCodeSuccess,
+	CreateAmlAlertRequestResultCodeOldBalanceNotExist,
+	CreateAmlAlertRequestResultCodeOldInvalidCreatorDetails,
+	CreateAmlAlertRequestResultCodeOldUnderfunded,
+	CreateAmlAlertRequestResultCodeOldReferenceDuplication,
+	CreateAmlAlertRequestResultCodeOldInvalidAmount,
+	CreateAmlAlertRequestResultCodeOldIncorrectPrecision,
+	CreateAmlAlertRequestResultCodeAmlAlertTasksNotFound,
 	CreateAmlAlertRequestResultCodeBalanceNotExist,
 	CreateAmlAlertRequestResultCodeInvalidCreatorDetails,
 	CreateAmlAlertRequestResultCodeUnderfunded,
 	CreateAmlAlertRequestResultCodeReferenceDuplication,
 	CreateAmlAlertRequestResultCodeInvalidAmount,
 	CreateAmlAlertRequestResultCodeIncorrectPrecision,
-	CreateAmlAlertRequestResultCodeAmlAlertTasksNotFound,
 }
 
 var createAmlAlertRequestResultCodeMap = map[int32]string{
 	0:  "CreateAmlAlertRequestResultCodeSuccess",
-	1:  "CreateAmlAlertRequestResultCodeBalanceNotExist",
-	2:  "CreateAmlAlertRequestResultCodeInvalidCreatorDetails",
-	3:  "CreateAmlAlertRequestResultCodeUnderfunded",
-	4:  "CreateAmlAlertRequestResultCodeReferenceDuplication",
-	5:  "CreateAmlAlertRequestResultCodeInvalidAmount",
-	6:  "CreateAmlAlertRequestResultCodeIncorrectPrecision",
+	1:  "CreateAmlAlertRequestResultCodeOldBalanceNotExist",
+	2:  "CreateAmlAlertRequestResultCodeOldInvalidCreatorDetails",
+	3:  "CreateAmlAlertRequestResultCodeOldUnderfunded",
+	4:  "CreateAmlAlertRequestResultCodeOldReferenceDuplication",
+	5:  "CreateAmlAlertRequestResultCodeOldInvalidAmount",
+	6:  "CreateAmlAlertRequestResultCodeOldIncorrectPrecision",
 	-1: "CreateAmlAlertRequestResultCodeAmlAlertTasksNotFound",
+	-2: "CreateAmlAlertRequestResultCodeBalanceNotExist",
+	-3: "CreateAmlAlertRequestResultCodeInvalidCreatorDetails",
+	-4: "CreateAmlAlertRequestResultCodeUnderfunded",
+	-5: "CreateAmlAlertRequestResultCodeReferenceDuplication",
+	-6: "CreateAmlAlertRequestResultCodeInvalidAmount",
+	-7: "CreateAmlAlertRequestResultCodeIncorrectPrecision",
 }
 
 var createAmlAlertRequestResultCodeShortMap = map[int32]string{
 	0:  "success",
-	1:  "balance_not_exist",
-	2:  "invalid_creator_details",
-	3:  "underfunded",
-	4:  "reference_duplication",
-	5:  "invalid_amount",
-	6:  "incorrect_precision",
+	1:  "old_balance_not_exist",
+	2:  "old_invalid_creator_details",
+	3:  "old_underfunded",
+	4:  "old_reference_duplication",
+	5:  "old_invalid_amount",
+	6:  "old_incorrect_precision",
 	-1: "aml_alert_tasks_not_found",
+	-2: "balance_not_exist",
+	-3: "invalid_creator_details",
+	-4: "underfunded",
+	-5: "reference_duplication",
+	-6: "invalid_amount",
+	-7: "incorrect_precision",
 }
 
 var createAmlAlertRequestResultCodeRevMap = map[string]int32{
-	"CreateAmlAlertRequestResultCodeSuccess":               0,
-	"CreateAmlAlertRequestResultCodeBalanceNotExist":       1,
-	"CreateAmlAlertRequestResultCodeInvalidCreatorDetails": 2,
-	"CreateAmlAlertRequestResultCodeUnderfunded":           3,
-	"CreateAmlAlertRequestResultCodeReferenceDuplication":  4,
-	"CreateAmlAlertRequestResultCodeInvalidAmount":         5,
-	"CreateAmlAlertRequestResultCodeIncorrectPrecision":    6,
-	"CreateAmlAlertRequestResultCodeAmlAlertTasksNotFound": -1,
+	"CreateAmlAlertRequestResultCodeSuccess":                  0,
+	"CreateAmlAlertRequestResultCodeOldBalanceNotExist":       1,
+	"CreateAmlAlertRequestResultCodeOldInvalidCreatorDetails": 2,
+	"CreateAmlAlertRequestResultCodeOldUnderfunded":           3,
+	"CreateAmlAlertRequestResultCodeOldReferenceDuplication":  4,
+	"CreateAmlAlertRequestResultCodeOldInvalidAmount":         5,
+	"CreateAmlAlertRequestResultCodeOldIncorrectPrecision":    6,
+	"CreateAmlAlertRequestResultCodeAmlAlertTasksNotFound":    -1,
+	"CreateAmlAlertRequestResultCodeBalanceNotExist":          -2,
+	"CreateAmlAlertRequestResultCodeInvalidCreatorDetails":    -3,
+	"CreateAmlAlertRequestResultCodeUnderfunded":              -4,
+	"CreateAmlAlertRequestResultCodeReferenceDuplication":     -5,
+	"CreateAmlAlertRequestResultCodeInvalidAmount":            -6,
+	"CreateAmlAlertRequestResultCodeIncorrectPrecision":       -7,
 }
 
 // ValidEnum validates a proposed value for this enum.  Implements
@@ -12764,6 +13405,7 @@ func (e CreateAmlAlertRequestResultCode) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range CreateAmlAlertRequestResultCodeAll {
 			if (value & e) == value {
@@ -12833,7 +13475,8 @@ func NewCreateAmlAlertRequestSuccessExt(v LedgerVersion, value interface{}) (res
 
 // CreateAmlAlertRequestSuccess is an XDR Struct defines as:
 //
-//   struct CreateAMLAlertRequestSuccess {
+//   //: Result of successful application of `CreateAMLAlertRequest` operation
+//    struct CreateAMLAlertRequestSuccess {
 //        //: ID of a newly created reviewable request
 //        uint64 requestID;
 //        //: Indicates  whether or not the AMLAlert request was auto approved and fulfilled
@@ -12855,7 +13498,8 @@ type CreateAmlAlertRequestSuccess struct {
 
 // CreateAmlAlertRequestResult is an XDR Union defines as:
 //
-//   union CreateAMLAlertRequestResult switch (CreateAMLAlertRequestResultCode code)
+//   //: Result of `CreateAMLAlertRequest` operation application along with the result code
+//    union CreateAMLAlertRequestResult switch (CreateAMLAlertRequestResultCode code)
 //    {
 //        case SUCCESS:
 //            CreateAMLAlertRequestSuccess success;
@@ -12967,7 +13611,8 @@ func NewCreateAccountOpExt(v LedgerVersion, value interface{}) (result CreateAcc
 
 // CreateAccountOp is an XDR Struct defines as:
 //
-//   struct CreateAccountOp
+//   //: CreateAccountOp is used to create new account
+//    struct CreateAccountOp
 //    {
 //        //: ID of account to be created
 //        AccountID destination;
@@ -12999,7 +13644,8 @@ type CreateAccountOp struct {
 
 // CreateAccountResultCode is an XDR Enum defines as:
 //
-//   enum CreateAccountResultCode
+//   //: Result codes of CreateAccountOp
+//    enum CreateAccountResultCode
 //    {
 //        //: Means that `destination` account has been successfully created with signers specified in `signersData`
 //        SUCCESS = 0,
@@ -13104,6 +13750,7 @@ func (e CreateAccountResultCode) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range CreateAccountResultCodeAll {
 			if (value & e) == value {
@@ -13173,7 +13820,8 @@ func NewCreateAccountSuccessExt(v LedgerVersion, value interface{}) (result Crea
 
 // CreateAccountSuccess is an XDR Struct defines as:
 //
-//   struct CreateAccountSuccess
+//   //: Result of successful application of `CreateAccount` operation
+//    struct CreateAccountSuccess
 //    {
 //        //: Unique unsigned integer identifier of the new account
 //        uint64 sequentialID;
@@ -13194,7 +13842,8 @@ type CreateAccountSuccess struct {
 
 // CreateAccountResult is an XDR Union defines as:
 //
-//   union CreateAccountResult switch (CreateAccountResultCode code)
+//   //: Result of operation application
+//    union CreateAccountResult switch (CreateAccountResultCode code)
 //    {
 //    case SUCCESS:
 //        CreateAccountSuccess success;
@@ -13304,7 +13953,7 @@ func (u CreateAccountResult) GetCreateSignerErrorCode() (result ManageSignerResu
 	return
 }
 
-// CreateASwapBidCreationRequestOpExt is an XDR NestedUnion defines as:
+// CreateAtomicSwapAskRequestOpExt is an XDR NestedUnion defines as:
 //
 //   union switch (LedgerVersion v)
 //        {
@@ -13312,19 +13961,19 @@ func (u CreateAccountResult) GetCreateSignerErrorCode() (result ManageSignerResu
 //            void;
 //        }
 //
-type CreateASwapBidCreationRequestOpExt struct {
+type CreateAtomicSwapAskRequestOpExt struct {
 	V LedgerVersion `json:"v,omitempty"`
 }
 
 // SwitchFieldName returns the field name in which this union's
 // discriminant is stored
-func (u CreateASwapBidCreationRequestOpExt) SwitchFieldName() string {
+func (u CreateAtomicSwapAskRequestOpExt) SwitchFieldName() string {
 	return "V"
 }
 
 // ArmForSwitch returns which field name should be used for storing
-// the value for an instance of CreateASwapBidCreationRequestOpExt
-func (u CreateASwapBidCreationRequestOpExt) ArmForSwitch(sw int32) (string, bool) {
+// the value for an instance of CreateAtomicSwapAskRequestOpExt
+func (u CreateAtomicSwapAskRequestOpExt) ArmForSwitch(sw int32) (string, bool) {
 	switch LedgerVersion(sw) {
 	case LedgerVersionEmptyVersion:
 		return "", true
@@ -13332,8 +13981,8 @@ func (u CreateASwapBidCreationRequestOpExt) ArmForSwitch(sw int32) (string, bool
 	return "-", false
 }
 
-// NewCreateASwapBidCreationRequestOpExt creates a new  CreateASwapBidCreationRequestOpExt.
-func NewCreateASwapBidCreationRequestOpExt(v LedgerVersion, value interface{}) (result CreateASwapBidCreationRequestOpExt, err error) {
+// NewCreateAtomicSwapAskRequestOpExt creates a new  CreateAtomicSwapAskRequestOpExt.
+func NewCreateAtomicSwapAskRequestOpExt(v LedgerVersion, value interface{}) (result CreateAtomicSwapAskRequestOpExt, err error) {
 	result.V = v
 	switch LedgerVersion(v) {
 	case LedgerVersionEmptyVersion:
@@ -13342,12 +13991,18 @@ func NewCreateASwapBidCreationRequestOpExt(v LedgerVersion, value interface{}) (
 	return
 }
 
-// CreateASwapBidCreationRequestOp is an XDR Struct defines as:
+// CreateAtomicSwapAskRequestOp is an XDR Struct defines as:
 //
-//   struct CreateASwapBidCreationRequestOp
+//   //: CreateAtomicSwapAskRequestOp is used to create `CREATE_ATOMIC_SWAP_ASK` request
+//    struct CreateAtomicSwapAskRequestOp
 //    {
-//        ASwapBidCreationRequest request;
+//        //: Body of request which will be created
+//        CreateAtomicSwapAskRequest request;
 //
+//        //: (optional) Bit mask whose flags must be cleared in order for `CREATE_ATOMIC_SWAP_BID` request to be approved,
+//        //: which will be used instead of key-value by `atomic_swap_bid_tasks` key
+//        uint32* allTasks;
+//        //: reserved for the future use
 //        union switch (LedgerVersion v)
 //        {
 //        case EMPTY_VERSION:
@@ -13356,93 +14011,110 @@ func NewCreateASwapBidCreationRequestOpExt(v LedgerVersion, value interface{}) (
 //        ext;
 //    };
 //
-type CreateASwapBidCreationRequestOp struct {
-	Request ASwapBidCreationRequest            `json:"request,omitempty"`
-	Ext     CreateASwapBidCreationRequestOpExt `json:"ext,omitempty"`
+type CreateAtomicSwapAskRequestOp struct {
+	Request  CreateAtomicSwapAskRequest      `json:"request,omitempty"`
+	AllTasks *Uint32                         `json:"allTasks,omitempty"`
+	Ext      CreateAtomicSwapAskRequestOpExt `json:"ext,omitempty"`
 }
 
-// CreateASwapBidCreationRequestResultCode is an XDR Enum defines as:
+// CreateAtomicSwapAskRequestResultCode is an XDR Enum defines as:
 //
-//   enum CreateASwapBidCreationRequestResultCode
+//   //: Result codes of CreateAtomicSwapBidRequestOp
+//    enum CreateAtomicSwapAskRequestResultCode
 //    {
-//        // codes considered as "success" for the operation
+//        //: `CREATE_ATOMIC_SWAP_BID` request has either been successfully created
+//        //: or auto approved
 //        SUCCESS = 0,
 //
 //        // codes considered as "failure" for the operation
+//        //: Not allowed to create atomic swap bid with zero amount
 //        INVALID_AMOUNT = -1, // amount is equal to 0
+//        //: Not allowed to create atomic swap bid with quote asset price equals zero
 //        INVALID_PRICE = -2, // price is equal to 0
+//        //: Not allowed to create atomic swap bid with json invalid details
 //        INVALID_DETAILS = -3,
-//        ATOMIC_SWAP_BID_OVERFLOW = -4,
+//        //: Not allowed to create atomic swap bid in which product of baseAmount precision does not matched precision of base asset
+//        INCORRECT_PRECISION = -4,
+//        //: There is no asset with such code
 //        BASE_ASSET_NOT_FOUND = -5, // base asset does not exist
+//        //: Not allowed to use asset as base asset for atomic swap bid which has not `CAN_BE_BASE_IN_ATOMIC_SWAP` policy
 //        BASE_ASSET_CANNOT_BE_SWAPPED = -6,
+//        //: There is no asset with such code
 //        QUOTE_ASSET_NOT_FOUND = -7, // quote asset does not exist
+//        //: Not allowed to use asset as base asset for atomic swap bid which has not `CAN_BE_QUOTE_IN_ATOMIC_SWAP` policy
 //        QUOTE_ASSET_CANNOT_BE_SWAPPED = -8,
+//        //: There is no balance with such id and source account as owner
 //        BASE_BALANCE_NOT_FOUND = -9,
+//        //: Not allowed to create atomic swap bid in which base and quote assets are the same
 //        ASSETS_ARE_EQUAL = -10, // base and quote assets are the same
+//        //: There is not enough amount on `baseBalance` or `baseAmount` precision does not fit asset precision
 //        BASE_BALANCE_UNDERFUNDED = -11,
+//        //: Not allowed to pass invalid or duplicated quote asset codes
 //        INVALID_QUOTE_ASSET = -12, // one of the quote assets is invalid
-//        NOT_ALLOWED_BY_ASSET_POLICY = -13
+//        //: There is no key-value entry by `atomic_swap_ask_tasks` key in the system;
+//        //: configuration does not allow create atomic swap asks
+//        ATOMIC_SWAP_ASK_TASKS_NOT_FOUND = -13
 //    };
 //
-type CreateASwapBidCreationRequestResultCode int32
+type CreateAtomicSwapAskRequestResultCode int32
 
 const (
-	CreateASwapBidCreationRequestResultCodeSuccess                   CreateASwapBidCreationRequestResultCode = 0
-	CreateASwapBidCreationRequestResultCodeInvalidAmount             CreateASwapBidCreationRequestResultCode = -1
-	CreateASwapBidCreationRequestResultCodeInvalidPrice              CreateASwapBidCreationRequestResultCode = -2
-	CreateASwapBidCreationRequestResultCodeInvalidDetails            CreateASwapBidCreationRequestResultCode = -3
-	CreateASwapBidCreationRequestResultCodeAtomicSwapBidOverflow     CreateASwapBidCreationRequestResultCode = -4
-	CreateASwapBidCreationRequestResultCodeBaseAssetNotFound         CreateASwapBidCreationRequestResultCode = -5
-	CreateASwapBidCreationRequestResultCodeBaseAssetCannotBeSwapped  CreateASwapBidCreationRequestResultCode = -6
-	CreateASwapBidCreationRequestResultCodeQuoteAssetNotFound        CreateASwapBidCreationRequestResultCode = -7
-	CreateASwapBidCreationRequestResultCodeQuoteAssetCannotBeSwapped CreateASwapBidCreationRequestResultCode = -8
-	CreateASwapBidCreationRequestResultCodeBaseBalanceNotFound       CreateASwapBidCreationRequestResultCode = -9
-	CreateASwapBidCreationRequestResultCodeAssetsAreEqual            CreateASwapBidCreationRequestResultCode = -10
-	CreateASwapBidCreationRequestResultCodeBaseBalanceUnderfunded    CreateASwapBidCreationRequestResultCode = -11
-	CreateASwapBidCreationRequestResultCodeInvalidQuoteAsset         CreateASwapBidCreationRequestResultCode = -12
-	CreateASwapBidCreationRequestResultCodeNotAllowedByAssetPolicy   CreateASwapBidCreationRequestResultCode = -13
+	CreateAtomicSwapAskRequestResultCodeSuccess                    CreateAtomicSwapAskRequestResultCode = 0
+	CreateAtomicSwapAskRequestResultCodeInvalidAmount              CreateAtomicSwapAskRequestResultCode = -1
+	CreateAtomicSwapAskRequestResultCodeInvalidPrice               CreateAtomicSwapAskRequestResultCode = -2
+	CreateAtomicSwapAskRequestResultCodeInvalidDetails             CreateAtomicSwapAskRequestResultCode = -3
+	CreateAtomicSwapAskRequestResultCodeIncorrectPrecision         CreateAtomicSwapAskRequestResultCode = -4
+	CreateAtomicSwapAskRequestResultCodeBaseAssetNotFound          CreateAtomicSwapAskRequestResultCode = -5
+	CreateAtomicSwapAskRequestResultCodeBaseAssetCannotBeSwapped   CreateAtomicSwapAskRequestResultCode = -6
+	CreateAtomicSwapAskRequestResultCodeQuoteAssetNotFound         CreateAtomicSwapAskRequestResultCode = -7
+	CreateAtomicSwapAskRequestResultCodeQuoteAssetCannotBeSwapped  CreateAtomicSwapAskRequestResultCode = -8
+	CreateAtomicSwapAskRequestResultCodeBaseBalanceNotFound        CreateAtomicSwapAskRequestResultCode = -9
+	CreateAtomicSwapAskRequestResultCodeAssetsAreEqual             CreateAtomicSwapAskRequestResultCode = -10
+	CreateAtomicSwapAskRequestResultCodeBaseBalanceUnderfunded     CreateAtomicSwapAskRequestResultCode = -11
+	CreateAtomicSwapAskRequestResultCodeInvalidQuoteAsset          CreateAtomicSwapAskRequestResultCode = -12
+	CreateAtomicSwapAskRequestResultCodeAtomicSwapAskTasksNotFound CreateAtomicSwapAskRequestResultCode = -13
 )
 
-var CreateASwapBidCreationRequestResultCodeAll = []CreateASwapBidCreationRequestResultCode{
-	CreateASwapBidCreationRequestResultCodeSuccess,
-	CreateASwapBidCreationRequestResultCodeInvalidAmount,
-	CreateASwapBidCreationRequestResultCodeInvalidPrice,
-	CreateASwapBidCreationRequestResultCodeInvalidDetails,
-	CreateASwapBidCreationRequestResultCodeAtomicSwapBidOverflow,
-	CreateASwapBidCreationRequestResultCodeBaseAssetNotFound,
-	CreateASwapBidCreationRequestResultCodeBaseAssetCannotBeSwapped,
-	CreateASwapBidCreationRequestResultCodeQuoteAssetNotFound,
-	CreateASwapBidCreationRequestResultCodeQuoteAssetCannotBeSwapped,
-	CreateASwapBidCreationRequestResultCodeBaseBalanceNotFound,
-	CreateASwapBidCreationRequestResultCodeAssetsAreEqual,
-	CreateASwapBidCreationRequestResultCodeBaseBalanceUnderfunded,
-	CreateASwapBidCreationRequestResultCodeInvalidQuoteAsset,
-	CreateASwapBidCreationRequestResultCodeNotAllowedByAssetPolicy,
+var CreateAtomicSwapAskRequestResultCodeAll = []CreateAtomicSwapAskRequestResultCode{
+	CreateAtomicSwapAskRequestResultCodeSuccess,
+	CreateAtomicSwapAskRequestResultCodeInvalidAmount,
+	CreateAtomicSwapAskRequestResultCodeInvalidPrice,
+	CreateAtomicSwapAskRequestResultCodeInvalidDetails,
+	CreateAtomicSwapAskRequestResultCodeIncorrectPrecision,
+	CreateAtomicSwapAskRequestResultCodeBaseAssetNotFound,
+	CreateAtomicSwapAskRequestResultCodeBaseAssetCannotBeSwapped,
+	CreateAtomicSwapAskRequestResultCodeQuoteAssetNotFound,
+	CreateAtomicSwapAskRequestResultCodeQuoteAssetCannotBeSwapped,
+	CreateAtomicSwapAskRequestResultCodeBaseBalanceNotFound,
+	CreateAtomicSwapAskRequestResultCodeAssetsAreEqual,
+	CreateAtomicSwapAskRequestResultCodeBaseBalanceUnderfunded,
+	CreateAtomicSwapAskRequestResultCodeInvalidQuoteAsset,
+	CreateAtomicSwapAskRequestResultCodeAtomicSwapAskTasksNotFound,
 }
 
-var createASwapBidCreationRequestResultCodeMap = map[int32]string{
-	0:   "CreateASwapBidCreationRequestResultCodeSuccess",
-	-1:  "CreateASwapBidCreationRequestResultCodeInvalidAmount",
-	-2:  "CreateASwapBidCreationRequestResultCodeInvalidPrice",
-	-3:  "CreateASwapBidCreationRequestResultCodeInvalidDetails",
-	-4:  "CreateASwapBidCreationRequestResultCodeAtomicSwapBidOverflow",
-	-5:  "CreateASwapBidCreationRequestResultCodeBaseAssetNotFound",
-	-6:  "CreateASwapBidCreationRequestResultCodeBaseAssetCannotBeSwapped",
-	-7:  "CreateASwapBidCreationRequestResultCodeQuoteAssetNotFound",
-	-8:  "CreateASwapBidCreationRequestResultCodeQuoteAssetCannotBeSwapped",
-	-9:  "CreateASwapBidCreationRequestResultCodeBaseBalanceNotFound",
-	-10: "CreateASwapBidCreationRequestResultCodeAssetsAreEqual",
-	-11: "CreateASwapBidCreationRequestResultCodeBaseBalanceUnderfunded",
-	-12: "CreateASwapBidCreationRequestResultCodeInvalidQuoteAsset",
-	-13: "CreateASwapBidCreationRequestResultCodeNotAllowedByAssetPolicy",
+var createAtomicSwapAskRequestResultCodeMap = map[int32]string{
+	0:   "CreateAtomicSwapAskRequestResultCodeSuccess",
+	-1:  "CreateAtomicSwapAskRequestResultCodeInvalidAmount",
+	-2:  "CreateAtomicSwapAskRequestResultCodeInvalidPrice",
+	-3:  "CreateAtomicSwapAskRequestResultCodeInvalidDetails",
+	-4:  "CreateAtomicSwapAskRequestResultCodeIncorrectPrecision",
+	-5:  "CreateAtomicSwapAskRequestResultCodeBaseAssetNotFound",
+	-6:  "CreateAtomicSwapAskRequestResultCodeBaseAssetCannotBeSwapped",
+	-7:  "CreateAtomicSwapAskRequestResultCodeQuoteAssetNotFound",
+	-8:  "CreateAtomicSwapAskRequestResultCodeQuoteAssetCannotBeSwapped",
+	-9:  "CreateAtomicSwapAskRequestResultCodeBaseBalanceNotFound",
+	-10: "CreateAtomicSwapAskRequestResultCodeAssetsAreEqual",
+	-11: "CreateAtomicSwapAskRequestResultCodeBaseBalanceUnderfunded",
+	-12: "CreateAtomicSwapAskRequestResultCodeInvalidQuoteAsset",
+	-13: "CreateAtomicSwapAskRequestResultCodeAtomicSwapAskTasksNotFound",
 }
 
-var createASwapBidCreationRequestResultCodeShortMap = map[int32]string{
+var createAtomicSwapAskRequestResultCodeShortMap = map[int32]string{
 	0:   "success",
 	-1:  "invalid_amount",
 	-2:  "invalid_price",
 	-3:  "invalid_details",
-	-4:  "atomic_swap_bid_overflow",
+	-4:  "incorrect_precision",
 	-5:  "base_asset_not_found",
 	-6:  "base_asset_cannot_be_swapped",
 	-7:  "quote_asset_not_found",
@@ -13451,36 +14123,36 @@ var createASwapBidCreationRequestResultCodeShortMap = map[int32]string{
 	-10: "assets_are_equal",
 	-11: "base_balance_underfunded",
 	-12: "invalid_quote_asset",
-	-13: "not_allowed_by_asset_policy",
+	-13: "atomic_swap_ask_tasks_not_found",
 }
 
-var createASwapBidCreationRequestResultCodeRevMap = map[string]int32{
-	"CreateASwapBidCreationRequestResultCodeSuccess":                   0,
-	"CreateASwapBidCreationRequestResultCodeInvalidAmount":             -1,
-	"CreateASwapBidCreationRequestResultCodeInvalidPrice":              -2,
-	"CreateASwapBidCreationRequestResultCodeInvalidDetails":            -3,
-	"CreateASwapBidCreationRequestResultCodeAtomicSwapBidOverflow":     -4,
-	"CreateASwapBidCreationRequestResultCodeBaseAssetNotFound":         -5,
-	"CreateASwapBidCreationRequestResultCodeBaseAssetCannotBeSwapped":  -6,
-	"CreateASwapBidCreationRequestResultCodeQuoteAssetNotFound":        -7,
-	"CreateASwapBidCreationRequestResultCodeQuoteAssetCannotBeSwapped": -8,
-	"CreateASwapBidCreationRequestResultCodeBaseBalanceNotFound":       -9,
-	"CreateASwapBidCreationRequestResultCodeAssetsAreEqual":            -10,
-	"CreateASwapBidCreationRequestResultCodeBaseBalanceUnderfunded":    -11,
-	"CreateASwapBidCreationRequestResultCodeInvalidQuoteAsset":         -12,
-	"CreateASwapBidCreationRequestResultCodeNotAllowedByAssetPolicy":   -13,
+var createAtomicSwapAskRequestResultCodeRevMap = map[string]int32{
+	"CreateAtomicSwapAskRequestResultCodeSuccess":                    0,
+	"CreateAtomicSwapAskRequestResultCodeInvalidAmount":              -1,
+	"CreateAtomicSwapAskRequestResultCodeInvalidPrice":               -2,
+	"CreateAtomicSwapAskRequestResultCodeInvalidDetails":             -3,
+	"CreateAtomicSwapAskRequestResultCodeIncorrectPrecision":         -4,
+	"CreateAtomicSwapAskRequestResultCodeBaseAssetNotFound":          -5,
+	"CreateAtomicSwapAskRequestResultCodeBaseAssetCannotBeSwapped":   -6,
+	"CreateAtomicSwapAskRequestResultCodeQuoteAssetNotFound":         -7,
+	"CreateAtomicSwapAskRequestResultCodeQuoteAssetCannotBeSwapped":  -8,
+	"CreateAtomicSwapAskRequestResultCodeBaseBalanceNotFound":        -9,
+	"CreateAtomicSwapAskRequestResultCodeAssetsAreEqual":             -10,
+	"CreateAtomicSwapAskRequestResultCodeBaseBalanceUnderfunded":     -11,
+	"CreateAtomicSwapAskRequestResultCodeInvalidQuoteAsset":          -12,
+	"CreateAtomicSwapAskRequestResultCodeAtomicSwapAskTasksNotFound": -13,
 }
 
 // ValidEnum validates a proposed value for this enum.  Implements
-// the Enum interface for CreateASwapBidCreationRequestResultCode
-func (e CreateASwapBidCreationRequestResultCode) ValidEnum(v int32) bool {
-	_, ok := createASwapBidCreationRequestResultCodeMap[v]
+// the Enum interface for CreateAtomicSwapAskRequestResultCode
+func (e CreateAtomicSwapAskRequestResultCode) ValidEnum(v int32) bool {
+	_, ok := createAtomicSwapAskRequestResultCodeMap[v]
 	return ok
 }
-func (e CreateASwapBidCreationRequestResultCode) isFlag() bool {
-	for i := len(CreateASwapBidCreationRequestResultCodeAll) - 1; i >= 0; i-- {
-		expected := CreateASwapBidCreationRequestResultCode(2) << uint64(len(CreateASwapBidCreationRequestResultCodeAll)-1) >> uint64(len(CreateASwapBidCreationRequestResultCodeAll)-i)
-		if expected != CreateASwapBidCreationRequestResultCodeAll[i] {
+func (e CreateAtomicSwapAskRequestResultCode) isFlag() bool {
+	for i := len(CreateAtomicSwapAskRequestResultCodeAll) - 1; i >= 0; i-- {
+		expected := CreateAtomicSwapAskRequestResultCode(2) << uint64(len(CreateAtomicSwapAskRequestResultCodeAll)-1) >> uint64(len(CreateAtomicSwapAskRequestResultCodeAll)-i)
+		if expected != CreateAtomicSwapAskRequestResultCodeAll[i] {
 			return false
 		}
 	}
@@ -13488,23 +14160,24 @@ func (e CreateASwapBidCreationRequestResultCode) isFlag() bool {
 }
 
 // String returns the name of `e`
-func (e CreateASwapBidCreationRequestResultCode) String() string {
-	name, _ := createASwapBidCreationRequestResultCodeMap[int32(e)]
+func (e CreateAtomicSwapAskRequestResultCode) String() string {
+	name, _ := createAtomicSwapAskRequestResultCodeMap[int32(e)]
 	return name
 }
 
-func (e CreateASwapBidCreationRequestResultCode) ShortString() string {
-	name, _ := createASwapBidCreationRequestResultCodeShortMap[int32(e)]
+func (e CreateAtomicSwapAskRequestResultCode) ShortString() string {
+	name, _ := createAtomicSwapAskRequestResultCodeShortMap[int32(e)]
 	return name
 }
 
-func (e CreateASwapBidCreationRequestResultCode) MarshalJSON() ([]byte, error) {
+func (e CreateAtomicSwapAskRequestResultCode) MarshalJSON() ([]byte, error) {
 	if e.isFlag() {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
-		for _, value := range CreateASwapBidCreationRequestResultCodeAll {
+		for _, value := range CreateAtomicSwapAskRequestResultCodeAll {
 			if (value & e) == value {
 				result.Flags = append(result.Flags, flagValue{
 					Value: int32(value),
@@ -13523,16 +14196,16 @@ func (e CreateASwapBidCreationRequestResultCode) MarshalJSON() ([]byte, error) {
 	}
 }
 
-func (e *CreateASwapBidCreationRequestResultCode) UnmarshalJSON(data []byte) error {
+func (e *CreateAtomicSwapAskRequestResultCode) UnmarshalJSON(data []byte) error {
 	var t value
 	if err := json.Unmarshal(data, &t); err != nil {
 		return err
 	}
-	*e = CreateASwapBidCreationRequestResultCode(t.Value)
+	*e = CreateAtomicSwapAskRequestResultCode(t.Value)
 	return nil
 }
 
-// CreateASwapBidCreationRequestSuccessExt is an XDR NestedUnion defines as:
+// CreateAtomicSwapAskRequestSuccessExt is an XDR NestedUnion defines as:
 //
 //   union switch (LedgerVersion v)
 //        {
@@ -13540,19 +14213,19 @@ func (e *CreateASwapBidCreationRequestResultCode) UnmarshalJSON(data []byte) err
 //            void;
 //        }
 //
-type CreateASwapBidCreationRequestSuccessExt struct {
+type CreateAtomicSwapAskRequestSuccessExt struct {
 	V LedgerVersion `json:"v,omitempty"`
 }
 
 // SwitchFieldName returns the field name in which this union's
 // discriminant is stored
-func (u CreateASwapBidCreationRequestSuccessExt) SwitchFieldName() string {
+func (u CreateAtomicSwapAskRequestSuccessExt) SwitchFieldName() string {
 	return "V"
 }
 
 // ArmForSwitch returns which field name should be used for storing
-// the value for an instance of CreateASwapBidCreationRequestSuccessExt
-func (u CreateASwapBidCreationRequestSuccessExt) ArmForSwitch(sw int32) (string, bool) {
+// the value for an instance of CreateAtomicSwapAskRequestSuccessExt
+func (u CreateAtomicSwapAskRequestSuccessExt) ArmForSwitch(sw int32) (string, bool) {
 	switch LedgerVersion(sw) {
 	case LedgerVersionEmptyVersion:
 		return "", true
@@ -13560,8 +14233,8 @@ func (u CreateASwapBidCreationRequestSuccessExt) ArmForSwitch(sw int32) (string,
 	return "-", false
 }
 
-// NewCreateASwapBidCreationRequestSuccessExt creates a new  CreateASwapBidCreationRequestSuccessExt.
-func NewCreateASwapBidCreationRequestSuccessExt(v LedgerVersion, value interface{}) (result CreateASwapBidCreationRequestSuccessExt, err error) {
+// NewCreateAtomicSwapAskRequestSuccessExt creates a new  CreateAtomicSwapAskRequestSuccessExt.
+func NewCreateAtomicSwapAskRequestSuccessExt(v LedgerVersion, value interface{}) (result CreateAtomicSwapAskRequestSuccessExt, err error) {
 	result.V = v
 	switch LedgerVersion(v) {
 	case LedgerVersionEmptyVersion:
@@ -13570,13 +14243,19 @@ func NewCreateASwapBidCreationRequestSuccessExt(v LedgerVersion, value interface
 	return
 }
 
-// CreateASwapBidCreationRequestSuccess is an XDR Struct defines as:
+// CreateAtomicSwapAskRequestSuccess is an XDR Struct defines as:
 //
-//   struct CreateASwapBidCreationRequestSuccess
+//   //: Success result of CreateASwapAskCreationRequestOp application
+//    struct CreateAtomicSwapAskRequestSuccess
 //    {
+//        //: id of created request
 //        uint64 requestID;
+//        //: Indicates whether or not the `CREATE_ATOMIC_SWAP_ASK` request was auto approved and fulfilled
 //        bool fulfilled;
+//        //: ID of a newly created ask (if the ask  creation request has been auto approved)
+//        uint64 askID;
 //
+//        //: reserved for the future use
 //        union switch (LedgerVersion v)
 //        {
 //        case EMPTY_VERSION:
@@ -13584,52 +14263,55 @@ func NewCreateASwapBidCreationRequestSuccessExt(v LedgerVersion, value interface
 //        } ext;
 //    };
 //
-type CreateASwapBidCreationRequestSuccess struct {
-	RequestId Uint64                                  `json:"requestID,omitempty"`
-	Fulfilled bool                                    `json:"fulfilled,omitempty"`
-	Ext       CreateASwapBidCreationRequestSuccessExt `json:"ext,omitempty"`
+type CreateAtomicSwapAskRequestSuccess struct {
+	RequestId Uint64                               `json:"requestID,omitempty"`
+	Fulfilled bool                                 `json:"fulfilled,omitempty"`
+	AskId     Uint64                               `json:"askID,omitempty"`
+	Ext       CreateAtomicSwapAskRequestSuccessExt `json:"ext,omitempty"`
 }
 
-// CreateASwapBidCreationRequestResult is an XDR Union defines as:
+// CreateAtomicSwapAskRequestResult is an XDR Union defines as:
 //
-//   union CreateASwapBidCreationRequestResult switch (CreateASwapBidCreationRequestResultCode code)
+//   //: Result of CreateAtomicSwapAskRequestOp application
+//    union CreateAtomicSwapAskRequestResult switch (CreateAtomicSwapAskRequestResultCode code)
 //    {
 //    case SUCCESS:
-//        CreateASwapBidCreationRequestSuccess success;
+//        //: is used to pass useful fields after successful operation applying
+//        CreateAtomicSwapAskRequestSuccess success;
 //    default:
 //        void;
 //    };
 //
-type CreateASwapBidCreationRequestResult struct {
-	Code    CreateASwapBidCreationRequestResultCode `json:"code,omitempty"`
-	Success *CreateASwapBidCreationRequestSuccess   `json:"success,omitempty"`
+type CreateAtomicSwapAskRequestResult struct {
+	Code    CreateAtomicSwapAskRequestResultCode `json:"code,omitempty"`
+	Success *CreateAtomicSwapAskRequestSuccess   `json:"success,omitempty"`
 }
 
 // SwitchFieldName returns the field name in which this union's
 // discriminant is stored
-func (u CreateASwapBidCreationRequestResult) SwitchFieldName() string {
+func (u CreateAtomicSwapAskRequestResult) SwitchFieldName() string {
 	return "Code"
 }
 
 // ArmForSwitch returns which field name should be used for storing
-// the value for an instance of CreateASwapBidCreationRequestResult
-func (u CreateASwapBidCreationRequestResult) ArmForSwitch(sw int32) (string, bool) {
-	switch CreateASwapBidCreationRequestResultCode(sw) {
-	case CreateASwapBidCreationRequestResultCodeSuccess:
+// the value for an instance of CreateAtomicSwapAskRequestResult
+func (u CreateAtomicSwapAskRequestResult) ArmForSwitch(sw int32) (string, bool) {
+	switch CreateAtomicSwapAskRequestResultCode(sw) {
+	case CreateAtomicSwapAskRequestResultCodeSuccess:
 		return "Success", true
 	default:
 		return "", true
 	}
 }
 
-// NewCreateASwapBidCreationRequestResult creates a new  CreateASwapBidCreationRequestResult.
-func NewCreateASwapBidCreationRequestResult(code CreateASwapBidCreationRequestResultCode, value interface{}) (result CreateASwapBidCreationRequestResult, err error) {
+// NewCreateAtomicSwapAskRequestResult creates a new  CreateAtomicSwapAskRequestResult.
+func NewCreateAtomicSwapAskRequestResult(code CreateAtomicSwapAskRequestResultCode, value interface{}) (result CreateAtomicSwapAskRequestResult, err error) {
 	result.Code = code
-	switch CreateASwapBidCreationRequestResultCode(code) {
-	case CreateASwapBidCreationRequestResultCodeSuccess:
-		tv, ok := value.(CreateASwapBidCreationRequestSuccess)
+	switch CreateAtomicSwapAskRequestResultCode(code) {
+	case CreateAtomicSwapAskRequestResultCodeSuccess:
+		tv, ok := value.(CreateAtomicSwapAskRequestSuccess)
 		if !ok {
-			err = fmt.Errorf("invalid value, must be CreateASwapBidCreationRequestSuccess")
+			err = fmt.Errorf("invalid value, must be CreateAtomicSwapAskRequestSuccess")
 			return
 		}
 		result.Success = &tv
@@ -13641,7 +14323,7 @@ func NewCreateASwapBidCreationRequestResult(code CreateASwapBidCreationRequestRe
 
 // MustSuccess retrieves the Success value from the union,
 // panicing if the value is not set.
-func (u CreateASwapBidCreationRequestResult) MustSuccess() CreateASwapBidCreationRequestSuccess {
+func (u CreateAtomicSwapAskRequestResult) MustSuccess() CreateAtomicSwapAskRequestSuccess {
 	val, ok := u.GetSuccess()
 
 	if !ok {
@@ -13653,7 +14335,7 @@ func (u CreateASwapBidCreationRequestResult) MustSuccess() CreateASwapBidCreatio
 
 // GetSuccess retrieves the Success value from the union,
 // returning ok if the union's switch indicated the value is valid.
-func (u CreateASwapBidCreationRequestResult) GetSuccess() (result CreateASwapBidCreationRequestSuccess, ok bool) {
+func (u CreateAtomicSwapAskRequestResult) GetSuccess() (result CreateAtomicSwapAskRequestSuccess, ok bool) {
 	armName, _ := u.ArmForSwitch(int32(u.Code))
 
 	if armName == "Success" {
@@ -13664,7 +14346,7 @@ func (u CreateASwapBidCreationRequestResult) GetSuccess() (result CreateASwapBid
 	return
 }
 
-// CreateASwapRequestOpExt is an XDR NestedUnion defines as:
+// CreateAtomicSwapBidRequestOpExt is an XDR NestedUnion defines as:
 //
 //   union switch (LedgerVersion v)
 //        {
@@ -13672,19 +14354,19 @@ func (u CreateASwapBidCreationRequestResult) GetSuccess() (result CreateASwapBid
 //            void;
 //        }
 //
-type CreateASwapRequestOpExt struct {
+type CreateAtomicSwapBidRequestOpExt struct {
 	V LedgerVersion `json:"v,omitempty"`
 }
 
 // SwitchFieldName returns the field name in which this union's
 // discriminant is stored
-func (u CreateASwapRequestOpExt) SwitchFieldName() string {
+func (u CreateAtomicSwapBidRequestOpExt) SwitchFieldName() string {
 	return "V"
 }
 
 // ArmForSwitch returns which field name should be used for storing
-// the value for an instance of CreateASwapRequestOpExt
-func (u CreateASwapRequestOpExt) ArmForSwitch(sw int32) (string, bool) {
+// the value for an instance of CreateAtomicSwapBidRequestOpExt
+func (u CreateAtomicSwapBidRequestOpExt) ArmForSwitch(sw int32) (string, bool) {
 	switch LedgerVersion(sw) {
 	case LedgerVersionEmptyVersion:
 		return "", true
@@ -13692,8 +14374,8 @@ func (u CreateASwapRequestOpExt) ArmForSwitch(sw int32) (string, bool) {
 	return "-", false
 }
 
-// NewCreateASwapRequestOpExt creates a new  CreateASwapRequestOpExt.
-func NewCreateASwapRequestOpExt(v LedgerVersion, value interface{}) (result CreateASwapRequestOpExt, err error) {
+// NewCreateAtomicSwapBidRequestOpExt creates a new  CreateAtomicSwapBidRequestOpExt.
+func NewCreateAtomicSwapBidRequestOpExt(v LedgerVersion, value interface{}) (result CreateAtomicSwapBidRequestOpExt, err error) {
 	result.V = v
 	switch LedgerVersion(v) {
 	case LedgerVersionEmptyVersion:
@@ -13702,12 +14384,15 @@ func NewCreateASwapRequestOpExt(v LedgerVersion, value interface{}) (result Crea
 	return
 }
 
-// CreateASwapRequestOp is an XDR Struct defines as:
+// CreateAtomicSwapBidRequestOp is an XDR Struct defines as:
 //
-//   struct CreateASwapRequestOp
+//   //: CreateAtomicSwapBidRequestOp is used to create `CREATE_ATOMIC_SWAP_BID` request
+//    struct CreateAtomicSwapBidRequestOp
 //    {
-//        ASwapRequest request;
+//        //: Body of request which will be created
+//        CreateAtomicSwapBidRequest request;
 //
+//        //: reserved for the future use
 //        union switch (LedgerVersion v)
 //        {
 //        case EMPTY_VERSION:
@@ -13715,107 +14400,132 @@ func NewCreateASwapRequestOpExt(v LedgerVersion, value interface{}) (result Crea
 //        } ext;
 //    };
 //
-type CreateASwapRequestOp struct {
-	Request ASwapRequest            `json:"request,omitempty"`
-	Ext     CreateASwapRequestOpExt `json:"ext,omitempty"`
+type CreateAtomicSwapBidRequestOp struct {
+	Request CreateAtomicSwapBidRequest      `json:"request,omitempty"`
+	Ext     CreateAtomicSwapBidRequestOpExt `json:"ext,omitempty"`
 }
 
-// CreateASwapRequestResultCode is an XDR Enum defines as:
+// CreateAtomicSwapBidRequestResultCode is an XDR Enum defines as:
 //
-//   enum CreateASwapRequestResultCode
+//   //: Result codes of CreateAtomicSwapBidRequestOp
+//    enum CreateAtomicSwapBidRequestResultCode
 //    {
-//        // codes considered as "success" for the operation
+//        //: request was successfully created
 //        SUCCESS = 0,
 //
 //        // codes considered as "failure" for the operation
+//        //: Not allowed to create `CREATE_ATOMIC_SWAP` request with zero base amount
 //        INVALID_BASE_AMOUNT = -1,
+//        //: Not allowed to pass invalid quote asset code
 //        INVALID_QUOTE_ASSET = -2,
-//        BID_NOT_FOUND = -3,
+//        //: There is no atomic swap bid with such id
+//        ASK_NOT_FOUND = -3,
+//        //: There is no quote asset with such code
 //        QUOTE_ASSET_NOT_FOUND = -4,
-//        BID_UNDERFUNDED = -5, // bid has not enough base amount available for lock
-//        ATOMIC_SWAP_TASKS_NOT_FOUND = -6,
-//        NOT_ALLOWED_BY_ASSET_POLICY = -7,
-//        BID_IS_CANCELLED = -8,
-//        CANNOT_CREATE_ASWAP_REQUEST_FOR_OWN_BID = -9
+//        //: Not allowed to create `CREATE_ATOMIC_SWAP_BID` request with amount which exceeds available amount of atomic swap ask
+//        ASK_UNDERFUNDED = -5, // ask has not enough base amount available for lock
+//        //: There is no key-value entry by `atomic_swap_bid_tasks` key in the system;
+//        //: configuration does not allow create `CREATE_ATOMIC_SWAP_BID` request
+//        ATOMIC_SWAP_BID_TASKS_NOT_FOUND = -6,
+//        //: Base amount precision and asset precision are mismatched
+//        INCORRECT_PRECISION = -7,
+//        //: Not allowed to create `CREATE_ATOMIC_SWAP_BID` request for atomic swap ask which is marked as `canceled`
+//        ASK_IS_CANCELLED = -8,
+//        //: Not allowed to create `CREATE_ATOMIC_SWAP_BID` request for own atomic swap ask
+//        SOURCE_ACCOUNT_EQUALS_ASK_OWNER = -9,
+//        //: 0 value is received from key value entry by `atomic_swap_bid_tasks` key
+//        ATOMIC_SWAP_BID_ZERO_TASKS_NOT_ALLOWED = -10,
+//        //: Not allowed to create atomic swap ask in which product of `baseAmount` and price of the `quoteAsset` exceeds MAX_INT64 value
+//        QUOTE_AMOUNT_OVERFLOWS = -11
 //    };
 //
-type CreateASwapRequestResultCode int32
+type CreateAtomicSwapBidRequestResultCode int32
 
 const (
-	CreateASwapRequestResultCodeSuccess                           CreateASwapRequestResultCode = 0
-	CreateASwapRequestResultCodeInvalidBaseAmount                 CreateASwapRequestResultCode = -1
-	CreateASwapRequestResultCodeInvalidQuoteAsset                 CreateASwapRequestResultCode = -2
-	CreateASwapRequestResultCodeBidNotFound                       CreateASwapRequestResultCode = -3
-	CreateASwapRequestResultCodeQuoteAssetNotFound                CreateASwapRequestResultCode = -4
-	CreateASwapRequestResultCodeBidUnderfunded                    CreateASwapRequestResultCode = -5
-	CreateASwapRequestResultCodeAtomicSwapTasksNotFound           CreateASwapRequestResultCode = -6
-	CreateASwapRequestResultCodeNotAllowedByAssetPolicy           CreateASwapRequestResultCode = -7
-	CreateASwapRequestResultCodeBidIsCancelled                    CreateASwapRequestResultCode = -8
-	CreateASwapRequestResultCodeCannotCreateAswapRequestForOwnBid CreateASwapRequestResultCode = -9
+	CreateAtomicSwapBidRequestResultCodeSuccess                          CreateAtomicSwapBidRequestResultCode = 0
+	CreateAtomicSwapBidRequestResultCodeInvalidBaseAmount                CreateAtomicSwapBidRequestResultCode = -1
+	CreateAtomicSwapBidRequestResultCodeInvalidQuoteAsset                CreateAtomicSwapBidRequestResultCode = -2
+	CreateAtomicSwapBidRequestResultCodeAskNotFound                      CreateAtomicSwapBidRequestResultCode = -3
+	CreateAtomicSwapBidRequestResultCodeQuoteAssetNotFound               CreateAtomicSwapBidRequestResultCode = -4
+	CreateAtomicSwapBidRequestResultCodeAskUnderfunded                   CreateAtomicSwapBidRequestResultCode = -5
+	CreateAtomicSwapBidRequestResultCodeAtomicSwapBidTasksNotFound       CreateAtomicSwapBidRequestResultCode = -6
+	CreateAtomicSwapBidRequestResultCodeIncorrectPrecision               CreateAtomicSwapBidRequestResultCode = -7
+	CreateAtomicSwapBidRequestResultCodeAskIsCancelled                   CreateAtomicSwapBidRequestResultCode = -8
+	CreateAtomicSwapBidRequestResultCodeSourceAccountEqualsAskOwner      CreateAtomicSwapBidRequestResultCode = -9
+	CreateAtomicSwapBidRequestResultCodeAtomicSwapBidZeroTasksNotAllowed CreateAtomicSwapBidRequestResultCode = -10
+	CreateAtomicSwapBidRequestResultCodeQuoteAmountOverflows             CreateAtomicSwapBidRequestResultCode = -11
 )
 
-var CreateASwapRequestResultCodeAll = []CreateASwapRequestResultCode{
-	CreateASwapRequestResultCodeSuccess,
-	CreateASwapRequestResultCodeInvalidBaseAmount,
-	CreateASwapRequestResultCodeInvalidQuoteAsset,
-	CreateASwapRequestResultCodeBidNotFound,
-	CreateASwapRequestResultCodeQuoteAssetNotFound,
-	CreateASwapRequestResultCodeBidUnderfunded,
-	CreateASwapRequestResultCodeAtomicSwapTasksNotFound,
-	CreateASwapRequestResultCodeNotAllowedByAssetPolicy,
-	CreateASwapRequestResultCodeBidIsCancelled,
-	CreateASwapRequestResultCodeCannotCreateAswapRequestForOwnBid,
+var CreateAtomicSwapBidRequestResultCodeAll = []CreateAtomicSwapBidRequestResultCode{
+	CreateAtomicSwapBidRequestResultCodeSuccess,
+	CreateAtomicSwapBidRequestResultCodeInvalidBaseAmount,
+	CreateAtomicSwapBidRequestResultCodeInvalidQuoteAsset,
+	CreateAtomicSwapBidRequestResultCodeAskNotFound,
+	CreateAtomicSwapBidRequestResultCodeQuoteAssetNotFound,
+	CreateAtomicSwapBidRequestResultCodeAskUnderfunded,
+	CreateAtomicSwapBidRequestResultCodeAtomicSwapBidTasksNotFound,
+	CreateAtomicSwapBidRequestResultCodeIncorrectPrecision,
+	CreateAtomicSwapBidRequestResultCodeAskIsCancelled,
+	CreateAtomicSwapBidRequestResultCodeSourceAccountEqualsAskOwner,
+	CreateAtomicSwapBidRequestResultCodeAtomicSwapBidZeroTasksNotAllowed,
+	CreateAtomicSwapBidRequestResultCodeQuoteAmountOverflows,
 }
 
-var createASwapRequestResultCodeMap = map[int32]string{
-	0:  "CreateASwapRequestResultCodeSuccess",
-	-1: "CreateASwapRequestResultCodeInvalidBaseAmount",
-	-2: "CreateASwapRequestResultCodeInvalidQuoteAsset",
-	-3: "CreateASwapRequestResultCodeBidNotFound",
-	-4: "CreateASwapRequestResultCodeQuoteAssetNotFound",
-	-5: "CreateASwapRequestResultCodeBidUnderfunded",
-	-6: "CreateASwapRequestResultCodeAtomicSwapTasksNotFound",
-	-7: "CreateASwapRequestResultCodeNotAllowedByAssetPolicy",
-	-8: "CreateASwapRequestResultCodeBidIsCancelled",
-	-9: "CreateASwapRequestResultCodeCannotCreateAswapRequestForOwnBid",
+var createAtomicSwapBidRequestResultCodeMap = map[int32]string{
+	0:   "CreateAtomicSwapBidRequestResultCodeSuccess",
+	-1:  "CreateAtomicSwapBidRequestResultCodeInvalidBaseAmount",
+	-2:  "CreateAtomicSwapBidRequestResultCodeInvalidQuoteAsset",
+	-3:  "CreateAtomicSwapBidRequestResultCodeAskNotFound",
+	-4:  "CreateAtomicSwapBidRequestResultCodeQuoteAssetNotFound",
+	-5:  "CreateAtomicSwapBidRequestResultCodeAskUnderfunded",
+	-6:  "CreateAtomicSwapBidRequestResultCodeAtomicSwapBidTasksNotFound",
+	-7:  "CreateAtomicSwapBidRequestResultCodeIncorrectPrecision",
+	-8:  "CreateAtomicSwapBidRequestResultCodeAskIsCancelled",
+	-9:  "CreateAtomicSwapBidRequestResultCodeSourceAccountEqualsAskOwner",
+	-10: "CreateAtomicSwapBidRequestResultCodeAtomicSwapBidZeroTasksNotAllowed",
+	-11: "CreateAtomicSwapBidRequestResultCodeQuoteAmountOverflows",
 }
 
-var createASwapRequestResultCodeShortMap = map[int32]string{
-	0:  "success",
-	-1: "invalid_base_amount",
-	-2: "invalid_quote_asset",
-	-3: "bid_not_found",
-	-4: "quote_asset_not_found",
-	-5: "bid_underfunded",
-	-6: "atomic_swap_tasks_not_found",
-	-7: "not_allowed_by_asset_policy",
-	-8: "bid_is_cancelled",
-	-9: "cannot_create_aswap_request_for_own_bid",
+var createAtomicSwapBidRequestResultCodeShortMap = map[int32]string{
+	0:   "success",
+	-1:  "invalid_base_amount",
+	-2:  "invalid_quote_asset",
+	-3:  "ask_not_found",
+	-4:  "quote_asset_not_found",
+	-5:  "ask_underfunded",
+	-6:  "atomic_swap_bid_tasks_not_found",
+	-7:  "incorrect_precision",
+	-8:  "ask_is_cancelled",
+	-9:  "source_account_equals_ask_owner",
+	-10: "atomic_swap_bid_zero_tasks_not_allowed",
+	-11: "quote_amount_overflows",
 }
 
-var createASwapRequestResultCodeRevMap = map[string]int32{
-	"CreateASwapRequestResultCodeSuccess":                           0,
-	"CreateASwapRequestResultCodeInvalidBaseAmount":                 -1,
-	"CreateASwapRequestResultCodeInvalidQuoteAsset":                 -2,
-	"CreateASwapRequestResultCodeBidNotFound":                       -3,
-	"CreateASwapRequestResultCodeQuoteAssetNotFound":                -4,
-	"CreateASwapRequestResultCodeBidUnderfunded":                    -5,
-	"CreateASwapRequestResultCodeAtomicSwapTasksNotFound":           -6,
-	"CreateASwapRequestResultCodeNotAllowedByAssetPolicy":           -7,
-	"CreateASwapRequestResultCodeBidIsCancelled":                    -8,
-	"CreateASwapRequestResultCodeCannotCreateAswapRequestForOwnBid": -9,
+var createAtomicSwapBidRequestResultCodeRevMap = map[string]int32{
+	"CreateAtomicSwapBidRequestResultCodeSuccess":                          0,
+	"CreateAtomicSwapBidRequestResultCodeInvalidBaseAmount":                -1,
+	"CreateAtomicSwapBidRequestResultCodeInvalidQuoteAsset":                -2,
+	"CreateAtomicSwapBidRequestResultCodeAskNotFound":                      -3,
+	"CreateAtomicSwapBidRequestResultCodeQuoteAssetNotFound":               -4,
+	"CreateAtomicSwapBidRequestResultCodeAskUnderfunded":                   -5,
+	"CreateAtomicSwapBidRequestResultCodeAtomicSwapBidTasksNotFound":       -6,
+	"CreateAtomicSwapBidRequestResultCodeIncorrectPrecision":               -7,
+	"CreateAtomicSwapBidRequestResultCodeAskIsCancelled":                   -8,
+	"CreateAtomicSwapBidRequestResultCodeSourceAccountEqualsAskOwner":      -9,
+	"CreateAtomicSwapBidRequestResultCodeAtomicSwapBidZeroTasksNotAllowed": -10,
+	"CreateAtomicSwapBidRequestResultCodeQuoteAmountOverflows":             -11,
 }
 
 // ValidEnum validates a proposed value for this enum.  Implements
-// the Enum interface for CreateASwapRequestResultCode
-func (e CreateASwapRequestResultCode) ValidEnum(v int32) bool {
-	_, ok := createASwapRequestResultCodeMap[v]
+// the Enum interface for CreateAtomicSwapBidRequestResultCode
+func (e CreateAtomicSwapBidRequestResultCode) ValidEnum(v int32) bool {
+	_, ok := createAtomicSwapBidRequestResultCodeMap[v]
 	return ok
 }
-func (e CreateASwapRequestResultCode) isFlag() bool {
-	for i := len(CreateASwapRequestResultCodeAll) - 1; i >= 0; i-- {
-		expected := CreateASwapRequestResultCode(2) << uint64(len(CreateASwapRequestResultCodeAll)-1) >> uint64(len(CreateASwapRequestResultCodeAll)-i)
-		if expected != CreateASwapRequestResultCodeAll[i] {
+func (e CreateAtomicSwapBidRequestResultCode) isFlag() bool {
+	for i := len(CreateAtomicSwapBidRequestResultCodeAll) - 1; i >= 0; i-- {
+		expected := CreateAtomicSwapBidRequestResultCode(2) << uint64(len(CreateAtomicSwapBidRequestResultCodeAll)-1) >> uint64(len(CreateAtomicSwapBidRequestResultCodeAll)-i)
+		if expected != CreateAtomicSwapBidRequestResultCodeAll[i] {
 			return false
 		}
 	}
@@ -13823,23 +14533,24 @@ func (e CreateASwapRequestResultCode) isFlag() bool {
 }
 
 // String returns the name of `e`
-func (e CreateASwapRequestResultCode) String() string {
-	name, _ := createASwapRequestResultCodeMap[int32(e)]
+func (e CreateAtomicSwapBidRequestResultCode) String() string {
+	name, _ := createAtomicSwapBidRequestResultCodeMap[int32(e)]
 	return name
 }
 
-func (e CreateASwapRequestResultCode) ShortString() string {
-	name, _ := createASwapRequestResultCodeShortMap[int32(e)]
+func (e CreateAtomicSwapBidRequestResultCode) ShortString() string {
+	name, _ := createAtomicSwapBidRequestResultCodeShortMap[int32(e)]
 	return name
 }
 
-func (e CreateASwapRequestResultCode) MarshalJSON() ([]byte, error) {
+func (e CreateAtomicSwapBidRequestResultCode) MarshalJSON() ([]byte, error) {
 	if e.isFlag() {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
-		for _, value := range CreateASwapRequestResultCodeAll {
+		for _, value := range CreateAtomicSwapBidRequestResultCodeAll {
 			if (value & e) == value {
 				result.Flags = append(result.Flags, flagValue{
 					Value: int32(value),
@@ -13858,16 +14569,16 @@ func (e CreateASwapRequestResultCode) MarshalJSON() ([]byte, error) {
 	}
 }
 
-func (e *CreateASwapRequestResultCode) UnmarshalJSON(data []byte) error {
+func (e *CreateAtomicSwapBidRequestResultCode) UnmarshalJSON(data []byte) error {
 	var t value
 	if err := json.Unmarshal(data, &t); err != nil {
 		return err
 	}
-	*e = CreateASwapRequestResultCode(t.Value)
+	*e = CreateAtomicSwapBidRequestResultCode(t.Value)
 	return nil
 }
 
-// CreateASwapRequestSuccessExt is an XDR NestedUnion defines as:
+// CreateAtomicSwapBidRequestSuccessExt is an XDR NestedUnion defines as:
 //
 //   union switch (LedgerVersion v)
 //        {
@@ -13875,19 +14586,19 @@ func (e *CreateASwapRequestResultCode) UnmarshalJSON(data []byte) error {
 //            void;
 //        }
 //
-type CreateASwapRequestSuccessExt struct {
+type CreateAtomicSwapBidRequestSuccessExt struct {
 	V LedgerVersion `json:"v,omitempty"`
 }
 
 // SwitchFieldName returns the field name in which this union's
 // discriminant is stored
-func (u CreateASwapRequestSuccessExt) SwitchFieldName() string {
+func (u CreateAtomicSwapBidRequestSuccessExt) SwitchFieldName() string {
 	return "V"
 }
 
 // ArmForSwitch returns which field name should be used for storing
-// the value for an instance of CreateASwapRequestSuccessExt
-func (u CreateASwapRequestSuccessExt) ArmForSwitch(sw int32) (string, bool) {
+// the value for an instance of CreateAtomicSwapBidRequestSuccessExt
+func (u CreateAtomicSwapBidRequestSuccessExt) ArmForSwitch(sw int32) (string, bool) {
 	switch LedgerVersion(sw) {
 	case LedgerVersionEmptyVersion:
 		return "", true
@@ -13895,8 +14606,8 @@ func (u CreateASwapRequestSuccessExt) ArmForSwitch(sw int32) (string, bool) {
 	return "-", false
 }
 
-// NewCreateASwapRequestSuccessExt creates a new  CreateASwapRequestSuccessExt.
-func NewCreateASwapRequestSuccessExt(v LedgerVersion, value interface{}) (result CreateASwapRequestSuccessExt, err error) {
+// NewCreateAtomicSwapBidRequestSuccessExt creates a new  CreateAtomicSwapBidRequestSuccessExt.
+func NewCreateAtomicSwapBidRequestSuccessExt(v LedgerVersion, value interface{}) (result CreateAtomicSwapBidRequestSuccessExt, err error) {
 	result.V = v
 	switch LedgerVersion(v) {
 	case LedgerVersionEmptyVersion:
@@ -13905,13 +14616,19 @@ func NewCreateASwapRequestSuccessExt(v LedgerVersion, value interface{}) (result
 	return
 }
 
-// CreateASwapRequestSuccess is an XDR Struct defines as:
+// CreateAtomicSwapBidRequestSuccess is an XDR Struct defines as:
 //
-//   struct CreateASwapRequestSuccess
+//   //: Success request of CreateAtomicSwapBidRequestOp application
+//    struct CreateAtomicSwapBidRequestSuccess
 //    {
+//        //: id of created request
 //        uint64 requestID;
-//        AccountID bidOwnerID;
+//        //: id of ask owner
+//        AccountID askOwnerID;
+//        //: amount in quote asset which required for request applying
+//        uint64 quoteAmount;
 //
+//        //: reserved for the future use
 //        union switch (LedgerVersion v)
 //        {
 //        case EMPTY_VERSION:
@@ -13919,52 +14636,55 @@ func NewCreateASwapRequestSuccessExt(v LedgerVersion, value interface{}) (result
 //        } ext;
 //    };
 //
-type CreateASwapRequestSuccess struct {
-	RequestId  Uint64                       `json:"requestID,omitempty"`
-	BidOwnerId AccountId                    `json:"bidOwnerID,omitempty"`
-	Ext        CreateASwapRequestSuccessExt `json:"ext,omitempty"`
+type CreateAtomicSwapBidRequestSuccess struct {
+	RequestId   Uint64                               `json:"requestID,omitempty"`
+	AskOwnerId  AccountId                            `json:"askOwnerID,omitempty"`
+	QuoteAmount Uint64                               `json:"quoteAmount,omitempty"`
+	Ext         CreateAtomicSwapBidRequestSuccessExt `json:"ext,omitempty"`
 }
 
-// CreateASwapRequestResult is an XDR Union defines as:
+// CreateAtomicSwapBidRequestResult is an XDR Union defines as:
 //
-//   union CreateASwapRequestResult switch (CreateASwapRequestResultCode code)
+//   //: Result of CreateAtomicSwapBidRequestOp application
+//    union CreateAtomicSwapBidRequestResult switch (CreateAtomicSwapBidRequestResultCode code)
 //    {
 //    case SUCCESS:
-//        CreateASwapRequestSuccess success;
+//        //: is used to pass useful fields after successful operation applying
+//        CreateAtomicSwapBidRequestSuccess success;
 //    default:
 //        void;
 //    };
 //
-type CreateASwapRequestResult struct {
-	Code    CreateASwapRequestResultCode `json:"code,omitempty"`
-	Success *CreateASwapRequestSuccess   `json:"success,omitempty"`
+type CreateAtomicSwapBidRequestResult struct {
+	Code    CreateAtomicSwapBidRequestResultCode `json:"code,omitempty"`
+	Success *CreateAtomicSwapBidRequestSuccess   `json:"success,omitempty"`
 }
 
 // SwitchFieldName returns the field name in which this union's
 // discriminant is stored
-func (u CreateASwapRequestResult) SwitchFieldName() string {
+func (u CreateAtomicSwapBidRequestResult) SwitchFieldName() string {
 	return "Code"
 }
 
 // ArmForSwitch returns which field name should be used for storing
-// the value for an instance of CreateASwapRequestResult
-func (u CreateASwapRequestResult) ArmForSwitch(sw int32) (string, bool) {
-	switch CreateASwapRequestResultCode(sw) {
-	case CreateASwapRequestResultCodeSuccess:
+// the value for an instance of CreateAtomicSwapBidRequestResult
+func (u CreateAtomicSwapBidRequestResult) ArmForSwitch(sw int32) (string, bool) {
+	switch CreateAtomicSwapBidRequestResultCode(sw) {
+	case CreateAtomicSwapBidRequestResultCodeSuccess:
 		return "Success", true
 	default:
 		return "", true
 	}
 }
 
-// NewCreateASwapRequestResult creates a new  CreateASwapRequestResult.
-func NewCreateASwapRequestResult(code CreateASwapRequestResultCode, value interface{}) (result CreateASwapRequestResult, err error) {
+// NewCreateAtomicSwapBidRequestResult creates a new  CreateAtomicSwapBidRequestResult.
+func NewCreateAtomicSwapBidRequestResult(code CreateAtomicSwapBidRequestResultCode, value interface{}) (result CreateAtomicSwapBidRequestResult, err error) {
 	result.Code = code
-	switch CreateASwapRequestResultCode(code) {
-	case CreateASwapRequestResultCodeSuccess:
-		tv, ok := value.(CreateASwapRequestSuccess)
+	switch CreateAtomicSwapBidRequestResultCode(code) {
+	case CreateAtomicSwapBidRequestResultCodeSuccess:
+		tv, ok := value.(CreateAtomicSwapBidRequestSuccess)
 		if !ok {
-			err = fmt.Errorf("invalid value, must be CreateASwapRequestSuccess")
+			err = fmt.Errorf("invalid value, must be CreateAtomicSwapBidRequestSuccess")
 			return
 		}
 		result.Success = &tv
@@ -13976,7 +14696,7 @@ func NewCreateASwapRequestResult(code CreateASwapRequestResultCode, value interf
 
 // MustSuccess retrieves the Success value from the union,
 // panicing if the value is not set.
-func (u CreateASwapRequestResult) MustSuccess() CreateASwapRequestSuccess {
+func (u CreateAtomicSwapBidRequestResult) MustSuccess() CreateAtomicSwapBidRequestSuccess {
 	val, ok := u.GetSuccess()
 
 	if !ok {
@@ -13988,7 +14708,7 @@ func (u CreateASwapRequestResult) MustSuccess() CreateASwapRequestSuccess {
 
 // GetSuccess retrieves the Success value from the union,
 // returning ok if the union's switch indicated the value is valid.
-func (u CreateASwapRequestResult) GetSuccess() (result CreateASwapRequestSuccess, ok bool) {
+func (u CreateAtomicSwapBidRequestResult) GetSuccess() (result CreateAtomicSwapBidRequestSuccess, ok bool) {
 	armName, _ := u.ArmForSwitch(int32(u.Code))
 
 	if armName == "Success" {
@@ -14039,7 +14759,10 @@ func NewCreateChangeRoleRequestOpExt(v LedgerVersion, value interface{}) (result
 
 // CreateChangeRoleRequestOp is an XDR Struct defines as:
 //
-//   struct CreateChangeRoleRequestOp
+//   //: `CreateChangeRoleRequestOp` is used to create reviewable requests
+//    //: that, with admin's approval, will change the role of `destinationAccount`
+//    //: from current role to `accountRoleToSet`
+//    struct CreateChangeRoleRequestOp
 //    {
 //        //: Set zero to create new request, set non zero to update existing request
 //        uint64 requestID;
@@ -14074,7 +14797,8 @@ type CreateChangeRoleRequestOp struct {
 
 // CreateChangeRoleRequestResultCode is an XDR Enum defines as:
 //
-//   enum CreateChangeRoleRequestResultCode
+//   //: Result codes of CreateChangeRoleRequestOp
+//    enum CreateChangeRoleRequestResultCode
 //    {
 //        //: Change role request has either been successfully created
 //        //: or auto approved
@@ -14097,7 +14821,9 @@ type CreateChangeRoleRequestOp struct {
 //        INVALID_CREATOR_DETAILS = -8,
 //        //: There is no key-value entry by `change_role_tasks` key in the system;
 //        //: configuration does not allow changing the role from current to `accountRoleToSet`
-//        CHANGE_ROLE_TASKS_NOT_FOUND = -9
+//        CHANGE_ROLE_TASKS_NOT_FOUND = -9,
+//        //: There is no account role with provided id
+//        ACCOUNT_ROLE_TO_SET_DOES_NOT_EXIST = -10
 //    };
 //
 type CreateChangeRoleRequestResultCode int32
@@ -14111,6 +14837,7 @@ const (
 	CreateChangeRoleRequestResultCodeInvalidChangeRoleRequestData CreateChangeRoleRequestResultCode = -7
 	CreateChangeRoleRequestResultCodeInvalidCreatorDetails        CreateChangeRoleRequestResultCode = -8
 	CreateChangeRoleRequestResultCodeChangeRoleTasksNotFound      CreateChangeRoleRequestResultCode = -9
+	CreateChangeRoleRequestResultCodeAccountRoleToSetDoesNotExist CreateChangeRoleRequestResultCode = -10
 )
 
 var CreateChangeRoleRequestResultCodeAll = []CreateChangeRoleRequestResultCode{
@@ -14122,28 +14849,31 @@ var CreateChangeRoleRequestResultCodeAll = []CreateChangeRoleRequestResultCode{
 	CreateChangeRoleRequestResultCodeInvalidChangeRoleRequestData,
 	CreateChangeRoleRequestResultCodeInvalidCreatorDetails,
 	CreateChangeRoleRequestResultCodeChangeRoleTasksNotFound,
+	CreateChangeRoleRequestResultCodeAccountRoleToSetDoesNotExist,
 }
 
 var createChangeRoleRequestResultCodeMap = map[int32]string{
-	0:  "CreateChangeRoleRequestResultCodeSuccess",
-	-1: "CreateChangeRoleRequestResultCodeAccToUpdateDoesNotExist",
-	-2: "CreateChangeRoleRequestResultCodeRequestAlreadyExists",
-	-4: "CreateChangeRoleRequestResultCodeRequestDoesNotExist",
-	-6: "CreateChangeRoleRequestResultCodeNotAllowedToUpdateRequest",
-	-7: "CreateChangeRoleRequestResultCodeInvalidChangeRoleRequestData",
-	-8: "CreateChangeRoleRequestResultCodeInvalidCreatorDetails",
-	-9: "CreateChangeRoleRequestResultCodeChangeRoleTasksNotFound",
+	0:   "CreateChangeRoleRequestResultCodeSuccess",
+	-1:  "CreateChangeRoleRequestResultCodeAccToUpdateDoesNotExist",
+	-2:  "CreateChangeRoleRequestResultCodeRequestAlreadyExists",
+	-4:  "CreateChangeRoleRequestResultCodeRequestDoesNotExist",
+	-6:  "CreateChangeRoleRequestResultCodeNotAllowedToUpdateRequest",
+	-7:  "CreateChangeRoleRequestResultCodeInvalidChangeRoleRequestData",
+	-8:  "CreateChangeRoleRequestResultCodeInvalidCreatorDetails",
+	-9:  "CreateChangeRoleRequestResultCodeChangeRoleTasksNotFound",
+	-10: "CreateChangeRoleRequestResultCodeAccountRoleToSetDoesNotExist",
 }
 
 var createChangeRoleRequestResultCodeShortMap = map[int32]string{
-	0:  "success",
-	-1: "acc_to_update_does_not_exist",
-	-2: "request_already_exists",
-	-4: "request_does_not_exist",
-	-6: "not_allowed_to_update_request",
-	-7: "invalid_change_role_request_data",
-	-8: "invalid_creator_details",
-	-9: "change_role_tasks_not_found",
+	0:   "success",
+	-1:  "acc_to_update_does_not_exist",
+	-2:  "request_already_exists",
+	-4:  "request_does_not_exist",
+	-6:  "not_allowed_to_update_request",
+	-7:  "invalid_change_role_request_data",
+	-8:  "invalid_creator_details",
+	-9:  "change_role_tasks_not_found",
+	-10: "account_role_to_set_does_not_exist",
 }
 
 var createChangeRoleRequestResultCodeRevMap = map[string]int32{
@@ -14155,6 +14885,7 @@ var createChangeRoleRequestResultCodeRevMap = map[string]int32{
 	"CreateChangeRoleRequestResultCodeInvalidChangeRoleRequestData": -7,
 	"CreateChangeRoleRequestResultCodeInvalidCreatorDetails":        -8,
 	"CreateChangeRoleRequestResultCodeChangeRoleTasksNotFound":      -9,
+	"CreateChangeRoleRequestResultCodeAccountRoleToSetDoesNotExist": -10,
 }
 
 // ValidEnum validates a proposed value for this enum.  Implements
@@ -14189,6 +14920,7 @@ func (e CreateChangeRoleRequestResultCode) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range CreateChangeRoleRequestResultCodeAll {
 			if (value & e) == value {
@@ -14281,7 +15013,8 @@ type CreateChangeRoleRequestResultSuccess struct {
 
 // CreateChangeRoleRequestResult is an XDR Union defines as:
 //
-//   union CreateChangeRoleRequestResult switch (CreateChangeRoleRequestResultCode code)
+//   //: Result of operation application
+//    union CreateChangeRoleRequestResult switch (CreateChangeRoleRequestResultCode code)
 //    {
 //    case SUCCESS:
 //        struct {
@@ -14406,7 +15139,9 @@ func NewCreateIssuanceRequestOpExt(v LedgerVersion, value interface{}) (result C
 
 // CreateIssuanceRequestOp is an XDR Struct defines as:
 //
-//   struct CreateIssuanceRequestOp
+//   //: CreateIssuanceRequestOp is used to create a reviewable request that, after reviewer's approval,
+//    //: will issue the specified amount of asset to a receiver's balance
+//    struct CreateIssuanceRequestOp
 //    {
 //        //: Issuance request to create
 //        IssuanceRequest request;
@@ -14433,7 +15168,8 @@ type CreateIssuanceRequestOp struct {
 
 // CreateIssuanceRequestResultCode is an XDR Enum defines as:
 //
-//   enum CreateIssuanceRequestResultCode
+//   //: Result codes of the CreateIssuanceRequestOp
+//    enum CreateIssuanceRequestResultCode
 //    {
 //        // codes considered as "success" for the operation
 //        //: CreateIssuanceRequest operation application was successful
@@ -14594,6 +15330,7 @@ func (e CreateIssuanceRequestResultCode) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range CreateIssuanceRequestResultCodeAll {
 			if (value & e) == value {
@@ -14663,7 +15400,8 @@ func NewCreateIssuanceRequestSuccessExt(v LedgerVersion, value interface{}) (res
 
 // CreateIssuanceRequestSuccess is an XDR Struct defines as:
 //
-//   struct CreateIssuanceRequestSuccess {
+//   //:Result of successful application of CreateIssuanceRequest operation
+//    struct CreateIssuanceRequestSuccess {
 //        //: ID of a newly created issuance request
 //        uint64 requestID;
 //        //: Account address of the receiver
@@ -14691,7 +15429,8 @@ type CreateIssuanceRequestSuccess struct {
 
 // CreateIssuanceRequestResult is an XDR Union defines as:
 //
-//   union CreateIssuanceRequestResult switch (CreateIssuanceRequestResultCode code)
+//   //: Create issuance request result with result code
+//    union CreateIssuanceRequestResult switch (CreateIssuanceRequestResultCode code)
 //    {
 //    case SUCCESS:
 //        CreateIssuanceRequestSuccess success;
@@ -14763,6 +15502,417 @@ func (u CreateIssuanceRequestResult) GetSuccess() (result CreateIssuanceRequestS
 	return
 }
 
+// CreateKycRecoveryRequestOpExt is an XDR NestedUnion defines as:
+//
+//   union switch (LedgerVersion v)
+//        {
+//        case EMPTY_VERSION:
+//            void;
+//        }
+//
+type CreateKycRecoveryRequestOpExt struct {
+	V LedgerVersion `json:"v,omitempty"`
+}
+
+// SwitchFieldName returns the field name in which this union's
+// discriminant is stored
+func (u CreateKycRecoveryRequestOpExt) SwitchFieldName() string {
+	return "V"
+}
+
+// ArmForSwitch returns which field name should be used for storing
+// the value for an instance of CreateKycRecoveryRequestOpExt
+func (u CreateKycRecoveryRequestOpExt) ArmForSwitch(sw int32) (string, bool) {
+	switch LedgerVersion(sw) {
+	case LedgerVersionEmptyVersion:
+		return "", true
+	}
+	return "-", false
+}
+
+// NewCreateKycRecoveryRequestOpExt creates a new  CreateKycRecoveryRequestOpExt.
+func NewCreateKycRecoveryRequestOpExt(v LedgerVersion, value interface{}) (result CreateKycRecoveryRequestOpExt, err error) {
+	result.V = v
+	switch LedgerVersion(v) {
+	case LedgerVersionEmptyVersion:
+		// void
+	}
+	return
+}
+
+// CreateKycRecoveryRequestOp is an XDR Struct defines as:
+//
+//   //: CreateKYCRecoveryRequestOp to create KYC recovery request and set new signers for account
+//    struct CreateKYCRecoveryRequestOp
+//    {
+//        //: ID of a reviewable request. If set 0, request is created, else - request is updated
+//        uint64 requestID;
+//        //: Account for which signers will be set
+//        AccountID targetAccount;
+//        //: New signers to set
+//        UpdateSignerData signersData<>;
+//
+//         //: Arbitrary stringified json object that can be used to attach data to be reviewed by an admin
+//        longstring creatorDetails; // details set by requester
+//
+//        //: (optional) Bit mask whose flags must be cleared in order for KYC recovery request to be approved, which will be used by key `create_kyc_recovery_tasks`
+//        //: instead of key-value
+//        uint32* allTasks;
+//
+//        //: reserved for future use
+//        union switch (LedgerVersion v)
+//        {
+//        case EMPTY_VERSION:
+//            void;
+//        } ext;
+//    };
+//
+type CreateKycRecoveryRequestOp struct {
+	RequestId      Uint64                        `json:"requestID,omitempty"`
+	TargetAccount  AccountId                     `json:"targetAccount,omitempty"`
+	SignersData    []UpdateSignerData            `json:"signersData,omitempty"`
+	CreatorDetails Longstring                    `json:"creatorDetails,omitempty"`
+	AllTasks       *Uint32                       `json:"allTasks,omitempty"`
+	Ext            CreateKycRecoveryRequestOpExt `json:"ext,omitempty"`
+}
+
+// CreateKycRecoveryRequestResultCode is an XDR Enum defines as:
+//
+//   //: Result codes of CreateKYCRecoveryRequestOp
+//    enum CreateKYCRecoveryRequestResultCode
+//    {
+//        //: KYC Recovery request was successfully created
+//        SUCCESS = 0,
+//
+//        //: Creator details are not in a valid JSON format
+//        INVALID_CREATOR_DETAILS = -1,
+//        //: KYC recovery tasks are not set in the system
+//        KYC_RECOVERY_TASKS_NOT_FOUND = -2,
+//        //: Not allowed to provide empty slice of signers
+//        NO_SIGNER_DATA = -3,
+//        //: SignerData contains duplicates
+//        SIGNER_DUPLICATION = -4,
+//        //: Signer has weight > threshold
+//        INVALID_WEIGHT = -5,
+//        //: Signer has invalid details
+//        INVALID_DETAILS = -6,
+//        //: Request with provided parameters already exists
+//        REQUEST_ALREADY_EXISTS = -7,
+//        //: Account with provided account address does not exist
+//        TARGET_ACCOUNT_NOT_FOUND = -8,
+//        //: System configuration forbids KYC recovery
+//        RECOVERY_NOT_ALLOWED = -10,
+//        //: Only target account can update request
+//        NOT_ALLOWED_TO_UPDATE_REQUEST = -11,
+//        //: There is no request with such ID
+//        REQUEST_NOT_FOUND = -12,
+//        //: It is forbidden to change target account on update
+//        INVALID_UPDATE_DATA = -13,
+//        //: It is forbidden to set `allTasks` on update
+//        NOT_ALLOWED_TO_SET_TASKS_ON_UPDATE = -14
+//    };
+//
+type CreateKycRecoveryRequestResultCode int32
+
+const (
+	CreateKycRecoveryRequestResultCodeSuccess                      CreateKycRecoveryRequestResultCode = 0
+	CreateKycRecoveryRequestResultCodeInvalidCreatorDetails        CreateKycRecoveryRequestResultCode = -1
+	CreateKycRecoveryRequestResultCodeKycRecoveryTasksNotFound     CreateKycRecoveryRequestResultCode = -2
+	CreateKycRecoveryRequestResultCodeNoSignerData                 CreateKycRecoveryRequestResultCode = -3
+	CreateKycRecoveryRequestResultCodeSignerDuplication            CreateKycRecoveryRequestResultCode = -4
+	CreateKycRecoveryRequestResultCodeInvalidWeight                CreateKycRecoveryRequestResultCode = -5
+	CreateKycRecoveryRequestResultCodeInvalidDetails               CreateKycRecoveryRequestResultCode = -6
+	CreateKycRecoveryRequestResultCodeRequestAlreadyExists         CreateKycRecoveryRequestResultCode = -7
+	CreateKycRecoveryRequestResultCodeTargetAccountNotFound        CreateKycRecoveryRequestResultCode = -8
+	CreateKycRecoveryRequestResultCodeRecoveryNotAllowed           CreateKycRecoveryRequestResultCode = -10
+	CreateKycRecoveryRequestResultCodeNotAllowedToUpdateRequest    CreateKycRecoveryRequestResultCode = -11
+	CreateKycRecoveryRequestResultCodeRequestNotFound              CreateKycRecoveryRequestResultCode = -12
+	CreateKycRecoveryRequestResultCodeInvalidUpdateData            CreateKycRecoveryRequestResultCode = -13
+	CreateKycRecoveryRequestResultCodeNotAllowedToSetTasksOnUpdate CreateKycRecoveryRequestResultCode = -14
+)
+
+var CreateKycRecoveryRequestResultCodeAll = []CreateKycRecoveryRequestResultCode{
+	CreateKycRecoveryRequestResultCodeSuccess,
+	CreateKycRecoveryRequestResultCodeInvalidCreatorDetails,
+	CreateKycRecoveryRequestResultCodeKycRecoveryTasksNotFound,
+	CreateKycRecoveryRequestResultCodeNoSignerData,
+	CreateKycRecoveryRequestResultCodeSignerDuplication,
+	CreateKycRecoveryRequestResultCodeInvalidWeight,
+	CreateKycRecoveryRequestResultCodeInvalidDetails,
+	CreateKycRecoveryRequestResultCodeRequestAlreadyExists,
+	CreateKycRecoveryRequestResultCodeTargetAccountNotFound,
+	CreateKycRecoveryRequestResultCodeRecoveryNotAllowed,
+	CreateKycRecoveryRequestResultCodeNotAllowedToUpdateRequest,
+	CreateKycRecoveryRequestResultCodeRequestNotFound,
+	CreateKycRecoveryRequestResultCodeInvalidUpdateData,
+	CreateKycRecoveryRequestResultCodeNotAllowedToSetTasksOnUpdate,
+}
+
+var createKycRecoveryRequestResultCodeMap = map[int32]string{
+	0:   "CreateKycRecoveryRequestResultCodeSuccess",
+	-1:  "CreateKycRecoveryRequestResultCodeInvalidCreatorDetails",
+	-2:  "CreateKycRecoveryRequestResultCodeKycRecoveryTasksNotFound",
+	-3:  "CreateKycRecoveryRequestResultCodeNoSignerData",
+	-4:  "CreateKycRecoveryRequestResultCodeSignerDuplication",
+	-5:  "CreateKycRecoveryRequestResultCodeInvalidWeight",
+	-6:  "CreateKycRecoveryRequestResultCodeInvalidDetails",
+	-7:  "CreateKycRecoveryRequestResultCodeRequestAlreadyExists",
+	-8:  "CreateKycRecoveryRequestResultCodeTargetAccountNotFound",
+	-10: "CreateKycRecoveryRequestResultCodeRecoveryNotAllowed",
+	-11: "CreateKycRecoveryRequestResultCodeNotAllowedToUpdateRequest",
+	-12: "CreateKycRecoveryRequestResultCodeRequestNotFound",
+	-13: "CreateKycRecoveryRequestResultCodeInvalidUpdateData",
+	-14: "CreateKycRecoveryRequestResultCodeNotAllowedToSetTasksOnUpdate",
+}
+
+var createKycRecoveryRequestResultCodeShortMap = map[int32]string{
+	0:   "success",
+	-1:  "invalid_creator_details",
+	-2:  "kyc_recovery_tasks_not_found",
+	-3:  "no_signer_data",
+	-4:  "signer_duplication",
+	-5:  "invalid_weight",
+	-6:  "invalid_details",
+	-7:  "request_already_exists",
+	-8:  "target_account_not_found",
+	-10: "recovery_not_allowed",
+	-11: "not_allowed_to_update_request",
+	-12: "request_not_found",
+	-13: "invalid_update_data",
+	-14: "not_allowed_to_set_tasks_on_update",
+}
+
+var createKycRecoveryRequestResultCodeRevMap = map[string]int32{
+	"CreateKycRecoveryRequestResultCodeSuccess":                      0,
+	"CreateKycRecoveryRequestResultCodeInvalidCreatorDetails":        -1,
+	"CreateKycRecoveryRequestResultCodeKycRecoveryTasksNotFound":     -2,
+	"CreateKycRecoveryRequestResultCodeNoSignerData":                 -3,
+	"CreateKycRecoveryRequestResultCodeSignerDuplication":            -4,
+	"CreateKycRecoveryRequestResultCodeInvalidWeight":                -5,
+	"CreateKycRecoveryRequestResultCodeInvalidDetails":               -6,
+	"CreateKycRecoveryRequestResultCodeRequestAlreadyExists":         -7,
+	"CreateKycRecoveryRequestResultCodeTargetAccountNotFound":        -8,
+	"CreateKycRecoveryRequestResultCodeRecoveryNotAllowed":           -10,
+	"CreateKycRecoveryRequestResultCodeNotAllowedToUpdateRequest":    -11,
+	"CreateKycRecoveryRequestResultCodeRequestNotFound":              -12,
+	"CreateKycRecoveryRequestResultCodeInvalidUpdateData":            -13,
+	"CreateKycRecoveryRequestResultCodeNotAllowedToSetTasksOnUpdate": -14,
+}
+
+// ValidEnum validates a proposed value for this enum.  Implements
+// the Enum interface for CreateKycRecoveryRequestResultCode
+func (e CreateKycRecoveryRequestResultCode) ValidEnum(v int32) bool {
+	_, ok := createKycRecoveryRequestResultCodeMap[v]
+	return ok
+}
+func (e CreateKycRecoveryRequestResultCode) isFlag() bool {
+	for i := len(CreateKycRecoveryRequestResultCodeAll) - 1; i >= 0; i-- {
+		expected := CreateKycRecoveryRequestResultCode(2) << uint64(len(CreateKycRecoveryRequestResultCodeAll)-1) >> uint64(len(CreateKycRecoveryRequestResultCodeAll)-i)
+		if expected != CreateKycRecoveryRequestResultCodeAll[i] {
+			return false
+		}
+	}
+	return true
+}
+
+// String returns the name of `e`
+func (e CreateKycRecoveryRequestResultCode) String() string {
+	name, _ := createKycRecoveryRequestResultCodeMap[int32(e)]
+	return name
+}
+
+func (e CreateKycRecoveryRequestResultCode) ShortString() string {
+	name, _ := createKycRecoveryRequestResultCodeShortMap[int32(e)]
+	return name
+}
+
+func (e CreateKycRecoveryRequestResultCode) MarshalJSON() ([]byte, error) {
+	if e.isFlag() {
+		// marshal as mask
+		result := flag{
+			Value: int32(e),
+			Flags: make([]flagValue, 0),
+		}
+		for _, value := range CreateKycRecoveryRequestResultCodeAll {
+			if (value & e) == value {
+				result.Flags = append(result.Flags, flagValue{
+					Value: int32(value),
+					Name:  value.ShortString(),
+				})
+			}
+		}
+		return json.Marshal(&result)
+	} else {
+		// marshal as enum
+		result := enum{
+			Value:  int32(e),
+			String: e.ShortString(),
+		}
+		return json.Marshal(&result)
+	}
+}
+
+func (e *CreateKycRecoveryRequestResultCode) UnmarshalJSON(data []byte) error {
+	var t value
+	if err := json.Unmarshal(data, &t); err != nil {
+		return err
+	}
+	*e = CreateKycRecoveryRequestResultCode(t.Value)
+	return nil
+}
+
+// CreateKycRecoveryRequestResultSuccessExt is an XDR NestedUnion defines as:
+//
+//   union switch (LedgerVersion v)
+//            {
+//            case EMPTY_VERSION:
+//                void;
+//            }
+//
+type CreateKycRecoveryRequestResultSuccessExt struct {
+	V LedgerVersion `json:"v,omitempty"`
+}
+
+// SwitchFieldName returns the field name in which this union's
+// discriminant is stored
+func (u CreateKycRecoveryRequestResultSuccessExt) SwitchFieldName() string {
+	return "V"
+}
+
+// ArmForSwitch returns which field name should be used for storing
+// the value for an instance of CreateKycRecoveryRequestResultSuccessExt
+func (u CreateKycRecoveryRequestResultSuccessExt) ArmForSwitch(sw int32) (string, bool) {
+	switch LedgerVersion(sw) {
+	case LedgerVersionEmptyVersion:
+		return "", true
+	}
+	return "-", false
+}
+
+// NewCreateKycRecoveryRequestResultSuccessExt creates a new  CreateKycRecoveryRequestResultSuccessExt.
+func NewCreateKycRecoveryRequestResultSuccessExt(v LedgerVersion, value interface{}) (result CreateKycRecoveryRequestResultSuccessExt, err error) {
+	result.V = v
+	switch LedgerVersion(v) {
+	case LedgerVersionEmptyVersion:
+		// void
+	}
+	return
+}
+
+// CreateKycRecoveryRequestResultSuccess is an XDR NestedStruct defines as:
+//
+//   struct {
+//            //: id of the created request
+//            uint64 requestID;
+//
+//            //: Indicates whether or not the KYC Recovery request was auto approved and fulfilled
+//            bool fulfilled;
+//
+//            //: reserved for future use
+//            union switch (LedgerVersion v)
+//            {
+//            case EMPTY_VERSION:
+//                void;
+//            }
+//            ext;
+//        }
+//
+type CreateKycRecoveryRequestResultSuccess struct {
+	RequestId Uint64                                   `json:"requestID,omitempty"`
+	Fulfilled bool                                     `json:"fulfilled,omitempty"`
+	Ext       CreateKycRecoveryRequestResultSuccessExt `json:"ext,omitempty"`
+}
+
+// CreateKycRecoveryRequestResult is an XDR Union defines as:
+//
+//   //: Result of operation applying
+//    union CreateKYCRecoveryRequestResult switch (CreateKYCRecoveryRequestResultCode code)
+//    {
+//    case SUCCESS:
+//        //: Is used to pass useful params if operation is success
+//        struct {
+//            //: id of the created request
+//            uint64 requestID;
+//
+//            //: Indicates whether or not the KYC Recovery request was auto approved and fulfilled
+//            bool fulfilled;
+//
+//            //: reserved for future use
+//            union switch (LedgerVersion v)
+//            {
+//            case EMPTY_VERSION:
+//                void;
+//            }
+//            ext;
+//        } success;
+//    default:
+//        void;
+//    };
+//
+type CreateKycRecoveryRequestResult struct {
+	Code    CreateKycRecoveryRequestResultCode     `json:"code,omitempty"`
+	Success *CreateKycRecoveryRequestResultSuccess `json:"success,omitempty"`
+}
+
+// SwitchFieldName returns the field name in which this union's
+// discriminant is stored
+func (u CreateKycRecoveryRequestResult) SwitchFieldName() string {
+	return "Code"
+}
+
+// ArmForSwitch returns which field name should be used for storing
+// the value for an instance of CreateKycRecoveryRequestResult
+func (u CreateKycRecoveryRequestResult) ArmForSwitch(sw int32) (string, bool) {
+	switch CreateKycRecoveryRequestResultCode(sw) {
+	case CreateKycRecoveryRequestResultCodeSuccess:
+		return "Success", true
+	default:
+		return "", true
+	}
+}
+
+// NewCreateKycRecoveryRequestResult creates a new  CreateKycRecoveryRequestResult.
+func NewCreateKycRecoveryRequestResult(code CreateKycRecoveryRequestResultCode, value interface{}) (result CreateKycRecoveryRequestResult, err error) {
+	result.Code = code
+	switch CreateKycRecoveryRequestResultCode(code) {
+	case CreateKycRecoveryRequestResultCodeSuccess:
+		tv, ok := value.(CreateKycRecoveryRequestResultSuccess)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be CreateKycRecoveryRequestResultSuccess")
+			return
+		}
+		result.Success = &tv
+	default:
+		// void
+	}
+	return
+}
+
+// MustSuccess retrieves the Success value from the union,
+// panicing if the value is not set.
+func (u CreateKycRecoveryRequestResult) MustSuccess() CreateKycRecoveryRequestResultSuccess {
+	val, ok := u.GetSuccess()
+
+	if !ok {
+		panic("arm Success is not set")
+	}
+
+	return val
+}
+
+// GetSuccess retrieves the Success value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u CreateKycRecoveryRequestResult) GetSuccess() (result CreateKycRecoveryRequestResultSuccess, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.Code))
+
+	if armName == "Success" {
+		result = *u.Success
+		ok = true
+	}
+
+	return
+}
+
 // CreateManageLimitsRequestOpExt is an XDR NestedUnion defines as:
 //
 //   union switch (LedgerVersion v)
@@ -14803,7 +15953,8 @@ func NewCreateManageLimitsRequestOpExt(v LedgerVersion, value interface{}) (resu
 
 // CreateManageLimitsRequestOp is an XDR Struct defines as:
 //
-//   struct CreateManageLimitsRequestOp
+//   //: CreateManageLimitsRequestOp is used to create a reviewable request which, after approval, will update the limits set in the system
+//    struct CreateManageLimitsRequestOp
 //    {
 //        //: Body of the `UpdateLimits` reviewable request to be created
 //        LimitsUpdateRequest manageLimitsRequest;
@@ -14832,7 +15983,8 @@ type CreateManageLimitsRequestOp struct {
 
 // CreateManageLimitsRequestResultCode is an XDR Enum defines as:
 //
-//   enum CreateManageLimitsRequestResultCode
+//   //: Result codes for CreateManageLimitsRequest operation
+//    enum CreateManageLimitsRequestResultCode
 //    {
 //        // codes considered as "success" for the operation
 //        //: Operation was successfully applied and ManageLimitsRequest was successfully created
@@ -14937,6 +16089,7 @@ func (e CreateManageLimitsRequestResultCode) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range CreateManageLimitsRequestResultCodeAll {
 			if (value & e) == value {
@@ -15028,7 +16181,8 @@ type CreateManageLimitsRequestResultSuccess struct {
 
 // CreateManageLimitsRequestResult is an XDR Union defines as:
 //
-//   union CreateManageLimitsRequestResult switch (CreateManageLimitsRequestResultCode code)
+//   //: `CreateManageLimitsRequestResult` represents the result of the `CreateManageLimitsRequestOp` with corresponding details based on given `CreateManageLimitsRequestResultCode`
+//    union CreateManageLimitsRequestResult switch (CreateManageLimitsRequestResultCode code)
 //    {
 //    case SUCCESS:
 //        struct {
@@ -15152,7 +16306,9 @@ func NewCreatePreIssuanceRequestOpExt(v LedgerVersion, value interface{}) (resul
 
 // CreatePreIssuanceRequestOp is an XDR Struct defines as:
 //
-//   struct CreatePreIssuanceRequestOp
+//   //: CreatePreIssuanceRequestOp is used to create a reviewable request,
+//    //: which, after admin's approval, will change `availableForIssuance` amount of asset
+//    struct CreatePreIssuanceRequestOp
 //    {
 //        //: Body of PreIssuanceRequest to be created
 //        PreIssuanceRequest request;
@@ -15177,7 +16333,8 @@ type CreatePreIssuanceRequestOp struct {
 
 // CreatePreIssuanceRequestResultCode is an XDR Enum defines as:
 //
-//   enum CreatePreIssuanceRequestResultCode
+//   //: Result codes of CreatePreIssuanceRequestOp
+//    enum CreatePreIssuanceRequestResultCode
 //    {
 //        //: Preissuance request is either successfully created
 //        //: or auto approved if pending tasks of requests is equal to 0
@@ -15310,6 +16467,7 @@ func (e CreatePreIssuanceRequestResultCode) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range CreatePreIssuanceRequestResultCodeAll {
 			if (value & e) == value {
@@ -15402,7 +16560,8 @@ type CreatePreIssuanceRequestResultSuccess struct {
 
 // CreatePreIssuanceRequestResult is an XDR Union defines as:
 //
-//   union CreatePreIssuanceRequestResult switch (CreatePreIssuanceRequestResultCode code)
+//   //: Result of `CreatePreIssuanceRequest` operation application along with the result code
+//    union CreatePreIssuanceRequestResult switch (CreatePreIssuanceRequestResultCode code)
 //    {
 //    case SUCCESS:
 //        //: Result of successful application of `CreatePreIssuanceRequest` operation
@@ -15528,7 +16687,8 @@ func NewCreateSaleCreationRequestOpExt(v LedgerVersion, value interface{}) (resu
 
 // CreateSaleCreationRequestOp is an XDR Struct defines as:
 //
-//   struct CreateSaleCreationRequestOp
+//   //: CreateSaleCreationRequest operation creates SaleCreationRequest or updates the rejected request
+//    struct CreateSaleCreationRequestOp
 //    {
 //        //: ID of the SaleCreationRequest. If set to 0, a new request is created
 //        uint64 requestID;
@@ -15557,7 +16717,8 @@ type CreateSaleCreationRequestOp struct {
 
 // CreateSaleCreationRequestResultCode is an XDR Enum defines as:
 //
-//   enum CreateSaleCreationRequestResultCode
+//   //: CreateSaleCreationRequest result codes
+//    enum CreateSaleCreationRequestResultCode
 //    {
 //        // codes considered as "success" for the operation
 //        //: CreateSaleCreationRequest operation was successfully applied
@@ -15595,7 +16756,17 @@ type CreateSaleCreationRequestOp struct {
 //        //: It is not allowed to set all tasks on rejected SaleCreationRequest update
 //        NOT_ALLOWED_TO_SET_TASKS_ON_UPDATE = -15,
 //        //: Auto review failed due to a particular reason (e.g., hard cap exceeded either max issuance amount or preissued amount of an asset)
-//        AUTO_REVIEW_FAILED = -16
+//        AUTO_REVIEW_FAILED = -16,
+//        //: Not allowed to pass more account sale rule than allowed by `max_sale_rules_number` key value
+//        EXCEEDED_MAX_RULES_SIZE = -17,
+//        //: Not allowed to pass rules with the same ledger key and null accountID
+//        GLOBAL_SPECIFIC_RULE_DUPLICATION = -18,
+//        //: Not allowed to pass rules with the same accountID and ledger key
+//        ACCOUNT_SPECIFIC_RULE_DUPLICATION = -19,
+//        //: Not allowed to pass rules with out global one (`accountID == null`)
+//        GLOBAL_SPECIFIC_RULE_REQUIRED = -20,
+//        //: There is no account with id specified in sale rules
+//        ACCOUNT_NOT_FOUND = -21
 //    };
 //
 type CreateSaleCreationRequestResultCode int32
@@ -15618,6 +16789,11 @@ const (
 	CreateSaleCreationRequestResultCodeSaleCreateTasksNotFound         CreateSaleCreationRequestResultCode = -14
 	CreateSaleCreationRequestResultCodeNotAllowedToSetTasksOnUpdate    CreateSaleCreationRequestResultCode = -15
 	CreateSaleCreationRequestResultCodeAutoReviewFailed                CreateSaleCreationRequestResultCode = -16
+	CreateSaleCreationRequestResultCodeExceededMaxRulesSize            CreateSaleCreationRequestResultCode = -17
+	CreateSaleCreationRequestResultCodeGlobalSpecificRuleDuplication   CreateSaleCreationRequestResultCode = -18
+	CreateSaleCreationRequestResultCodeAccountSpecificRuleDuplication  CreateSaleCreationRequestResultCode = -19
+	CreateSaleCreationRequestResultCodeGlobalSpecificRuleRequired      CreateSaleCreationRequestResultCode = -20
+	CreateSaleCreationRequestResultCodeAccountNotFound                 CreateSaleCreationRequestResultCode = -21
 )
 
 var CreateSaleCreationRequestResultCodeAll = []CreateSaleCreationRequestResultCode{
@@ -15638,6 +16814,11 @@ var CreateSaleCreationRequestResultCodeAll = []CreateSaleCreationRequestResultCo
 	CreateSaleCreationRequestResultCodeSaleCreateTasksNotFound,
 	CreateSaleCreationRequestResultCodeNotAllowedToSetTasksOnUpdate,
 	CreateSaleCreationRequestResultCodeAutoReviewFailed,
+	CreateSaleCreationRequestResultCodeExceededMaxRulesSize,
+	CreateSaleCreationRequestResultCodeGlobalSpecificRuleDuplication,
+	CreateSaleCreationRequestResultCodeAccountSpecificRuleDuplication,
+	CreateSaleCreationRequestResultCodeGlobalSpecificRuleRequired,
+	CreateSaleCreationRequestResultCodeAccountNotFound,
 }
 
 var createSaleCreationRequestResultCodeMap = map[int32]string{
@@ -15658,6 +16839,11 @@ var createSaleCreationRequestResultCodeMap = map[int32]string{
 	-14: "CreateSaleCreationRequestResultCodeSaleCreateTasksNotFound",
 	-15: "CreateSaleCreationRequestResultCodeNotAllowedToSetTasksOnUpdate",
 	-16: "CreateSaleCreationRequestResultCodeAutoReviewFailed",
+	-17: "CreateSaleCreationRequestResultCodeExceededMaxRulesSize",
+	-18: "CreateSaleCreationRequestResultCodeGlobalSpecificRuleDuplication",
+	-19: "CreateSaleCreationRequestResultCodeAccountSpecificRuleDuplication",
+	-20: "CreateSaleCreationRequestResultCodeGlobalSpecificRuleRequired",
+	-21: "CreateSaleCreationRequestResultCodeAccountNotFound",
 }
 
 var createSaleCreationRequestResultCodeShortMap = map[int32]string{
@@ -15678,6 +16864,11 @@ var createSaleCreationRequestResultCodeShortMap = map[int32]string{
 	-14: "sale_create_tasks_not_found",
 	-15: "not_allowed_to_set_tasks_on_update",
 	-16: "auto_review_failed",
+	-17: "exceeded_max_rules_size",
+	-18: "global_specific_rule_duplication",
+	-19: "account_specific_rule_duplication",
+	-20: "global_specific_rule_required",
+	-21: "account_not_found",
 }
 
 var createSaleCreationRequestResultCodeRevMap = map[string]int32{
@@ -15698,6 +16889,11 @@ var createSaleCreationRequestResultCodeRevMap = map[string]int32{
 	"CreateSaleCreationRequestResultCodeSaleCreateTasksNotFound":         -14,
 	"CreateSaleCreationRequestResultCodeNotAllowedToSetTasksOnUpdate":    -15,
 	"CreateSaleCreationRequestResultCodeAutoReviewFailed":                -16,
+	"CreateSaleCreationRequestResultCodeExceededMaxRulesSize":            -17,
+	"CreateSaleCreationRequestResultCodeGlobalSpecificRuleDuplication":   -18,
+	"CreateSaleCreationRequestResultCodeAccountSpecificRuleDuplication":  -19,
+	"CreateSaleCreationRequestResultCodeGlobalSpecificRuleRequired":      -20,
+	"CreateSaleCreationRequestResultCodeAccountNotFound":                 -21,
 }
 
 // ValidEnum validates a proposed value for this enum.  Implements
@@ -15732,6 +16928,7 @@ func (e CreateSaleCreationRequestResultCode) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range CreateSaleCreationRequestResultCodeAll {
 			if (value & e) == value {
@@ -15801,7 +16998,8 @@ func NewCreateSaleCreationSuccessExt(v LedgerVersion, value interface{}) (result
 
 // CreateSaleCreationSuccess is an XDR Struct defines as:
 //
-//   struct CreateSaleCreationSuccess {
+//   //: Result of the successful application of CreateSaleCreationRequest operation
+//    struct CreateSaleCreationSuccess {
 //        //: ID of the SaleCreation request
 //        uint64 requestID;
 //        //: ID of a newly created sale (if the sale creation request has been auto approved)
@@ -15863,7 +17061,8 @@ func NewCreateSaleCreationAutoReviewFailedExt(v LedgerVersion, value interface{}
 
 // CreateSaleCreationAutoReviewFailed is an XDR Struct defines as:
 //
-//   struct CreateSaleCreationAutoReviewFailed {
+//   //: specifies details on why an auto review has failed
+//    struct CreateSaleCreationAutoReviewFailed {
 //        //: auto review result
 //        ReviewRequestResult reviewRequestRequest;
 //        //: Reserved for future use
@@ -15882,7 +17081,8 @@ type CreateSaleCreationAutoReviewFailed struct {
 
 // CreateSaleCreationRequestResult is an XDR Union defines as:
 //
-//   union CreateSaleCreationRequestResult switch (CreateSaleCreationRequestResultCode code)
+//   //: CreateSaleCreationRequest result along with the result code
+//    union CreateSaleCreationRequestResult switch (CreateSaleCreationRequestResultCode code)
 //    {
 //    case SUCCESS:
 //        CreateSaleCreationSuccess success;
@@ -16031,7 +17231,9 @@ func NewCreateWithdrawalRequestOpExt(v LedgerVersion, value interface{}) (result
 
 // CreateWithdrawalRequestOp is an XDR Struct defines as:
 //
-//   struct CreateWithdrawalRequestOp
+//   //: CreateWithdrawalRequest operation is used to create a reviewable request,
+//    //: which, after reviewer's approval, will charge the specified amount from balance and send it to external wallet/account
+//    struct CreateWithdrawalRequestOp
 //    {
 //        //: Withdrawal request to create
 //        WithdrawalRequest request;
@@ -16056,7 +17258,8 @@ type CreateWithdrawalRequestOp struct {
 
 // CreateWithdrawalRequestResultCode is an XDR Enum defines as:
 //
-//   enum CreateWithdrawalRequestResultCode
+//   //: CreateWithdrawalRequest operation result codes
+//    enum CreateWithdrawalRequestResultCode
 //    {
 //        // codes considered as "success" for the operation
 //        //: CreateWithdrawalRequest operation successfully applied
@@ -16245,6 +17448,7 @@ func (e CreateWithdrawalRequestResultCode) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range CreateWithdrawalRequestResultCodeAll {
 			if (value & e) == value {
@@ -16314,7 +17518,8 @@ func NewCreateWithdrawalSuccessExt(v LedgerVersion, value interface{}) (result C
 
 // CreateWithdrawalSuccess is an XDR Struct defines as:
 //
-//   struct CreateWithdrawalSuccess {
+//   //: Result of the successful withdrawal request creation
+//    struct CreateWithdrawalSuccess {
 //        //: ID of a newly created WithdrawalRequest
 //        uint64 requestID;
 //        //: Indicates whether or not the withdrawal request was auto approved and fulfilled
@@ -16336,7 +17541,8 @@ type CreateWithdrawalSuccess struct {
 
 // CreateWithdrawalRequestResult is an XDR Union defines as:
 //
-//   union CreateWithdrawalRequestResult switch (CreateWithdrawalRequestResultCode code)
+//   //: Result of applying CreateWithdrawalRequst operation along with the result code
+//    union CreateWithdrawalRequestResult switch (CreateWithdrawalRequestResultCode code)
 //    {
 //        case SUCCESS:
 //            CreateWithdrawalSuccess success;
@@ -16408,6 +17614,313 @@ func (u CreateWithdrawalRequestResult) GetSuccess() (result CreateWithdrawalSucc
 	return
 }
 
+// InitiateKycRecoveryOpExt is an XDR NestedUnion defines as:
+//
+//   union switch (LedgerVersion v)
+//        {
+//        case EMPTY_VERSION:
+//            void;
+//        }
+//
+type InitiateKycRecoveryOpExt struct {
+	V LedgerVersion `json:"v,omitempty"`
+}
+
+// SwitchFieldName returns the field name in which this union's
+// discriminant is stored
+func (u InitiateKycRecoveryOpExt) SwitchFieldName() string {
+	return "V"
+}
+
+// ArmForSwitch returns which field name should be used for storing
+// the value for an instance of InitiateKycRecoveryOpExt
+func (u InitiateKycRecoveryOpExt) ArmForSwitch(sw int32) (string, bool) {
+	switch LedgerVersion(sw) {
+	case LedgerVersionEmptyVersion:
+		return "", true
+	}
+	return "-", false
+}
+
+// NewInitiateKycRecoveryOpExt creates a new  InitiateKycRecoveryOpExt.
+func NewInitiateKycRecoveryOpExt(v LedgerVersion, value interface{}) (result InitiateKycRecoveryOpExt, err error) {
+	result.V = v
+	switch LedgerVersion(v) {
+	case LedgerVersionEmptyVersion:
+		// void
+	}
+	return
+}
+
+// InitiateKycRecoveryOp is an XDR Struct defines as:
+//
+//   //: InitiateKYCRecoveryOp is used to start KYC recovery process
+//    struct InitiateKYCRecoveryOp
+//    {
+//        //: Address of account to be recovered
+//        AccountID account;
+//        //: New signer to set
+//        PublicKey signer;
+//
+//        //: reserved for future use
+//        union switch (LedgerVersion v)
+//        {
+//        case EMPTY_VERSION:
+//            void;
+//        } ext;
+//    };
+//
+type InitiateKycRecoveryOp struct {
+	Account AccountId                `json:"account,omitempty"`
+	Signer  PublicKey                `json:"signer,omitempty"`
+	Ext     InitiateKycRecoveryOpExt `json:"ext,omitempty"`
+}
+
+// InitiateKycRecoveryResultCode is an XDR Enum defines as:
+//
+//   //: Result codes of InitiateKYCRecoveryOp
+//    enum InitiateKYCRecoveryResultCode
+//    {
+//        //: Means that KYC recovery was successfully initiated
+//        SUCCESS = 0,
+//
+//        //: System configuration forbids KYC recovery
+//        RECOVERY_NOT_ALLOWED = -1,
+//        //: Either, there is no entry by key `kyc_recovery_signer_role`, or such role does not exists
+//        RECOVERY_SIGNER_ROLE_NOT_FOUND = -2
+//    };
+//
+type InitiateKycRecoveryResultCode int32
+
+const (
+	InitiateKycRecoveryResultCodeSuccess                    InitiateKycRecoveryResultCode = 0
+	InitiateKycRecoveryResultCodeRecoveryNotAllowed         InitiateKycRecoveryResultCode = -1
+	InitiateKycRecoveryResultCodeRecoverySignerRoleNotFound InitiateKycRecoveryResultCode = -2
+)
+
+var InitiateKycRecoveryResultCodeAll = []InitiateKycRecoveryResultCode{
+	InitiateKycRecoveryResultCodeSuccess,
+	InitiateKycRecoveryResultCodeRecoveryNotAllowed,
+	InitiateKycRecoveryResultCodeRecoverySignerRoleNotFound,
+}
+
+var initiateKycRecoveryResultCodeMap = map[int32]string{
+	0:  "InitiateKycRecoveryResultCodeSuccess",
+	-1: "InitiateKycRecoveryResultCodeRecoveryNotAllowed",
+	-2: "InitiateKycRecoveryResultCodeRecoverySignerRoleNotFound",
+}
+
+var initiateKycRecoveryResultCodeShortMap = map[int32]string{
+	0:  "success",
+	-1: "recovery_not_allowed",
+	-2: "recovery_signer_role_not_found",
+}
+
+var initiateKycRecoveryResultCodeRevMap = map[string]int32{
+	"InitiateKycRecoveryResultCodeSuccess":                    0,
+	"InitiateKycRecoveryResultCodeRecoveryNotAllowed":         -1,
+	"InitiateKycRecoveryResultCodeRecoverySignerRoleNotFound": -2,
+}
+
+// ValidEnum validates a proposed value for this enum.  Implements
+// the Enum interface for InitiateKycRecoveryResultCode
+func (e InitiateKycRecoveryResultCode) ValidEnum(v int32) bool {
+	_, ok := initiateKycRecoveryResultCodeMap[v]
+	return ok
+}
+func (e InitiateKycRecoveryResultCode) isFlag() bool {
+	for i := len(InitiateKycRecoveryResultCodeAll) - 1; i >= 0; i-- {
+		expected := InitiateKycRecoveryResultCode(2) << uint64(len(InitiateKycRecoveryResultCodeAll)-1) >> uint64(len(InitiateKycRecoveryResultCodeAll)-i)
+		if expected != InitiateKycRecoveryResultCodeAll[i] {
+			return false
+		}
+	}
+	return true
+}
+
+// String returns the name of `e`
+func (e InitiateKycRecoveryResultCode) String() string {
+	name, _ := initiateKycRecoveryResultCodeMap[int32(e)]
+	return name
+}
+
+func (e InitiateKycRecoveryResultCode) ShortString() string {
+	name, _ := initiateKycRecoveryResultCodeShortMap[int32(e)]
+	return name
+}
+
+func (e InitiateKycRecoveryResultCode) MarshalJSON() ([]byte, error) {
+	if e.isFlag() {
+		// marshal as mask
+		result := flag{
+			Value: int32(e),
+			Flags: make([]flagValue, 0),
+		}
+		for _, value := range InitiateKycRecoveryResultCodeAll {
+			if (value & e) == value {
+				result.Flags = append(result.Flags, flagValue{
+					Value: int32(value),
+					Name:  value.ShortString(),
+				})
+			}
+		}
+		return json.Marshal(&result)
+	} else {
+		// marshal as enum
+		result := enum{
+			Value:  int32(e),
+			String: e.ShortString(),
+		}
+		return json.Marshal(&result)
+	}
+}
+
+func (e *InitiateKycRecoveryResultCode) UnmarshalJSON(data []byte) error {
+	var t value
+	if err := json.Unmarshal(data, &t); err != nil {
+		return err
+	}
+	*e = InitiateKycRecoveryResultCode(t.Value)
+	return nil
+}
+
+// InitiateKycRecoveryResultSuccessExt is an XDR NestedUnion defines as:
+//
+//   union switch (LedgerVersion v)
+//             {
+//             case EMPTY_VERSION:
+//                 void;
+//             }
+//
+type InitiateKycRecoveryResultSuccessExt struct {
+	V LedgerVersion `json:"v,omitempty"`
+}
+
+// SwitchFieldName returns the field name in which this union's
+// discriminant is stored
+func (u InitiateKycRecoveryResultSuccessExt) SwitchFieldName() string {
+	return "V"
+}
+
+// ArmForSwitch returns which field name should be used for storing
+// the value for an instance of InitiateKycRecoveryResultSuccessExt
+func (u InitiateKycRecoveryResultSuccessExt) ArmForSwitch(sw int32) (string, bool) {
+	switch LedgerVersion(sw) {
+	case LedgerVersionEmptyVersion:
+		return "", true
+	}
+	return "-", false
+}
+
+// NewInitiateKycRecoveryResultSuccessExt creates a new  InitiateKycRecoveryResultSuccessExt.
+func NewInitiateKycRecoveryResultSuccessExt(v LedgerVersion, value interface{}) (result InitiateKycRecoveryResultSuccessExt, err error) {
+	result.V = v
+	switch LedgerVersion(v) {
+	case LedgerVersionEmptyVersion:
+		// void
+	}
+	return
+}
+
+// InitiateKycRecoveryResultSuccess is an XDR NestedStruct defines as:
+//
+//   struct
+//        {
+//             //: reserved for future use
+//             union switch (LedgerVersion v)
+//             {
+//             case EMPTY_VERSION:
+//                 void;
+//             } ext;
+//        }
+//
+type InitiateKycRecoveryResultSuccess struct {
+	Ext InitiateKycRecoveryResultSuccessExt `json:"ext,omitempty"`
+}
+
+// InitiateKycRecoveryResult is an XDR Union defines as:
+//
+//   //: Result of operation applying
+//    union InitiateKYCRecoveryResult switch (InitiateKYCRecoveryResultCode code)
+//    {
+//    case SUCCESS:
+//        struct
+//        {
+//             //: reserved for future use
+//             union switch (LedgerVersion v)
+//             {
+//             case EMPTY_VERSION:
+//                 void;
+//             } ext;
+//        } success;
+//    default:
+//        void;
+//    };
+//
+type InitiateKycRecoveryResult struct {
+	Code    InitiateKycRecoveryResultCode     `json:"code,omitempty"`
+	Success *InitiateKycRecoveryResultSuccess `json:"success,omitempty"`
+}
+
+// SwitchFieldName returns the field name in which this union's
+// discriminant is stored
+func (u InitiateKycRecoveryResult) SwitchFieldName() string {
+	return "Code"
+}
+
+// ArmForSwitch returns which field name should be used for storing
+// the value for an instance of InitiateKycRecoveryResult
+func (u InitiateKycRecoveryResult) ArmForSwitch(sw int32) (string, bool) {
+	switch InitiateKycRecoveryResultCode(sw) {
+	case InitiateKycRecoveryResultCodeSuccess:
+		return "Success", true
+	default:
+		return "", true
+	}
+}
+
+// NewInitiateKycRecoveryResult creates a new  InitiateKycRecoveryResult.
+func NewInitiateKycRecoveryResult(code InitiateKycRecoveryResultCode, value interface{}) (result InitiateKycRecoveryResult, err error) {
+	result.Code = code
+	switch InitiateKycRecoveryResultCode(code) {
+	case InitiateKycRecoveryResultCodeSuccess:
+		tv, ok := value.(InitiateKycRecoveryResultSuccess)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be InitiateKycRecoveryResultSuccess")
+			return
+		}
+		result.Success = &tv
+	default:
+		// void
+	}
+	return
+}
+
+// MustSuccess retrieves the Success value from the union,
+// panicing if the value is not set.
+func (u InitiateKycRecoveryResult) MustSuccess() InitiateKycRecoveryResultSuccess {
+	val, ok := u.GetSuccess()
+
+	if !ok {
+		panic("arm Success is not set")
+	}
+
+	return val
+}
+
+// GetSuccess retrieves the Success value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u InitiateKycRecoveryResult) GetSuccess() (result InitiateKycRecoveryResultSuccess, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.Code))
+
+	if armName == "Success" {
+		result = *u.Success
+		ok = true
+	}
+
+	return
+}
+
 // LicenseOpExt is an XDR NestedUnion defines as:
 //
 //   union switch (LedgerVersion v)
@@ -16448,7 +17961,8 @@ func NewLicenseOpExt(v LedgerVersion, value interface{}) (result LicenseOpExt, e
 
 // LicenseOp is an XDR Struct defines as:
 //
-//   struct LicenseOp
+//   //: License operation is used to increase the allowed number of admins and due date
+//    struct LicenseOp
 //    {
 //        //: Allowed number of admins to set in the system
 //        uint64 adminCount;
@@ -16481,7 +17995,8 @@ type LicenseOp struct {
 
 // LicenseResultCode is an XDR Enum defines as:
 //
-//   enum LicenseResultCode
+//   //: Result code of the License operation application
+//    enum LicenseResultCode
 //    {
 //        //: License submit was successful, provided adminCount and dueDate were set in the system
 //        SUCCESS = 0,
@@ -16564,6 +18079,7 @@ func (e LicenseResultCode) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range LicenseResultCodeAll {
 			if (value & e) == value {
@@ -16633,7 +18149,8 @@ func NewLicenseSuccessExt(v LedgerVersion, value interface{}) (result LicenseSuc
 
 // LicenseSuccess is an XDR Struct defines as:
 //
-//   struct LicenseSuccess {
+//   //: LicenseSuccess is a result of successful LicenseOp application
+//    struct LicenseSuccess {
 //        //: Reserved for future use
 //        union switch (LedgerVersion v)
 //        {
@@ -16649,7 +18166,8 @@ type LicenseSuccess struct {
 
 // LicenseResult is an XDR Union defines as:
 //
-//   union LicenseResult switch (LicenseResultCode code)
+//   //: Result of the License operation application
+//    union LicenseResult switch (LicenseResultCode code)
 //    {
 //    case SUCCESS:
 //        LicenseSuccess success;
@@ -16723,7 +18241,8 @@ func (u LicenseResult) GetSuccess() (result LicenseSuccess, ok bool) {
 
 // ManageAccountRoleAction is an XDR Enum defines as:
 //
-//   enum ManageAccountRoleAction
+//   //: Actions that can be performed with the account role
+//    enum ManageAccountRoleAction
 //    {
 //        CREATE = 0,
 //        UPDATE = 1,
@@ -16794,6 +18313,7 @@ func (e ManageAccountRoleAction) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range ManageAccountRoleActionAll {
 			if (value & e) == value {
@@ -16863,7 +18383,8 @@ func NewCreateAccountRoleDataExt(v LedgerVersion, value interface{}) (result Cre
 
 // CreateAccountRoleData is an XDR Struct defines as:
 //
-//   struct CreateAccountRoleData
+//   //: CreateAccountRoleData is used to pass necessary params to create a new account role
+//    struct CreateAccountRoleData
 //    {
 //        //: Arbitrary stringified json object that will be attached to the role
 //        longstring details;
@@ -16924,7 +18445,8 @@ func NewUpdateAccountRoleDataExt(v LedgerVersion, value interface{}) (result Upd
 
 // UpdateAccountRoleData is an XDR Struct defines as:
 //
-//   struct UpdateAccountRoleData
+//   //: UpdateAccountRoleData is used to pass necessary params to update existing account role
+//    struct UpdateAccountRoleData
 //    {
 //        //: Identifier of existing signer role
 //        uint64 roleID;
@@ -16988,7 +18510,8 @@ func NewRemoveAccountRoleDataExt(v LedgerVersion, value interface{}) (result Rem
 
 // RemoveAccountRoleData is an XDR Struct defines as:
 //
-//   struct RemoveAccountRoleData
+//   //: RemoveAccountRoleData is used to pass necessary params to remove an existing account role
+//    struct RemoveAccountRoleData
 //    {
 //        //: Identifier of an existing account role
 //        uint64 roleID;
@@ -17189,7 +18712,8 @@ func NewManageAccountRoleOpExt(v LedgerVersion, value interface{}) (result Manag
 
 // ManageAccountRoleOp is an XDR Struct defines as:
 //
-//   struct ManageAccountRoleOp
+//   //: ManageAccountRoleOp is used to create, update or remove account role
+//    struct ManageAccountRoleOp
 //    {
 //        //: data is used to pass one of `ManageAccountRoleAction` with required params
 //        union switch (ManageAccountRoleAction action)
@@ -17218,7 +18742,8 @@ type ManageAccountRoleOp struct {
 
 // ManageAccountRoleResultCode is an XDR Enum defines as:
 //
-//   enum ManageAccountRoleResultCode
+//   //: Result codes of ManageAccountRoleResultCode
+//    enum ManageAccountRoleResultCode
 //    {
 //        //: This means that the specified action in `data` of ManageAccountRoleOp was successfully performed
 //        SUCCESS = 0,
@@ -17315,6 +18840,7 @@ func (e ManageAccountRoleResultCode) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range ManageAccountRoleResultCodeAll {
 			if (value & e) == value {
@@ -17404,7 +18930,8 @@ type ManageAccountRoleResultSuccess struct {
 
 // ManageAccountRoleResult is an XDR Union defines as:
 //
-//   union ManageAccountRoleResult switch (ManageAccountRoleResultCode code)
+//   //: Result of the operation performed
+//    union ManageAccountRoleResult switch (ManageAccountRoleResultCode code)
 //    {
 //        case SUCCESS:
 //            //: Is used to pass useful params if the operation is successful
@@ -17538,7 +19065,8 @@ func (u ManageAccountRoleResult) GetRuleId() (result Uint64, ok bool) {
 
 // ManageAccountRuleAction is an XDR Enum defines as:
 //
-//   enum ManageAccountRuleAction
+//   //: Actions that can be performed with account rule
+//    enum ManageAccountRuleAction
 //    {
 //        CREATE = 0,
 //        UPDATE = 1,
@@ -17609,6 +19137,7 @@ func (e ManageAccountRuleAction) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range ManageAccountRuleActionAll {
 			if (value & e) == value {
@@ -17678,7 +19207,8 @@ func NewCreateAccountRuleDataExt(v LedgerVersion, value interface{}) (result Cre
 
 // CreateAccountRuleData is an XDR Struct defines as:
 //
-//   struct CreateAccountRuleData
+//   //: CreateAccountRuleData is used to pass necessary params to create a new account rule
+//    struct CreateAccountRuleData
 //    {
 //        //: Resource is used to specify an entity (for some - with properties) that can be managed through operations
 //        AccountRuleResource resource;
@@ -17745,7 +19275,8 @@ func NewUpdateAccountRuleDataExt(v LedgerVersion, value interface{}) (result Upd
 
 // UpdateAccountRuleData is an XDR Struct defines as:
 //
-//   struct UpdateAccountRuleData
+//   //: UpdateAccountRuleData is used to pass necessary params to update existing account rule
+//    struct UpdateAccountRuleData
 //    {
 //        //: Identifier of existing signer rule
 //        uint64 ruleID;
@@ -17815,7 +19346,8 @@ func NewRemoveAccountRuleDataExt(v LedgerVersion, value interface{}) (result Rem
 
 // RemoveAccountRuleData is an XDR Struct defines as:
 //
-//   struct RemoveAccountRuleData
+//   //: RemoveAccountRuleData is used to pass necessary params to remove existing account rule
+//    struct RemoveAccountRuleData
 //    {
 //        //: Identifier of existing account rule
 //        uint64 ruleID;
@@ -18016,7 +19548,8 @@ func NewManageAccountRuleOpExt(v LedgerVersion, value interface{}) (result Manag
 
 // ManageAccountRuleOp is an XDR Struct defines as:
 //
-//   struct ManageAccountRuleOp
+//   //: ManageAccountRuleOp is used to create, update or remove account rule
+//    struct ManageAccountRuleOp
 //    {
 //        //: data is used to pass one of `ManageAccountRuleAction` with required params
 //        union switch (ManageAccountRuleAction action)
@@ -18045,7 +19578,8 @@ type ManageAccountRuleOp struct {
 
 // ManageAccountRuleResultCode is an XDR Enum defines as:
 //
-//   enum ManageAccountRuleResultCode
+//   //: Result codes of ManageAccountRuleResultCode
+//    enum ManageAccountRuleResultCode
 //    {
 //        //: Means that specified action in `data` of ManageAccountRuleOp was successfully performed
 //        SUCCESS = 0,
@@ -18128,6 +19662,7 @@ func (e ManageAccountRuleResultCode) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range ManageAccountRuleResultCodeAll {
 			if (value & e) == value {
@@ -18217,7 +19752,8 @@ type ManageAccountRuleResultSuccess struct {
 
 // ManageAccountRuleResult is an XDR Union defines as:
 //
-//   union ManageAccountRuleResult switch (ManageAccountRuleResultCode code)
+//   //: Result of operation applying
+//    union ManageAccountRuleResult switch (ManageAccountRuleResultCode code)
 //    {
 //        case SUCCESS:
 //            //: Is used to pass useful params if operation is success
@@ -18339,9 +19875,707 @@ func (u ManageAccountRuleResult) GetRoleIDs() (result []Uint64, ok bool) {
 	return
 }
 
+// ManageAccountSpecificRuleAction is an XDR Enum defines as:
+//
+//   //: Actions that can be performed with account specific rule
+//    enum ManageAccountSpecificRuleAction
+//    {
+//        CREATE = 0,
+//        REMOVE = 1
+//    };
+//
+type ManageAccountSpecificRuleAction int32
+
+const (
+	ManageAccountSpecificRuleActionCreate ManageAccountSpecificRuleAction = 0
+	ManageAccountSpecificRuleActionRemove ManageAccountSpecificRuleAction = 1
+)
+
+var ManageAccountSpecificRuleActionAll = []ManageAccountSpecificRuleAction{
+	ManageAccountSpecificRuleActionCreate,
+	ManageAccountSpecificRuleActionRemove,
+}
+
+var manageAccountSpecificRuleActionMap = map[int32]string{
+	0: "ManageAccountSpecificRuleActionCreate",
+	1: "ManageAccountSpecificRuleActionRemove",
+}
+
+var manageAccountSpecificRuleActionShortMap = map[int32]string{
+	0: "create",
+	1: "remove",
+}
+
+var manageAccountSpecificRuleActionRevMap = map[string]int32{
+	"ManageAccountSpecificRuleActionCreate": 0,
+	"ManageAccountSpecificRuleActionRemove": 1,
+}
+
+// ValidEnum validates a proposed value for this enum.  Implements
+// the Enum interface for ManageAccountSpecificRuleAction
+func (e ManageAccountSpecificRuleAction) ValidEnum(v int32) bool {
+	_, ok := manageAccountSpecificRuleActionMap[v]
+	return ok
+}
+func (e ManageAccountSpecificRuleAction) isFlag() bool {
+	for i := len(ManageAccountSpecificRuleActionAll) - 1; i >= 0; i-- {
+		expected := ManageAccountSpecificRuleAction(2) << uint64(len(ManageAccountSpecificRuleActionAll)-1) >> uint64(len(ManageAccountSpecificRuleActionAll)-i)
+		if expected != ManageAccountSpecificRuleActionAll[i] {
+			return false
+		}
+	}
+	return true
+}
+
+// String returns the name of `e`
+func (e ManageAccountSpecificRuleAction) String() string {
+	name, _ := manageAccountSpecificRuleActionMap[int32(e)]
+	return name
+}
+
+func (e ManageAccountSpecificRuleAction) ShortString() string {
+	name, _ := manageAccountSpecificRuleActionShortMap[int32(e)]
+	return name
+}
+
+func (e ManageAccountSpecificRuleAction) MarshalJSON() ([]byte, error) {
+	if e.isFlag() {
+		// marshal as mask
+		result := flag{
+			Value: int32(e),
+			Flags: make([]flagValue, 0),
+		}
+		for _, value := range ManageAccountSpecificRuleActionAll {
+			if (value & e) == value {
+				result.Flags = append(result.Flags, flagValue{
+					Value: int32(value),
+					Name:  value.ShortString(),
+				})
+			}
+		}
+		return json.Marshal(&result)
+	} else {
+		// marshal as enum
+		result := enum{
+			Value:  int32(e),
+			String: e.ShortString(),
+		}
+		return json.Marshal(&result)
+	}
+}
+
+func (e *ManageAccountSpecificRuleAction) UnmarshalJSON(data []byte) error {
+	var t value
+	if err := json.Unmarshal(data, &t); err != nil {
+		return err
+	}
+	*e = ManageAccountSpecificRuleAction(t.Value)
+	return nil
+}
+
+// CreateAccountSpecificRuleDataExt is an XDR NestedUnion defines as:
+//
+//   union switch (LedgerVersion v)
+//        {
+//        case EMPTY_VERSION:
+//            void;
+//        }
+//
+type CreateAccountSpecificRuleDataExt struct {
+	V LedgerVersion `json:"v,omitempty"`
+}
+
+// SwitchFieldName returns the field name in which this union's
+// discriminant is stored
+func (u CreateAccountSpecificRuleDataExt) SwitchFieldName() string {
+	return "V"
+}
+
+// ArmForSwitch returns which field name should be used for storing
+// the value for an instance of CreateAccountSpecificRuleDataExt
+func (u CreateAccountSpecificRuleDataExt) ArmForSwitch(sw int32) (string, bool) {
+	switch LedgerVersion(sw) {
+	case LedgerVersionEmptyVersion:
+		return "", true
+	}
+	return "-", false
+}
+
+// NewCreateAccountSpecificRuleDataExt creates a new  CreateAccountSpecificRuleDataExt.
+func NewCreateAccountSpecificRuleDataExt(v LedgerVersion, value interface{}) (result CreateAccountSpecificRuleDataExt, err error) {
+	result.V = v
+	switch LedgerVersion(v) {
+	case LedgerVersionEmptyVersion:
+		// void
+	}
+	return
+}
+
+// CreateAccountSpecificRuleData is an XDR Struct defines as:
+//
+//   //: CreateAccountSpecificRuleData is used to pass necessary params to create a new account specific rule
+//    struct CreateAccountSpecificRuleData
+//    {
+//        //: ledgerKey is used to specify an entity with primary key that can be used through operations
+//        LedgerKey ledgerKey;
+//        //: Certain account for which rule is applied, null means rule is global
+//        AccountID* accountID;
+//        //: True if such rule is deniable, otherwise allows
+//        bool forbids;
+//
+//        //: reserved for future use
+//        union switch (LedgerVersion v)
+//        {
+//        case EMPTY_VERSION:
+//            void;
+//        } ext;
+//    };
+//
+type CreateAccountSpecificRuleData struct {
+	LedgerKey LedgerKey                        `json:"ledgerKey,omitempty"`
+	AccountId *AccountId                       `json:"accountID,omitempty"`
+	Forbids   bool                             `json:"forbids,omitempty"`
+	Ext       CreateAccountSpecificRuleDataExt `json:"ext,omitempty"`
+}
+
+// RemoveAccountSpecificRuleDataExt is an XDR NestedUnion defines as:
+//
+//   union switch (LedgerVersion v)
+//        {
+//        case EMPTY_VERSION:
+//            void;
+//        }
+//
+type RemoveAccountSpecificRuleDataExt struct {
+	V LedgerVersion `json:"v,omitempty"`
+}
+
+// SwitchFieldName returns the field name in which this union's
+// discriminant is stored
+func (u RemoveAccountSpecificRuleDataExt) SwitchFieldName() string {
+	return "V"
+}
+
+// ArmForSwitch returns which field name should be used for storing
+// the value for an instance of RemoveAccountSpecificRuleDataExt
+func (u RemoveAccountSpecificRuleDataExt) ArmForSwitch(sw int32) (string, bool) {
+	switch LedgerVersion(sw) {
+	case LedgerVersionEmptyVersion:
+		return "", true
+	}
+	return "-", false
+}
+
+// NewRemoveAccountSpecificRuleDataExt creates a new  RemoveAccountSpecificRuleDataExt.
+func NewRemoveAccountSpecificRuleDataExt(v LedgerVersion, value interface{}) (result RemoveAccountSpecificRuleDataExt, err error) {
+	result.V = v
+	switch LedgerVersion(v) {
+	case LedgerVersionEmptyVersion:
+		// void
+	}
+	return
+}
+
+// RemoveAccountSpecificRuleData is an XDR Struct defines as:
+//
+//   //: RemoveAccountSpecificRuleData is used to pass necessary params to remove existing account specific rule
+//    struct RemoveAccountSpecificRuleData
+//    {
+//        //: Identifier of existing account specific rule
+//        uint64 ruleID;
+//
+//        //: reserved for future use
+//        union switch (LedgerVersion v)
+//        {
+//        case EMPTY_VERSION:
+//            void;
+//        } ext;
+//    };
+//
+type RemoveAccountSpecificRuleData struct {
+	RuleId Uint64                           `json:"ruleID,omitempty"`
+	Ext    RemoveAccountSpecificRuleDataExt `json:"ext,omitempty"`
+}
+
+// ManageAccountSpecificRuleOpData is an XDR NestedUnion defines as:
+//
+//   union switch (ManageAccountSpecificRuleAction action)
+//        {
+//        case CREATE:
+//            CreateAccountSpecificRuleData createData;
+//        case REMOVE:
+//            RemoveAccountSpecificRuleData removeData;
+//        }
+//
+type ManageAccountSpecificRuleOpData struct {
+	Action     ManageAccountSpecificRuleAction `json:"action,omitempty"`
+	CreateData *CreateAccountSpecificRuleData  `json:"createData,omitempty"`
+	RemoveData *RemoveAccountSpecificRuleData  `json:"removeData,omitempty"`
+}
+
+// SwitchFieldName returns the field name in which this union's
+// discriminant is stored
+func (u ManageAccountSpecificRuleOpData) SwitchFieldName() string {
+	return "Action"
+}
+
+// ArmForSwitch returns which field name should be used for storing
+// the value for an instance of ManageAccountSpecificRuleOpData
+func (u ManageAccountSpecificRuleOpData) ArmForSwitch(sw int32) (string, bool) {
+	switch ManageAccountSpecificRuleAction(sw) {
+	case ManageAccountSpecificRuleActionCreate:
+		return "CreateData", true
+	case ManageAccountSpecificRuleActionRemove:
+		return "RemoveData", true
+	}
+	return "-", false
+}
+
+// NewManageAccountSpecificRuleOpData creates a new  ManageAccountSpecificRuleOpData.
+func NewManageAccountSpecificRuleOpData(action ManageAccountSpecificRuleAction, value interface{}) (result ManageAccountSpecificRuleOpData, err error) {
+	result.Action = action
+	switch ManageAccountSpecificRuleAction(action) {
+	case ManageAccountSpecificRuleActionCreate:
+		tv, ok := value.(CreateAccountSpecificRuleData)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be CreateAccountSpecificRuleData")
+			return
+		}
+		result.CreateData = &tv
+	case ManageAccountSpecificRuleActionRemove:
+		tv, ok := value.(RemoveAccountSpecificRuleData)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be RemoveAccountSpecificRuleData")
+			return
+		}
+		result.RemoveData = &tv
+	}
+	return
+}
+
+// MustCreateData retrieves the CreateData value from the union,
+// panicing if the value is not set.
+func (u ManageAccountSpecificRuleOpData) MustCreateData() CreateAccountSpecificRuleData {
+	val, ok := u.GetCreateData()
+
+	if !ok {
+		panic("arm CreateData is not set")
+	}
+
+	return val
+}
+
+// GetCreateData retrieves the CreateData value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u ManageAccountSpecificRuleOpData) GetCreateData() (result CreateAccountSpecificRuleData, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.Action))
+
+	if armName == "CreateData" {
+		result = *u.CreateData
+		ok = true
+	}
+
+	return
+}
+
+// MustRemoveData retrieves the RemoveData value from the union,
+// panicing if the value is not set.
+func (u ManageAccountSpecificRuleOpData) MustRemoveData() RemoveAccountSpecificRuleData {
+	val, ok := u.GetRemoveData()
+
+	if !ok {
+		panic("arm RemoveData is not set")
+	}
+
+	return val
+}
+
+// GetRemoveData retrieves the RemoveData value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u ManageAccountSpecificRuleOpData) GetRemoveData() (result RemoveAccountSpecificRuleData, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.Action))
+
+	if armName == "RemoveData" {
+		result = *u.RemoveData
+		ok = true
+	}
+
+	return
+}
+
+// ManageAccountSpecificRuleOpExt is an XDR NestedUnion defines as:
+//
+//   union switch (LedgerVersion v)
+//        {
+//        case EMPTY_VERSION:
+//            void;
+//        }
+//
+type ManageAccountSpecificRuleOpExt struct {
+	V LedgerVersion `json:"v,omitempty"`
+}
+
+// SwitchFieldName returns the field name in which this union's
+// discriminant is stored
+func (u ManageAccountSpecificRuleOpExt) SwitchFieldName() string {
+	return "V"
+}
+
+// ArmForSwitch returns which field name should be used for storing
+// the value for an instance of ManageAccountSpecificRuleOpExt
+func (u ManageAccountSpecificRuleOpExt) ArmForSwitch(sw int32) (string, bool) {
+	switch LedgerVersion(sw) {
+	case LedgerVersionEmptyVersion:
+		return "", true
+	}
+	return "-", false
+}
+
+// NewManageAccountSpecificRuleOpExt creates a new  ManageAccountSpecificRuleOpExt.
+func NewManageAccountSpecificRuleOpExt(v LedgerVersion, value interface{}) (result ManageAccountSpecificRuleOpExt, err error) {
+	result.V = v
+	switch LedgerVersion(v) {
+	case LedgerVersionEmptyVersion:
+		// void
+	}
+	return
+}
+
+// ManageAccountSpecificRuleOp is an XDR Struct defines as:
+//
+//   //: ManageAccountSpecificRuleOp is used to create or remove account specific rule
+//    struct ManageAccountSpecificRuleOp
+//    {
+//        //: data is used to pass one of `ManageAccountSpecificRuleAction` with required params
+//        union switch (ManageAccountSpecificRuleAction action)
+//        {
+//        case CREATE:
+//            CreateAccountSpecificRuleData createData;
+//        case REMOVE:
+//            RemoveAccountSpecificRuleData removeData;
+//        } data;
+//
+//        //: reserved for future use
+//        union switch (LedgerVersion v)
+//        {
+//        case EMPTY_VERSION:
+//            void;
+//        }
+//        ext;
+//    };
+//
+type ManageAccountSpecificRuleOp struct {
+	Data ManageAccountSpecificRuleOpData `json:"data,omitempty"`
+	Ext  ManageAccountSpecificRuleOpExt  `json:"ext,omitempty"`
+}
+
+// ManageAccountSpecificRuleResultCode is an XDR Enum defines as:
+//
+//   //: Result codes of ManageAccountSpecificRuleResult
+//    enum ManageAccountSpecificRuleResultCode
+//    {
+//        //: Means that specified action in `data` of ManageAccountSpecificRuleOp was successfully performed
+//        SUCCESS = 0,
+//
+//        // codes considered as "failure" for the operation
+//        //: There is no rule with such id
+//        NOT_FOUND = -1,
+//        //: There is no sale with such id
+//        SALE_NOT_FOUND = -2,
+//        //: Only entry (sale) owner or admin can perform such operation
+//        NOT_AUTHORIZED = -3,
+//        //: Not allowed to create duplicated rules
+//        ALREADY_EXISTS = -4,
+//        //: Not allowed to create rule with the same accountID and ledger key, but different forbids value
+//        REVERSED_ALREADY_EXISTS = -5,
+//        //: Not allowed to use such entry type in ledger key
+//        ENTRY_TYPE_NOT_SUPPORTED = -6,
+//        //: There is no account rule with such id
+//        ACCOUNT_NOT_FOUND = -7,
+//        //: Version of entry does not allow to add specific rules
+//        SPECIFIC_RULE_NOT_SUPPORTED = -8,
+//        //: Not allowed to remove global rule
+//        REMOVING_GLOBAL_RULE_FORBIDDEN = -9
+//    };
+//
+type ManageAccountSpecificRuleResultCode int32
+
+const (
+	ManageAccountSpecificRuleResultCodeSuccess                     ManageAccountSpecificRuleResultCode = 0
+	ManageAccountSpecificRuleResultCodeNotFound                    ManageAccountSpecificRuleResultCode = -1
+	ManageAccountSpecificRuleResultCodeSaleNotFound                ManageAccountSpecificRuleResultCode = -2
+	ManageAccountSpecificRuleResultCodeNotAuthorized               ManageAccountSpecificRuleResultCode = -3
+	ManageAccountSpecificRuleResultCodeAlreadyExists               ManageAccountSpecificRuleResultCode = -4
+	ManageAccountSpecificRuleResultCodeReversedAlreadyExists       ManageAccountSpecificRuleResultCode = -5
+	ManageAccountSpecificRuleResultCodeEntryTypeNotSupported       ManageAccountSpecificRuleResultCode = -6
+	ManageAccountSpecificRuleResultCodeAccountNotFound             ManageAccountSpecificRuleResultCode = -7
+	ManageAccountSpecificRuleResultCodeSpecificRuleNotSupported    ManageAccountSpecificRuleResultCode = -8
+	ManageAccountSpecificRuleResultCodeRemovingGlobalRuleForbidden ManageAccountSpecificRuleResultCode = -9
+)
+
+var ManageAccountSpecificRuleResultCodeAll = []ManageAccountSpecificRuleResultCode{
+	ManageAccountSpecificRuleResultCodeSuccess,
+	ManageAccountSpecificRuleResultCodeNotFound,
+	ManageAccountSpecificRuleResultCodeSaleNotFound,
+	ManageAccountSpecificRuleResultCodeNotAuthorized,
+	ManageAccountSpecificRuleResultCodeAlreadyExists,
+	ManageAccountSpecificRuleResultCodeReversedAlreadyExists,
+	ManageAccountSpecificRuleResultCodeEntryTypeNotSupported,
+	ManageAccountSpecificRuleResultCodeAccountNotFound,
+	ManageAccountSpecificRuleResultCodeSpecificRuleNotSupported,
+	ManageAccountSpecificRuleResultCodeRemovingGlobalRuleForbidden,
+}
+
+var manageAccountSpecificRuleResultCodeMap = map[int32]string{
+	0:  "ManageAccountSpecificRuleResultCodeSuccess",
+	-1: "ManageAccountSpecificRuleResultCodeNotFound",
+	-2: "ManageAccountSpecificRuleResultCodeSaleNotFound",
+	-3: "ManageAccountSpecificRuleResultCodeNotAuthorized",
+	-4: "ManageAccountSpecificRuleResultCodeAlreadyExists",
+	-5: "ManageAccountSpecificRuleResultCodeReversedAlreadyExists",
+	-6: "ManageAccountSpecificRuleResultCodeEntryTypeNotSupported",
+	-7: "ManageAccountSpecificRuleResultCodeAccountNotFound",
+	-8: "ManageAccountSpecificRuleResultCodeSpecificRuleNotSupported",
+	-9: "ManageAccountSpecificRuleResultCodeRemovingGlobalRuleForbidden",
+}
+
+var manageAccountSpecificRuleResultCodeShortMap = map[int32]string{
+	0:  "success",
+	-1: "not_found",
+	-2: "sale_not_found",
+	-3: "not_authorized",
+	-4: "already_exists",
+	-5: "reversed_already_exists",
+	-6: "entry_type_not_supported",
+	-7: "account_not_found",
+	-8: "specific_rule_not_supported",
+	-9: "removing_global_rule_forbidden",
+}
+
+var manageAccountSpecificRuleResultCodeRevMap = map[string]int32{
+	"ManageAccountSpecificRuleResultCodeSuccess":                     0,
+	"ManageAccountSpecificRuleResultCodeNotFound":                    -1,
+	"ManageAccountSpecificRuleResultCodeSaleNotFound":                -2,
+	"ManageAccountSpecificRuleResultCodeNotAuthorized":               -3,
+	"ManageAccountSpecificRuleResultCodeAlreadyExists":               -4,
+	"ManageAccountSpecificRuleResultCodeReversedAlreadyExists":       -5,
+	"ManageAccountSpecificRuleResultCodeEntryTypeNotSupported":       -6,
+	"ManageAccountSpecificRuleResultCodeAccountNotFound":             -7,
+	"ManageAccountSpecificRuleResultCodeSpecificRuleNotSupported":    -8,
+	"ManageAccountSpecificRuleResultCodeRemovingGlobalRuleForbidden": -9,
+}
+
+// ValidEnum validates a proposed value for this enum.  Implements
+// the Enum interface for ManageAccountSpecificRuleResultCode
+func (e ManageAccountSpecificRuleResultCode) ValidEnum(v int32) bool {
+	_, ok := manageAccountSpecificRuleResultCodeMap[v]
+	return ok
+}
+func (e ManageAccountSpecificRuleResultCode) isFlag() bool {
+	for i := len(ManageAccountSpecificRuleResultCodeAll) - 1; i >= 0; i-- {
+		expected := ManageAccountSpecificRuleResultCode(2) << uint64(len(ManageAccountSpecificRuleResultCodeAll)-1) >> uint64(len(ManageAccountSpecificRuleResultCodeAll)-i)
+		if expected != ManageAccountSpecificRuleResultCodeAll[i] {
+			return false
+		}
+	}
+	return true
+}
+
+// String returns the name of `e`
+func (e ManageAccountSpecificRuleResultCode) String() string {
+	name, _ := manageAccountSpecificRuleResultCodeMap[int32(e)]
+	return name
+}
+
+func (e ManageAccountSpecificRuleResultCode) ShortString() string {
+	name, _ := manageAccountSpecificRuleResultCodeShortMap[int32(e)]
+	return name
+}
+
+func (e ManageAccountSpecificRuleResultCode) MarshalJSON() ([]byte, error) {
+	if e.isFlag() {
+		// marshal as mask
+		result := flag{
+			Value: int32(e),
+			Flags: make([]flagValue, 0),
+		}
+		for _, value := range ManageAccountSpecificRuleResultCodeAll {
+			if (value & e) == value {
+				result.Flags = append(result.Flags, flagValue{
+					Value: int32(value),
+					Name:  value.ShortString(),
+				})
+			}
+		}
+		return json.Marshal(&result)
+	} else {
+		// marshal as enum
+		result := enum{
+			Value:  int32(e),
+			String: e.ShortString(),
+		}
+		return json.Marshal(&result)
+	}
+}
+
+func (e *ManageAccountSpecificRuleResultCode) UnmarshalJSON(data []byte) error {
+	var t value
+	if err := json.Unmarshal(data, &t); err != nil {
+		return err
+	}
+	*e = ManageAccountSpecificRuleResultCode(t.Value)
+	return nil
+}
+
+// ManageAccountSpecificRuleResultSuccessExt is an XDR NestedUnion defines as:
+//
+//   union switch (LedgerVersion v)
+//            {
+//            case EMPTY_VERSION:
+//                void;
+//            }
+//
+type ManageAccountSpecificRuleResultSuccessExt struct {
+	V LedgerVersion `json:"v,omitempty"`
+}
+
+// SwitchFieldName returns the field name in which this union's
+// discriminant is stored
+func (u ManageAccountSpecificRuleResultSuccessExt) SwitchFieldName() string {
+	return "V"
+}
+
+// ArmForSwitch returns which field name should be used for storing
+// the value for an instance of ManageAccountSpecificRuleResultSuccessExt
+func (u ManageAccountSpecificRuleResultSuccessExt) ArmForSwitch(sw int32) (string, bool) {
+	switch LedgerVersion(sw) {
+	case LedgerVersionEmptyVersion:
+		return "", true
+	}
+	return "-", false
+}
+
+// NewManageAccountSpecificRuleResultSuccessExt creates a new  ManageAccountSpecificRuleResultSuccessExt.
+func NewManageAccountSpecificRuleResultSuccessExt(v LedgerVersion, value interface{}) (result ManageAccountSpecificRuleResultSuccessExt, err error) {
+	result.V = v
+	switch LedgerVersion(v) {
+	case LedgerVersionEmptyVersion:
+		// void
+	}
+	return
+}
+
+// ManageAccountSpecificRuleResultSuccess is an XDR NestedStruct defines as:
+//
+//   struct {
+//            //: id of the rule that was managed
+//            uint64 ruleID;
+//
+//            //: reserved for future use
+//            union switch (LedgerVersion v)
+//            {
+//            case EMPTY_VERSION:
+//                void;
+//            }
+//            ext;
+//        }
+//
+type ManageAccountSpecificRuleResultSuccess struct {
+	RuleId Uint64                                    `json:"ruleID,omitempty"`
+	Ext    ManageAccountSpecificRuleResultSuccessExt `json:"ext,omitempty"`
+}
+
+// ManageAccountSpecificRuleResult is an XDR Union defines as:
+//
+//   //: Result of operation applying
+//    union ManageAccountSpecificRuleResult switch (ManageAccountSpecificRuleResultCode code)
+//    {
+//    case SUCCESS:
+//        //: Is used to pass useful params if operation is success
+//        struct {
+//            //: id of the rule that was managed
+//            uint64 ruleID;
+//
+//            //: reserved for future use
+//            union switch (LedgerVersion v)
+//            {
+//            case EMPTY_VERSION:
+//                void;
+//            }
+//            ext;
+//        } success;
+//    default:
+//        void;
+//    };
+//
+type ManageAccountSpecificRuleResult struct {
+	Code    ManageAccountSpecificRuleResultCode     `json:"code,omitempty"`
+	Success *ManageAccountSpecificRuleResultSuccess `json:"success,omitempty"`
+}
+
+// SwitchFieldName returns the field name in which this union's
+// discriminant is stored
+func (u ManageAccountSpecificRuleResult) SwitchFieldName() string {
+	return "Code"
+}
+
+// ArmForSwitch returns which field name should be used for storing
+// the value for an instance of ManageAccountSpecificRuleResult
+func (u ManageAccountSpecificRuleResult) ArmForSwitch(sw int32) (string, bool) {
+	switch ManageAccountSpecificRuleResultCode(sw) {
+	case ManageAccountSpecificRuleResultCodeSuccess:
+		return "Success", true
+	default:
+		return "", true
+	}
+}
+
+// NewManageAccountSpecificRuleResult creates a new  ManageAccountSpecificRuleResult.
+func NewManageAccountSpecificRuleResult(code ManageAccountSpecificRuleResultCode, value interface{}) (result ManageAccountSpecificRuleResult, err error) {
+	result.Code = code
+	switch ManageAccountSpecificRuleResultCode(code) {
+	case ManageAccountSpecificRuleResultCodeSuccess:
+		tv, ok := value.(ManageAccountSpecificRuleResultSuccess)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be ManageAccountSpecificRuleResultSuccess")
+			return
+		}
+		result.Success = &tv
+	default:
+		// void
+	}
+	return
+}
+
+// MustSuccess retrieves the Success value from the union,
+// panicing if the value is not set.
+func (u ManageAccountSpecificRuleResult) MustSuccess() ManageAccountSpecificRuleResultSuccess {
+	val, ok := u.GetSuccess()
+
+	if !ok {
+		panic("arm Success is not set")
+	}
+
+	return val
+}
+
+// GetSuccess retrieves the Success value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u ManageAccountSpecificRuleResult) GetSuccess() (result ManageAccountSpecificRuleResultSuccess, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.Code))
+
+	if armName == "Success" {
+		result = *u.Success
+		ok = true
+	}
+
+	return
+}
+
 // ManageAssetPairAction is an XDR Enum defines as:
 //
-//   enum ManageAssetPairAction
+//   //: Actions that can be performed on the asset pair
+//    enum ManageAssetPairAction
 //    {
 //        //: Create new asset pair
 //        CREATE = 0,
@@ -18415,6 +20649,7 @@ func (e ManageAssetPairAction) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range ManageAssetPairActionAll {
 			if (value & e) == value {
@@ -18484,7 +20719,8 @@ func NewManageAssetPairOpExt(v LedgerVersion, value interface{}) (result ManageA
 
 // ManageAssetPairOp is an XDR Struct defines as:
 //
-//   struct ManageAssetPairOp
+//   //: `ManageAssetPairOp` either creates new asset pairs or updates prices or policies of existing [asset pairs](#operation/assetPairResources)
+//    struct ManageAssetPairOp
 //    {
 //        //: Defines a ManageBalanceAction that will be performed on an asset pair
 //        ManageAssetPairAction action;
@@ -18526,7 +20762,8 @@ type ManageAssetPairOp struct {
 
 // ManageAssetPairResultCode is an XDR Enum defines as:
 //
-//   enum ManageAssetPairResultCode
+//   //: Result codes for ManageAssetPair operation
+//    enum ManageAssetPairResultCode
 //    {
 //        // codes considered as "success" for the operation
 //        //: Indicates that `ManageAssetPairOp` has been successfully applied
@@ -18547,7 +20784,9 @@ type ManageAssetPairOp struct {
 //        //: `policies` field is invalid (`policies < 0`)
 //        INVALID_POLICIES = -6,
 //        //: Asset with such code is not found
-//        ASSET_NOT_FOUND = -7
+//        ASSET_NOT_FOUND = -7,
+//        //: Not allowed for base and quote asset to be the same
+//        SAME_ASSET = -8
 //    };
 //
 type ManageAssetPairResultCode int32
@@ -18561,6 +20800,7 @@ const (
 	ManageAssetPairResultCodeInvalidAction   ManageAssetPairResultCode = -5
 	ManageAssetPairResultCodeInvalidPolicies ManageAssetPairResultCode = -6
 	ManageAssetPairResultCodeAssetNotFound   ManageAssetPairResultCode = -7
+	ManageAssetPairResultCodeSameAsset       ManageAssetPairResultCode = -8
 )
 
 var ManageAssetPairResultCodeAll = []ManageAssetPairResultCode{
@@ -18572,6 +20812,7 @@ var ManageAssetPairResultCodeAll = []ManageAssetPairResultCode{
 	ManageAssetPairResultCodeInvalidAction,
 	ManageAssetPairResultCodeInvalidPolicies,
 	ManageAssetPairResultCodeAssetNotFound,
+	ManageAssetPairResultCodeSameAsset,
 }
 
 var manageAssetPairResultCodeMap = map[int32]string{
@@ -18583,6 +20824,7 @@ var manageAssetPairResultCodeMap = map[int32]string{
 	-5: "ManageAssetPairResultCodeInvalidAction",
 	-6: "ManageAssetPairResultCodeInvalidPolicies",
 	-7: "ManageAssetPairResultCodeAssetNotFound",
+	-8: "ManageAssetPairResultCodeSameAsset",
 }
 
 var manageAssetPairResultCodeShortMap = map[int32]string{
@@ -18594,6 +20836,7 @@ var manageAssetPairResultCodeShortMap = map[int32]string{
 	-5: "invalid_action",
 	-6: "invalid_policies",
 	-7: "asset_not_found",
+	-8: "same_asset",
 }
 
 var manageAssetPairResultCodeRevMap = map[string]int32{
@@ -18605,6 +20848,7 @@ var manageAssetPairResultCodeRevMap = map[string]int32{
 	"ManageAssetPairResultCodeInvalidAction":   -5,
 	"ManageAssetPairResultCodeInvalidPolicies": -6,
 	"ManageAssetPairResultCodeAssetNotFound":   -7,
+	"ManageAssetPairResultCodeSameAsset":       -8,
 }
 
 // ValidEnum validates a proposed value for this enum.  Implements
@@ -18639,6 +20883,7 @@ func (e ManageAssetPairResultCode) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range ManageAssetPairResultCodeAll {
 			if (value & e) == value {
@@ -18708,7 +20953,8 @@ func NewManageAssetPairSuccessExt(v LedgerVersion, value interface{}) (result Ma
 
 // ManageAssetPairSuccess is an XDR Struct defines as:
 //
-//   struct ManageAssetPairSuccess
+//   //: `ManageAssetPairSuccess` represents a successful result of `ManageAssetPairOp`
+//    struct ManageAssetPairSuccess
 //    {
 //        //: Price of an asset pair after the operation
 //        int64 currentPrice;
@@ -18728,7 +20974,8 @@ type ManageAssetPairSuccess struct {
 
 // ManageAssetPairResult is an XDR Union defines as:
 //
-//   union ManageAssetPairResult switch (ManageAssetPairResultCode code)
+//   //: `ManageAssetPairResult` defines the result of `ManageBalanceOp` based on given `ManageAssetPairResultCode`
+//    union ManageAssetPairResult switch (ManageAssetPairResultCode code)
 //    {
 //    case SUCCESS:
 //        ManageAssetPairSuccess success;
@@ -18802,7 +21049,8 @@ func (u ManageAssetPairResult) GetSuccess() (result ManageAssetPairSuccess, ok b
 
 // ManageAssetAction is an XDR Enum defines as:
 //
-//   enum ManageAssetAction
+//   //: ManageAssetAction is used to specify an action to be performed with an asset or asset create/update request
+//    enum ManageAssetAction
 //    {
 //        CREATE_ASSET_CREATION_REQUEST = 0,
 //        CREATE_ASSET_UPDATE_REQUEST = 1,
@@ -18885,6 +21133,7 @@ func (e ManageAssetAction) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range ManageAssetActionAll {
 			if (value & e) == value {
@@ -18954,7 +21203,8 @@ func NewCancelAssetRequestExt(v LedgerVersion, value interface{}) (result Cancel
 
 // CancelAssetRequest is an XDR Struct defines as:
 //
-//   struct CancelAssetRequest
+//   //: CancelAssetRequest is used to cancel an `UPDATE_ASSET` or `CREATE_ASSET` request
+//    struct CancelAssetRequest
 //    {
 //        //: reserved for future use
 //        union switch (LedgerVersion v)
@@ -19009,7 +21259,8 @@ func NewUpdateMaxIssuanceExt(v LedgerVersion, value interface{}) (result UpdateM
 
 // UpdateMaxIssuance is an XDR Struct defines as:
 //
-//   struct UpdateMaxIssuance
+//   //: UpdateMaxIssuance is used to update max issuance amount of an asset.
+//    struct UpdateMaxIssuance
 //    {
 //        //: `assetCode` defines an asset entry that will be updated
 //        AssetCode assetCode;
@@ -19449,7 +21700,13 @@ func NewManageAssetOpExt(v LedgerVersion, value interface{}) (result ManageAsset
 
 // ManageAssetOp is an XDR Struct defines as:
 //
-//   struct ManageAssetOp
+//   //: ManageAssetOp is used to:
+//    //: * create or update `CREATE_ASSET` request;
+//    //: * create or update `UPDATE_ASSET` request;
+//    //: * cancel `CREATE_ASSET` or `UPDATE_ASSET` request
+//    //: * change asset pre issuer
+//    //: * update max issuance of an asset
+//    struct ManageAssetOp
 //    {
 //        //: ID of a reviewable request
 //        //: If `requestID == 0`, operation creates a new reviewable request; otherwise, it updates the existing one
@@ -19522,7 +21779,8 @@ type ManageAssetOp struct {
 
 // ManageAssetResultCode is an XDR Enum defines as:
 //
-//   enum ManageAssetResultCode
+//   //: Result codes of ManageAssetOp
+//    enum ManageAssetResultCode
 //    {
 //        //: Specified action in `data` of ManageSignerOp was successfully performed
 //        SUCCESS = 0,                       // request was successfully created/updated/canceled
@@ -19713,6 +21971,7 @@ func (e ManageAssetResultCode) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range ManageAssetResultCodeAll {
 			if (value & e) == value {
@@ -19782,7 +22041,8 @@ func NewManageAssetSuccessExt(v LedgerVersion, value interface{}) (result Manage
 
 // ManageAssetSuccess is an XDR Struct defines as:
 //
-//   struct ManageAssetSuccess
+//   //: Is used to pass useful params after the successful operation application
+//    struct ManageAssetSuccess
 //    {
 //        //: ID of the request that was created in the process of operation application
 //        uint64 requestID;
@@ -19805,7 +22065,8 @@ type ManageAssetSuccess struct {
 
 // ManageAssetResult is an XDR Union defines as:
 //
-//   union ManageAssetResult switch (ManageAssetResultCode code)
+//   //: Is used to return the result of operation application
+//    union ManageAssetResult switch (ManageAssetResultCode code)
 //    {
 //    case SUCCESS:
 //        //: Result of successful operation application
@@ -19880,11 +22141,12 @@ func (u ManageAssetResult) GetSuccess() (result ManageAssetSuccess, ok bool) {
 
 // ManageBalanceAction is an XDR Enum defines as:
 //
-//   enum ManageBalanceAction
+//   //: Actions that can be performed on balances
+//    enum ManageBalanceAction
 //    {
 //        //: Create new balance
 //        CREATE = 0,
-//        //: Delete existing balance by ID
+//        //: Delete existing balance by ID. Is reserved and not implemented yet.
 //        DELETE_BALANCE = 1,
 //        //: Ensures that the balance will not be created if the balance of the provided asset exists and is attached to the provided account
 //        CREATE_UNIQUE = 2
@@ -19954,6 +22216,7 @@ func (e ManageBalanceAction) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range ManageBalanceActionAll {
 			if (value & e) == value {
@@ -20023,9 +22286,11 @@ func NewManageBalanceOpExt(v LedgerVersion, value interface{}) (result ManageBal
 
 // ManageBalanceOp is an XDR Struct defines as:
 //
-//   struct ManageBalanceOp
+//   //: `ManageBalanceOp` applies an `action` of the `ManageBalanceAction` type on the balance of a particular `asset` (referenced to by its AssetCode)
+//    //: of the `destination` account (referenced to by its AccountID)
+//    struct ManageBalanceOp
 //    {
-//        //: Defines a ManageBalanceAction to be performed
+//        //: Defines a ManageBalanceAction to be performed. `DELETE_BALANCE` is reserved and not implemented yet.
 //        ManageBalanceAction action;
 //        //: Defines an account whose balance will be managed
 //        AccountID destination;
@@ -20048,7 +22313,8 @@ type ManageBalanceOp struct {
 
 // ManageBalanceResultCode is an XDR Enum defines as:
 //
-//   enum ManageBalanceResultCode
+//   //: Result codes for the ManageBalance operation
+//    enum ManageBalanceResultCode
 //    {
 //        // codes considered as "success" for the operation
 //        //: Indicates that `ManageBalanceOp` is successfully applied
@@ -20160,6 +22426,7 @@ func (e ManageBalanceResultCode) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range ManageBalanceResultCodeAll {
 			if (value & e) == value {
@@ -20387,6 +22654,7 @@ func (e ManageContractRequestAction) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range ManageContractRequestActionAll {
 			if (value & e) == value {
@@ -20744,6 +23012,7 @@ func (e ManageContractRequestResultCode) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range ManageContractRequestResultCodeAll {
 			if (value & e) == value {
@@ -21139,6 +23408,7 @@ func (e ManageContractAction) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range ManageContractActionAll {
 			if (value & e) == value {
@@ -21513,6 +23783,7 @@ func (e ManageContractResultCode) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range ManageContractResultCodeAll {
 			if (value & e) == value {
@@ -21757,7 +24028,8 @@ func (u ManageContractResult) GetResponse() (result ManageContractResponse, ok b
 
 // ManageCreatePollRequestAction is an XDR Enum defines as:
 //
-//   enum ManageCreatePollRequestAction
+//   //: Actions that can be applied to a `CREATE_POLL` request
+//    enum ManageCreatePollRequestAction
 //    {
 //        CREATE = 0,
 //        CANCEL = 1
@@ -21822,6 +24094,7 @@ func (e ManageCreatePollRequestAction) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range ManageCreatePollRequestActionAll {
 			if (value & e) == value {
@@ -21891,7 +24164,8 @@ func NewCreatePollRequestDataExt(v LedgerVersion, value interface{}) (result Cre
 
 // CreatePollRequestData is an XDR Struct defines as:
 //
-//   struct CreatePollRequestData
+//   //: CreatePollRequestData is used to pass necessary data to create a `CREATE_POLL` request
+//    struct CreatePollRequestData
 //    {
 //        //: Body of `CREATE_POLL` request
 //        CreatePollRequest request;
@@ -21955,7 +24229,8 @@ func NewCancelPollRequestDataExt(v LedgerVersion, value interface{}) (result Can
 
 // CancelPollRequestData is an XDR Struct defines as:
 //
-//   struct CancelPollRequestData
+//   //: CancelPollRequestData is used to pass necessary data to remove a `CREATE_POLL` request
+//    struct CancelPollRequestData
 //    {
 //        //: ID of `CREATE_POLL` request to remove
 //        uint64 requestID;
@@ -22120,7 +24395,8 @@ func NewManageCreatePollRequestOpExt(v LedgerVersion, value interface{}) (result
 
 // ManageCreatePollRequestOp is an XDR Struct defines as:
 //
-//   struct ManageCreatePollRequestOp
+//   //: ManageCreatePollRequestOp is used to create or remove a `CREATE_POLL` request
+//    struct ManageCreatePollRequestOp
 //    {
 //        //: data is used to pass one of `ManageCreatePollRequestAction` with required params
 //        union switch (ManageCreatePollRequestAction action)
@@ -22148,7 +24424,8 @@ type ManageCreatePollRequestOp struct {
 
 // ManageCreatePollRequestResultCode is an XDR Enum defines as:
 //
-//   enum ManageCreatePollRequestResultCode
+//   //: Result codes of ManageCreatePollRequestOp
+//    enum ManageCreatePollRequestResultCode
 //    {
 //        //: `CREATE_POLL` request has either been successfully created
 //        //: or auto approved
@@ -22261,6 +24538,7 @@ func (e ManageCreatePollRequestResultCode) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range ManageCreatePollRequestResultCodeAll {
 			if (value & e) == value {
@@ -22330,7 +24608,8 @@ func NewCreatePollRequestResponseExt(v LedgerVersion, value interface{}) (result
 
 // CreatePollRequestResponse is an XDR Struct defines as:
 //
-//   struct CreatePollRequestResponse
+//   //: CreatePollRequestResponse is used to pass useful fields after `CREATE_POLL` request creation
+//    struct CreatePollRequestResponse
 //    {
 //        //: ID of a created request
 //        uint64 requestID;
@@ -22473,7 +24752,8 @@ func NewManageCreatePollRequestSuccessResultExt(v LedgerVersion, value interface
 
 // ManageCreatePollRequestSuccessResult is an XDR Struct defines as:
 //
-//   struct ManageCreatePollRequestSuccessResult
+//   //: Success result of operation application
+//    struct ManageCreatePollRequestSuccessResult
 //    {
 //        //: `details` id used to pass useful fields
 //        union switch (ManageCreatePollRequestAction action)
@@ -22500,7 +24780,8 @@ type ManageCreatePollRequestSuccessResult struct {
 
 // ManageCreatePollRequestResult is an XDR Union defines as:
 //
-//   union ManageCreatePollRequestResult switch (ManageCreatePollRequestResultCode code)
+//   //: Result of ManageCreatePollRequestOp application
+//    union ManageCreatePollRequestResult switch (ManageCreatePollRequestResultCode code)
 //    {
 //    case SUCCESS:
 //        ManageCreatePollRequestSuccessResult success;
@@ -22574,7 +24855,8 @@ func (u ManageCreatePollRequestResult) GetSuccess() (result ManageCreatePollRequ
 
 // ManageExternalSystemAccountIdPoolEntryAction is an XDR Enum defines as:
 //
-//   enum ManageExternalSystemAccountIdPoolEntryAction
+//   //: Actions that can be performed with an external system account ID in the external system ID pool
+//    enum ManageExternalSystemAccountIdPoolEntryAction
 //    {
 //        CREATE = 0,
 //        REMOVE = 1
@@ -22639,6 +24921,7 @@ func (e ManageExternalSystemAccountIdPoolEntryAction) MarshalJSON() ([]byte, err
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range ManageExternalSystemAccountIdPoolEntryActionAll {
 			if (value & e) == value {
@@ -22708,7 +24991,9 @@ func NewCreateExternalSystemAccountIdPoolEntryActionInputExt(v LedgerVersion, va
 
 // CreateExternalSystemAccountIdPoolEntryActionInput is an XDR Struct defines as:
 //
-//   struct CreateExternalSystemAccountIdPoolEntryActionInput
+//   //: CreateExternalSystemAccountIdPoolEntryActionInput is used to
+//    //: pass necessary params to create a new external system account ID in the external system ID pool
+//    struct CreateExternalSystemAccountIdPoolEntryActionInput
 //    {
 //        //: Type of external system, selected arbitrarily
 //        int32 externalSystemType;
@@ -22773,7 +25058,9 @@ func NewDeleteExternalSystemAccountIdPoolEntryActionInputExt(v LedgerVersion, va
 
 // DeleteExternalSystemAccountIdPoolEntryActionInput is an XDR Struct defines as:
 //
-//   struct DeleteExternalSystemAccountIdPoolEntryActionInput
+//   //: DeleteExternalSystemAccountIdPoolEntryActionInput is used to
+//    //: pass necessary params to remove an existing external system account ID in the external system ID pool
+//    struct DeleteExternalSystemAccountIdPoolEntryActionInput
 //    {
 //        //: ID of an existing external system account ID pool
 //        uint64 poolEntryID;
@@ -22938,7 +25225,9 @@ func NewManageExternalSystemAccountIdPoolEntryOpExt(v LedgerVersion, value inter
 
 // ManageExternalSystemAccountIdPoolEntryOp is an XDR Struct defines as:
 //
-//   struct ManageExternalSystemAccountIdPoolEntryOp
+//   //: ManageExternalSystemAccountIdPoolEntryOp is used to create or remove
+//    //: an external system account ID from the external system ID pool
+//    struct ManageExternalSystemAccountIdPoolEntryOp
 //    {
 //        //: `actionInput` is used to pass one of
 //        //: `ManageExternalSystemAccountIdPoolEntryAction` with required params
@@ -22966,7 +25255,8 @@ type ManageExternalSystemAccountIdPoolEntryOp struct {
 
 // ManageExternalSystemAccountIdPoolEntryResultCode is an XDR Enum defines as:
 //
-//   enum ManageExternalSystemAccountIdPoolEntryResultCode
+//   //: Result codes of ManageExternalSystemAccountIdPoolEntryOp
+//    enum ManageExternalSystemAccountIdPoolEntryResultCode
 //    {
 //        //: Specified action in `actionInput` of ManageExternalSystemAccountIdPoolEntryOp
 //        //: was performed successfully
@@ -23051,6 +25341,7 @@ func (e ManageExternalSystemAccountIdPoolEntryResultCode) MarshalJSON() ([]byte,
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range ManageExternalSystemAccountIdPoolEntryResultCodeAll {
 			if (value & e) == value {
@@ -23120,7 +25411,8 @@ func NewManageExternalSystemAccountIdPoolEntrySuccessExt(v LedgerVersion, value 
 
 // ManageExternalSystemAccountIdPoolEntrySuccess is an XDR Struct defines as:
 //
-//   struct ManageExternalSystemAccountIdPoolEntrySuccess
+//   //: Success result of operation application
+//    struct ManageExternalSystemAccountIdPoolEntrySuccess
 //    {
 //        //: ID of the created external system account ID pool
 //        uint64 poolEntryID;
@@ -23141,7 +25433,8 @@ type ManageExternalSystemAccountIdPoolEntrySuccess struct {
 
 // ManageExternalSystemAccountIdPoolEntryResult is an XDR Union defines as:
 //
-//   union ManageExternalSystemAccountIdPoolEntryResult switch (ManageExternalSystemAccountIdPoolEntryResultCode code)
+//   //: Result of operation application
+//    union ManageExternalSystemAccountIdPoolEntryResult switch (ManageExternalSystemAccountIdPoolEntryResultCode code)
 //    {
 //    case SUCCESS:
 //        ManageExternalSystemAccountIdPoolEntrySuccess success;
@@ -23280,6 +25573,7 @@ func (e ManageInvoiceRequestAction) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range ManageInvoiceRequestActionAll {
 			if (value & e) == value {
@@ -23677,6 +25971,7 @@ func (e ManageInvoiceRequestResultCode) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range ManageInvoiceRequestResultCodeAll {
 			if (value & e) == value {
@@ -24001,7 +26296,8 @@ func (u ManageInvoiceRequestResult) GetSuccess() (result ManageInvoiceRequestRes
 
 // ManageKvAction is an XDR Enum defines as:
 //
-//   enum ManageKVAction
+//   //: Actions that can be performed on `KeyValueEntry`
+//        enum ManageKVAction
 //        {
 //            PUT = 1,
 //            REMOVE = 2
@@ -24066,6 +26362,7 @@ func (e ManageKvAction) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range ManageKvActionAll {
 			if (value & e) == value {
@@ -24210,7 +26507,8 @@ func NewManageKeyValueOpExt(v LedgerVersion, value interface{}) (result ManageKe
 
 // ManageKeyValueOp is an XDR Struct defines as:
 //
-//   struct ManageKeyValueOp
+//   //: `ManageKeyValueOp` is used to create the manage key-value operation which, if applied successfully, will update the key-value entry present in the system
+//        struct ManageKeyValueOp
 //        {
 //            //: `key` is the key for KeyValueEntry
 //            longstring key;
@@ -24281,7 +26579,8 @@ func NewManageKeyValueSuccessExt(v LedgerVersion, value interface{}) (result Man
 
 // ManageKeyValueSuccess is an XDR Struct defines as:
 //
-//   struct ManageKeyValueSuccess
+//   //: `ManageKeyValueSuccess` represents details returned after the successful application of `ManageKeyValueOp`
+//        struct ManageKeyValueSuccess
 //        {
 //            //: reserved for future use
 //            union switch (LedgerVersion v)
@@ -24298,7 +26597,8 @@ type ManageKeyValueSuccess struct {
 
 // ManageKeyValueResultCode is an XDR Enum defines as:
 //
-//   enum ManageKeyValueResultCode
+//   //: Result codes for `ManageKeyValueOp`
+//        enum ManageKeyValueResultCode
 //        {
 //            //: `ManageKeyValueOp` is applied successfully
 //            SUCCESS = 0,
@@ -24379,6 +26679,7 @@ func (e ManageKeyValueResultCode) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range ManageKeyValueResultCodeAll {
 			if (value & e) == value {
@@ -24410,7 +26711,8 @@ func (e *ManageKeyValueResultCode) UnmarshalJSON(data []byte) error {
 
 // ManageKeyValueResult is an XDR Union defines as:
 //
-//   union ManageKeyValueResult switch (ManageKeyValueResultCode code)
+//   //: `ManageKeyValueResult` represents the result of ManageKeyValueOp
+//        union ManageKeyValueResult switch (ManageKeyValueResultCode code)
 //        {
 //            case SUCCESS:
 //                ManageKeyValueSuccess success;
@@ -24484,7 +26786,8 @@ func (u ManageKeyValueResult) GetSuccess() (result ManageKeyValueSuccess, ok boo
 
 // ManageLimitsAction is an XDR Enum defines as:
 //
-//   enum ManageLimitsAction
+//   //: `ManageLimitsAction` defines which action can be performed on the Limits entry
+//    enum ManageLimitsAction
 //    {
 //        CREATE = 0,
 //        REMOVE = 1
@@ -24549,6 +26852,7 @@ func (e ManageLimitsAction) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range ManageLimitsActionAll {
 			if (value & e) == value {
@@ -24618,7 +26922,10 @@ func NewLimitsCreateDetailsExt(v LedgerVersion, value interface{}) (result Limit
 
 // LimitsCreateDetails is an XDR Struct defines as:
 //
-//   struct LimitsCreateDetails
+//   //: `LimitsCreateDetails` is used in the system configuration to set limits (daily, weekly, montly, annual)
+//    //: for different assets, operations (according to StatsOpType), particular account roles, particular accounts,
+//    //: or globally (only if both parameters particular account role and paticular account are not specified)
+//    struct LimitsCreateDetails
 //    {
 //        //: (optional) ID of an account role that will be imposed with limits
 //        uint64*     accountRole;
@@ -24810,7 +27117,8 @@ func NewManageLimitsOpExt(v LedgerVersion, value interface{}) (result ManageLimi
 
 // ManageLimitsOp is an XDR Struct defines as:
 //
-//   struct ManageLimitsOp
+//   //: `ManageLimitsOp` is used to update limits set in the system
+//    struct ManageLimitsOp
 //    {
 //        //: `details` defines all details of an operation based on given `ManageLimitsAction`
 //        union switch (ManageLimitsAction action)
@@ -24837,7 +27145,8 @@ type ManageLimitsOp struct {
 
 // ManageLimitsResultCode is an XDR Enum defines as:
 //
-//   enum ManageLimitsResultCode
+//   //: Result codes for ManageLimits operation
+//    enum ManageLimitsResultCode
 //    {
 //        // codes considered as "success" for the operation
 //        //: `ManageLimitsOp` was successfully applied
@@ -24935,6 +27244,7 @@ func (e ManageLimitsResultCode) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range ManageLimitsResultCodeAll {
 			if (value & e) == value {
@@ -25107,7 +27417,8 @@ type ManageLimitsResultSuccess struct {
 
 // ManageLimitsResult is an XDR Union defines as:
 //
-//   union ManageLimitsResult switch (ManageLimitsResultCode code)
+//   //: `ManageLimitsResult` defines the result of ManageLimitsOp application based on given `ManageLimitsResultCode`
+//    union ManageLimitsResult switch (ManageLimitsResultCode code)
 //    {
 //    case SUCCESS:
 //        struct {
@@ -25237,7 +27548,8 @@ func NewManageOfferOpExt(v LedgerVersion, value interface{}) (result ManageOffer
 
 // ManageOfferOp is an XDR Struct defines as:
 //
-//   struct ManageOfferOp
+//   //: ManageOfferOp is used to create or delete offer
+//    struct ManageOfferOp
 //    {
 //        //: Balance for base asset of an offer creator
 //        BalanceID baseBalance;
@@ -25348,7 +27660,9 @@ type ManageOfferOp struct {
 //        //: Source account must be verified in order to participate
 //        REQUIRES_VERIFICATION = -27,
 //        //: Precision set in the system and precision of the amount are mismatched
-//        INCORRECT_AMOUNT_PRECISION = -28
+//        INCORRECT_AMOUNT_PRECISION = -28,
+//        //: Sale specific rule forbids to participate in sale for source account
+//        SPECIFIC_RULE_FORBIDS = -29
 //    };
 //
 type ManageOfferResultCode int32
@@ -25383,6 +27697,7 @@ const (
 	ManageOfferResultCodeSourceBalanceLockOverflow ManageOfferResultCode = -26
 	ManageOfferResultCodeRequiresVerification      ManageOfferResultCode = -27
 	ManageOfferResultCodeIncorrectAmountPrecision  ManageOfferResultCode = -28
+	ManageOfferResultCodeSpecificRuleForbids       ManageOfferResultCode = -29
 )
 
 var ManageOfferResultCodeAll = []ManageOfferResultCode{
@@ -25415,6 +27730,7 @@ var ManageOfferResultCodeAll = []ManageOfferResultCode{
 	ManageOfferResultCodeSourceBalanceLockOverflow,
 	ManageOfferResultCodeRequiresVerification,
 	ManageOfferResultCodeIncorrectAmountPrecision,
+	ManageOfferResultCodeSpecificRuleForbids,
 }
 
 var manageOfferResultCodeMap = map[int32]string{
@@ -25447,6 +27763,7 @@ var manageOfferResultCodeMap = map[int32]string{
 	-26: "ManageOfferResultCodeSourceBalanceLockOverflow",
 	-27: "ManageOfferResultCodeRequiresVerification",
 	-28: "ManageOfferResultCodeIncorrectAmountPrecision",
+	-29: "ManageOfferResultCodeSpecificRuleForbids",
 }
 
 var manageOfferResultCodeShortMap = map[int32]string{
@@ -25479,6 +27796,7 @@ var manageOfferResultCodeShortMap = map[int32]string{
 	-26: "source_balance_lock_overflow",
 	-27: "requires_verification",
 	-28: "incorrect_amount_precision",
+	-29: "specific_rule_forbids",
 }
 
 var manageOfferResultCodeRevMap = map[string]int32{
@@ -25511,6 +27829,7 @@ var manageOfferResultCodeRevMap = map[string]int32{
 	"ManageOfferResultCodeSourceBalanceLockOverflow": -26,
 	"ManageOfferResultCodeRequiresVerification":      -27,
 	"ManageOfferResultCodeIncorrectAmountPrecision":  -28,
+	"ManageOfferResultCodeSpecificRuleForbids":       -29,
 }
 
 // ValidEnum validates a proposed value for this enum.  Implements
@@ -25545,6 +27864,7 @@ func (e ManageOfferResultCode) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range ManageOfferResultCodeAll {
 			if (value & e) == value {
@@ -25650,6 +27970,7 @@ func (e ManageOfferEffect) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range ManageOfferEffectAll {
 			if (value & e) == value {
@@ -25719,7 +28040,8 @@ func NewClaimOfferAtomExt(v LedgerVersion, value interface{}) (result ClaimOffer
 
 // ClaimOfferAtom is an XDR Struct defines as:
 //
-//   struct ClaimOfferAtom
+//   //: Used when offers are taken during the operation
+//    struct ClaimOfferAtom
 //    {
 //        // emitted to identify the offer
 //        //: ID of an account that created the matched offer
@@ -25887,7 +28209,8 @@ func NewManageOfferSuccessResultExt(v LedgerVersion, value interface{}) (result 
 
 // ManageOfferSuccessResult is an XDR Struct defines as:
 //
-//   struct ManageOfferSuccessResult
+//   //: Contains details of successful operation application
+//    struct ManageOfferSuccessResult
 //    {
 //
 //        //: Offers that matched a created offer
@@ -26041,7 +28364,8 @@ type ManageOfferResultCurrentPriceRestriction struct {
 
 // ManageOfferResult is an XDR Union defines as:
 //
-//   union ManageOfferResult switch (ManageOfferResultCode code)
+//   //: Result of `ManageOfferOp`
+//    union ManageOfferResult switch (ManageOfferResultCode code)
 //    {
 //    case SUCCESS:
 //        ManageOfferSuccessResult success;
@@ -26209,33 +28533,44 @@ func (u ManageOfferResult) GetCurrentPriceRestriction() (result ManageOfferResul
 
 // ManagePollAction is an XDR Enum defines as:
 //
-//   enum ManagePollAction
+//   //: Actions that can be applied to a poll
+//    enum ManagePollAction
 //    {
-//        CLOSE = 0
-//    //    UPDATE_END_TIME = 1,
-//    //    REMOVE = 2,
+//        CLOSE = 0,
+//        UPDATE_END_TIME = 1,
+//        CANCEL = 2
 //    };
 //
 type ManagePollAction int32
 
 const (
-	ManagePollActionClose ManagePollAction = 0
+	ManagePollActionClose         ManagePollAction = 0
+	ManagePollActionUpdateEndTime ManagePollAction = 1
+	ManagePollActionCancel        ManagePollAction = 2
 )
 
 var ManagePollActionAll = []ManagePollAction{
 	ManagePollActionClose,
+	ManagePollActionUpdateEndTime,
+	ManagePollActionCancel,
 }
 
 var managePollActionMap = map[int32]string{
 	0: "ManagePollActionClose",
+	1: "ManagePollActionUpdateEndTime",
+	2: "ManagePollActionCancel",
 }
 
 var managePollActionShortMap = map[int32]string{
 	0: "close",
+	1: "update_end_time",
+	2: "cancel",
 }
 
 var managePollActionRevMap = map[string]int32{
-	"ManagePollActionClose": 0,
+	"ManagePollActionClose":         0,
+	"ManagePollActionUpdateEndTime": 1,
+	"ManagePollActionCancel":        2,
 }
 
 // ValidEnum validates a proposed value for this enum.  Implements
@@ -26270,6 +28605,7 @@ func (e ManagePollAction) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range ManagePollActionAll {
 			if (value & e) == value {
@@ -26301,7 +28637,8 @@ func (e *ManagePollAction) UnmarshalJSON(data []byte) error {
 
 // PollResult is an XDR Enum defines as:
 //
-//   enum PollResult
+//   //: PollResult is used to specify result of voting
+//    enum PollResult
 //    {
 //        PASSED = 0,
 //        FAILED = 1
@@ -26366,6 +28703,7 @@ func (e PollResult) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range PollResultAll {
 			if (value & e) == value {
@@ -26435,7 +28773,8 @@ func NewClosePollDataExt(v LedgerVersion, value interface{}) (result ClosePollDa
 
 // ClosePollData is an XDR Struct defines as:
 //
-//   struct ClosePollData
+//   //: ClosePollData is used to submit poll results
+//    struct ClosePollData
 //    {
 //        //: result of voting
 //        PollResult result;
@@ -26522,15 +28861,17 @@ type UpdatePollEndTimeData struct {
 //        {
 //        case CLOSE:
 //            ClosePollData closePollData;
-//    //    case UPDATE_END_TIME:
-//    //        UpdatePollEndTimeData updateTimeData;
-//    //    case REMOVE:
-//    //        EmptyExt ext;
+//        case UPDATE_END_TIME:
+//            UpdatePollEndTimeData updateTimeData;
+//        case CANCEL:
+//            EmptyExt ext;
 //        }
 //
 type ManagePollOpData struct {
-	Action        ManagePollAction `json:"action,omitempty"`
-	ClosePollData *ClosePollData   `json:"closePollData,omitempty"`
+	Action         ManagePollAction       `json:"action,omitempty"`
+	ClosePollData  *ClosePollData         `json:"closePollData,omitempty"`
+	UpdateTimeData *UpdatePollEndTimeData `json:"updateTimeData,omitempty"`
+	Ext            *EmptyExt              `json:"ext,omitempty"`
 }
 
 // SwitchFieldName returns the field name in which this union's
@@ -26545,6 +28886,10 @@ func (u ManagePollOpData) ArmForSwitch(sw int32) (string, bool) {
 	switch ManagePollAction(sw) {
 	case ManagePollActionClose:
 		return "ClosePollData", true
+	case ManagePollActionUpdateEndTime:
+		return "UpdateTimeData", true
+	case ManagePollActionCancel:
+		return "Ext", true
 	}
 	return "-", false
 }
@@ -26560,6 +28905,20 @@ func NewManagePollOpData(action ManagePollAction, value interface{}) (result Man
 			return
 		}
 		result.ClosePollData = &tv
+	case ManagePollActionUpdateEndTime:
+		tv, ok := value.(UpdatePollEndTimeData)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be UpdatePollEndTimeData")
+			return
+		}
+		result.UpdateTimeData = &tv
+	case ManagePollActionCancel:
+		tv, ok := value.(EmptyExt)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be EmptyExt")
+			return
+		}
+		result.Ext = &tv
 	}
 	return
 }
@@ -26583,6 +28942,56 @@ func (u ManagePollOpData) GetClosePollData() (result ClosePollData, ok bool) {
 
 	if armName == "ClosePollData" {
 		result = *u.ClosePollData
+		ok = true
+	}
+
+	return
+}
+
+// MustUpdateTimeData retrieves the UpdateTimeData value from the union,
+// panicing if the value is not set.
+func (u ManagePollOpData) MustUpdateTimeData() UpdatePollEndTimeData {
+	val, ok := u.GetUpdateTimeData()
+
+	if !ok {
+		panic("arm UpdateTimeData is not set")
+	}
+
+	return val
+}
+
+// GetUpdateTimeData retrieves the UpdateTimeData value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u ManagePollOpData) GetUpdateTimeData() (result UpdatePollEndTimeData, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.Action))
+
+	if armName == "UpdateTimeData" {
+		result = *u.UpdateTimeData
+		ok = true
+	}
+
+	return
+}
+
+// MustExt retrieves the Ext value from the union,
+// panicing if the value is not set.
+func (u ManagePollOpData) MustExt() EmptyExt {
+	val, ok := u.GetExt()
+
+	if !ok {
+		panic("arm Ext is not set")
+	}
+
+	return val
+}
+
+// GetExt retrieves the Ext value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u ManagePollOpData) GetExt() (result EmptyExt, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.Action))
+
+	if armName == "Ext" {
+		result = *u.Ext
 		ok = true
 	}
 
@@ -26629,7 +29038,8 @@ func NewManagePollOpExt(v LedgerVersion, value interface{}) (result ManagePollOp
 
 // ManagePollOp is an XDR Struct defines as:
 //
-//   struct ManagePollOp
+//   //: ManagePollOp is used to close,  update end time or cancel the poll
+//    struct ManagePollOp
 //    {
 //        //: ID of poll to manage
 //        uint64 pollID;
@@ -26639,10 +29049,10 @@ func NewManagePollOpExt(v LedgerVersion, value interface{}) (result ManagePollOp
 //        {
 //        case CLOSE:
 //            ClosePollData closePollData;
-//    //    case UPDATE_END_TIME:
-//    //        UpdatePollEndTimeData updateTimeData;
-//    //    case REMOVE:
-//    //        EmptyExt ext;
+//        case UPDATE_END_TIME:
+//            UpdatePollEndTimeData updateTimeData;
+//        case CANCEL:
+//            EmptyExt ext;
 //        }
 //        data;
 //
@@ -26663,7 +29073,8 @@ type ManagePollOp struct {
 
 // ManagePollResultCode is an XDR Enum defines as:
 //
-//   enum ManagePollResultCode
+//   //: Result codes of ManagePollOp
+//    enum ManagePollResultCode
 //    {
 //        //: Specified action in `data` of ManagePollOp was successfully executed
 //        SUCCESS = 0,
@@ -26674,7 +29085,11 @@ type ManagePollOp struct {
 //        //: Not allowed to close poll which
 //        POLL_NOT_READY = -2,
 //        //: Only result provider is allowed to close poll
-//        NOT_AUTHORIZED_TO_CLOSE_POLL = -3
+//        NOT_AUTHORIZED_TO_CLOSE_POLL = -3,
+//        //: End time is in the past
+//        INVALID_END_TIME = -4,
+//        //: Only poll owner and admin are allowed to cancel poll and update end time
+//        NOT_AUTHORIZED = -5
 //    };
 //
 type ManagePollResultCode int32
@@ -26684,6 +29099,8 @@ const (
 	ManagePollResultCodeNotFound                 ManagePollResultCode = -1
 	ManagePollResultCodePollNotReady             ManagePollResultCode = -2
 	ManagePollResultCodeNotAuthorizedToClosePoll ManagePollResultCode = -3
+	ManagePollResultCodeInvalidEndTime           ManagePollResultCode = -4
+	ManagePollResultCodeNotAuthorized            ManagePollResultCode = -5
 )
 
 var ManagePollResultCodeAll = []ManagePollResultCode{
@@ -26691,6 +29108,8 @@ var ManagePollResultCodeAll = []ManagePollResultCode{
 	ManagePollResultCodeNotFound,
 	ManagePollResultCodePollNotReady,
 	ManagePollResultCodeNotAuthorizedToClosePoll,
+	ManagePollResultCodeInvalidEndTime,
+	ManagePollResultCodeNotAuthorized,
 }
 
 var managePollResultCodeMap = map[int32]string{
@@ -26698,6 +29117,8 @@ var managePollResultCodeMap = map[int32]string{
 	-1: "ManagePollResultCodeNotFound",
 	-2: "ManagePollResultCodePollNotReady",
 	-3: "ManagePollResultCodeNotAuthorizedToClosePoll",
+	-4: "ManagePollResultCodeInvalidEndTime",
+	-5: "ManagePollResultCodeNotAuthorized",
 }
 
 var managePollResultCodeShortMap = map[int32]string{
@@ -26705,6 +29126,8 @@ var managePollResultCodeShortMap = map[int32]string{
 	-1: "not_found",
 	-2: "poll_not_ready",
 	-3: "not_authorized_to_close_poll",
+	-4: "invalid_end_time",
+	-5: "not_authorized",
 }
 
 var managePollResultCodeRevMap = map[string]int32{
@@ -26712,6 +29135,8 @@ var managePollResultCodeRevMap = map[string]int32{
 	"ManagePollResultCodeNotFound":                 -1,
 	"ManagePollResultCodePollNotReady":             -2,
 	"ManagePollResultCodeNotAuthorizedToClosePoll": -3,
+	"ManagePollResultCodeInvalidEndTime":           -4,
+	"ManagePollResultCodeNotAuthorized":            -5,
 }
 
 // ValidEnum validates a proposed value for this enum.  Implements
@@ -26746,6 +29171,7 @@ func (e ManagePollResultCode) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range ManagePollResultCodeAll {
 			if (value & e) == value {
@@ -26777,7 +29203,8 @@ func (e *ManagePollResultCode) UnmarshalJSON(data []byte) error {
 
 // ManagePollResult is an XDR Union defines as:
 //
-//   union ManagePollResult switch (ManagePollResultCode code)
+//   //: Result of operation application
+//    union ManagePollResult switch (ManagePollResultCode code)
 //    {
 //    case SUCCESS:
 //        EmptyExt ext;
@@ -26916,6 +29343,7 @@ func (e ManageSaleAction) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range ManageSaleActionAll {
 			if (value & e) == value {
@@ -26985,7 +29413,8 @@ func NewUpdateSaleDetailsDataExt(v LedgerVersion, value interface{}) (result Upd
 
 // UpdateSaleDetailsData is an XDR Struct defines as:
 //
-//   struct UpdateSaleDetailsData {
+//   //: Details regarding the `Update Sale Details` request
+//    struct UpdateSaleDetailsData {
 //        //: ID of a reviewable request. If set 0, request is created, else - request is updated
 //        uint64 requestID; // if requestID is 0 - create request, else - update
 //        //: Arbitrary stringified json object that can be used to attach data to be reviewed by an admin
@@ -27123,7 +29552,8 @@ func NewManageSaleOpExt(v LedgerVersion, value interface{}) (result ManageSaleOp
 
 // ManageSaleOp is an XDR Struct defines as:
 //
-//   struct ManageSaleOp
+//   //: ManageSaleOp is used to cancel a sale, or create a reviewable request which, after approval, will update sale details.
+//    struct ManageSaleOp
 //    {
 //        //: ID of the sale to manage
 //        uint64 saleID;
@@ -27151,7 +29581,8 @@ type ManageSaleOp struct {
 
 // ManageSaleResultCode is an XDR Enum defines as:
 //
-//   enum ManageSaleResultCode
+//   //: Result codes for ManageSaleOperation
+//    enum ManageSaleResultCode
 //    {
 //        //: Operation is successfully applied
 //        SUCCESS = 0,
@@ -27255,6 +29686,7 @@ func (e ManageSaleResultCode) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range ManageSaleResultCodeAll {
 			if (value & e) == value {
@@ -27398,7 +29830,8 @@ func NewManageSaleResultSuccessExt(v LedgerVersion, value interface{}) (result M
 
 // ManageSaleResultSuccess is an XDR Struct defines as:
 //
-//   struct ManageSaleResultSuccess
+//   //:Result of ManageSale operation successful application
+//    struct ManageSaleResultSuccess
 //    {
 //        //: Indicates  whether or not the ManageSale request was auto approved and fulfilled
 //        bool fulfilled; // can be used for any reviewable request type created with manage sale operation
@@ -27428,7 +29861,8 @@ type ManageSaleResultSuccess struct {
 
 // ManageSaleResult is an XDR Union defines as:
 //
-//   union ManageSaleResult switch (ManageSaleResultCode code)
+//   //: Result of ManageSale operation application along with result code
+//    union ManageSaleResult switch (ManageSaleResultCode code)
 //    {
 //    case SUCCESS:
 //        ManageSaleResultSuccess success;
@@ -27502,7 +29936,8 @@ func (u ManageSaleResult) GetSuccess() (result ManageSaleResultSuccess, ok bool)
 
 // ManageSignerRoleAction is an XDR Enum defines as:
 //
-//   enum ManageSignerRoleAction
+//   //: Actions that can be performed on a signer role
+//    enum ManageSignerRoleAction
 //    {
 //        CREATE = 0,
 //        UPDATE = 1,
@@ -27573,6 +30008,7 @@ func (e ManageSignerRoleAction) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range ManageSignerRoleActionAll {
 			if (value & e) == value {
@@ -27642,7 +30078,8 @@ func NewCreateSignerRoleDataExt(v LedgerVersion, value interface{}) (result Crea
 
 // CreateSignerRoleData is an XDR Struct defines as:
 //
-//   struct CreateSignerRoleData
+//   //: CreateSignerRoleData is used to pass necessary params to create a new signer role
+//    struct CreateSignerRoleData
 //    {
 //        //: Array of ids of existing, unique and not default rules
 //        uint64 ruleIDs<>;
@@ -27706,7 +30143,8 @@ func NewUpdateSignerRoleDataExt(v LedgerVersion, value interface{}) (result Upda
 
 // UpdateSignerRoleData is an XDR Struct defines as:
 //
-//   struct UpdateSignerRoleData
+//   //: UpdateSignerRoleData is used to pass necessary params to update an existing signer role
+//    struct UpdateSignerRoleData
 //    {
 //        //: ID of an existing signer role
 //        uint64 roleID;
@@ -27771,7 +30209,8 @@ func NewRemoveSignerRoleDataExt(v LedgerVersion, value interface{}) (result Remo
 
 // RemoveSignerRoleData is an XDR Struct defines as:
 //
-//   struct RemoveSignerRoleData
+//   //: RemoveSignerRoleData is used to pass necessary params to remove existing signer role
+//    struct RemoveSignerRoleData
 //    {
 //        //: Identifier of an existing signer role
 //        uint64 roleID;
@@ -27972,7 +30411,8 @@ func NewManageSignerRoleOpExt(v LedgerVersion, value interface{}) (result Manage
 
 // ManageSignerRoleOp is an XDR Struct defines as:
 //
-//   struct ManageSignerRoleOp
+//   //: ManageSignerRoleOp is used to create, update or remove a signer role
+//    struct ManageSignerRoleOp
 //    {
 //        //: data is used to pass one of `ManageSignerRoleAction` with required params
 //        union switch (ManageSignerRoleAction action)
@@ -28001,7 +30441,8 @@ type ManageSignerRoleOp struct {
 
 // ManageSignerRoleResultCode is an XDR Enum defines as:
 //
-//   enum ManageSignerRoleResultCode
+//   //: Result codes of ManageSignerRoleResultCode
+//    enum ManageSignerRoleResultCode
 //    {
 //        //: Means that the specified action in `data` of ManageSignerRoleOp was successfully executed
 //        SUCCESS = 0,
@@ -28112,6 +30553,7 @@ func (e ManageSignerRoleResultCode) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range ManageSignerRoleResultCodeAll {
 			if (value & e) == value {
@@ -28202,7 +30644,8 @@ type ManageSignerRoleResultSuccess struct {
 
 // ManageSignerRoleResult is an XDR Union defines as:
 //
-//   union ManageSignerRoleResult switch (ManageSignerRoleResultCode code)
+//   //: Result of operation application
+//    union ManageSignerRoleResult switch (ManageSignerRoleResultCode code)
 //    {
 //        case SUCCESS:
 //            struct
@@ -28384,7 +30827,8 @@ func (u ManageSignerRoleResult) GetMaxRuleIDsCount() (result Uint64, ok bool) {
 
 // ManageSignerRuleAction is an XDR Enum defines as:
 //
-//   enum ManageSignerRuleAction
+//   //: Actions that can be performed with a signer rule
+//    enum ManageSignerRuleAction
 //    {
 //        CREATE = 0,
 //        UPDATE = 1,
@@ -28455,6 +30899,7 @@ func (e ManageSignerRuleAction) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range ManageSignerRuleActionAll {
 			if (value & e) == value {
@@ -28524,7 +30969,8 @@ func NewCreateSignerRuleDataExt(v LedgerVersion, value interface{}) (result Crea
 
 // CreateSignerRuleData is an XDR Struct defines as:
 //
-//   struct CreateSignerRuleData
+//   //: CreateSignerRuleData is used to pass necessary params to create a new signer rule
+//    struct CreateSignerRuleData
 //    {
 //        //: Resource is used to specify an entity (for some, with properties) that can be managed through operations
 //        SignerRuleResource resource;
@@ -28597,7 +31043,8 @@ func NewUpdateSignerRuleDataExt(v LedgerVersion, value interface{}) (result Upda
 
 // UpdateSignerRuleData is an XDR Struct defines as:
 //
-//   struct UpdateSignerRuleData
+//   //: UpdateSignerRuleData is used to pass necessary params to update an existing signer rule
+//    struct UpdateSignerRuleData
 //    {
 //        //: Identifier of an existing signer rule
 //        uint64 ruleID;
@@ -28670,7 +31117,8 @@ func NewRemoveSignerRuleDataExt(v LedgerVersion, value interface{}) (result Remo
 
 // RemoveSignerRuleData is an XDR Struct defines as:
 //
-//   struct RemoveSignerRuleData
+//   //: RemoveSignerRuleData is used to pass necessary params to remove existing signer rule
+//    struct RemoveSignerRuleData
 //    {
 //        //: Identifier of an existing signer rule
 //        uint64 ruleID;
@@ -28871,7 +31319,8 @@ func NewManageSignerRuleOpExt(v LedgerVersion, value interface{}) (result Manage
 
 // ManageSignerRuleOp is an XDR Struct defines as:
 //
-//   struct ManageSignerRuleOp
+//   //: ManageSignerRuleOp is used to create, update or remove signer rule
+//    struct ManageSignerRuleOp
 //    {
 //        //: data is used to pass one of `ManageSignerRuleAction` with required params
 //        union switch (ManageSignerRuleAction action)
@@ -28900,7 +31349,8 @@ type ManageSignerRuleOp struct {
 
 // ManageSignerRuleResultCode is an XDR Enum defines as:
 //
-//   enum ManageSignerRuleResultCode
+//   //: Result codes of ManageSignerRuleOp
+//    enum ManageSignerRuleResultCode
 //    {
 //        //: Specified action in `data` of ManageSignerRuleOp was successfully executed
 //        SUCCESS = 0,
@@ -28983,6 +31433,7 @@ func (e ManageSignerRuleResultCode) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range ManageSignerRuleResultCodeAll {
 			if (value & e) == value {
@@ -29072,7 +31523,8 @@ type ManageSignerRuleResultSuccess struct {
 
 // ManageSignerRuleResult is an XDR Union defines as:
 //
-//   union ManageSignerRuleResult switch (ManageSignerRuleResultCode code)
+//   //: Result of operation application
+//    union ManageSignerRuleResult switch (ManageSignerRuleResultCode code)
 //    {
 //        case SUCCESS:
 //            struct {
@@ -29195,7 +31647,8 @@ func (u ManageSignerRuleResult) GetRoleIDs() (result []Uint64, ok bool) {
 
 // ManageSignerAction is an XDR Enum defines as:
 //
-//   enum ManageSignerAction
+//   //: Actions that can be applied to a signer
+//    enum ManageSignerAction
 //    {
 //        CREATE = 0,
 //        UPDATE = 1,
@@ -29266,6 +31719,7 @@ func (e ManageSignerAction) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range ManageSignerActionAll {
 			if (value & e) == value {
@@ -29297,7 +31751,8 @@ func (e *ManageSignerAction) UnmarshalJSON(data []byte) error {
 
 // UpdateSignerData is an XDR Struct defines as:
 //
-//   struct UpdateSignerData
+//   //: UpdateSignerData is used to pass necessary data to create or update the signer
+//    struct UpdateSignerData
 //    {
 //        //: Public key of a signer
 //        PublicKey publicKey;
@@ -29328,7 +31783,8 @@ type UpdateSignerData struct {
 
 // RemoveSignerData is an XDR Struct defines as:
 //
-//   struct RemoveSignerData
+//   //: RemoveSignerData is used to pass necessary data to remove a signer
+//    struct RemoveSignerData
 //    {
 //        //: Public key of an existing signer
 //        PublicKey publicKey;
@@ -29487,7 +31943,8 @@ func (u ManageSignerOpData) GetRemoveData() (result RemoveSignerData, ok bool) {
 
 // ManageSignerOp is an XDR Struct defines as:
 //
-//   struct ManageSignerOp
+//   //: ManageSignerOp is used to create, update or remove a signer
+//    struct ManageSignerOp
 //    {
 //        //: data is used to pass one of `ManageSignerAction` with required params
 //        union switch (ManageSignerAction action)
@@ -29512,7 +31969,8 @@ type ManageSignerOp struct {
 
 // ManageSignerResultCode is an XDR Enum defines as:
 //
-//   enum ManageSignerResultCode
+//   //: Result codes of ManageSignerOp
+//    enum ManageSignerResultCode
 //    {
 //        //: Specified action in `data` of ManageSignerOp was successfully executed
 //        SUCCESS = 0,
@@ -29616,6 +32074,7 @@ func (e ManageSignerResultCode) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range ManageSignerResultCodeAll {
 			if (value & e) == value {
@@ -29647,7 +32106,8 @@ func (e *ManageSignerResultCode) UnmarshalJSON(data []byte) error {
 
 // ManageSignerResult is an XDR Union defines as:
 //
-//   union ManageSignerResult switch (ManageSignerResultCode code)
+//   //: Result of operation application
+//    union ManageSignerResult switch (ManageSignerResultCode code)
 //    {
 //    case SUCCESS:
 //        //: reserved for future extension
@@ -29722,7 +32182,8 @@ func (u ManageSignerResult) GetExt() (result EmptyExt, ok bool) {
 
 // ManageVoteAction is an XDR Enum defines as:
 //
-//   enum ManageVoteAction
+//   //: Actions that can be applied to a vote entry
+//    enum ManageVoteAction
 //    {
 //        CREATE = 0,
 //        REMOVE = 1
@@ -29787,6 +32248,7 @@ func (e ManageVoteAction) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range ManageVoteActionAll {
 			if (value & e) == value {
@@ -29856,7 +32318,8 @@ func NewCreateVoteDataExt(v LedgerVersion, value interface{}) (result CreateVote
 
 // CreateVoteData is an XDR Struct defines as:
 //
-//   struct CreateVoteData
+//   //: CreateVoteData is used to pass needed params to create (send) vote
+//    struct CreateVoteData
 //    {
 //        //: ID of poll to vote in
 //        uint64 pollID;
@@ -29918,7 +32381,8 @@ func NewRemoveVoteDataExt(v LedgerVersion, value interface{}) (result RemoveVote
 
 // RemoveVoteData is an XDR Struct defines as:
 //
-//   struct RemoveVoteData
+//   //: RemoveVoteData is used to pass needed params to remove (cancel) own vote
+//    struct RemoveVoteData
 //    {
 //        //: ID of poll
 //        uint64 pollID;
@@ -30082,7 +32546,8 @@ func NewManageVoteOpExt(v LedgerVersion, value interface{}) (result ManageVoteOp
 
 // ManageVoteOp is an XDR Struct defines as:
 //
-//   struct ManageVoteOp
+//   //: ManageVoteOp is used to create (send) or remove (cancel) vote
+//    struct ManageVoteOp
 //    {
 //        //: `data` is used to pass `ManageVoteAction` with needed params
 //        union switch (ManageVoteAction action)
@@ -30109,7 +32574,8 @@ type ManageVoteOp struct {
 
 // ManageVoteResultCode is an XDR Enum defines as:
 //
-//   enum ManageVoteResultCode
+//   //: Result code of ManageVoteOp
+//    enum ManageVoteResultCode
 //    {
 //        // codes considered as "success" for the operation
 //        //: Specified action in `data` of ManageVoteOp was successfully executed
@@ -30214,6 +32680,7 @@ func (e ManageVoteResultCode) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range ManageVoteResultCodeAll {
 			if (value & e) == value {
@@ -30245,7 +32712,8 @@ func (e *ManageVoteResultCode) UnmarshalJSON(data []byte) error {
 
 // ManageVoteResult is an XDR Union defines as:
 //
-//   union ManageVoteResult switch (ManageVoteResultCode code)
+//   //: Result of ManageVoteOp application
+//    union ManageVoteResult switch (ManageVoteResultCode code)
 //    {
 //    case SUCCESS:
 //        EmptyExt ext;
@@ -30383,7 +32851,8 @@ type PaymentFeeData struct {
 
 // PaymentDestinationType is an XDR Enum defines as:
 //
-//   enum PaymentDestinationType {
+//   //: Defines the type of destination of the payment
+//    enum PaymentDestinationType {
 //        ACCOUNT = 0,
 //        BALANCE = 1
 //    };
@@ -30447,6 +32916,7 @@ func (e PaymentDestinationType) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range PaymentDestinationTypeAll {
 			if (value & e) == value {
@@ -30621,7 +33091,8 @@ func NewPaymentOpExt(v LedgerVersion, value interface{}) (result PaymentOpExt, e
 
 // PaymentOp is an XDR Struct defines as:
 //
-//   struct PaymentOp
+//   //: PaymentOp is used to transfer some amount of asset from the source balance to destination account/balance
+//    struct PaymentOp
 //    {
 //        //: ID of the source balance of payment
 //        BalanceID sourceBalanceID;
@@ -30834,6 +33305,7 @@ func (e PaymentResultCode) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range PaymentResultCodeAll {
 			if (value & e) == value {
@@ -30903,7 +33375,8 @@ func NewPaymentResponseExt(v LedgerVersion, value interface{}) (result PaymentRe
 
 // PaymentResponse is an XDR Struct defines as:
 //
-//   struct PaymentResponse {
+//   //: `PaymentResponse` defines the response on the corresponding PaymentOp
+//    struct PaymentResponse {
 //        //: ID of the destination account
 //        AccountID destination;
 //        //: ID of the destination balance
@@ -31239,6 +33712,7 @@ func (e PayoutResultCode) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range PayoutResultCodeAll {
 			if (value & e) == value {
@@ -31466,9 +33940,324 @@ func (u PayoutResult) GetSuccess() (result PayoutSuccessResult, ok bool) {
 	return
 }
 
+// RemoveAssetPairOpExt is an XDR NestedUnion defines as:
+//
+//   union switch (LedgerVersion v)
+//        {
+//        case EMPTY_VERSION:
+//            void;
+//        }
+//
+type RemoveAssetPairOpExt struct {
+	V LedgerVersion `json:"v,omitempty"`
+}
+
+// SwitchFieldName returns the field name in which this union's
+// discriminant is stored
+func (u RemoveAssetPairOpExt) SwitchFieldName() string {
+	return "V"
+}
+
+// ArmForSwitch returns which field name should be used for storing
+// the value for an instance of RemoveAssetPairOpExt
+func (u RemoveAssetPairOpExt) ArmForSwitch(sw int32) (string, bool) {
+	switch LedgerVersion(sw) {
+	case LedgerVersionEmptyVersion:
+		return "", true
+	}
+	return "-", false
+}
+
+// NewRemoveAssetPairOpExt creates a new  RemoveAssetPairOpExt.
+func NewRemoveAssetPairOpExt(v LedgerVersion, value interface{}) (result RemoveAssetPairOpExt, err error) {
+	result.V = v
+	switch LedgerVersion(v) {
+	case LedgerVersionEmptyVersion:
+		// void
+	}
+	return
+}
+
+// RemoveAssetPairOp is an XDR Struct defines as:
+//
+//   //: `RemoveAssetPairOp` removes specified asset pair
+//    struct RemoveAssetPairOp
+//    {
+//        //: Defines a base asset of an asset pair
+//        AssetCode base;
+//        //: Defines a base asset of an asset pair
+//        AssetCode quote;
+//
+//        //: reserved for future use
+//        union switch (LedgerVersion v)
+//        {
+//        case EMPTY_VERSION:
+//            void;
+//        }
+//        ext;
+//    };
+//
+type RemoveAssetPairOp struct {
+	Base  AssetCode            `json:"base,omitempty"`
+	Quote AssetCode            `json:"quote,omitempty"`
+	Ext   RemoveAssetPairOpExt `json:"ext,omitempty"`
+}
+
+// RemoveAssetPairResultCode is an XDR Enum defines as:
+//
+//   //: Result codes for `RemoveAssetPairOp`
+//    enum RemoveAssetPairResultCode
+//    {
+//        //: Operation is successfully applied
+//        SUCCESS = 0,
+//        //: Asset pair not found
+//        NOT_FOUND = -1,
+//        //: Asset pair can't be deleted as it has active orders
+//        HAS_ACTIVE_OFFERS = -2,
+//        //: Asset pair can't be deleted as it has active sales
+//        HAS_ACTIVE_SALES = -3,
+//        //: Base or Quote asset is invalid
+//        INVALID_ASSET_CODE = -4
+//    };
+//
+type RemoveAssetPairResultCode int32
+
+const (
+	RemoveAssetPairResultCodeSuccess          RemoveAssetPairResultCode = 0
+	RemoveAssetPairResultCodeNotFound         RemoveAssetPairResultCode = -1
+	RemoveAssetPairResultCodeHasActiveOffers  RemoveAssetPairResultCode = -2
+	RemoveAssetPairResultCodeHasActiveSales   RemoveAssetPairResultCode = -3
+	RemoveAssetPairResultCodeInvalidAssetCode RemoveAssetPairResultCode = -4
+)
+
+var RemoveAssetPairResultCodeAll = []RemoveAssetPairResultCode{
+	RemoveAssetPairResultCodeSuccess,
+	RemoveAssetPairResultCodeNotFound,
+	RemoveAssetPairResultCodeHasActiveOffers,
+	RemoveAssetPairResultCodeHasActiveSales,
+	RemoveAssetPairResultCodeInvalidAssetCode,
+}
+
+var removeAssetPairResultCodeMap = map[int32]string{
+	0:  "RemoveAssetPairResultCodeSuccess",
+	-1: "RemoveAssetPairResultCodeNotFound",
+	-2: "RemoveAssetPairResultCodeHasActiveOffers",
+	-3: "RemoveAssetPairResultCodeHasActiveSales",
+	-4: "RemoveAssetPairResultCodeInvalidAssetCode",
+}
+
+var removeAssetPairResultCodeShortMap = map[int32]string{
+	0:  "success",
+	-1: "not_found",
+	-2: "has_active_offers",
+	-3: "has_active_sales",
+	-4: "invalid_asset_code",
+}
+
+var removeAssetPairResultCodeRevMap = map[string]int32{
+	"RemoveAssetPairResultCodeSuccess":          0,
+	"RemoveAssetPairResultCodeNotFound":         -1,
+	"RemoveAssetPairResultCodeHasActiveOffers":  -2,
+	"RemoveAssetPairResultCodeHasActiveSales":   -3,
+	"RemoveAssetPairResultCodeInvalidAssetCode": -4,
+}
+
+// ValidEnum validates a proposed value for this enum.  Implements
+// the Enum interface for RemoveAssetPairResultCode
+func (e RemoveAssetPairResultCode) ValidEnum(v int32) bool {
+	_, ok := removeAssetPairResultCodeMap[v]
+	return ok
+}
+func (e RemoveAssetPairResultCode) isFlag() bool {
+	for i := len(RemoveAssetPairResultCodeAll) - 1; i >= 0; i-- {
+		expected := RemoveAssetPairResultCode(2) << uint64(len(RemoveAssetPairResultCodeAll)-1) >> uint64(len(RemoveAssetPairResultCodeAll)-i)
+		if expected != RemoveAssetPairResultCodeAll[i] {
+			return false
+		}
+	}
+	return true
+}
+
+// String returns the name of `e`
+func (e RemoveAssetPairResultCode) String() string {
+	name, _ := removeAssetPairResultCodeMap[int32(e)]
+	return name
+}
+
+func (e RemoveAssetPairResultCode) ShortString() string {
+	name, _ := removeAssetPairResultCodeShortMap[int32(e)]
+	return name
+}
+
+func (e RemoveAssetPairResultCode) MarshalJSON() ([]byte, error) {
+	if e.isFlag() {
+		// marshal as mask
+		result := flag{
+			Value: int32(e),
+			Flags: make([]flagValue, 0),
+		}
+		for _, value := range RemoveAssetPairResultCodeAll {
+			if (value & e) == value {
+				result.Flags = append(result.Flags, flagValue{
+					Value: int32(value),
+					Name:  value.ShortString(),
+				})
+			}
+		}
+		return json.Marshal(&result)
+	} else {
+		// marshal as enum
+		result := enum{
+			Value:  int32(e),
+			String: e.ShortString(),
+		}
+		return json.Marshal(&result)
+	}
+}
+
+func (e *RemoveAssetPairResultCode) UnmarshalJSON(data []byte) error {
+	var t value
+	if err := json.Unmarshal(data, &t); err != nil {
+		return err
+	}
+	*e = RemoveAssetPairResultCode(t.Value)
+	return nil
+}
+
+// RemoveAssetPairSuccessExt is an XDR NestedUnion defines as:
+//
+//   union switch (LedgerVersion v)
+//        {
+//        case EMPTY_VERSION:
+//            void;
+//        }
+//
+type RemoveAssetPairSuccessExt struct {
+	V LedgerVersion `json:"v,omitempty"`
+}
+
+// SwitchFieldName returns the field name in which this union's
+// discriminant is stored
+func (u RemoveAssetPairSuccessExt) SwitchFieldName() string {
+	return "V"
+}
+
+// ArmForSwitch returns which field name should be used for storing
+// the value for an instance of RemoveAssetPairSuccessExt
+func (u RemoveAssetPairSuccessExt) ArmForSwitch(sw int32) (string, bool) {
+	switch LedgerVersion(sw) {
+	case LedgerVersionEmptyVersion:
+		return "", true
+	}
+	return "-", false
+}
+
+// NewRemoveAssetPairSuccessExt creates a new  RemoveAssetPairSuccessExt.
+func NewRemoveAssetPairSuccessExt(v LedgerVersion, value interface{}) (result RemoveAssetPairSuccessExt, err error) {
+	result.V = v
+	switch LedgerVersion(v) {
+	case LedgerVersionEmptyVersion:
+		// void
+	}
+	return
+}
+
+// RemoveAssetPairSuccess is an XDR Struct defines as:
+//
+//   //: Result of successful `RemoveAssetPairOp` application
+//    struct RemoveAssetPairSuccess
+//    {
+//        //: Reserved for future use
+//        union switch (LedgerVersion v)
+//        {
+//        case EMPTY_VERSION:
+//            void;
+//        }
+//        ext;
+//    };
+//
+type RemoveAssetPairSuccess struct {
+	Ext RemoveAssetPairSuccessExt `json:"ext,omitempty"`
+}
+
+// RemoveAssetPairResult is an XDR Union defines as:
+//
+//   //: Result of RemoveAssetPair operation application along with the result code
+//    union RemoveAssetPairResult switch (RemoveAssetPairResultCode code) {
+//        case SUCCESS:
+//            RemoveAssetPairSuccess success;
+//        default:
+//            void;
+//    };
+//
+type RemoveAssetPairResult struct {
+	Code    RemoveAssetPairResultCode `json:"code,omitempty"`
+	Success *RemoveAssetPairSuccess   `json:"success,omitempty"`
+}
+
+// SwitchFieldName returns the field name in which this union's
+// discriminant is stored
+func (u RemoveAssetPairResult) SwitchFieldName() string {
+	return "Code"
+}
+
+// ArmForSwitch returns which field name should be used for storing
+// the value for an instance of RemoveAssetPairResult
+func (u RemoveAssetPairResult) ArmForSwitch(sw int32) (string, bool) {
+	switch RemoveAssetPairResultCode(sw) {
+	case RemoveAssetPairResultCodeSuccess:
+		return "Success", true
+	default:
+		return "", true
+	}
+}
+
+// NewRemoveAssetPairResult creates a new  RemoveAssetPairResult.
+func NewRemoveAssetPairResult(code RemoveAssetPairResultCode, value interface{}) (result RemoveAssetPairResult, err error) {
+	result.Code = code
+	switch RemoveAssetPairResultCode(code) {
+	case RemoveAssetPairResultCodeSuccess:
+		tv, ok := value.(RemoveAssetPairSuccess)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be RemoveAssetPairSuccess")
+			return
+		}
+		result.Success = &tv
+	default:
+		// void
+	}
+	return
+}
+
+// MustSuccess retrieves the Success value from the union,
+// panicing if the value is not set.
+func (u RemoveAssetPairResult) MustSuccess() RemoveAssetPairSuccess {
+	val, ok := u.GetSuccess()
+
+	if !ok {
+		panic("arm Success is not set")
+	}
+
+	return val
+}
+
+// GetSuccess retrieves the Success value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u RemoveAssetPairResult) GetSuccess() (result RemoveAssetPairSuccess, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.Code))
+
+	if armName == "Success" {
+		result = *u.Success
+		ok = true
+	}
+
+	return
+}
+
 // ReviewRequestOpAction is an XDR Enum defines as:
 //
-//   enum ReviewRequestOpAction {
+//   //: Actions that can be performed on request that is being reviewed
+//    enum ReviewRequestOpAction {
 //        //: Approve request
 //        APPROVE = 1,
 //        //: Reject request
@@ -31541,6 +34330,7 @@ func (e ReviewRequestOpAction) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range ReviewRequestOpActionAll {
 			if (value & e) == value {
@@ -31610,7 +34400,8 @@ func NewLimitsUpdateDetailsExt(v LedgerVersion, value interface{}) (result Limit
 
 // LimitsUpdateDetails is an XDR Struct defines as:
 //
-//   struct LimitsUpdateDetails {
+//   //: Review details of a Limits Update request
+//    struct LimitsUpdateDetails {
 //        //: Limits entry containing new limits to set
 //        LimitsV2Entry newLimitsV2;
 //
@@ -31668,7 +34459,8 @@ func NewWithdrawalDetailsExt(v LedgerVersion, value interface{}) (result Withdra
 
 // WithdrawalDetails is an XDR Struct defines as:
 //
-//   struct WithdrawalDetails {
+//   //: Review details of a Withdraw Request
+//    struct WithdrawalDetails {
 //        //: External details updated on a Withdraw review
 //        string externalDetails<>;
 //        //: Reserved for future use
@@ -31725,7 +34517,8 @@ func NewAmlAlertDetailsExt(v LedgerVersion, value interface{}) (result AmlAlertD
 
 // AmlAlertDetails is an XDR Struct defines as:
 //
-//   struct AMLAlertDetails {
+//   //: Details of AML Alert
+//    struct AMLAlertDetails {
 //        //: Comment on reason of AML Alert
 //        string comment<>;
 //        //: Reserved for future use
@@ -31839,7 +34632,8 @@ func NewBillPayDetailsExt(v LedgerVersion, value interface{}) (result BillPayDet
 
 // BillPayDetails is an XDR Struct defines as:
 //
-//   struct BillPayDetails {
+//   //: Details of a payment reviewable request
+//    struct BillPayDetails {
 //        //: Details of payment
 //        PaymentOp paymentDetails;
 //
@@ -31897,7 +34691,8 @@ func NewReviewDetailsExt(v LedgerVersion, value interface{}) (result ReviewDetai
 
 // ReviewDetails is an XDR Struct defines as:
 //
-//   struct ReviewDetails {
+//   //: Details of a request review
+//    struct ReviewDetails {
 //        //: Tasks to add to pending
 //        uint32 tasksToAdd;
 //        //: Tasks to remove from pending
@@ -31960,7 +34755,8 @@ func NewSaleExtendedExt(v LedgerVersion, value interface{}) (result SaleExtended
 
 // SaleExtended is an XDR Struct defines as:
 //
-//   struct SaleExtended {
+//   //: Extended result of the review request operation containing details specific to a Create Sale Request
+//    struct SaleExtended {
 //        //: ID of the newly created sale as a result of Create Sale Request successful review
 //        uint64 saleID;
 //
@@ -31978,7 +34774,7 @@ type SaleExtended struct {
 	Ext    SaleExtendedExt `json:"ext,omitempty"`
 }
 
-// ASwapBidExtendedExt is an XDR NestedUnion defines as:
+// AtomicSwapAskExtendedExt is an XDR NestedUnion defines as:
 //
 //   union switch (LedgerVersion v)
 //        {
@@ -31986,19 +34782,19 @@ type SaleExtended struct {
 //            void;
 //        }
 //
-type ASwapBidExtendedExt struct {
+type AtomicSwapAskExtendedExt struct {
 	V LedgerVersion `json:"v,omitempty"`
 }
 
 // SwitchFieldName returns the field name in which this union's
 // discriminant is stored
-func (u ASwapBidExtendedExt) SwitchFieldName() string {
+func (u AtomicSwapAskExtendedExt) SwitchFieldName() string {
 	return "V"
 }
 
 // ArmForSwitch returns which field name should be used for storing
-// the value for an instance of ASwapBidExtendedExt
-func (u ASwapBidExtendedExt) ArmForSwitch(sw int32) (string, bool) {
+// the value for an instance of AtomicSwapAskExtendedExt
+func (u AtomicSwapAskExtendedExt) ArmForSwitch(sw int32) (string, bool) {
 	switch LedgerVersion(sw) {
 	case LedgerVersionEmptyVersion:
 		return "", true
@@ -32006,8 +34802,8 @@ func (u ASwapBidExtendedExt) ArmForSwitch(sw int32) (string, bool) {
 	return "-", false
 }
 
-// NewASwapBidExtendedExt creates a new  ASwapBidExtendedExt.
-func NewASwapBidExtendedExt(v LedgerVersion, value interface{}) (result ASwapBidExtendedExt, err error) {
+// NewAtomicSwapAskExtendedExt creates a new  AtomicSwapAskExtendedExt.
+func NewAtomicSwapAskExtendedExt(v LedgerVersion, value interface{}) (result AtomicSwapAskExtendedExt, err error) {
 	result.V = v
 	switch LedgerVersion(v) {
 	case LedgerVersionEmptyVersion:
@@ -32016,12 +34812,13 @@ func NewASwapBidExtendedExt(v LedgerVersion, value interface{}) (result ASwapBid
 	return
 }
 
-// ASwapBidExtended is an XDR Struct defines as:
+// AtomicSwapAskExtended is an XDR Struct defines as:
 //
-//   struct ASwapBidExtended
+//   //: Extended result of the review request operation containing details specific to a Create Atomic Swap Bid Request
+//    struct AtomicSwapAskExtended
 //    {
-//        //: ID of the newly created bid as a result of Create Atomic Swap Bid Request successful review
-//        uint64 bidID;
+//        //: ID of the newly created ask as a result of Create Atomic Swap Ask Request successful review
+//        uint64 askID;
 //
 //        //: Reserved for future use
 //        union switch (LedgerVersion v)
@@ -32032,9 +34829,9 @@ func NewASwapBidExtendedExt(v LedgerVersion, value interface{}) (result ASwapBid
 //        ext;
 //    };
 //
-type ASwapBidExtended struct {
-	BidId Uint64              `json:"bidID,omitempty"`
-	Ext   ASwapBidExtendedExt `json:"ext,omitempty"`
+type AtomicSwapAskExtended struct {
+	AskId Uint64                   `json:"askID,omitempty"`
+	Ext   AtomicSwapAskExtendedExt `json:"ext,omitempty"`
 }
 
 // CreatePollExtendedExt is an XDR NestedUnion defines as:
@@ -32077,7 +34874,8 @@ func NewCreatePollExtendedExt(v LedgerVersion, value interface{}) (result Create
 
 // CreatePollExtended is an XDR Struct defines as:
 //
-//   struct CreatePollExtended
+//   //: Extended result of the review request operation containing details specific to a `CREATE_POLL` request
+//    struct CreatePollExtended
 //    {
 //        //: ID of the newly created poll
 //        uint64 pollID;
@@ -32096,7 +34894,7 @@ type CreatePollExtended struct {
 	Ext    CreatePollExtendedExt `json:"ext,omitempty"`
 }
 
-// ASwapExtendedExt is an XDR NestedUnion defines as:
+// AtomicSwapBidExtendedExt is an XDR NestedUnion defines as:
 //
 //   union switch (LedgerVersion v)
 //        {
@@ -32104,19 +34902,19 @@ type CreatePollExtended struct {
 //                void;
 //        }
 //
-type ASwapExtendedExt struct {
+type AtomicSwapBidExtendedExt struct {
 	V LedgerVersion `json:"v,omitempty"`
 }
 
 // SwitchFieldName returns the field name in which this union's
 // discriminant is stored
-func (u ASwapExtendedExt) SwitchFieldName() string {
+func (u AtomicSwapBidExtendedExt) SwitchFieldName() string {
 	return "V"
 }
 
 // ArmForSwitch returns which field name should be used for storing
-// the value for an instance of ASwapExtendedExt
-func (u ASwapExtendedExt) ArmForSwitch(sw int32) (string, bool) {
+// the value for an instance of AtomicSwapBidExtendedExt
+func (u AtomicSwapBidExtendedExt) ArmForSwitch(sw int32) (string, bool) {
 	switch LedgerVersion(sw) {
 	case LedgerVersionEmptyVersion:
 		return "", true
@@ -32124,8 +34922,8 @@ func (u ASwapExtendedExt) ArmForSwitch(sw int32) (string, bool) {
 	return "-", false
 }
 
-// NewASwapExtendedExt creates a new  ASwapExtendedExt.
-func NewASwapExtendedExt(v LedgerVersion, value interface{}) (result ASwapExtendedExt, err error) {
+// NewAtomicSwapBidExtendedExt creates a new  AtomicSwapBidExtendedExt.
+func NewAtomicSwapBidExtendedExt(v LedgerVersion, value interface{}) (result AtomicSwapBidExtendedExt, err error) {
 	result.V = v
 	switch LedgerVersion(v) {
 	case LedgerVersionEmptyVersion:
@@ -32134,16 +34932,17 @@ func NewASwapExtendedExt(v LedgerVersion, value interface{}) (result ASwapExtend
 	return
 }
 
-// ASwapExtended is an XDR Struct defines as:
+// AtomicSwapBidExtended is an XDR Struct defines as:
 //
-//   struct ASwapExtended
+//   //: Extended result of a review request operation containing details specific to a Create Atomic Swap Request
+//    struct AtomicSwapBidExtended
 //    {
-//        //: ID of a bid to apply atomic swap to
-//        uint64 bidID;
-//        //: AccountID of a bid owner
+//        //: ID of a ask to apply atomic swap to
+//        uint64 askID;
+//        //: AccountID of a ask owner
+//        AccountID askOwnerID;
+//        //: Account id of an bid owner
 //        AccountID bidOwnerID;
-//        //: Account id of an atomic swap source
-//        AccountID purchaserID;
 //        //: Base asset for the atomic swap
 //        AssetCode baseAsset;
 //        //: Quote asset for the atomic swap
@@ -32154,10 +34953,12 @@ func NewASwapExtendedExt(v LedgerVersion, value interface{}) (result ASwapExtend
 //        uint64 quoteAmount;
 //        //: Price of base asset in terms of quote
 //        uint64 price;
-//        //: Balance in base asset of a bid owner
+//        //: Balance in base asset of a ask owner
+//        BalanceID askOwnerBaseBalanceID;
+//        //: Balance in base asset of an bid owner
 //        BalanceID bidOwnerBaseBalanceID;
-//        //: Balance in quote asset of atomic swap source
-//        BalanceID purchaserBaseBalanceID;
+//        //: Amount which was unlocked on bid owner base balance after bid removing
+//        uint64 unlockedAmount;
 //
 //        //: Reserved for future use
 //        union switch (LedgerVersion v)
@@ -32168,18 +34969,19 @@ func NewASwapExtendedExt(v LedgerVersion, value interface{}) (result ASwapExtend
 //        ext;
 //    };
 //
-type ASwapExtended struct {
-	BidId                  Uint64           `json:"bidID,omitempty"`
-	BidOwnerId             AccountId        `json:"bidOwnerID,omitempty"`
-	PurchaserId            AccountId        `json:"purchaserID,omitempty"`
-	BaseAsset              AssetCode        `json:"baseAsset,omitempty"`
-	QuoteAsset             AssetCode        `json:"quoteAsset,omitempty"`
-	BaseAmount             Uint64           `json:"baseAmount,omitempty"`
-	QuoteAmount            Uint64           `json:"quoteAmount,omitempty"`
-	Price                  Uint64           `json:"price,omitempty"`
-	BidOwnerBaseBalanceId  BalanceId        `json:"bidOwnerBaseBalanceID,omitempty"`
-	PurchaserBaseBalanceId BalanceId        `json:"purchaserBaseBalanceID,omitempty"`
-	Ext                    ASwapExtendedExt `json:"ext,omitempty"`
+type AtomicSwapBidExtended struct {
+	AskId                 Uint64                   `json:"askID,omitempty"`
+	AskOwnerId            AccountId                `json:"askOwnerID,omitempty"`
+	BidOwnerId            AccountId                `json:"bidOwnerID,omitempty"`
+	BaseAsset             AssetCode                `json:"baseAsset,omitempty"`
+	QuoteAsset            AssetCode                `json:"quoteAsset,omitempty"`
+	BaseAmount            Uint64                   `json:"baseAmount,omitempty"`
+	QuoteAmount           Uint64                   `json:"quoteAmount,omitempty"`
+	Price                 Uint64                   `json:"price,omitempty"`
+	AskOwnerBaseBalanceId BalanceId                `json:"askOwnerBaseBalanceID,omitempty"`
+	BidOwnerBaseBalanceId BalanceId                `json:"bidOwnerBaseBalanceID,omitempty"`
+	UnlockedAmount        Uint64                   `json:"unlockedAmount,omitempty"`
+	Ext                   AtomicSwapBidExtendedExt `json:"ext,omitempty"`
 }
 
 // ExtendedResultTypeExt is an XDR NestedUnion defines as:
@@ -32190,19 +34992,19 @@ type ASwapExtended struct {
 //        case NONE:
 //            void;
 //        case CREATE_ATOMIC_SWAP_BID:
-//            ASwapBidExtended aSwapBidExtended;
-//        case CREATE_ATOMIC_SWAP:
-//            ASwapExtended aSwapExtended;
+//            AtomicSwapBidExtended atomicSwapBidExtended;
+//        case CREATE_ATOMIC_SWAP_ASK:
+//            AtomicSwapAskExtended atomicSwapAskExtended;
 //        case CREATE_POLL:
 //            CreatePollExtended createPoll;
 //        }
 //
 type ExtendedResultTypeExt struct {
-	RequestType      ReviewableRequestType `json:"requestType,omitempty"`
-	SaleExtended     *SaleExtended         `json:"saleExtended,omitempty"`
-	ASwapBidExtended *ASwapBidExtended     `json:"aSwapBidExtended,omitempty"`
-	ASwapExtended    *ASwapExtended        `json:"aSwapExtended,omitempty"`
-	CreatePoll       *CreatePollExtended   `json:"createPoll,omitempty"`
+	RequestType           ReviewableRequestType  `json:"requestType,omitempty"`
+	SaleExtended          *SaleExtended          `json:"saleExtended,omitempty"`
+	AtomicSwapBidExtended *AtomicSwapBidExtended `json:"atomicSwapBidExtended,omitempty"`
+	AtomicSwapAskExtended *AtomicSwapAskExtended `json:"atomicSwapAskExtended,omitempty"`
+	CreatePoll            *CreatePollExtended    `json:"createPoll,omitempty"`
 }
 
 // SwitchFieldName returns the field name in which this union's
@@ -32220,9 +35022,9 @@ func (u ExtendedResultTypeExt) ArmForSwitch(sw int32) (string, bool) {
 	case ReviewableRequestTypeNone:
 		return "", true
 	case ReviewableRequestTypeCreateAtomicSwapBid:
-		return "ASwapBidExtended", true
-	case ReviewableRequestTypeCreateAtomicSwap:
-		return "ASwapExtended", true
+		return "AtomicSwapBidExtended", true
+	case ReviewableRequestTypeCreateAtomicSwapAsk:
+		return "AtomicSwapAskExtended", true
 	case ReviewableRequestTypeCreatePoll:
 		return "CreatePoll", true
 	}
@@ -32243,19 +35045,19 @@ func NewExtendedResultTypeExt(requestType ReviewableRequestType, value interface
 	case ReviewableRequestTypeNone:
 		// void
 	case ReviewableRequestTypeCreateAtomicSwapBid:
-		tv, ok := value.(ASwapBidExtended)
+		tv, ok := value.(AtomicSwapBidExtended)
 		if !ok {
-			err = fmt.Errorf("invalid value, must be ASwapBidExtended")
+			err = fmt.Errorf("invalid value, must be AtomicSwapBidExtended")
 			return
 		}
-		result.ASwapBidExtended = &tv
-	case ReviewableRequestTypeCreateAtomicSwap:
-		tv, ok := value.(ASwapExtended)
+		result.AtomicSwapBidExtended = &tv
+	case ReviewableRequestTypeCreateAtomicSwapAsk:
+		tv, ok := value.(AtomicSwapAskExtended)
 		if !ok {
-			err = fmt.Errorf("invalid value, must be ASwapExtended")
+			err = fmt.Errorf("invalid value, must be AtomicSwapAskExtended")
 			return
 		}
-		result.ASwapExtended = &tv
+		result.AtomicSwapAskExtended = &tv
 	case ReviewableRequestTypeCreatePoll:
 		tv, ok := value.(CreatePollExtended)
 		if !ok {
@@ -32292,50 +35094,50 @@ func (u ExtendedResultTypeExt) GetSaleExtended() (result SaleExtended, ok bool) 
 	return
 }
 
-// MustASwapBidExtended retrieves the ASwapBidExtended value from the union,
+// MustAtomicSwapBidExtended retrieves the AtomicSwapBidExtended value from the union,
 // panicing if the value is not set.
-func (u ExtendedResultTypeExt) MustASwapBidExtended() ASwapBidExtended {
-	val, ok := u.GetASwapBidExtended()
+func (u ExtendedResultTypeExt) MustAtomicSwapBidExtended() AtomicSwapBidExtended {
+	val, ok := u.GetAtomicSwapBidExtended()
 
 	if !ok {
-		panic("arm ASwapBidExtended is not set")
+		panic("arm AtomicSwapBidExtended is not set")
 	}
 
 	return val
 }
 
-// GetASwapBidExtended retrieves the ASwapBidExtended value from the union,
+// GetAtomicSwapBidExtended retrieves the AtomicSwapBidExtended value from the union,
 // returning ok if the union's switch indicated the value is valid.
-func (u ExtendedResultTypeExt) GetASwapBidExtended() (result ASwapBidExtended, ok bool) {
+func (u ExtendedResultTypeExt) GetAtomicSwapBidExtended() (result AtomicSwapBidExtended, ok bool) {
 	armName, _ := u.ArmForSwitch(int32(u.RequestType))
 
-	if armName == "ASwapBidExtended" {
-		result = *u.ASwapBidExtended
+	if armName == "AtomicSwapBidExtended" {
+		result = *u.AtomicSwapBidExtended
 		ok = true
 	}
 
 	return
 }
 
-// MustASwapExtended retrieves the ASwapExtended value from the union,
+// MustAtomicSwapAskExtended retrieves the AtomicSwapAskExtended value from the union,
 // panicing if the value is not set.
-func (u ExtendedResultTypeExt) MustASwapExtended() ASwapExtended {
-	val, ok := u.GetASwapExtended()
+func (u ExtendedResultTypeExt) MustAtomicSwapAskExtended() AtomicSwapAskExtended {
+	val, ok := u.GetAtomicSwapAskExtended()
 
 	if !ok {
-		panic("arm ASwapExtended is not set")
+		panic("arm AtomicSwapAskExtended is not set")
 	}
 
 	return val
 }
 
-// GetASwapExtended retrieves the ASwapExtended value from the union,
+// GetAtomicSwapAskExtended retrieves the AtomicSwapAskExtended value from the union,
 // returning ok if the union's switch indicated the value is valid.
-func (u ExtendedResultTypeExt) GetASwapExtended() (result ASwapExtended, ok bool) {
+func (u ExtendedResultTypeExt) GetAtomicSwapAskExtended() (result AtomicSwapAskExtended, ok bool) {
 	armName, _ := u.ArmForSwitch(int32(u.RequestType))
 
-	if armName == "ASwapExtended" {
-		result = *u.ASwapExtended
+	if armName == "AtomicSwapAskExtended" {
+		result = *u.AtomicSwapAskExtended
 		ok = true
 	}
 
@@ -32407,7 +35209,8 @@ func NewExtendedResultExt(v LedgerVersion, value interface{}) (result ExtendedRe
 
 // ExtendedResult is an XDR Struct defines as:
 //
-//   struct ExtendedResult {
+//   //: Extended result of a Review Request operation containing details specific to certain request types
+//    struct ExtendedResult {
 //        //: Indicates whether or not the request that is being reviewed was applied
 //        bool fulfilled;
 //        //: typeExt is used to pass ReviewableRequestType along with details specific to a request type
@@ -32417,9 +35220,9 @@ func NewExtendedResultExt(v LedgerVersion, value interface{}) (result ExtendedRe
 //        case NONE:
 //            void;
 //        case CREATE_ATOMIC_SWAP_BID:
-//            ASwapBidExtended aSwapBidExtended;
-//        case CREATE_ATOMIC_SWAP:
-//            ASwapExtended aSwapExtended;
+//            AtomicSwapBidExtended atomicSwapBidExtended;
+//        case CREATE_ATOMIC_SWAP_ASK:
+//            AtomicSwapAskExtended atomicSwapAskExtended;
 //        case CREATE_POLL:
 //            CreatePollExtended createPoll;
 //        } typeExt;
@@ -32700,7 +35503,8 @@ func NewReviewRequestOpExt(v LedgerVersion, value interface{}) (result ReviewReq
 
 // ReviewRequestOp is an XDR Struct defines as:
 //
-//   struct ReviewRequestOp
+//   //: Review Request operation
+//    struct ReviewRequestOp
 //    {
 //        //: ID of a request that is being reviewed
 //        uint64 requestID;
@@ -32749,7 +35553,8 @@ type ReviewRequestOp struct {
 
 // ReviewRequestResultCode is an XDR Enum defines as:
 //
-//   enum ReviewRequestResultCode
+//   //: Result code of the ReviewRequest operation
+//    enum ReviewRequestResultCode
 //    {
 //        //: Codes considered as "success" for an operation
 //        //: Operation is applied successfuly
@@ -32804,12 +35609,17 @@ type ReviewRequestOp struct {
 //        INSUFFICIENT_PREISSUED_FOR_HARD_CAP = -520,
 //        //: Trying to create a sale for a base asset that cannot be found
 //        BASE_ASSET_NOT_FOUND = -530,
+//        //: There is no asset pair between default quote asset and quote asset
+//        ASSET_PAIR_NOT_FOUND = -540,
 //        //: Trying to create a sale with one of the quote assets that doesn't exist
 //        QUOTE_ASSET_NOT_FOUND = -550,
 //
 //        //: Change role
 //        //: Trying to remove zero tasks
 //        NON_ZERO_TASKS_TO_REMOVE_NOT_ALLOWED = -600,
+//        //: There is no account role with provided id
+//        ACCOUNT_ROLE_TO_SET_DOES_NOT_EXIST = -610,
+//
 //
 //        //: Update sale details
 //        //: Trying to update details of a non-existing sale
@@ -32861,9 +35671,11 @@ type ReviewRequestOp struct {
 //        // Atomic swap
 //        BASE_ASSET_CANNOT_BE_SWAPPED = -1500,
 //        QUOTE_ASSET_CANNOT_BE_SWAPPED = -1501,
-//        ASSETS_ARE_EQUAL = -1502,
-//        ASWAP_BID_UNDERFUNDED = -1503,
-//        ASWAP_PURCHASER_FULL_LINE = -1504
+//        ATOMIC_SWAP_BID_OWNER_FULL_LINE = -1504,
+//
+//        //KYC
+//        //:Signer data is invalid - either weight is wrong or details are invalid
+//        INVALID_SIGNER_DATA = -1600
 //
 //    };
 //
@@ -32892,8 +35704,10 @@ const (
 	ReviewRequestResultCodeHardCapWillExceedMaxIssuance             ReviewRequestResultCode = -510
 	ReviewRequestResultCodeInsufficientPreissuedForHardCap          ReviewRequestResultCode = -520
 	ReviewRequestResultCodeBaseAssetNotFound                        ReviewRequestResultCode = -530
+	ReviewRequestResultCodeAssetPairNotFound                        ReviewRequestResultCode = -540
 	ReviewRequestResultCodeQuoteAssetNotFound                       ReviewRequestResultCode = -550
 	ReviewRequestResultCodeNonZeroTasksToRemoveNotAllowed           ReviewRequestResultCode = -600
+	ReviewRequestResultCodeAccountRoleToSetDoesNotExist             ReviewRequestResultCode = -610
 	ReviewRequestResultCodeSaleNotFound                             ReviewRequestResultCode = -700
 	ReviewRequestResultCodeAmountMismatched                         ReviewRequestResultCode = -1010
 	ReviewRequestResultCodeDestinationBalanceMismatched             ReviewRequestResultCode = -1020
@@ -32927,9 +35741,8 @@ const (
 	ReviewRequestResultCodeContractDetailsTooLong                   ReviewRequestResultCode = -1400
 	ReviewRequestResultCodeBaseAssetCannotBeSwapped                 ReviewRequestResultCode = -1500
 	ReviewRequestResultCodeQuoteAssetCannotBeSwapped                ReviewRequestResultCode = -1501
-	ReviewRequestResultCodeAssetsAreEqual                           ReviewRequestResultCode = -1502
-	ReviewRequestResultCodeAswapBidUnderfunded                      ReviewRequestResultCode = -1503
-	ReviewRequestResultCodeAswapPurchaserFullLine                   ReviewRequestResultCode = -1504
+	ReviewRequestResultCodeAtomicSwapBidOwnerFullLine               ReviewRequestResultCode = -1504
+	ReviewRequestResultCodeInvalidSignerData                        ReviewRequestResultCode = -1600
 )
 
 var ReviewRequestResultCodeAll = []ReviewRequestResultCode{
@@ -32955,8 +35768,10 @@ var ReviewRequestResultCodeAll = []ReviewRequestResultCode{
 	ReviewRequestResultCodeHardCapWillExceedMaxIssuance,
 	ReviewRequestResultCodeInsufficientPreissuedForHardCap,
 	ReviewRequestResultCodeBaseAssetNotFound,
+	ReviewRequestResultCodeAssetPairNotFound,
 	ReviewRequestResultCodeQuoteAssetNotFound,
 	ReviewRequestResultCodeNonZeroTasksToRemoveNotAllowed,
+	ReviewRequestResultCodeAccountRoleToSetDoesNotExist,
 	ReviewRequestResultCodeSaleNotFound,
 	ReviewRequestResultCodeAmountMismatched,
 	ReviewRequestResultCodeDestinationBalanceMismatched,
@@ -32990,9 +35805,8 @@ var ReviewRequestResultCodeAll = []ReviewRequestResultCode{
 	ReviewRequestResultCodeContractDetailsTooLong,
 	ReviewRequestResultCodeBaseAssetCannotBeSwapped,
 	ReviewRequestResultCodeQuoteAssetCannotBeSwapped,
-	ReviewRequestResultCodeAssetsAreEqual,
-	ReviewRequestResultCodeAswapBidUnderfunded,
-	ReviewRequestResultCodeAswapPurchaserFullLine,
+	ReviewRequestResultCodeAtomicSwapBidOwnerFullLine,
+	ReviewRequestResultCodeInvalidSignerData,
 }
 
 var reviewRequestResultCodeMap = map[int32]string{
@@ -33018,8 +35832,10 @@ var reviewRequestResultCodeMap = map[int32]string{
 	-510:  "ReviewRequestResultCodeHardCapWillExceedMaxIssuance",
 	-520:  "ReviewRequestResultCodeInsufficientPreissuedForHardCap",
 	-530:  "ReviewRequestResultCodeBaseAssetNotFound",
+	-540:  "ReviewRequestResultCodeAssetPairNotFound",
 	-550:  "ReviewRequestResultCodeQuoteAssetNotFound",
 	-600:  "ReviewRequestResultCodeNonZeroTasksToRemoveNotAllowed",
+	-610:  "ReviewRequestResultCodeAccountRoleToSetDoesNotExist",
 	-700:  "ReviewRequestResultCodeSaleNotFound",
 	-1010: "ReviewRequestResultCodeAmountMismatched",
 	-1020: "ReviewRequestResultCodeDestinationBalanceMismatched",
@@ -33053,9 +35869,8 @@ var reviewRequestResultCodeMap = map[int32]string{
 	-1400: "ReviewRequestResultCodeContractDetailsTooLong",
 	-1500: "ReviewRequestResultCodeBaseAssetCannotBeSwapped",
 	-1501: "ReviewRequestResultCodeQuoteAssetCannotBeSwapped",
-	-1502: "ReviewRequestResultCodeAssetsAreEqual",
-	-1503: "ReviewRequestResultCodeAswapBidUnderfunded",
-	-1504: "ReviewRequestResultCodeAswapPurchaserFullLine",
+	-1504: "ReviewRequestResultCodeAtomicSwapBidOwnerFullLine",
+	-1600: "ReviewRequestResultCodeInvalidSignerData",
 }
 
 var reviewRequestResultCodeShortMap = map[int32]string{
@@ -33081,8 +35896,10 @@ var reviewRequestResultCodeShortMap = map[int32]string{
 	-510:  "hard_cap_will_exceed_max_issuance",
 	-520:  "insufficient_preissued_for_hard_cap",
 	-530:  "base_asset_not_found",
+	-540:  "asset_pair_not_found",
 	-550:  "quote_asset_not_found",
 	-600:  "non_zero_tasks_to_remove_not_allowed",
+	-610:  "account_role_to_set_does_not_exist",
 	-700:  "sale_not_found",
 	-1010: "amount_mismatched",
 	-1020: "destination_balance_mismatched",
@@ -33116,9 +35933,8 @@ var reviewRequestResultCodeShortMap = map[int32]string{
 	-1400: "contract_details_too_long",
 	-1500: "base_asset_cannot_be_swapped",
 	-1501: "quote_asset_cannot_be_swapped",
-	-1502: "assets_are_equal",
-	-1503: "aswap_bid_underfunded",
-	-1504: "aswap_purchaser_full_line",
+	-1504: "atomic_swap_bid_owner_full_line",
+	-1600: "invalid_signer_data",
 }
 
 var reviewRequestResultCodeRevMap = map[string]int32{
@@ -33144,8 +35960,10 @@ var reviewRequestResultCodeRevMap = map[string]int32{
 	"ReviewRequestResultCodeHardCapWillExceedMaxIssuance":             -510,
 	"ReviewRequestResultCodeInsufficientPreissuedForHardCap":          -520,
 	"ReviewRequestResultCodeBaseAssetNotFound":                        -530,
+	"ReviewRequestResultCodeAssetPairNotFound":                        -540,
 	"ReviewRequestResultCodeQuoteAssetNotFound":                       -550,
 	"ReviewRequestResultCodeNonZeroTasksToRemoveNotAllowed":           -600,
+	"ReviewRequestResultCodeAccountRoleToSetDoesNotExist":             -610,
 	"ReviewRequestResultCodeSaleNotFound":                             -700,
 	"ReviewRequestResultCodeAmountMismatched":                         -1010,
 	"ReviewRequestResultCodeDestinationBalanceMismatched":             -1020,
@@ -33179,9 +35997,8 @@ var reviewRequestResultCodeRevMap = map[string]int32{
 	"ReviewRequestResultCodeContractDetailsTooLong":                   -1400,
 	"ReviewRequestResultCodeBaseAssetCannotBeSwapped":                 -1500,
 	"ReviewRequestResultCodeQuoteAssetCannotBeSwapped":                -1501,
-	"ReviewRequestResultCodeAssetsAreEqual":                           -1502,
-	"ReviewRequestResultCodeAswapBidUnderfunded":                      -1503,
-	"ReviewRequestResultCodeAswapPurchaserFullLine":                   -1504,
+	"ReviewRequestResultCodeAtomicSwapBidOwnerFullLine":               -1504,
+	"ReviewRequestResultCodeInvalidSignerData":                        -1600,
 }
 
 // ValidEnum validates a proposed value for this enum.  Implements
@@ -33216,6 +36033,7 @@ func (e ReviewRequestResultCode) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range ReviewRequestResultCodeAll {
 			if (value & e) == value {
@@ -33247,7 +36065,8 @@ func (e *ReviewRequestResultCode) UnmarshalJSON(data []byte) error {
 
 // ReviewRequestResult is an XDR Union defines as:
 //
-//   union ReviewRequestResult switch (ReviewRequestResultCode code)
+//   //: Result of applying the review request with result code
+//    union ReviewRequestResult switch (ReviewRequestResultCode code)
 //    {
 //    case SUCCESS:
 //        ExtendedResult success;
@@ -33359,7 +36178,8 @@ func NewSetFeesOpExt(v LedgerVersion, value interface{}) (result SetFeesOpExt, e
 
 // SetFeesOp is an XDR Struct defines as:
 //
-//   struct SetFeesOp
+//   //: Allows to establish or remove a relationship between a particular fee entry with the different entities
+//        struct SetFeesOp
 //        {
 //            //: Fee entry to set
 //            FeeEntry* fee;
@@ -33382,7 +36202,8 @@ type SetFeesOp struct {
 
 // SetFeesResultCode is an XDR Enum defines as:
 //
-//   enum SetFeesResultCode
+//   //: Result codes for SetFees operation
+//        enum SetFeesResultCode
 //        {
 //            // codes considered as "success" for the operation
 //            //: `SetFeesOp` was successfully applied and a fee was successfully set or deleted
@@ -33585,6 +36406,7 @@ func (e SetFeesResultCode) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range SetFeesResultCodeAll {
 			if (value & e) == value {
@@ -33670,7 +36492,8 @@ type SetFeesResultSuccess struct {
 
 // SetFeesResult is an XDR Union defines as:
 //
-//   union SetFeesResult switch (SetFeesResultCode code)
+//   //: Is used to pass result of operation applying
+//        union SetFeesResult switch (SetFeesResultCode code)
 //        {
 //            case SUCCESS:
 //                struct {
@@ -33790,7 +36613,8 @@ func NewStampOpExt(v LedgerVersion, value interface{}) (result StampOpExt, err e
 
 // StampOp is an XDR Struct defines as:
 //
-//   struct StampOp
+//   //: StampOp is used to save current ledger hash and current license hash
+//    struct StampOp
 //    {
 //        //: Reserved for future use
 //        union switch (LedgerVersion v)
@@ -33868,6 +36692,7 @@ func (e StampResultCode) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range StampResultCodeAll {
 			if (value & e) == value {
@@ -33937,7 +36762,8 @@ func NewStampSuccessExt(v LedgerVersion, value interface{}) (result StampSuccess
 
 // StampSuccess is an XDR Struct defines as:
 //
-//   struct StampSuccess {
+//   //: StampSuccess is used to pass saved ledger hash and license hash
+//    struct StampSuccess {
 //        //: ledger hash saved into a database
 //        Hash ledgerHash;
 //
@@ -33961,7 +36787,8 @@ type StampSuccess struct {
 
 // StampResult is an XDR Union defines as:
 //
-//   union StampResult switch (StampResultCode code)
+//   //: StampResult is a result of Stamp operation application
+//    union StampResult switch (StampResultCode code)
 //    {
 //    case SUCCESS:
 //        StampSuccess success;
@@ -34118,6 +36945,7 @@ func (e ErrorCode) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range ErrorCodeAll {
 			if (value & e) == value {
@@ -34282,6 +37110,7 @@ func (e IpAddrType) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range IpAddrTypeAll {
 			if (value & e) == value {
@@ -34579,6 +37408,7 @@ func (e MessageType) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range MessageTypeAll {
 			if (value & e) == value {
@@ -35250,6 +38080,214 @@ type ReviewableRequestResourceCreateWithdraw struct {
 	Ext       EmptyExt  `json:"ext,omitempty"`
 }
 
+// ReviewableRequestResourceCreateAtomicSwapAskExtCreateAtomicSwapAsk is an XDR NestedStruct defines as:
+//
+//   struct
+//            {
+//                //: code of asset
+//                AssetCode assetCode;
+//                //: type of asset
+//                uint64 assetType;
+//
+//                //: reserved for future extension
+//                EmptyExt ext;
+//            }
+//
+type ReviewableRequestResourceCreateAtomicSwapAskExtCreateAtomicSwapAsk struct {
+	AssetCode AssetCode `json:"assetCode,omitempty"`
+	AssetType Uint64    `json:"assetType,omitempty"`
+	Ext       EmptyExt  `json:"ext,omitempty"`
+}
+
+// ReviewableRequestResourceCreateAtomicSwapAskExt is an XDR NestedUnion defines as:
+//
+//   union switch (LedgerVersion v)
+//        {
+//        case EMPTY_VERSION:
+//            void;
+//        case ATOMIC_SWAP_RETURNING:
+//            //: is used to restrict the usage of a reviewable request with create_atomic_swap_ask type
+//            struct
+//            {
+//                //: code of asset
+//                AssetCode assetCode;
+//                //: type of asset
+//                uint64 assetType;
+//
+//                //: reserved for future extension
+//                EmptyExt ext;
+//            } createAtomicSwapAsk;
+//        }
+//
+type ReviewableRequestResourceCreateAtomicSwapAskExt struct {
+	V                   LedgerVersion                                                       `json:"v,omitempty"`
+	CreateAtomicSwapAsk *ReviewableRequestResourceCreateAtomicSwapAskExtCreateAtomicSwapAsk `json:"createAtomicSwapAsk,omitempty"`
+}
+
+// SwitchFieldName returns the field name in which this union's
+// discriminant is stored
+func (u ReviewableRequestResourceCreateAtomicSwapAskExt) SwitchFieldName() string {
+	return "V"
+}
+
+// ArmForSwitch returns which field name should be used for storing
+// the value for an instance of ReviewableRequestResourceCreateAtomicSwapAskExt
+func (u ReviewableRequestResourceCreateAtomicSwapAskExt) ArmForSwitch(sw int32) (string, bool) {
+	switch LedgerVersion(sw) {
+	case LedgerVersionEmptyVersion:
+		return "", true
+	case LedgerVersionAtomicSwapReturning:
+		return "CreateAtomicSwapAsk", true
+	}
+	return "-", false
+}
+
+// NewReviewableRequestResourceCreateAtomicSwapAskExt creates a new  ReviewableRequestResourceCreateAtomicSwapAskExt.
+func NewReviewableRequestResourceCreateAtomicSwapAskExt(v LedgerVersion, value interface{}) (result ReviewableRequestResourceCreateAtomicSwapAskExt, err error) {
+	result.V = v
+	switch LedgerVersion(v) {
+	case LedgerVersionEmptyVersion:
+		// void
+	case LedgerVersionAtomicSwapReturning:
+		tv, ok := value.(ReviewableRequestResourceCreateAtomicSwapAskExtCreateAtomicSwapAsk)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be ReviewableRequestResourceCreateAtomicSwapAskExtCreateAtomicSwapAsk")
+			return
+		}
+		result.CreateAtomicSwapAsk = &tv
+	}
+	return
+}
+
+// MustCreateAtomicSwapAsk retrieves the CreateAtomicSwapAsk value from the union,
+// panicing if the value is not set.
+func (u ReviewableRequestResourceCreateAtomicSwapAskExt) MustCreateAtomicSwapAsk() ReviewableRequestResourceCreateAtomicSwapAskExtCreateAtomicSwapAsk {
+	val, ok := u.GetCreateAtomicSwapAsk()
+
+	if !ok {
+		panic("arm CreateAtomicSwapAsk is not set")
+	}
+
+	return val
+}
+
+// GetCreateAtomicSwapAsk retrieves the CreateAtomicSwapAsk value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u ReviewableRequestResourceCreateAtomicSwapAskExt) GetCreateAtomicSwapAsk() (result ReviewableRequestResourceCreateAtomicSwapAskExtCreateAtomicSwapAsk, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.V))
+
+	if armName == "CreateAtomicSwapAsk" {
+		result = *u.CreateAtomicSwapAsk
+		ok = true
+	}
+
+	return
+}
+
+// ReviewableRequestResourceCreateAtomicSwapBidExtCreateAtomicSwapBid is an XDR NestedStruct defines as:
+//
+//   struct
+//            {
+//                //: code of asset
+//                AssetCode assetCode;
+//                //: type of asset
+//                uint64 assetType;
+//
+//                //: reserved for future extension
+//                EmptyExt ext;
+//            }
+//
+type ReviewableRequestResourceCreateAtomicSwapBidExtCreateAtomicSwapBid struct {
+	AssetCode AssetCode `json:"assetCode,omitempty"`
+	AssetType Uint64    `json:"assetType,omitempty"`
+	Ext       EmptyExt  `json:"ext,omitempty"`
+}
+
+// ReviewableRequestResourceCreateAtomicSwapBidExt is an XDR NestedUnion defines as:
+//
+//   union switch (LedgerVersion v)
+//        {
+//        case EMPTY_VERSION:
+//            void;
+//        case ATOMIC_SWAP_RETURNING:
+//            //: is used to restrict the usage of a reviewable request with create_atomic_swap_bid type
+//            struct
+//            {
+//                //: code of asset
+//                AssetCode assetCode;
+//                //: type of asset
+//                uint64 assetType;
+//
+//                //: reserved for future extension
+//                EmptyExt ext;
+//            } createAtomicSwapBid;
+//        }
+//
+type ReviewableRequestResourceCreateAtomicSwapBidExt struct {
+	V                   LedgerVersion                                                       `json:"v,omitempty"`
+	CreateAtomicSwapBid *ReviewableRequestResourceCreateAtomicSwapBidExtCreateAtomicSwapBid `json:"createAtomicSwapBid,omitempty"`
+}
+
+// SwitchFieldName returns the field name in which this union's
+// discriminant is stored
+func (u ReviewableRequestResourceCreateAtomicSwapBidExt) SwitchFieldName() string {
+	return "V"
+}
+
+// ArmForSwitch returns which field name should be used for storing
+// the value for an instance of ReviewableRequestResourceCreateAtomicSwapBidExt
+func (u ReviewableRequestResourceCreateAtomicSwapBidExt) ArmForSwitch(sw int32) (string, bool) {
+	switch LedgerVersion(sw) {
+	case LedgerVersionEmptyVersion:
+		return "", true
+	case LedgerVersionAtomicSwapReturning:
+		return "CreateAtomicSwapBid", true
+	}
+	return "-", false
+}
+
+// NewReviewableRequestResourceCreateAtomicSwapBidExt creates a new  ReviewableRequestResourceCreateAtomicSwapBidExt.
+func NewReviewableRequestResourceCreateAtomicSwapBidExt(v LedgerVersion, value interface{}) (result ReviewableRequestResourceCreateAtomicSwapBidExt, err error) {
+	result.V = v
+	switch LedgerVersion(v) {
+	case LedgerVersionEmptyVersion:
+		// void
+	case LedgerVersionAtomicSwapReturning:
+		tv, ok := value.(ReviewableRequestResourceCreateAtomicSwapBidExtCreateAtomicSwapBid)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be ReviewableRequestResourceCreateAtomicSwapBidExtCreateAtomicSwapBid")
+			return
+		}
+		result.CreateAtomicSwapBid = &tv
+	}
+	return
+}
+
+// MustCreateAtomicSwapBid retrieves the CreateAtomicSwapBid value from the union,
+// panicing if the value is not set.
+func (u ReviewableRequestResourceCreateAtomicSwapBidExt) MustCreateAtomicSwapBid() ReviewableRequestResourceCreateAtomicSwapBidExtCreateAtomicSwapBid {
+	val, ok := u.GetCreateAtomicSwapBid()
+
+	if !ok {
+		panic("arm CreateAtomicSwapBid is not set")
+	}
+
+	return val
+}
+
+// GetCreateAtomicSwapBid retrieves the CreateAtomicSwapBid value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u ReviewableRequestResourceCreateAtomicSwapBidExt) GetCreateAtomicSwapBid() (result ReviewableRequestResourceCreateAtomicSwapBidExtCreateAtomicSwapBid, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.V))
+
+	if armName == "CreateAtomicSwapBid" {
+		result = *u.CreateAtomicSwapBid
+		ok = true
+	}
+
+	return
+}
+
 // ReviewableRequestResourceCreatePoll is an XDR NestedStruct defines as:
 //
 //   struct
@@ -35268,7 +38306,9 @@ type ReviewableRequestResourceCreatePoll struct {
 
 // ReviewableRequestResource is an XDR Union defines as:
 //
-//   union ReviewableRequestResource switch (ReviewableRequestType requestType)
+//   //: Describes properties of some reviewable request types that
+//    //: can be used to restrict the usage of reviewable requests
+//    union ReviewableRequestResource switch (ReviewableRequestType requestType)
 //    {
 //    case CREATE_SALE:
 //        //: is used to restrict the usage of a reviewable request with create_sale type
@@ -35304,6 +38344,42 @@ type ReviewableRequestResourceCreatePoll struct {
 //            //: reserved for future extension
 //            EmptyExt ext;
 //        } createWithdraw;
+//    case CREATE_ATOMIC_SWAP_ASK:
+//        union switch (LedgerVersion v)
+//        {
+//        case EMPTY_VERSION:
+//            void;
+//        case ATOMIC_SWAP_RETURNING:
+//            //: is used to restrict the usage of a reviewable request with create_atomic_swap_ask type
+//            struct
+//            {
+//                //: code of asset
+//                AssetCode assetCode;
+//                //: type of asset
+//                uint64 assetType;
+//
+//                //: reserved for future extension
+//                EmptyExt ext;
+//            } createAtomicSwapAsk;
+//        } createAtomicSwapAskExt;
+//    case CREATE_ATOMIC_SWAP_BID:
+//        union switch (LedgerVersion v)
+//        {
+//        case EMPTY_VERSION:
+//            void;
+//        case ATOMIC_SWAP_RETURNING:
+//            //: is used to restrict the usage of a reviewable request with create_atomic_swap_bid type
+//            struct
+//            {
+//                //: code of asset
+//                AssetCode assetCode;
+//                //: type of asset
+//                uint64 assetType;
+//
+//                //: reserved for future extension
+//                EmptyExt ext;
+//            } createAtomicSwapBid;
+//        } createAtomicSwapBidExt;
 //    case CREATE_POLL:
 //        //: is used to restrict the creating of a `CREATE_POLL` reviewable request type
 //        struct
@@ -35320,12 +38396,14 @@ type ReviewableRequestResourceCreatePoll struct {
 //    };
 //
 type ReviewableRequestResource struct {
-	RequestType    ReviewableRequestType                    `json:"requestType,omitempty"`
-	CreateSale     *ReviewableRequestResourceCreateSale     `json:"createSale,omitempty"`
-	CreateIssuance *ReviewableRequestResourceCreateIssuance `json:"createIssuance,omitempty"`
-	CreateWithdraw *ReviewableRequestResourceCreateWithdraw `json:"createWithdraw,omitempty"`
-	CreatePoll     *ReviewableRequestResourceCreatePoll     `json:"createPoll,omitempty"`
-	Ext            *EmptyExt                                `json:"ext,omitempty"`
+	RequestType            ReviewableRequestType                            `json:"requestType,omitempty"`
+	CreateSale             *ReviewableRequestResourceCreateSale             `json:"createSale,omitempty"`
+	CreateIssuance         *ReviewableRequestResourceCreateIssuance         `json:"createIssuance,omitempty"`
+	CreateWithdraw         *ReviewableRequestResourceCreateWithdraw         `json:"createWithdraw,omitempty"`
+	CreateAtomicSwapAskExt *ReviewableRequestResourceCreateAtomicSwapAskExt `json:"createAtomicSwapAskExt,omitempty"`
+	CreateAtomicSwapBidExt *ReviewableRequestResourceCreateAtomicSwapBidExt `json:"createAtomicSwapBidExt,omitempty"`
+	CreatePoll             *ReviewableRequestResourceCreatePoll             `json:"createPoll,omitempty"`
+	Ext                    *EmptyExt                                        `json:"ext,omitempty"`
 }
 
 // SwitchFieldName returns the field name in which this union's
@@ -35344,6 +38422,10 @@ func (u ReviewableRequestResource) ArmForSwitch(sw int32) (string, bool) {
 		return "CreateIssuance", true
 	case ReviewableRequestTypeCreateWithdraw:
 		return "CreateWithdraw", true
+	case ReviewableRequestTypeCreateAtomicSwapAsk:
+		return "CreateAtomicSwapAskExt", true
+	case ReviewableRequestTypeCreateAtomicSwapBid:
+		return "CreateAtomicSwapBidExt", true
 	case ReviewableRequestTypeCreatePoll:
 		return "CreatePoll", true
 	default:
@@ -35376,6 +38458,20 @@ func NewReviewableRequestResource(requestType ReviewableRequestType, value inter
 			return
 		}
 		result.CreateWithdraw = &tv
+	case ReviewableRequestTypeCreateAtomicSwapAsk:
+		tv, ok := value.(ReviewableRequestResourceCreateAtomicSwapAskExt)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be ReviewableRequestResourceCreateAtomicSwapAskExt")
+			return
+		}
+		result.CreateAtomicSwapAskExt = &tv
+	case ReviewableRequestTypeCreateAtomicSwapBid:
+		tv, ok := value.(ReviewableRequestResourceCreateAtomicSwapBidExt)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be ReviewableRequestResourceCreateAtomicSwapBidExt")
+			return
+		}
+		result.CreateAtomicSwapBidExt = &tv
 	case ReviewableRequestTypeCreatePoll:
 		tv, ok := value.(ReviewableRequestResourceCreatePoll)
 		if !ok {
@@ -35463,6 +38559,56 @@ func (u ReviewableRequestResource) GetCreateWithdraw() (result ReviewableRequest
 
 	if armName == "CreateWithdraw" {
 		result = *u.CreateWithdraw
+		ok = true
+	}
+
+	return
+}
+
+// MustCreateAtomicSwapAskExt retrieves the CreateAtomicSwapAskExt value from the union,
+// panicing if the value is not set.
+func (u ReviewableRequestResource) MustCreateAtomicSwapAskExt() ReviewableRequestResourceCreateAtomicSwapAskExt {
+	val, ok := u.GetCreateAtomicSwapAskExt()
+
+	if !ok {
+		panic("arm CreateAtomicSwapAskExt is not set")
+	}
+
+	return val
+}
+
+// GetCreateAtomicSwapAskExt retrieves the CreateAtomicSwapAskExt value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u ReviewableRequestResource) GetCreateAtomicSwapAskExt() (result ReviewableRequestResourceCreateAtomicSwapAskExt, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.RequestType))
+
+	if armName == "CreateAtomicSwapAskExt" {
+		result = *u.CreateAtomicSwapAskExt
+		ok = true
+	}
+
+	return
+}
+
+// MustCreateAtomicSwapBidExt retrieves the CreateAtomicSwapBidExt value from the union,
+// panicing if the value is not set.
+func (u ReviewableRequestResource) MustCreateAtomicSwapBidExt() ReviewableRequestResourceCreateAtomicSwapBidExt {
+	val, ok := u.GetCreateAtomicSwapBidExt()
+
+	if !ok {
+		panic("arm CreateAtomicSwapBidExt is not set")
+	}
+
+	return val
+}
+
+// GetCreateAtomicSwapBidExt retrieves the CreateAtomicSwapBidExt value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u ReviewableRequestResource) GetCreateAtomicSwapBidExt() (result ReviewableRequestResourceCreateAtomicSwapBidExt, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.RequestType))
+
+	if armName == "CreateAtomicSwapBidExt" {
+		result = *u.CreateAtomicSwapBidExt
 		ok = true
 	}
 
@@ -35598,7 +38744,7 @@ type AccountRuleResourceSale struct {
 	Ext      EmptyExt `json:"ext,omitempty"`
 }
 
-// AccountRuleResourceAtomicSwapBid is an XDR NestedStruct defines as:
+// AccountRuleResourceAtomicSwapAsk is an XDR NestedStruct defines as:
 //
 //   struct
 //        {
@@ -35608,7 +38754,7 @@ type AccountRuleResourceSale struct {
 //            EmptyExt ext;
 //        }
 //
-type AccountRuleResourceAtomicSwapBid struct {
+type AccountRuleResourceAtomicSwapAsk struct {
 	AssetType Uint64    `json:"assetType,omitempty"`
 	AssetCode AssetCode `json:"assetCode,omitempty"`
 	Ext       EmptyExt  `json:"ext,omitempty"`
@@ -35670,9 +38816,126 @@ type AccountRuleResourceVote struct {
 	Ext            EmptyExt `json:"ext,omitempty"`
 }
 
+// AccountRuleResourceInitiateKycRecovery is an XDR NestedStruct defines as:
+//
+//   struct
+//        {
+//            //: Role id
+//            uint64 roleID;
+//
+//            //: reserved for future extension
+//            EmptyExt ext;
+//        }
+//
+type AccountRuleResourceInitiateKycRecovery struct {
+	RoleId Uint64   `json:"roleID,omitempty"`
+	Ext    EmptyExt `json:"ext,omitempty"`
+}
+
+// AccountRuleResourceAccountSpecificRuleExtAccountSpecificRule is an XDR NestedStruct defines as:
+//
+//   struct
+//            {
+//                //: Describes properties of some ledger key that
+//                //: can be used to restrict the usage of account specific rules
+//                LedgerKey ledgerKey;
+//
+//                //: reserved for future extension
+//                EmptyExt ext;
+//            }
+//
+type AccountRuleResourceAccountSpecificRuleExtAccountSpecificRule struct {
+	LedgerKey LedgerKey `json:"ledgerKey,omitempty"`
+	Ext       EmptyExt  `json:"ext,omitempty"`
+}
+
+// AccountRuleResourceAccountSpecificRuleExt is an XDR NestedUnion defines as:
+//
+//   union switch(LedgerVersion v)
+//        {
+//        case EMPTY_VERSION:
+//            void;
+//        case ADD_ACC_SPECIFIC_RULE_RESOURCE:
+//            struct
+//            {
+//                //: Describes properties of some ledger key that
+//                //: can be used to restrict the usage of account specific rules
+//                LedgerKey ledgerKey;
+//
+//                //: reserved for future extension
+//                EmptyExt ext;
+//            } accountSpecificRule;
+//        }
+//
+type AccountRuleResourceAccountSpecificRuleExt struct {
+	V                   LedgerVersion                                                 `json:"v,omitempty"`
+	AccountSpecificRule *AccountRuleResourceAccountSpecificRuleExtAccountSpecificRule `json:"accountSpecificRule,omitempty"`
+}
+
+// SwitchFieldName returns the field name in which this union's
+// discriminant is stored
+func (u AccountRuleResourceAccountSpecificRuleExt) SwitchFieldName() string {
+	return "V"
+}
+
+// ArmForSwitch returns which field name should be used for storing
+// the value for an instance of AccountRuleResourceAccountSpecificRuleExt
+func (u AccountRuleResourceAccountSpecificRuleExt) ArmForSwitch(sw int32) (string, bool) {
+	switch LedgerVersion(sw) {
+	case LedgerVersionEmptyVersion:
+		return "", true
+	case LedgerVersionAddAccSpecificRuleResource:
+		return "AccountSpecificRule", true
+	}
+	return "-", false
+}
+
+// NewAccountRuleResourceAccountSpecificRuleExt creates a new  AccountRuleResourceAccountSpecificRuleExt.
+func NewAccountRuleResourceAccountSpecificRuleExt(v LedgerVersion, value interface{}) (result AccountRuleResourceAccountSpecificRuleExt, err error) {
+	result.V = v
+	switch LedgerVersion(v) {
+	case LedgerVersionEmptyVersion:
+		// void
+	case LedgerVersionAddAccSpecificRuleResource:
+		tv, ok := value.(AccountRuleResourceAccountSpecificRuleExtAccountSpecificRule)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be AccountRuleResourceAccountSpecificRuleExtAccountSpecificRule")
+			return
+		}
+		result.AccountSpecificRule = &tv
+	}
+	return
+}
+
+// MustAccountSpecificRule retrieves the AccountSpecificRule value from the union,
+// panicing if the value is not set.
+func (u AccountRuleResourceAccountSpecificRuleExt) MustAccountSpecificRule() AccountRuleResourceAccountSpecificRuleExtAccountSpecificRule {
+	val, ok := u.GetAccountSpecificRule()
+
+	if !ok {
+		panic("arm AccountSpecificRule is not set")
+	}
+
+	return val
+}
+
+// GetAccountSpecificRule retrieves the AccountSpecificRule value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u AccountRuleResourceAccountSpecificRuleExt) GetAccountSpecificRule() (result AccountRuleResourceAccountSpecificRuleExtAccountSpecificRule, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.V))
+
+	if armName == "AccountSpecificRule" {
+		result = *u.AccountSpecificRule
+		ok = true
+	}
+
+	return
+}
+
 // AccountRuleResource is an XDR Union defines as:
 //
-//   union AccountRuleResource switch (LedgerEntryType type)
+//   //: Describes properties of some entries that can be used to restrict the usage of entries
+//    union AccountRuleResource switch (LedgerEntryType type)
 //    {
 //    case ASSET:
 //        //: Describes properties that are equal to managed asset entry fields
@@ -35725,14 +38988,14 @@ type AccountRuleResourceVote struct {
 //            //: reserved for future extension
 //            EmptyExt ext;
 //        } sale;
-//    case ATOMIC_SWAP_BID:
+//    case ATOMIC_SWAP_ASK:
 //        struct
 //        {
 //            uint64 assetType;
 //            AssetCode assetCode;
 //
 //            EmptyExt ext;
-//        } atomicSwapBid;
+//        } atomicSwapAsk;
 //    case KEY_VALUE:
 //        struct
 //        {
@@ -35766,22 +39029,49 @@ type AccountRuleResourceVote struct {
 //            //: reserved for future extension
 //            EmptyExt ext;
 //        } vote;
+//    case INITIATE_KYC_RECOVERY:
+//        struct
+//        {
+//            //: Role id
+//            uint64 roleID;
+//
+//            //: reserved for future extension
+//            EmptyExt ext;
+//        } initiateKYCRecovery;
+//    case ACCOUNT_SPECIFIC_RULE:
+//        union switch(LedgerVersion v)
+//        {
+//        case EMPTY_VERSION:
+//            void;
+//        case ADD_ACC_SPECIFIC_RULE_RESOURCE:
+//            struct
+//            {
+//                //: Describes properties of some ledger key that
+//                //: can be used to restrict the usage of account specific rules
+//                LedgerKey ledgerKey;
+//
+//                //: reserved for future extension
+//                EmptyExt ext;
+//            } accountSpecificRule;
+//        } accountSpecificRuleExt;
 //    default:
 //        //: reserved for future extension
 //        EmptyExt ext;
 //    };
 //
 type AccountRuleResource struct {
-	Type              LedgerEntryType                       `json:"type,omitempty"`
-	Asset             *AccountRuleResourceAsset             `json:"asset,omitempty"`
-	ReviewableRequest *AccountRuleResourceReviewableRequest `json:"reviewableRequest,omitempty"`
-	Offer             *AccountRuleResourceOffer             `json:"offer,omitempty"`
-	Sale              *AccountRuleResourceSale              `json:"sale,omitempty"`
-	AtomicSwapBid     *AccountRuleResourceAtomicSwapBid     `json:"atomicSwapBid,omitempty"`
-	KeyValue          *AccountRuleResourceKeyValue          `json:"keyValue,omitempty"`
-	Poll              *AccountRuleResourcePoll              `json:"poll,omitempty"`
-	Vote              *AccountRuleResourceVote              `json:"vote,omitempty"`
-	Ext               *EmptyExt                             `json:"ext,omitempty"`
+	Type                   LedgerEntryType                            `json:"type,omitempty"`
+	Asset                  *AccountRuleResourceAsset                  `json:"asset,omitempty"`
+	ReviewableRequest      *AccountRuleResourceReviewableRequest      `json:"reviewableRequest,omitempty"`
+	Offer                  *AccountRuleResourceOffer                  `json:"offer,omitempty"`
+	Sale                   *AccountRuleResourceSale                   `json:"sale,omitempty"`
+	AtomicSwapAsk          *AccountRuleResourceAtomicSwapAsk          `json:"atomicSwapAsk,omitempty"`
+	KeyValue               *AccountRuleResourceKeyValue               `json:"keyValue,omitempty"`
+	Poll                   *AccountRuleResourcePoll                   `json:"poll,omitempty"`
+	Vote                   *AccountRuleResourceVote                   `json:"vote,omitempty"`
+	InitiateKycRecovery    *AccountRuleResourceInitiateKycRecovery    `json:"initiateKYCRecovery,omitempty"`
+	AccountSpecificRuleExt *AccountRuleResourceAccountSpecificRuleExt `json:"accountSpecificRuleExt,omitempty"`
+	Ext                    *EmptyExt                                  `json:"ext,omitempty"`
 }
 
 // SwitchFieldName returns the field name in which this union's
@@ -35804,14 +39094,18 @@ func (u AccountRuleResource) ArmForSwitch(sw int32) (string, bool) {
 		return "Offer", true
 	case LedgerEntryTypeSale:
 		return "Sale", true
-	case LedgerEntryTypeAtomicSwapBid:
-		return "AtomicSwapBid", true
+	case LedgerEntryTypeAtomicSwapAsk:
+		return "AtomicSwapAsk", true
 	case LedgerEntryTypeKeyValue:
 		return "KeyValue", true
 	case LedgerEntryTypePoll:
 		return "Poll", true
 	case LedgerEntryTypeVote:
 		return "Vote", true
+	case LedgerEntryTypeInitiateKycRecovery:
+		return "InitiateKycRecovery", true
+	case LedgerEntryTypeAccountSpecificRule:
+		return "AccountSpecificRuleExt", true
 	default:
 		return "Ext", true
 	}
@@ -35851,13 +39145,13 @@ func NewAccountRuleResource(aType LedgerEntryType, value interface{}) (result Ac
 			return
 		}
 		result.Sale = &tv
-	case LedgerEntryTypeAtomicSwapBid:
-		tv, ok := value.(AccountRuleResourceAtomicSwapBid)
+	case LedgerEntryTypeAtomicSwapAsk:
+		tv, ok := value.(AccountRuleResourceAtomicSwapAsk)
 		if !ok {
-			err = fmt.Errorf("invalid value, must be AccountRuleResourceAtomicSwapBid")
+			err = fmt.Errorf("invalid value, must be AccountRuleResourceAtomicSwapAsk")
 			return
 		}
-		result.AtomicSwapBid = &tv
+		result.AtomicSwapAsk = &tv
 	case LedgerEntryTypeKeyValue:
 		tv, ok := value.(AccountRuleResourceKeyValue)
 		if !ok {
@@ -35879,6 +39173,20 @@ func NewAccountRuleResource(aType LedgerEntryType, value interface{}) (result Ac
 			return
 		}
 		result.Vote = &tv
+	case LedgerEntryTypeInitiateKycRecovery:
+		tv, ok := value.(AccountRuleResourceInitiateKycRecovery)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be AccountRuleResourceInitiateKycRecovery")
+			return
+		}
+		result.InitiateKycRecovery = &tv
+	case LedgerEntryTypeAccountSpecificRule:
+		tv, ok := value.(AccountRuleResourceAccountSpecificRuleExt)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be AccountRuleResourceAccountSpecificRuleExt")
+			return
+		}
+		result.AccountSpecificRuleExt = &tv
 	default:
 		tv, ok := value.(EmptyExt)
 		if !ok {
@@ -35990,25 +39298,25 @@ func (u AccountRuleResource) GetSale() (result AccountRuleResourceSale, ok bool)
 	return
 }
 
-// MustAtomicSwapBid retrieves the AtomicSwapBid value from the union,
+// MustAtomicSwapAsk retrieves the AtomicSwapAsk value from the union,
 // panicing if the value is not set.
-func (u AccountRuleResource) MustAtomicSwapBid() AccountRuleResourceAtomicSwapBid {
-	val, ok := u.GetAtomicSwapBid()
+func (u AccountRuleResource) MustAtomicSwapAsk() AccountRuleResourceAtomicSwapAsk {
+	val, ok := u.GetAtomicSwapAsk()
 
 	if !ok {
-		panic("arm AtomicSwapBid is not set")
+		panic("arm AtomicSwapAsk is not set")
 	}
 
 	return val
 }
 
-// GetAtomicSwapBid retrieves the AtomicSwapBid value from the union,
+// GetAtomicSwapAsk retrieves the AtomicSwapAsk value from the union,
 // returning ok if the union's switch indicated the value is valid.
-func (u AccountRuleResource) GetAtomicSwapBid() (result AccountRuleResourceAtomicSwapBid, ok bool) {
+func (u AccountRuleResource) GetAtomicSwapAsk() (result AccountRuleResourceAtomicSwapAsk, ok bool) {
 	armName, _ := u.ArmForSwitch(int32(u.Type))
 
-	if armName == "AtomicSwapBid" {
-		result = *u.AtomicSwapBid
+	if armName == "AtomicSwapAsk" {
+		result = *u.AtomicSwapAsk
 		ok = true
 	}
 
@@ -36090,6 +39398,56 @@ func (u AccountRuleResource) GetVote() (result AccountRuleResourceVote, ok bool)
 	return
 }
 
+// MustInitiateKycRecovery retrieves the InitiateKycRecovery value from the union,
+// panicing if the value is not set.
+func (u AccountRuleResource) MustInitiateKycRecovery() AccountRuleResourceInitiateKycRecovery {
+	val, ok := u.GetInitiateKycRecovery()
+
+	if !ok {
+		panic("arm InitiateKycRecovery is not set")
+	}
+
+	return val
+}
+
+// GetInitiateKycRecovery retrieves the InitiateKycRecovery value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u AccountRuleResource) GetInitiateKycRecovery() (result AccountRuleResourceInitiateKycRecovery, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.Type))
+
+	if armName == "InitiateKycRecovery" {
+		result = *u.InitiateKycRecovery
+		ok = true
+	}
+
+	return
+}
+
+// MustAccountSpecificRuleExt retrieves the AccountSpecificRuleExt value from the union,
+// panicing if the value is not set.
+func (u AccountRuleResource) MustAccountSpecificRuleExt() AccountRuleResourceAccountSpecificRuleExt {
+	val, ok := u.GetAccountSpecificRuleExt()
+
+	if !ok {
+		panic("arm AccountSpecificRuleExt is not set")
+	}
+
+	return val
+}
+
+// GetAccountSpecificRuleExt retrieves the AccountSpecificRuleExt value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u AccountRuleResource) GetAccountSpecificRuleExt() (result AccountRuleResourceAccountSpecificRuleExt, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.Type))
+
+	if armName == "AccountSpecificRuleExt" {
+		result = *u.AccountSpecificRuleExt
+		ok = true
+	}
+
+	return
+}
+
 // MustExt retrieves the Ext value from the union,
 // panicing if the value is not set.
 func (u AccountRuleResource) MustExt() EmptyExt {
@@ -36117,7 +39475,8 @@ func (u AccountRuleResource) GetExt() (result EmptyExt, ok bool) {
 
 // AccountRuleAction is an XDR Enum defines as:
 //
-//   enum AccountRuleAction
+//   //: Actions that can be applied to account rule resource
+//    enum AccountRuleAction
 //    {
 //        ANY = 1,
 //        CREATE = 2,
@@ -36135,29 +39494,33 @@ func (u AccountRuleResource) GetExt() (result EmptyExt, ok bool) {
 //        CHECK = 14,
 //        CANCEL = 15,
 //        CLOSE = 16,
-//        REMOVE = 17
+//        REMOVE = 17,
+//        UPDATE_END_TIME = 18,
+//        CREATE_FOR_OTHER_WITH_TASKS = 19
 //    };
 //
 type AccountRuleAction int32
 
 const (
-	AccountRuleActionAny               AccountRuleAction = 1
-	AccountRuleActionCreate            AccountRuleAction = 2
-	AccountRuleActionCreateForOther    AccountRuleAction = 3
-	AccountRuleActionCreateWithTasks   AccountRuleAction = 4
-	AccountRuleActionManage            AccountRuleAction = 5
-	AccountRuleActionSend              AccountRuleAction = 6
-	AccountRuleActionWithdraw          AccountRuleAction = 7
-	AccountRuleActionReceiveIssuance   AccountRuleAction = 8
-	AccountRuleActionReceivePayment    AccountRuleAction = 9
-	AccountRuleActionReceiveAtomicSwap AccountRuleAction = 10
-	AccountRuleActionParticipate       AccountRuleAction = 11
-	AccountRuleActionBind              AccountRuleAction = 12
-	AccountRuleActionUpdateMaxIssuance AccountRuleAction = 13
-	AccountRuleActionCheck             AccountRuleAction = 14
-	AccountRuleActionCancel            AccountRuleAction = 15
-	AccountRuleActionClose             AccountRuleAction = 16
-	AccountRuleActionRemove            AccountRuleAction = 17
+	AccountRuleActionAny                     AccountRuleAction = 1
+	AccountRuleActionCreate                  AccountRuleAction = 2
+	AccountRuleActionCreateForOther          AccountRuleAction = 3
+	AccountRuleActionCreateWithTasks         AccountRuleAction = 4
+	AccountRuleActionManage                  AccountRuleAction = 5
+	AccountRuleActionSend                    AccountRuleAction = 6
+	AccountRuleActionWithdraw                AccountRuleAction = 7
+	AccountRuleActionReceiveIssuance         AccountRuleAction = 8
+	AccountRuleActionReceivePayment          AccountRuleAction = 9
+	AccountRuleActionReceiveAtomicSwap       AccountRuleAction = 10
+	AccountRuleActionParticipate             AccountRuleAction = 11
+	AccountRuleActionBind                    AccountRuleAction = 12
+	AccountRuleActionUpdateMaxIssuance       AccountRuleAction = 13
+	AccountRuleActionCheck                   AccountRuleAction = 14
+	AccountRuleActionCancel                  AccountRuleAction = 15
+	AccountRuleActionClose                   AccountRuleAction = 16
+	AccountRuleActionRemove                  AccountRuleAction = 17
+	AccountRuleActionUpdateEndTime           AccountRuleAction = 18
+	AccountRuleActionCreateForOtherWithTasks AccountRuleAction = 19
 )
 
 var AccountRuleActionAll = []AccountRuleAction{
@@ -36178,6 +39541,8 @@ var AccountRuleActionAll = []AccountRuleAction{
 	AccountRuleActionCancel,
 	AccountRuleActionClose,
 	AccountRuleActionRemove,
+	AccountRuleActionUpdateEndTime,
+	AccountRuleActionCreateForOtherWithTasks,
 }
 
 var accountRuleActionMap = map[int32]string{
@@ -36198,6 +39563,8 @@ var accountRuleActionMap = map[int32]string{
 	15: "AccountRuleActionCancel",
 	16: "AccountRuleActionClose",
 	17: "AccountRuleActionRemove",
+	18: "AccountRuleActionUpdateEndTime",
+	19: "AccountRuleActionCreateForOtherWithTasks",
 }
 
 var accountRuleActionShortMap = map[int32]string{
@@ -36218,26 +39585,30 @@ var accountRuleActionShortMap = map[int32]string{
 	15: "cancel",
 	16: "close",
 	17: "remove",
+	18: "update_end_time",
+	19: "create_for_other_with_tasks",
 }
 
 var accountRuleActionRevMap = map[string]int32{
-	"AccountRuleActionAny":               1,
-	"AccountRuleActionCreate":            2,
-	"AccountRuleActionCreateForOther":    3,
-	"AccountRuleActionCreateWithTasks":   4,
-	"AccountRuleActionManage":            5,
-	"AccountRuleActionSend":              6,
-	"AccountRuleActionWithdraw":          7,
-	"AccountRuleActionReceiveIssuance":   8,
-	"AccountRuleActionReceivePayment":    9,
-	"AccountRuleActionReceiveAtomicSwap": 10,
-	"AccountRuleActionParticipate":       11,
-	"AccountRuleActionBind":              12,
-	"AccountRuleActionUpdateMaxIssuance": 13,
-	"AccountRuleActionCheck":             14,
-	"AccountRuleActionCancel":            15,
-	"AccountRuleActionClose":             16,
-	"AccountRuleActionRemove":            17,
+	"AccountRuleActionAny":                     1,
+	"AccountRuleActionCreate":                  2,
+	"AccountRuleActionCreateForOther":          3,
+	"AccountRuleActionCreateWithTasks":         4,
+	"AccountRuleActionManage":                  5,
+	"AccountRuleActionSend":                    6,
+	"AccountRuleActionWithdraw":                7,
+	"AccountRuleActionReceiveIssuance":         8,
+	"AccountRuleActionReceivePayment":          9,
+	"AccountRuleActionReceiveAtomicSwap":       10,
+	"AccountRuleActionParticipate":             11,
+	"AccountRuleActionBind":                    12,
+	"AccountRuleActionUpdateMaxIssuance":       13,
+	"AccountRuleActionCheck":                   14,
+	"AccountRuleActionCancel":                  15,
+	"AccountRuleActionClose":                   16,
+	"AccountRuleActionRemove":                  17,
+	"AccountRuleActionUpdateEndTime":           18,
+	"AccountRuleActionCreateForOtherWithTasks": 19,
 }
 
 // ValidEnum validates a proposed value for this enum.  Implements
@@ -36272,6 +39643,7 @@ func (e AccountRuleAction) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range AccountRuleActionAll {
 			if (value & e) == value {
@@ -36387,7 +39759,7 @@ type SignerRuleResourceSale struct {
 	Ext      EmptyExt `json:"ext,omitempty"`
 }
 
-// SignerRuleResourceAtomicSwapBid is an XDR NestedStruct defines as:
+// SignerRuleResourceAtomicSwapAsk is an XDR NestedStruct defines as:
 //
 //   struct
 //        {
@@ -36397,7 +39769,7 @@ type SignerRuleResourceSale struct {
 //            EmptyExt ext;
 //        }
 //
-type SignerRuleResourceAtomicSwapBid struct {
+type SignerRuleResourceAtomicSwapAsk struct {
 	AssetType Uint64    `json:"assetType,omitempty"`
 	AssetCode AssetCode `json:"assetCode,omitempty"`
 	Ext       EmptyExt  `json:"ext,omitempty"`
@@ -36502,9 +39874,126 @@ type SignerRuleResourceVote struct {
 	Ext            EmptyExt `json:"ext,omitempty"`
 }
 
+// SignerRuleResourceInitiateKycRecovery is an XDR NestedStruct defines as:
+//
+//   struct
+//        {
+//            //: Role id
+//            uint64 roleID;
+//
+//            //: reserved for future extension
+//            EmptyExt ext;
+//        }
+//
+type SignerRuleResourceInitiateKycRecovery struct {
+	RoleId Uint64   `json:"roleID,omitempty"`
+	Ext    EmptyExt `json:"ext,omitempty"`
+}
+
+// SignerRuleResourceAccountSpecificRuleExtAccountSpecificRule is an XDR NestedStruct defines as:
+//
+//   struct
+//            {
+//                //: Describes properties of some ledger key that
+//                //: can be used to restrict the usage of account specific rules
+//                LedgerKey ledgerKey;
+//
+//                //: reserved for future extension
+//                EmptyExt ext;
+//            }
+//
+type SignerRuleResourceAccountSpecificRuleExtAccountSpecificRule struct {
+	LedgerKey LedgerKey `json:"ledgerKey,omitempty"`
+	Ext       EmptyExt  `json:"ext,omitempty"`
+}
+
+// SignerRuleResourceAccountSpecificRuleExt is an XDR NestedUnion defines as:
+//
+//   union switch(LedgerVersion v)
+//        {
+//        case EMPTY_VERSION:
+//            void;
+//        case ADD_ACC_SPECIFIC_RULE_RESOURCE:
+//            struct
+//            {
+//                //: Describes properties of some ledger key that
+//                //: can be used to restrict the usage of account specific rules
+//                LedgerKey ledgerKey;
+//
+//                //: reserved for future extension
+//                EmptyExt ext;
+//            } accountSpecificRule;
+//        }
+//
+type SignerRuleResourceAccountSpecificRuleExt struct {
+	V                   LedgerVersion                                                `json:"v,omitempty"`
+	AccountSpecificRule *SignerRuleResourceAccountSpecificRuleExtAccountSpecificRule `json:"accountSpecificRule,omitempty"`
+}
+
+// SwitchFieldName returns the field name in which this union's
+// discriminant is stored
+func (u SignerRuleResourceAccountSpecificRuleExt) SwitchFieldName() string {
+	return "V"
+}
+
+// ArmForSwitch returns which field name should be used for storing
+// the value for an instance of SignerRuleResourceAccountSpecificRuleExt
+func (u SignerRuleResourceAccountSpecificRuleExt) ArmForSwitch(sw int32) (string, bool) {
+	switch LedgerVersion(sw) {
+	case LedgerVersionEmptyVersion:
+		return "", true
+	case LedgerVersionAddAccSpecificRuleResource:
+		return "AccountSpecificRule", true
+	}
+	return "-", false
+}
+
+// NewSignerRuleResourceAccountSpecificRuleExt creates a new  SignerRuleResourceAccountSpecificRuleExt.
+func NewSignerRuleResourceAccountSpecificRuleExt(v LedgerVersion, value interface{}) (result SignerRuleResourceAccountSpecificRuleExt, err error) {
+	result.V = v
+	switch LedgerVersion(v) {
+	case LedgerVersionEmptyVersion:
+		// void
+	case LedgerVersionAddAccSpecificRuleResource:
+		tv, ok := value.(SignerRuleResourceAccountSpecificRuleExtAccountSpecificRule)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be SignerRuleResourceAccountSpecificRuleExtAccountSpecificRule")
+			return
+		}
+		result.AccountSpecificRule = &tv
+	}
+	return
+}
+
+// MustAccountSpecificRule retrieves the AccountSpecificRule value from the union,
+// panicing if the value is not set.
+func (u SignerRuleResourceAccountSpecificRuleExt) MustAccountSpecificRule() SignerRuleResourceAccountSpecificRuleExtAccountSpecificRule {
+	val, ok := u.GetAccountSpecificRule()
+
+	if !ok {
+		panic("arm AccountSpecificRule is not set")
+	}
+
+	return val
+}
+
+// GetAccountSpecificRule retrieves the AccountSpecificRule value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u SignerRuleResourceAccountSpecificRuleExt) GetAccountSpecificRule() (result SignerRuleResourceAccountSpecificRuleExtAccountSpecificRule, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.V))
+
+	if armName == "AccountSpecificRule" {
+		result = *u.AccountSpecificRule
+		ok = true
+	}
+
+	return
+}
+
 // SignerRuleResource is an XDR Union defines as:
 //
-//   union SignerRuleResource switch (LedgerEntryType type)
+//   //: Describes properties of some entries that can be used to restrict the usage of entries
+//    union SignerRuleResource switch (LedgerEntryType type)
 //    {
 //    case REVIEWABLE_REQUEST:
 //        //: Describes properties that are equal to managed reviewable request entry fields
@@ -36561,14 +40050,14 @@ type SignerRuleResourceVote struct {
 //
 //            EmptyExt ext;
 //        } sale;
-//    case ATOMIC_SWAP_BID:
+//    case ATOMIC_SWAP_ASK:
 //        struct
 //        {
 //            uint64 assetType;
 //            AssetCode assetCode;
 //
 //            EmptyExt ext;
-//        } atomicSwapBid;
+//        } atomicSwapAsk;
 //    case SIGNER_RULE:
 //        //: Describes properties that are equal to managed signer rule entry fields
 //        struct
@@ -36628,25 +40117,53 @@ type SignerRuleResourceVote struct {
 //            //: reserved for future extension
 //            EmptyExt ext;
 //        } vote;
+//    case INITIATE_KYC_RECOVERY:
+//        struct
+//        {
+//            //: Role id
+//            uint64 roleID;
+//
+//            //: reserved for future extension
+//            EmptyExt ext;
+//        } initiateKYCRecovery;
+//    case ACCOUNT_SPECIFIC_RULE:
+//        //: reserved for future extension
+//        union switch(LedgerVersion v)
+//        {
+//        case EMPTY_VERSION:
+//            void;
+//        case ADD_ACC_SPECIFIC_RULE_RESOURCE:
+//            struct
+//            {
+//                //: Describes properties of some ledger key that
+//                //: can be used to restrict the usage of account specific rules
+//                LedgerKey ledgerKey;
+//
+//                //: reserved for future extension
+//                EmptyExt ext;
+//            } accountSpecificRule;
+//        } accountSpecificRuleExt;
 //    default:
 //        //: reserved for future extension
 //        EmptyExt ext;
 //    };
 //
 type SignerRuleResource struct {
-	Type              LedgerEntryType                      `json:"type,omitempty"`
-	ReviewableRequest *SignerRuleResourceReviewableRequest `json:"reviewableRequest,omitempty"`
-	Asset             *SignerRuleResourceAsset             `json:"asset,omitempty"`
-	Offer             *SignerRuleResourceOffer             `json:"offer,omitempty"`
-	Sale              *SignerRuleResourceSale              `json:"sale,omitempty"`
-	AtomicSwapBid     *SignerRuleResourceAtomicSwapBid     `json:"atomicSwapBid,omitempty"`
-	SignerRule        *SignerRuleResourceSignerRule        `json:"signerRule,omitempty"`
-	SignerRole        *SignerRuleResourceSignerRole        `json:"signerRole,omitempty"`
-	Signer            *SignerRuleResourceSigner            `json:"signer,omitempty"`
-	KeyValue          *SignerRuleResourceKeyValue          `json:"keyValue,omitempty"`
-	Poll              *SignerRuleResourcePoll              `json:"poll,omitempty"`
-	Vote              *SignerRuleResourceVote              `json:"vote,omitempty"`
-	Ext               *EmptyExt                            `json:"ext,omitempty"`
+	Type                   LedgerEntryType                           `json:"type,omitempty"`
+	ReviewableRequest      *SignerRuleResourceReviewableRequest      `json:"reviewableRequest,omitempty"`
+	Asset                  *SignerRuleResourceAsset                  `json:"asset,omitempty"`
+	Offer                  *SignerRuleResourceOffer                  `json:"offer,omitempty"`
+	Sale                   *SignerRuleResourceSale                   `json:"sale,omitempty"`
+	AtomicSwapAsk          *SignerRuleResourceAtomicSwapAsk          `json:"atomicSwapAsk,omitempty"`
+	SignerRule             *SignerRuleResourceSignerRule             `json:"signerRule,omitempty"`
+	SignerRole             *SignerRuleResourceSignerRole             `json:"signerRole,omitempty"`
+	Signer                 *SignerRuleResourceSigner                 `json:"signer,omitempty"`
+	KeyValue               *SignerRuleResourceKeyValue               `json:"keyValue,omitempty"`
+	Poll                   *SignerRuleResourcePoll                   `json:"poll,omitempty"`
+	Vote                   *SignerRuleResourceVote                   `json:"vote,omitempty"`
+	InitiateKycRecovery    *SignerRuleResourceInitiateKycRecovery    `json:"initiateKYCRecovery,omitempty"`
+	AccountSpecificRuleExt *SignerRuleResourceAccountSpecificRuleExt `json:"accountSpecificRuleExt,omitempty"`
+	Ext                    *EmptyExt                                 `json:"ext,omitempty"`
 }
 
 // SwitchFieldName returns the field name in which this union's
@@ -36669,8 +40186,8 @@ func (u SignerRuleResource) ArmForSwitch(sw int32) (string, bool) {
 		return "Offer", true
 	case LedgerEntryTypeSale:
 		return "Sale", true
-	case LedgerEntryTypeAtomicSwapBid:
-		return "AtomicSwapBid", true
+	case LedgerEntryTypeAtomicSwapAsk:
+		return "AtomicSwapAsk", true
 	case LedgerEntryTypeSignerRule:
 		return "SignerRule", true
 	case LedgerEntryTypeSignerRole:
@@ -36683,6 +40200,10 @@ func (u SignerRuleResource) ArmForSwitch(sw int32) (string, bool) {
 		return "Poll", true
 	case LedgerEntryTypeVote:
 		return "Vote", true
+	case LedgerEntryTypeInitiateKycRecovery:
+		return "InitiateKycRecovery", true
+	case LedgerEntryTypeAccountSpecificRule:
+		return "AccountSpecificRuleExt", true
 	default:
 		return "Ext", true
 	}
@@ -36722,13 +40243,13 @@ func NewSignerRuleResource(aType LedgerEntryType, value interface{}) (result Sig
 			return
 		}
 		result.Sale = &tv
-	case LedgerEntryTypeAtomicSwapBid:
-		tv, ok := value.(SignerRuleResourceAtomicSwapBid)
+	case LedgerEntryTypeAtomicSwapAsk:
+		tv, ok := value.(SignerRuleResourceAtomicSwapAsk)
 		if !ok {
-			err = fmt.Errorf("invalid value, must be SignerRuleResourceAtomicSwapBid")
+			err = fmt.Errorf("invalid value, must be SignerRuleResourceAtomicSwapAsk")
 			return
 		}
-		result.AtomicSwapBid = &tv
+		result.AtomicSwapAsk = &tv
 	case LedgerEntryTypeSignerRule:
 		tv, ok := value.(SignerRuleResourceSignerRule)
 		if !ok {
@@ -36771,6 +40292,20 @@ func NewSignerRuleResource(aType LedgerEntryType, value interface{}) (result Sig
 			return
 		}
 		result.Vote = &tv
+	case LedgerEntryTypeInitiateKycRecovery:
+		tv, ok := value.(SignerRuleResourceInitiateKycRecovery)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be SignerRuleResourceInitiateKycRecovery")
+			return
+		}
+		result.InitiateKycRecovery = &tv
+	case LedgerEntryTypeAccountSpecificRule:
+		tv, ok := value.(SignerRuleResourceAccountSpecificRuleExt)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be SignerRuleResourceAccountSpecificRuleExt")
+			return
+		}
+		result.AccountSpecificRuleExt = &tv
 	default:
 		tv, ok := value.(EmptyExt)
 		if !ok {
@@ -36882,25 +40417,25 @@ func (u SignerRuleResource) GetSale() (result SignerRuleResourceSale, ok bool) {
 	return
 }
 
-// MustAtomicSwapBid retrieves the AtomicSwapBid value from the union,
+// MustAtomicSwapAsk retrieves the AtomicSwapAsk value from the union,
 // panicing if the value is not set.
-func (u SignerRuleResource) MustAtomicSwapBid() SignerRuleResourceAtomicSwapBid {
-	val, ok := u.GetAtomicSwapBid()
+func (u SignerRuleResource) MustAtomicSwapAsk() SignerRuleResourceAtomicSwapAsk {
+	val, ok := u.GetAtomicSwapAsk()
 
 	if !ok {
-		panic("arm AtomicSwapBid is not set")
+		panic("arm AtomicSwapAsk is not set")
 	}
 
 	return val
 }
 
-// GetAtomicSwapBid retrieves the AtomicSwapBid value from the union,
+// GetAtomicSwapAsk retrieves the AtomicSwapAsk value from the union,
 // returning ok if the union's switch indicated the value is valid.
-func (u SignerRuleResource) GetAtomicSwapBid() (result SignerRuleResourceAtomicSwapBid, ok bool) {
+func (u SignerRuleResource) GetAtomicSwapAsk() (result SignerRuleResourceAtomicSwapAsk, ok bool) {
 	armName, _ := u.ArmForSwitch(int32(u.Type))
 
-	if armName == "AtomicSwapBid" {
-		result = *u.AtomicSwapBid
+	if armName == "AtomicSwapAsk" {
+		result = *u.AtomicSwapAsk
 		ok = true
 	}
 
@@ -37057,6 +40592,56 @@ func (u SignerRuleResource) GetVote() (result SignerRuleResourceVote, ok bool) {
 	return
 }
 
+// MustInitiateKycRecovery retrieves the InitiateKycRecovery value from the union,
+// panicing if the value is not set.
+func (u SignerRuleResource) MustInitiateKycRecovery() SignerRuleResourceInitiateKycRecovery {
+	val, ok := u.GetInitiateKycRecovery()
+
+	if !ok {
+		panic("arm InitiateKycRecovery is not set")
+	}
+
+	return val
+}
+
+// GetInitiateKycRecovery retrieves the InitiateKycRecovery value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u SignerRuleResource) GetInitiateKycRecovery() (result SignerRuleResourceInitiateKycRecovery, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.Type))
+
+	if armName == "InitiateKycRecovery" {
+		result = *u.InitiateKycRecovery
+		ok = true
+	}
+
+	return
+}
+
+// MustAccountSpecificRuleExt retrieves the AccountSpecificRuleExt value from the union,
+// panicing if the value is not set.
+func (u SignerRuleResource) MustAccountSpecificRuleExt() SignerRuleResourceAccountSpecificRuleExt {
+	val, ok := u.GetAccountSpecificRuleExt()
+
+	if !ok {
+		panic("arm AccountSpecificRuleExt is not set")
+	}
+
+	return val
+}
+
+// GetAccountSpecificRuleExt retrieves the AccountSpecificRuleExt value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u SignerRuleResource) GetAccountSpecificRuleExt() (result SignerRuleResourceAccountSpecificRuleExt, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.Type))
+
+	if armName == "AccountSpecificRuleExt" {
+		result = *u.AccountSpecificRuleExt
+		ok = true
+	}
+
+	return
+}
+
 // MustExt retrieves the Ext value from the union,
 // panicing if the value is not set.
 func (u SignerRuleResource) MustExt() EmptyExt {
@@ -37084,7 +40669,8 @@ func (u SignerRuleResource) GetExt() (result EmptyExt, ok bool) {
 
 // SignerRuleAction is an XDR Enum defines as:
 //
-//   enum SignerRuleAction
+//   //: Actions that can be applied to a signer rule resource
+//    enum SignerRuleAction
 //    {
 //        ANY = 1,
 //        CREATE = 2,
@@ -37100,27 +40686,33 @@ func (u SignerRuleResource) GetExt() (result EmptyExt, ok bool) {
 //        BIND = 12,
 //        UPDATE_MAX_ISSUANCE = 13,
 //        CHECK = 14,
-//        CLOSE = 15
+//        CLOSE = 15,
+//        UPDATE_END_TIME = 16,
+//        CREATE_WITH_TASKS = 17,
+//        CREATE_FOR_OTHER_WITH_TASKS = 18
 //    };
 //
 type SignerRuleAction int32
 
 const (
-	SignerRuleActionAny               SignerRuleAction = 1
-	SignerRuleActionCreate            SignerRuleAction = 2
-	SignerRuleActionCreateForOther    SignerRuleAction = 3
-	SignerRuleActionUpdate            SignerRuleAction = 4
-	SignerRuleActionManage            SignerRuleAction = 5
-	SignerRuleActionSend              SignerRuleAction = 6
-	SignerRuleActionRemove            SignerRuleAction = 7
-	SignerRuleActionCancel            SignerRuleAction = 8
-	SignerRuleActionReview            SignerRuleAction = 9
-	SignerRuleActionReceiveAtomicSwap SignerRuleAction = 10
-	SignerRuleActionParticipate       SignerRuleAction = 11
-	SignerRuleActionBind              SignerRuleAction = 12
-	SignerRuleActionUpdateMaxIssuance SignerRuleAction = 13
-	SignerRuleActionCheck             SignerRuleAction = 14
-	SignerRuleActionClose             SignerRuleAction = 15
+	SignerRuleActionAny                     SignerRuleAction = 1
+	SignerRuleActionCreate                  SignerRuleAction = 2
+	SignerRuleActionCreateForOther          SignerRuleAction = 3
+	SignerRuleActionUpdate                  SignerRuleAction = 4
+	SignerRuleActionManage                  SignerRuleAction = 5
+	SignerRuleActionSend                    SignerRuleAction = 6
+	SignerRuleActionRemove                  SignerRuleAction = 7
+	SignerRuleActionCancel                  SignerRuleAction = 8
+	SignerRuleActionReview                  SignerRuleAction = 9
+	SignerRuleActionReceiveAtomicSwap       SignerRuleAction = 10
+	SignerRuleActionParticipate             SignerRuleAction = 11
+	SignerRuleActionBind                    SignerRuleAction = 12
+	SignerRuleActionUpdateMaxIssuance       SignerRuleAction = 13
+	SignerRuleActionCheck                   SignerRuleAction = 14
+	SignerRuleActionClose                   SignerRuleAction = 15
+	SignerRuleActionUpdateEndTime           SignerRuleAction = 16
+	SignerRuleActionCreateWithTasks         SignerRuleAction = 17
+	SignerRuleActionCreateForOtherWithTasks SignerRuleAction = 18
 )
 
 var SignerRuleActionAll = []SignerRuleAction{
@@ -37139,6 +40731,9 @@ var SignerRuleActionAll = []SignerRuleAction{
 	SignerRuleActionUpdateMaxIssuance,
 	SignerRuleActionCheck,
 	SignerRuleActionClose,
+	SignerRuleActionUpdateEndTime,
+	SignerRuleActionCreateWithTasks,
+	SignerRuleActionCreateForOtherWithTasks,
 }
 
 var signerRuleActionMap = map[int32]string{
@@ -37157,6 +40752,9 @@ var signerRuleActionMap = map[int32]string{
 	13: "SignerRuleActionUpdateMaxIssuance",
 	14: "SignerRuleActionCheck",
 	15: "SignerRuleActionClose",
+	16: "SignerRuleActionUpdateEndTime",
+	17: "SignerRuleActionCreateWithTasks",
+	18: "SignerRuleActionCreateForOtherWithTasks",
 }
 
 var signerRuleActionShortMap = map[int32]string{
@@ -37175,24 +40773,30 @@ var signerRuleActionShortMap = map[int32]string{
 	13: "update_max_issuance",
 	14: "check",
 	15: "close",
+	16: "update_end_time",
+	17: "create_with_tasks",
+	18: "create_for_other_with_tasks",
 }
 
 var signerRuleActionRevMap = map[string]int32{
-	"SignerRuleActionAny":               1,
-	"SignerRuleActionCreate":            2,
-	"SignerRuleActionCreateForOther":    3,
-	"SignerRuleActionUpdate":            4,
-	"SignerRuleActionManage":            5,
-	"SignerRuleActionSend":              6,
-	"SignerRuleActionRemove":            7,
-	"SignerRuleActionCancel":            8,
-	"SignerRuleActionReview":            9,
-	"SignerRuleActionReceiveAtomicSwap": 10,
-	"SignerRuleActionParticipate":       11,
-	"SignerRuleActionBind":              12,
-	"SignerRuleActionUpdateMaxIssuance": 13,
-	"SignerRuleActionCheck":             14,
-	"SignerRuleActionClose":             15,
+	"SignerRuleActionAny":                     1,
+	"SignerRuleActionCreate":                  2,
+	"SignerRuleActionCreateForOther":          3,
+	"SignerRuleActionUpdate":                  4,
+	"SignerRuleActionManage":                  5,
+	"SignerRuleActionSend":                    6,
+	"SignerRuleActionRemove":                  7,
+	"SignerRuleActionCancel":                  8,
+	"SignerRuleActionReview":                  9,
+	"SignerRuleActionReceiveAtomicSwap":       10,
+	"SignerRuleActionParticipate":             11,
+	"SignerRuleActionBind":                    12,
+	"SignerRuleActionUpdateMaxIssuance":       13,
+	"SignerRuleActionCheck":                   14,
+	"SignerRuleActionClose":                   15,
+	"SignerRuleActionUpdateEndTime":           16,
+	"SignerRuleActionCreateWithTasks":         17,
+	"SignerRuleActionCreateForOtherWithTasks": 18,
 }
 
 // ValidEnum validates a proposed value for this enum.  Implements
@@ -37227,6 +40831,7 @@ func (e SignerRuleAction) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range SignerRuleActionAll {
 			if (value & e) == value {
@@ -37296,7 +40901,8 @@ func NewAmlAlertRequestExt(v LedgerVersion, value interface{}) (result AmlAlertR
 
 // AmlAlertRequest is an XDR Struct defines as:
 //
-//   struct AMLAlertRequest {
+//   //: Body of a reviewable AMLAlertRequest, contains parameters regarding AML alert
+//    struct AMLAlertRequest {
 //        //: Target balance to void tokens from
 //        BalanceID balanceID;
 //
@@ -37362,7 +40968,8 @@ func NewAssetCreationRequestExt(v LedgerVersion, value interface{}) (result Asse
 
 // AssetCreationRequest is an XDR Struct defines as:
 //
-//   struct AssetCreationRequest {
+//   //: AssetCreationRequest is used to create an asset with provided parameters
+//    struct AssetCreationRequest {
 //        //: Code of an asset to create
 //        AssetCode code;
 //        //: Public key of a signer that will perform pre issuance
@@ -37444,7 +41051,8 @@ func NewAssetUpdateRequestExt(v LedgerVersion, value interface{}) (result AssetU
 
 // AssetUpdateRequest is an XDR Struct defines as:
 //
-//   struct AssetUpdateRequest {
+//   //: AssetUpdateRequest is used to update an asset with provided parameters
+//    struct AssetUpdateRequest {
 //        //: Code of an asset to update
 //        AssetCode code;
 //        //: Arbitrary stringified JSON object that can be used to attach data to be reviewed by an admin
@@ -37511,7 +41119,8 @@ func NewAssetChangePreissuedSignerExt(v LedgerVersion, value interface{}) (resul
 
 // AssetChangePreissuedSigner is an XDR Struct defines as:
 //
-//   struct AssetChangePreissuedSigner
+//   //: AssetChangePreissuedSigner is used to update a pre issued asset signer
+//    struct AssetChangePreissuedSigner
 //    {
 //        //: code of an asset to update
 //        AssetCode code;
@@ -37537,7 +41146,7 @@ type AssetChangePreissuedSigner struct {
 	Ext       AssetChangePreissuedSignerExt `json:"ext,omitempty"`
 }
 
-// ASwapBidCreationRequestExt is an XDR NestedUnion defines as:
+// CreateAtomicSwapAskRequestExt is an XDR NestedUnion defines as:
 //
 //   union switch (LedgerVersion v)
 //        {
@@ -37545,19 +41154,19 @@ type AssetChangePreissuedSigner struct {
 //            void;
 //        }
 //
-type ASwapBidCreationRequestExt struct {
+type CreateAtomicSwapAskRequestExt struct {
 	V LedgerVersion `json:"v,omitempty"`
 }
 
 // SwitchFieldName returns the field name in which this union's
 // discriminant is stored
-func (u ASwapBidCreationRequestExt) SwitchFieldName() string {
+func (u CreateAtomicSwapAskRequestExt) SwitchFieldName() string {
 	return "V"
 }
 
 // ArmForSwitch returns which field name should be used for storing
-// the value for an instance of ASwapBidCreationRequestExt
-func (u ASwapBidCreationRequestExt) ArmForSwitch(sw int32) (string, bool) {
+// the value for an instance of CreateAtomicSwapAskRequestExt
+func (u CreateAtomicSwapAskRequestExt) ArmForSwitch(sw int32) (string, bool) {
 	switch LedgerVersion(sw) {
 	case LedgerVersionEmptyVersion:
 		return "", true
@@ -37565,8 +41174,8 @@ func (u ASwapBidCreationRequestExt) ArmForSwitch(sw int32) (string, bool) {
 	return "-", false
 }
 
-// NewASwapBidCreationRequestExt creates a new  ASwapBidCreationRequestExt.
-func NewASwapBidCreationRequestExt(v LedgerVersion, value interface{}) (result ASwapBidCreationRequestExt, err error) {
+// NewCreateAtomicSwapAskRequestExt creates a new  CreateAtomicSwapAskRequestExt.
+func NewCreateAtomicSwapAskRequestExt(v LedgerVersion, value interface{}) (result CreateAtomicSwapAskRequestExt, err error) {
 	result.V = v
 	switch LedgerVersion(v) {
 	case LedgerVersionEmptyVersion:
@@ -37575,17 +41184,21 @@ func NewASwapBidCreationRequestExt(v LedgerVersion, value interface{}) (result A
 	return
 }
 
-// ASwapBidCreationRequest is an XDR Struct defines as:
+// CreateAtomicSwapAskRequest is an XDR Struct defines as:
 //
-//   struct ASwapBidCreationRequest
+//   //: CreateAtomicSwapAskRequest is used to create atomic swap ask entry with passed fields
+//    struct CreateAtomicSwapAskRequest
 //    {
+//        //: ID of balance with base asset
 //        BalanceID baseBalance;
+//        //: Amount to be sold through atomic swaps
 //        uint64 amount;
+//        //: Arbitrary stringified json object provided by a requester
 //        longstring creatorDetails; // details set by requester
+//        //: Array of assets with price which can be used to ask base asset
+//        AtomicSwapAskQuoteAsset quoteAssets<>;
 //
-//        ASwapBidQuoteAsset quoteAssets<>;
-//
-//        // reserved for future use
+//        //: reserved for future use
 //        union switch (LedgerVersion v)
 //        {
 //        case EMPTY_VERSION:
@@ -37593,15 +41206,15 @@ func NewASwapBidCreationRequestExt(v LedgerVersion, value interface{}) (result A
 //        } ext;
 //    };
 //
-type ASwapBidCreationRequest struct {
-	BaseBalance    BalanceId                  `json:"baseBalance,omitempty"`
-	Amount         Uint64                     `json:"amount,omitempty"`
-	CreatorDetails Longstring                 `json:"creatorDetails,omitempty"`
-	QuoteAssets    []ASwapBidQuoteAsset       `json:"quoteAssets,omitempty"`
-	Ext            ASwapBidCreationRequestExt `json:"ext,omitempty"`
+type CreateAtomicSwapAskRequest struct {
+	BaseBalance    BalanceId                     `json:"baseBalance,omitempty"`
+	Amount         Uint64                        `json:"amount,omitempty"`
+	CreatorDetails Longstring                    `json:"creatorDetails,omitempty"`
+	QuoteAssets    []AtomicSwapAskQuoteAsset     `json:"quoteAssets,omitempty"`
+	Ext            CreateAtomicSwapAskRequestExt `json:"ext,omitempty"`
 }
 
-// ASwapRequestExt is an XDR NestedUnion defines as:
+// CreateAtomicSwapBidRequestExt is an XDR NestedUnion defines as:
 //
 //   union switch (LedgerVersion v)
 //        {
@@ -37609,19 +41222,19 @@ type ASwapBidCreationRequest struct {
 //            void;
 //        }
 //
-type ASwapRequestExt struct {
+type CreateAtomicSwapBidRequestExt struct {
 	V LedgerVersion `json:"v,omitempty"`
 }
 
 // SwitchFieldName returns the field name in which this union's
 // discriminant is stored
-func (u ASwapRequestExt) SwitchFieldName() string {
+func (u CreateAtomicSwapBidRequestExt) SwitchFieldName() string {
 	return "V"
 }
 
 // ArmForSwitch returns which field name should be used for storing
-// the value for an instance of ASwapRequestExt
-func (u ASwapRequestExt) ArmForSwitch(sw int32) (string, bool) {
+// the value for an instance of CreateAtomicSwapBidRequestExt
+func (u CreateAtomicSwapBidRequestExt) ArmForSwitch(sw int32) (string, bool) {
 	switch LedgerVersion(sw) {
 	case LedgerVersionEmptyVersion:
 		return "", true
@@ -37629,8 +41242,8 @@ func (u ASwapRequestExt) ArmForSwitch(sw int32) (string, bool) {
 	return "-", false
 }
 
-// NewASwapRequestExt creates a new  ASwapRequestExt.
-func NewASwapRequestExt(v LedgerVersion, value interface{}) (result ASwapRequestExt, err error) {
+// NewCreateAtomicSwapBidRequestExt creates a new  CreateAtomicSwapBidRequestExt.
+func NewCreateAtomicSwapBidRequestExt(v LedgerVersion, value interface{}) (result CreateAtomicSwapBidRequestExt, err error) {
 	result.V = v
 	switch LedgerVersion(v) {
 	case LedgerVersionEmptyVersion:
@@ -37639,15 +41252,21 @@ func NewASwapRequestExt(v LedgerVersion, value interface{}) (result ASwapRequest
 	return
 }
 
-// ASwapRequest is an XDR Struct defines as:
+// CreateAtomicSwapBidRequest is an XDR Struct defines as:
 //
-//   struct ASwapRequest
+//   //: CreateAtomicSwapBidRequest is used to create atomic swap bid request with passed fields
+//    struct CreateAtomicSwapBidRequest
 //    {
-//        uint64 bidID;
+//        //: ID of existing bid
+//        uint64 askID;
+//        //: Amount in base asset to ask
 //        uint64 baseAmount;
+//        //: Code of asset which will be used to ask base asset
 //        AssetCode quoteAsset;
+//        //: Arbitrary stringified json object provided by a requester
 //        longstring creatorDetails; // details set by requester
 //
+//        //: reserved for the future use
 //        union switch (LedgerVersion v)
 //        {
 //        case EMPTY_VERSION:
@@ -37655,12 +41274,12 @@ func NewASwapRequestExt(v LedgerVersion, value interface{}) (result ASwapRequest
 //        } ext;
 //    };
 //
-type ASwapRequest struct {
-	BidId          Uint64          `json:"bidID,omitempty"`
-	BaseAmount     Uint64          `json:"baseAmount,omitempty"`
-	QuoteAsset     AssetCode       `json:"quoteAsset,omitempty"`
-	CreatorDetails Longstring      `json:"creatorDetails,omitempty"`
-	Ext            ASwapRequestExt `json:"ext,omitempty"`
+type CreateAtomicSwapBidRequest struct {
+	AskId          Uint64                        `json:"askID,omitempty"`
+	BaseAmount     Uint64                        `json:"baseAmount,omitempty"`
+	QuoteAsset     AssetCode                     `json:"quoteAsset,omitempty"`
+	CreatorDetails Longstring                    `json:"creatorDetails,omitempty"`
+	Ext            CreateAtomicSwapBidRequestExt `json:"ext,omitempty"`
 }
 
 // ChangeRoleRequestExt is an XDR NestedUnion defines as:
@@ -37837,7 +41456,8 @@ func NewCreatePollRequestExt(v LedgerVersion, value interface{}) (result CreateP
 
 // CreatePollRequest is an XDR Struct defines as:
 //
-//   struct CreatePollRequest
+//   //: CreatePollRequest is used to create poll entry with passed fields
+//    struct CreatePollRequest
 //    {
 //        //: is used to restrict using of poll through rules
 //        uint32 permissionType;
@@ -37995,7 +41615,8 @@ func NewPreIssuanceRequestExt(v LedgerVersion, value interface{}) (result PreIss
 
 // PreIssuanceRequest is an XDR Struct defines as:
 //
-//   struct PreIssuanceRequest
+//   //: Is used to pass required values to perform pre issuance
+//    struct PreIssuanceRequest
 //    {
 //        //: Code of an asset whose `available_for_issuance_amount` will increase
 //        AssetCode asset;
@@ -38066,7 +41687,8 @@ func NewIssuanceRequestExt(v LedgerVersion, value interface{}) (result IssuanceR
 
 // IssuanceRequest is an XDR Struct defines as:
 //
-//   struct IssuanceRequest {
+//   //: Body of reviewable `IssuanceRequest`, contains parameters regarding issuance
+//    struct IssuanceRequest {
 //        //: Code of an asset to issue
 //    	AssetCode asset;
 //       //: Amount to issue
@@ -38093,6 +41715,75 @@ type IssuanceRequest struct {
 	CreatorDetails Longstring         `json:"creatorDetails,omitempty"`
 	Fee            Fee                `json:"fee,omitempty"`
 	Ext            IssuanceRequestExt `json:"ext,omitempty"`
+}
+
+// KycRecoveryRequestExt is an XDR NestedUnion defines as:
+//
+//   union switch (LedgerVersion v)
+//        {
+//        case EMPTY_VERSION:
+//            void;
+//        }
+//
+type KycRecoveryRequestExt struct {
+	V LedgerVersion `json:"v,omitempty"`
+}
+
+// SwitchFieldName returns the field name in which this union's
+// discriminant is stored
+func (u KycRecoveryRequestExt) SwitchFieldName() string {
+	return "V"
+}
+
+// ArmForSwitch returns which field name should be used for storing
+// the value for an instance of KycRecoveryRequestExt
+func (u KycRecoveryRequestExt) ArmForSwitch(sw int32) (string, bool) {
+	switch LedgerVersion(sw) {
+	case LedgerVersionEmptyVersion:
+		return "", true
+	}
+	return "-", false
+}
+
+// NewKycRecoveryRequestExt creates a new  KycRecoveryRequestExt.
+func NewKycRecoveryRequestExt(v LedgerVersion, value interface{}) (result KycRecoveryRequestExt, err error) {
+	result.V = v
+	switch LedgerVersion(v) {
+	case LedgerVersionEmptyVersion:
+		// void
+	}
+	return
+}
+
+// KycRecoveryRequest is an XDR Struct defines as:
+//
+//   //: KYCRecoveryRequest is used to change signers of target account
+//    struct KYCRecoveryRequest {
+//        //: Account to be recovered
+//        AccountID targetAccount;
+//        //: New signers for the target account
+//        UpdateSignerData signersData<>;
+//
+//        //: Arbitrary stringified json object that can be used to attach data to be reviewed by an admin
+//        longstring creatorDetails; // details set by requester
+//        //: Sequence number increases when request is rejected
+//        uint32 sequenceNumber;
+//
+//        //: Reserved for future use
+//        union switch (LedgerVersion v)
+//        {
+//        case EMPTY_VERSION:
+//            void;
+//        }
+//        ext;
+//    };
+//
+type KycRecoveryRequest struct {
+	TargetAccount  AccountId             `json:"targetAccount,omitempty"`
+	SignersData    []UpdateSignerData    `json:"signersData,omitempty"`
+	CreatorDetails Longstring            `json:"creatorDetails,omitempty"`
+	SequenceNumber Uint32                `json:"sequenceNumber,omitempty"`
+	Ext            KycRecoveryRequestExt `json:"ext,omitempty"`
 }
 
 // LimitsUpdateRequestExt is an XDR NestedUnion defines as:
@@ -38135,7 +41826,8 @@ func NewLimitsUpdateRequestExt(v LedgerVersion, value interface{}) (result Limit
 
 // LimitsUpdateRequest is an XDR Struct defines as:
 //
-//   struct LimitsUpdateRequest
+//   //: Body of reviewable `LimitsUpdateRequest` contains details regarding limit updates
+//    struct LimitsUpdateRequest
 //    {
 //        //: Arbitrary stringified JSON object that can be used to attach data to be reviewed by an admin
 //        longstring creatorDetails;
@@ -38194,7 +41886,8 @@ func NewSaleCreationRequestQuoteAssetExt(v LedgerVersion, value interface{}) (re
 
 // SaleCreationRequestQuoteAsset is an XDR Struct defines as:
 //
-//   struct SaleCreationRequestQuoteAsset {
+//   //: SaleCreationRequestQuoteAsset is a structure that contains an asset code with price
+//    struct SaleCreationRequestQuoteAsset {
 //        //: AssetCode of quote asset
 //        AssetCode quoteAsset; // asset in which participation will be accepted
 //        //: Price of sale base asset in relation to a quote asset
@@ -38214,7 +41907,7 @@ type SaleCreationRequestQuoteAsset struct {
 	Ext        SaleCreationRequestQuoteAssetExt `json:"ext,omitempty"`
 }
 
-// SaleCreationRequestExt is an XDR NestedUnion defines as:
+// CreateAccountSaleRuleDataExt is an XDR NestedUnion defines as:
 //
 //   union switch (LedgerVersion v)
 //        {
@@ -38222,8 +41915,74 @@ type SaleCreationRequestQuoteAsset struct {
 //            void;
 //        }
 //
-type SaleCreationRequestExt struct {
+type CreateAccountSaleRuleDataExt struct {
 	V LedgerVersion `json:"v,omitempty"`
+}
+
+// SwitchFieldName returns the field name in which this union's
+// discriminant is stored
+func (u CreateAccountSaleRuleDataExt) SwitchFieldName() string {
+	return "V"
+}
+
+// ArmForSwitch returns which field name should be used for storing
+// the value for an instance of CreateAccountSaleRuleDataExt
+func (u CreateAccountSaleRuleDataExt) ArmForSwitch(sw int32) (string, bool) {
+	switch LedgerVersion(sw) {
+	case LedgerVersionEmptyVersion:
+		return "", true
+	}
+	return "-", false
+}
+
+// NewCreateAccountSaleRuleDataExt creates a new  CreateAccountSaleRuleDataExt.
+func NewCreateAccountSaleRuleDataExt(v LedgerVersion, value interface{}) (result CreateAccountSaleRuleDataExt, err error) {
+	result.V = v
+	switch LedgerVersion(v) {
+	case LedgerVersionEmptyVersion:
+		// void
+	}
+	return
+}
+
+// CreateAccountSaleRuleData is an XDR Struct defines as:
+//
+//   //: CreateAccountSaleRuleData is used to pass necessary params to create a new account sale rule
+//    struct CreateAccountSaleRuleData
+//    {
+//        //: Certain account for which rule is applied, null means rule is global
+//        AccountID* accountID;
+//        //: True if such rule is deniable, otherwise allows
+//        bool forbids;
+//
+//        //: reserved for future use
+//        union switch (LedgerVersion v)
+//        {
+//        case EMPTY_VERSION:
+//            void;
+//        } ext;
+//    };
+//
+type CreateAccountSaleRuleData struct {
+	AccountId *AccountId                   `json:"accountID,omitempty"`
+	Forbids   bool                         `json:"forbids,omitempty"`
+	Ext       CreateAccountSaleRuleDataExt `json:"ext,omitempty"`
+}
+
+// SaleCreationRequestExt is an XDR NestedUnion defines as:
+//
+//   union switch (LedgerVersion v)
+//        {
+//        case EMPTY_VERSION:
+//            void;
+//        case ADD_SALE_WHITELISTS:
+//            //: array of rules that define participation rules. One global rule must be specified.
+//            CreateAccountSaleRuleData saleRules<>;
+//        }
+//
+type SaleCreationRequestExt struct {
+	V         LedgerVersion                `json:"v,omitempty"`
+	SaleRules *[]CreateAccountSaleRuleData `json:"saleRules,omitempty"`
 }
 
 // SwitchFieldName returns the field name in which this union's
@@ -38238,6 +41997,8 @@ func (u SaleCreationRequestExt) ArmForSwitch(sw int32) (string, bool) {
 	switch LedgerVersion(sw) {
 	case LedgerVersionEmptyVersion:
 		return "", true
+	case LedgerVersionAddSaleWhitelists:
+		return "SaleRules", true
 	}
 	return "-", false
 }
@@ -38248,13 +42009,46 @@ func NewSaleCreationRequestExt(v LedgerVersion, value interface{}) (result SaleC
 	switch LedgerVersion(v) {
 	case LedgerVersionEmptyVersion:
 		// void
+	case LedgerVersionAddSaleWhitelists:
+		tv, ok := value.([]CreateAccountSaleRuleData)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be []CreateAccountSaleRuleData")
+			return
+		}
+		result.SaleRules = &tv
 	}
+	return
+}
+
+// MustSaleRules retrieves the SaleRules value from the union,
+// panicing if the value is not set.
+func (u SaleCreationRequestExt) MustSaleRules() []CreateAccountSaleRuleData {
+	val, ok := u.GetSaleRules()
+
+	if !ok {
+		panic("arm SaleRules is not set")
+	}
+
+	return val
+}
+
+// GetSaleRules retrieves the SaleRules value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u SaleCreationRequestExt) GetSaleRules() (result []CreateAccountSaleRuleData, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.V))
+
+	if armName == "SaleRules" {
+		result = *u.SaleRules
+		ok = true
+	}
+
 	return
 }
 
 // SaleCreationRequest is an XDR Struct defines as:
 //
-//   struct SaleCreationRequest
+//   //: SaleCreationRequest is used to create a sale with provided parameters
+//    struct SaleCreationRequest
 //    {
 //        //: Type of sale
 //        //: 1: basic sale
@@ -38283,11 +42077,15 @@ func NewSaleCreationRequestExt(v LedgerVersion, value interface{}) (result SaleC
 //        uint32 sequenceNumber;
 //        //: Array of quote assets that are available for participation
 //        SaleCreationRequestQuoteAsset quoteAssets<100>;
-//        //: Reserved for future use
+//        //: Use `EMPTY_VERSION` to allow anyone participate in sale,
+//        //: use `ADD_SALE_WHITELISTS` to specify sale participation rules
 //        union switch (LedgerVersion v)
 //        {
 //        case EMPTY_VERSION:
 //            void;
+//        case ADD_SALE_WHITELISTS:
+//            //: array of rules that define participation rules. One global rule must be specified.
+//            CreateAccountSaleRuleData saleRules<>;
 //        }
 //        ext;
 //    };
@@ -38348,7 +42146,8 @@ func NewUpdateSaleDetailsRequestExt(v LedgerVersion, value interface{}) (result 
 
 // UpdateSaleDetailsRequest is an XDR Struct defines as:
 //
-//   struct UpdateSaleDetailsRequest {
+//   //: UpdateSaleDetailsRequest is used to update details of an existing sale
+//    struct UpdateSaleDetailsRequest {
 //        //: ID of the sale whose details should be updated
 //        uint64 saleID; // ID of sale to update details
 //        //: Arbitrary stringified JSON object that can be used to attach data to be reviewed by an admin
@@ -38411,7 +42210,8 @@ func NewWithdrawalRequestExt(v LedgerVersion, value interface{}) (result Withdra
 
 // WithdrawalRequest is an XDR Struct defines as:
 //
-//   struct WithdrawalRequest {
+//   //: WithdrawalRequest contains details regarding a withdraw
+//    struct WithdrawalRequest {
 //        //: Balance to withdraw from
 //        BalanceID balance; // balance id from which withdrawal will be performed
 //        //: Amount to withdraw
@@ -38497,12 +42297,12 @@ type WithdrawalRequest struct {
 //            ManageContractOp manageContractOp;
 //        case CANCEL_SALE_REQUEST:
 //            CancelSaleCreationRequestOp cancelSaleCreationRequestOp;
-//        case CREATE_ASWAP_BID_REQUEST:
-//            CreateASwapBidCreationRequestOp createASwapBidCreationRequestOp;
-//        case CANCEL_ASWAP_BID:
-//            CancelASwapBidOp cancelASwapBidOp;
-//        case CREATE_ASWAP_REQUEST:
-//            CreateASwapRequestOp createASwapRequestOp;
+//        case CREATE_ATOMIC_SWAP_ASK_REQUEST:
+//            CreateAtomicSwapAskRequestOp createAtomicSwapAskRequestOp;
+//        case CANCEL_ATOMIC_SWAP_ASK:
+//            CancelAtomicSwapAskOp cancelAtomicSwapAskOp;
+//        case CREATE_ATOMIC_SWAP_BID_REQUEST:
+//            CreateAtomicSwapBidRequestOp createAtomicSwapBidRequestOp;
 //        case MANAGE_ACCOUNT_ROLE:
 //            ManageAccountRoleOp manageAccountRoleOp;
 //        case MANAGE_ACCOUNT_RULE:
@@ -38523,6 +42323,16 @@ type WithdrawalRequest struct {
 //            ManagePollOp managePollOp;
 //        case MANAGE_VOTE:
 //            ManageVoteOp manageVoteOp;
+//        case MANAGE_ACCOUNT_SPECIFIC_RULE:
+//            ManageAccountSpecificRuleOp manageAccountSpecificRuleOp;
+//        case CANCEL_CHANGE_ROLE_REQUEST:
+//            CancelChangeRoleRequestOp cancelChangeRoleRequestOp;
+//        case REMOVE_ASSET_PAIR:
+//            RemoveAssetPairOp removeAssetPairOp;
+//        case INITIATE_KYC_RECOVERY:
+//            InitiateKYCRecoveryOp initiateKYCRecoveryOp;
+//        case CREATE_KYC_RECOVERY_REQUEST:
+//            CreateKYCRecoveryRequestOp createKYCRecoveryRequestOp;
 //        }
 //
 type OperationBody struct {
@@ -38553,9 +42363,9 @@ type OperationBody struct {
 	ManageContractRequestOp                  *ManageContractRequestOp                  `json:"manageContractRequestOp,omitempty"`
 	ManageContractOp                         *ManageContractOp                         `json:"manageContractOp,omitempty"`
 	CancelSaleCreationRequestOp              *CancelSaleCreationRequestOp              `json:"cancelSaleCreationRequestOp,omitempty"`
-	CreateASwapBidCreationRequestOp          *CreateASwapBidCreationRequestOp          `json:"createASwapBidCreationRequestOp,omitempty"`
-	CancelASwapBidOp                         *CancelASwapBidOp                         `json:"cancelASwapBidOp,omitempty"`
-	CreateASwapRequestOp                     *CreateASwapRequestOp                     `json:"createASwapRequestOp,omitempty"`
+	CreateAtomicSwapAskRequestOp             *CreateAtomicSwapAskRequestOp             `json:"createAtomicSwapAskRequestOp,omitempty"`
+	CancelAtomicSwapAskOp                    *CancelAtomicSwapAskOp                    `json:"cancelAtomicSwapAskOp,omitempty"`
+	CreateAtomicSwapBidRequestOp             *CreateAtomicSwapBidRequestOp             `json:"createAtomicSwapBidRequestOp,omitempty"`
 	ManageAccountRoleOp                      *ManageAccountRoleOp                      `json:"manageAccountRoleOp,omitempty"`
 	ManageAccountRuleOp                      *ManageAccountRuleOp                      `json:"manageAccountRuleOp,omitempty"`
 	ManageSignerOp                           *ManageSignerOp                           `json:"manageSignerOp,omitempty"`
@@ -38566,6 +42376,11 @@ type OperationBody struct {
 	ManageCreatePollRequestOp                *ManageCreatePollRequestOp                `json:"manageCreatePollRequestOp,omitempty"`
 	ManagePollOp                             *ManagePollOp                             `json:"managePollOp,omitempty"`
 	ManageVoteOp                             *ManageVoteOp                             `json:"manageVoteOp,omitempty"`
+	ManageAccountSpecificRuleOp              *ManageAccountSpecificRuleOp              `json:"manageAccountSpecificRuleOp,omitempty"`
+	CancelChangeRoleRequestOp                *CancelChangeRoleRequestOp                `json:"cancelChangeRoleRequestOp,omitempty"`
+	RemoveAssetPairOp                        *RemoveAssetPairOp                        `json:"removeAssetPairOp,omitempty"`
+	InitiateKycRecoveryOp                    *InitiateKycRecoveryOp                    `json:"initiateKYCRecoveryOp,omitempty"`
+	CreateKycRecoveryRequestOp               *CreateKycRecoveryRequestOp               `json:"createKYCRecoveryRequestOp,omitempty"`
 }
 
 // SwitchFieldName returns the field name in which this union's
@@ -38630,12 +42445,12 @@ func (u OperationBody) ArmForSwitch(sw int32) (string, bool) {
 		return "ManageContractOp", true
 	case OperationTypeCancelSaleRequest:
 		return "CancelSaleCreationRequestOp", true
-	case OperationTypeCreateAswapBidRequest:
-		return "CreateASwapBidCreationRequestOp", true
-	case OperationTypeCancelAswapBid:
-		return "CancelASwapBidOp", true
-	case OperationTypeCreateAswapRequest:
-		return "CreateASwapRequestOp", true
+	case OperationTypeCreateAtomicSwapAskRequest:
+		return "CreateAtomicSwapAskRequestOp", true
+	case OperationTypeCancelAtomicSwapAsk:
+		return "CancelAtomicSwapAskOp", true
+	case OperationTypeCreateAtomicSwapBidRequest:
+		return "CreateAtomicSwapBidRequestOp", true
 	case OperationTypeManageAccountRole:
 		return "ManageAccountRoleOp", true
 	case OperationTypeManageAccountRule:
@@ -38656,6 +42471,16 @@ func (u OperationBody) ArmForSwitch(sw int32) (string, bool) {
 		return "ManagePollOp", true
 	case OperationTypeManageVote:
 		return "ManageVoteOp", true
+	case OperationTypeManageAccountSpecificRule:
+		return "ManageAccountSpecificRuleOp", true
+	case OperationTypeCancelChangeRoleRequest:
+		return "CancelChangeRoleRequestOp", true
+	case OperationTypeRemoveAssetPair:
+		return "RemoveAssetPairOp", true
+	case OperationTypeInitiateKycRecovery:
+		return "InitiateKycRecoveryOp", true
+	case OperationTypeCreateKycRecoveryRequest:
+		return "CreateKycRecoveryRequestOp", true
 	}
 	return "-", false
 }
@@ -38846,27 +42671,27 @@ func NewOperationBody(aType OperationType, value interface{}) (result OperationB
 			return
 		}
 		result.CancelSaleCreationRequestOp = &tv
-	case OperationTypeCreateAswapBidRequest:
-		tv, ok := value.(CreateASwapBidCreationRequestOp)
+	case OperationTypeCreateAtomicSwapAskRequest:
+		tv, ok := value.(CreateAtomicSwapAskRequestOp)
 		if !ok {
-			err = fmt.Errorf("invalid value, must be CreateASwapBidCreationRequestOp")
+			err = fmt.Errorf("invalid value, must be CreateAtomicSwapAskRequestOp")
 			return
 		}
-		result.CreateASwapBidCreationRequestOp = &tv
-	case OperationTypeCancelAswapBid:
-		tv, ok := value.(CancelASwapBidOp)
+		result.CreateAtomicSwapAskRequestOp = &tv
+	case OperationTypeCancelAtomicSwapAsk:
+		tv, ok := value.(CancelAtomicSwapAskOp)
 		if !ok {
-			err = fmt.Errorf("invalid value, must be CancelASwapBidOp")
+			err = fmt.Errorf("invalid value, must be CancelAtomicSwapAskOp")
 			return
 		}
-		result.CancelASwapBidOp = &tv
-	case OperationTypeCreateAswapRequest:
-		tv, ok := value.(CreateASwapRequestOp)
+		result.CancelAtomicSwapAskOp = &tv
+	case OperationTypeCreateAtomicSwapBidRequest:
+		tv, ok := value.(CreateAtomicSwapBidRequestOp)
 		if !ok {
-			err = fmt.Errorf("invalid value, must be CreateASwapRequestOp")
+			err = fmt.Errorf("invalid value, must be CreateAtomicSwapBidRequestOp")
 			return
 		}
-		result.CreateASwapRequestOp = &tv
+		result.CreateAtomicSwapBidRequestOp = &tv
 	case OperationTypeManageAccountRole:
 		tv, ok := value.(ManageAccountRoleOp)
 		if !ok {
@@ -38937,6 +42762,41 @@ func NewOperationBody(aType OperationType, value interface{}) (result OperationB
 			return
 		}
 		result.ManageVoteOp = &tv
+	case OperationTypeManageAccountSpecificRule:
+		tv, ok := value.(ManageAccountSpecificRuleOp)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be ManageAccountSpecificRuleOp")
+			return
+		}
+		result.ManageAccountSpecificRuleOp = &tv
+	case OperationTypeCancelChangeRoleRequest:
+		tv, ok := value.(CancelChangeRoleRequestOp)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be CancelChangeRoleRequestOp")
+			return
+		}
+		result.CancelChangeRoleRequestOp = &tv
+	case OperationTypeRemoveAssetPair:
+		tv, ok := value.(RemoveAssetPairOp)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be RemoveAssetPairOp")
+			return
+		}
+		result.RemoveAssetPairOp = &tv
+	case OperationTypeInitiateKycRecovery:
+		tv, ok := value.(InitiateKycRecoveryOp)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be InitiateKycRecoveryOp")
+			return
+		}
+		result.InitiateKycRecoveryOp = &tv
+	case OperationTypeCreateKycRecoveryRequest:
+		tv, ok := value.(CreateKycRecoveryRequestOp)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be CreateKycRecoveryRequestOp")
+			return
+		}
+		result.CreateKycRecoveryRequestOp = &tv
 	}
 	return
 }
@@ -39591,75 +43451,75 @@ func (u OperationBody) GetCancelSaleCreationRequestOp() (result CancelSaleCreati
 	return
 }
 
-// MustCreateASwapBidCreationRequestOp retrieves the CreateASwapBidCreationRequestOp value from the union,
+// MustCreateAtomicSwapAskRequestOp retrieves the CreateAtomicSwapAskRequestOp value from the union,
 // panicing if the value is not set.
-func (u OperationBody) MustCreateASwapBidCreationRequestOp() CreateASwapBidCreationRequestOp {
-	val, ok := u.GetCreateASwapBidCreationRequestOp()
+func (u OperationBody) MustCreateAtomicSwapAskRequestOp() CreateAtomicSwapAskRequestOp {
+	val, ok := u.GetCreateAtomicSwapAskRequestOp()
 
 	if !ok {
-		panic("arm CreateASwapBidCreationRequestOp is not set")
+		panic("arm CreateAtomicSwapAskRequestOp is not set")
 	}
 
 	return val
 }
 
-// GetCreateASwapBidCreationRequestOp retrieves the CreateASwapBidCreationRequestOp value from the union,
+// GetCreateAtomicSwapAskRequestOp retrieves the CreateAtomicSwapAskRequestOp value from the union,
 // returning ok if the union's switch indicated the value is valid.
-func (u OperationBody) GetCreateASwapBidCreationRequestOp() (result CreateASwapBidCreationRequestOp, ok bool) {
+func (u OperationBody) GetCreateAtomicSwapAskRequestOp() (result CreateAtomicSwapAskRequestOp, ok bool) {
 	armName, _ := u.ArmForSwitch(int32(u.Type))
 
-	if armName == "CreateASwapBidCreationRequestOp" {
-		result = *u.CreateASwapBidCreationRequestOp
+	if armName == "CreateAtomicSwapAskRequestOp" {
+		result = *u.CreateAtomicSwapAskRequestOp
 		ok = true
 	}
 
 	return
 }
 
-// MustCancelASwapBidOp retrieves the CancelASwapBidOp value from the union,
+// MustCancelAtomicSwapAskOp retrieves the CancelAtomicSwapAskOp value from the union,
 // panicing if the value is not set.
-func (u OperationBody) MustCancelASwapBidOp() CancelASwapBidOp {
-	val, ok := u.GetCancelASwapBidOp()
+func (u OperationBody) MustCancelAtomicSwapAskOp() CancelAtomicSwapAskOp {
+	val, ok := u.GetCancelAtomicSwapAskOp()
 
 	if !ok {
-		panic("arm CancelASwapBidOp is not set")
+		panic("arm CancelAtomicSwapAskOp is not set")
 	}
 
 	return val
 }
 
-// GetCancelASwapBidOp retrieves the CancelASwapBidOp value from the union,
+// GetCancelAtomicSwapAskOp retrieves the CancelAtomicSwapAskOp value from the union,
 // returning ok if the union's switch indicated the value is valid.
-func (u OperationBody) GetCancelASwapBidOp() (result CancelASwapBidOp, ok bool) {
+func (u OperationBody) GetCancelAtomicSwapAskOp() (result CancelAtomicSwapAskOp, ok bool) {
 	armName, _ := u.ArmForSwitch(int32(u.Type))
 
-	if armName == "CancelASwapBidOp" {
-		result = *u.CancelASwapBidOp
+	if armName == "CancelAtomicSwapAskOp" {
+		result = *u.CancelAtomicSwapAskOp
 		ok = true
 	}
 
 	return
 }
 
-// MustCreateASwapRequestOp retrieves the CreateASwapRequestOp value from the union,
+// MustCreateAtomicSwapBidRequestOp retrieves the CreateAtomicSwapBidRequestOp value from the union,
 // panicing if the value is not set.
-func (u OperationBody) MustCreateASwapRequestOp() CreateASwapRequestOp {
-	val, ok := u.GetCreateASwapRequestOp()
+func (u OperationBody) MustCreateAtomicSwapBidRequestOp() CreateAtomicSwapBidRequestOp {
+	val, ok := u.GetCreateAtomicSwapBidRequestOp()
 
 	if !ok {
-		panic("arm CreateASwapRequestOp is not set")
+		panic("arm CreateAtomicSwapBidRequestOp is not set")
 	}
 
 	return val
 }
 
-// GetCreateASwapRequestOp retrieves the CreateASwapRequestOp value from the union,
+// GetCreateAtomicSwapBidRequestOp retrieves the CreateAtomicSwapBidRequestOp value from the union,
 // returning ok if the union's switch indicated the value is valid.
-func (u OperationBody) GetCreateASwapRequestOp() (result CreateASwapRequestOp, ok bool) {
+func (u OperationBody) GetCreateAtomicSwapBidRequestOp() (result CreateAtomicSwapBidRequestOp, ok bool) {
 	armName, _ := u.ArmForSwitch(int32(u.Type))
 
-	if armName == "CreateASwapRequestOp" {
-		result = *u.CreateASwapRequestOp
+	if armName == "CreateAtomicSwapBidRequestOp" {
+		result = *u.CreateAtomicSwapBidRequestOp
 		ok = true
 	}
 
@@ -39916,9 +43776,135 @@ func (u OperationBody) GetManageVoteOp() (result ManageVoteOp, ok bool) {
 	return
 }
 
+// MustManageAccountSpecificRuleOp retrieves the ManageAccountSpecificRuleOp value from the union,
+// panicing if the value is not set.
+func (u OperationBody) MustManageAccountSpecificRuleOp() ManageAccountSpecificRuleOp {
+	val, ok := u.GetManageAccountSpecificRuleOp()
+
+	if !ok {
+		panic("arm ManageAccountSpecificRuleOp is not set")
+	}
+
+	return val
+}
+
+// GetManageAccountSpecificRuleOp retrieves the ManageAccountSpecificRuleOp value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u OperationBody) GetManageAccountSpecificRuleOp() (result ManageAccountSpecificRuleOp, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.Type))
+
+	if armName == "ManageAccountSpecificRuleOp" {
+		result = *u.ManageAccountSpecificRuleOp
+		ok = true
+	}
+
+	return
+}
+
+// MustCancelChangeRoleRequestOp retrieves the CancelChangeRoleRequestOp value from the union,
+// panicing if the value is not set.
+func (u OperationBody) MustCancelChangeRoleRequestOp() CancelChangeRoleRequestOp {
+	val, ok := u.GetCancelChangeRoleRequestOp()
+
+	if !ok {
+		panic("arm CancelChangeRoleRequestOp is not set")
+	}
+
+	return val
+}
+
+// GetCancelChangeRoleRequestOp retrieves the CancelChangeRoleRequestOp value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u OperationBody) GetCancelChangeRoleRequestOp() (result CancelChangeRoleRequestOp, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.Type))
+
+	if armName == "CancelChangeRoleRequestOp" {
+		result = *u.CancelChangeRoleRequestOp
+		ok = true
+	}
+
+	return
+}
+
+// MustRemoveAssetPairOp retrieves the RemoveAssetPairOp value from the union,
+// panicing if the value is not set.
+func (u OperationBody) MustRemoveAssetPairOp() RemoveAssetPairOp {
+	val, ok := u.GetRemoveAssetPairOp()
+
+	if !ok {
+		panic("arm RemoveAssetPairOp is not set")
+	}
+
+	return val
+}
+
+// GetRemoveAssetPairOp retrieves the RemoveAssetPairOp value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u OperationBody) GetRemoveAssetPairOp() (result RemoveAssetPairOp, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.Type))
+
+	if armName == "RemoveAssetPairOp" {
+		result = *u.RemoveAssetPairOp
+		ok = true
+	}
+
+	return
+}
+
+// MustInitiateKycRecoveryOp retrieves the InitiateKycRecoveryOp value from the union,
+// panicing if the value is not set.
+func (u OperationBody) MustInitiateKycRecoveryOp() InitiateKycRecoveryOp {
+	val, ok := u.GetInitiateKycRecoveryOp()
+
+	if !ok {
+		panic("arm InitiateKycRecoveryOp is not set")
+	}
+
+	return val
+}
+
+// GetInitiateKycRecoveryOp retrieves the InitiateKycRecoveryOp value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u OperationBody) GetInitiateKycRecoveryOp() (result InitiateKycRecoveryOp, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.Type))
+
+	if armName == "InitiateKycRecoveryOp" {
+		result = *u.InitiateKycRecoveryOp
+		ok = true
+	}
+
+	return
+}
+
+// MustCreateKycRecoveryRequestOp retrieves the CreateKycRecoveryRequestOp value from the union,
+// panicing if the value is not set.
+func (u OperationBody) MustCreateKycRecoveryRequestOp() CreateKycRecoveryRequestOp {
+	val, ok := u.GetCreateKycRecoveryRequestOp()
+
+	if !ok {
+		panic("arm CreateKycRecoveryRequestOp is not set")
+	}
+
+	return val
+}
+
+// GetCreateKycRecoveryRequestOp retrieves the CreateKycRecoveryRequestOp value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u OperationBody) GetCreateKycRecoveryRequestOp() (result CreateKycRecoveryRequestOp, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.Type))
+
+	if armName == "CreateKycRecoveryRequestOp" {
+		result = *u.CreateKycRecoveryRequestOp
+		ok = true
+	}
+
+	return
+}
+
 // Operation is an XDR Struct defines as:
 //
-//   struct Operation
+//   //: An operation is the lowest unit of work that a transaction does
+//    struct Operation
 //    {
 //        //: sourceAccount is the account used to run the operation
 //        //: if not set, the runtime defaults to "sourceAccount" specified at
@@ -39979,12 +43965,12 @@ func (u OperationBody) GetManageVoteOp() (result ManageVoteOp, ok bool) {
 //            ManageContractOp manageContractOp;
 //        case CANCEL_SALE_REQUEST:
 //            CancelSaleCreationRequestOp cancelSaleCreationRequestOp;
-//        case CREATE_ASWAP_BID_REQUEST:
-//            CreateASwapBidCreationRequestOp createASwapBidCreationRequestOp;
-//        case CANCEL_ASWAP_BID:
-//            CancelASwapBidOp cancelASwapBidOp;
-//        case CREATE_ASWAP_REQUEST:
-//            CreateASwapRequestOp createASwapRequestOp;
+//        case CREATE_ATOMIC_SWAP_ASK_REQUEST:
+//            CreateAtomicSwapAskRequestOp createAtomicSwapAskRequestOp;
+//        case CANCEL_ATOMIC_SWAP_ASK:
+//            CancelAtomicSwapAskOp cancelAtomicSwapAskOp;
+//        case CREATE_ATOMIC_SWAP_BID_REQUEST:
+//            CreateAtomicSwapBidRequestOp createAtomicSwapBidRequestOp;
 //        case MANAGE_ACCOUNT_ROLE:
 //            ManageAccountRoleOp manageAccountRoleOp;
 //        case MANAGE_ACCOUNT_RULE:
@@ -40005,6 +43991,16 @@ func (u OperationBody) GetManageVoteOp() (result ManageVoteOp, ok bool) {
 //            ManagePollOp managePollOp;
 //        case MANAGE_VOTE:
 //            ManageVoteOp manageVoteOp;
+//        case MANAGE_ACCOUNT_SPECIFIC_RULE:
+//            ManageAccountSpecificRuleOp manageAccountSpecificRuleOp;
+//        case CANCEL_CHANGE_ROLE_REQUEST:
+//            CancelChangeRoleRequestOp cancelChangeRoleRequestOp;
+//        case REMOVE_ASSET_PAIR:
+//            RemoveAssetPairOp removeAssetPairOp;
+//        case INITIATE_KYC_RECOVERY:
+//            InitiateKYCRecoveryOp initiateKYCRecoveryOp;
+//        case CREATE_KYC_RECOVERY_REQUEST:
+//            CreateKYCRecoveryRequestOp createKYCRecoveryRequestOp;
 //        }
 //        body;
 //    };
@@ -40099,6 +44095,7 @@ func (e MemoType) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range MemoTypeAll {
 			if (value & e) == value {
@@ -40370,7 +44367,11 @@ func NewTransactionExt(v LedgerVersion, value interface{}) (result TransactionEx
 
 // Transaction is an XDR Struct defines as:
 //
-//   struct Transaction
+//   //: Transaction is a container for a set of operations
+//    //:    - is executed by an account
+//    //:    - operations are executed in order as one ACID transaction
+//    //: (either all operations are applied or none are if any returns a failing code)
+//    struct Transaction
 //    {
 //        //: account used to run the transaction
 //        AccountID sourceAccount;
@@ -40560,6 +44561,7 @@ func (e OperationResultCode) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range OperationResultCodeAll {
 			if (value & e) == value {
@@ -40591,7 +44593,8 @@ func (e *OperationResultCode) UnmarshalJSON(data []byte) error {
 
 // AccountRuleRequirement is an XDR Struct defines as:
 //
-//   struct AccountRuleRequirement
+//   //: Defines requirements for tx or operation which were not fulfilled
+//    struct AccountRuleRequirement
 //    {
 //    	//: defines resources to which access was denied
 //        AccountRuleResource resource;
@@ -40667,12 +44670,12 @@ type AccountRuleRequirement struct {
 //            ManageContractResult manageContractResult;
 //        case CANCEL_SALE_REQUEST:
 //            CancelSaleCreationRequestResult cancelSaleCreationRequestResult;
-//        case CREATE_ASWAP_BID_REQUEST:
-//            CreateASwapBidCreationRequestResult createASwapBidCreationRequestResult;
-//        case CANCEL_ASWAP_BID:
-//            CancelASwapBidResult cancelASwapBidResult;
-//        case CREATE_ASWAP_REQUEST:
-//            CreateASwapRequestResult createASwapRequestResult;
+//        case CREATE_ATOMIC_SWAP_ASK_REQUEST:
+//            CreateAtomicSwapAskRequestResult createAtomicSwapAskRequestResult;
+//        case CANCEL_ATOMIC_SWAP_ASK:
+//            CancelAtomicSwapAskResult cancelAtomicSwapAskResult;
+//        case CREATE_ATOMIC_SWAP_BID_REQUEST:
+//            CreateAtomicSwapBidRequestResult createAtomicSwapBidRequestResult;
 //        case MANAGE_ACCOUNT_ROLE:
 //            ManageAccountRoleResult manageAccountRoleResult;
 //        case MANAGE_ACCOUNT_RULE:
@@ -40693,6 +44696,16 @@ type AccountRuleRequirement struct {
 //            ManageCreatePollRequestResult manageCreatePollRequestResult;
 //        case MANAGE_VOTE:
 //            ManageVoteResult manageVoteResult;
+//        case MANAGE_ACCOUNT_SPECIFIC_RULE:
+//            ManageAccountSpecificRuleResult manageAccountSpecificRuleResult;
+//        case CANCEL_CHANGE_ROLE_REQUEST:
+//            CancelChangeRoleRequestResult cancelChangeRoleRequestResult;
+//        case REMOVE_ASSET_PAIR:
+//            RemoveAssetPairResult removeAssetPairResult;
+//        case CREATE_KYC_RECOVERY_REQUEST:
+//            CreateKYCRecoveryRequestResult createKYCRecoveryRequestResult;
+//        case INITIATE_KYC_RECOVERY:
+//            InitiateKYCRecoveryResult initiateKYCRecoveryResult;
 //        }
 //
 type OperationResultTr struct {
@@ -40723,9 +44736,9 @@ type OperationResultTr struct {
 	ManageContractRequestResult                  *ManageContractRequestResult                  `json:"manageContractRequestResult,omitempty"`
 	ManageContractResult                         *ManageContractResult                         `json:"manageContractResult,omitempty"`
 	CancelSaleCreationRequestResult              *CancelSaleCreationRequestResult              `json:"cancelSaleCreationRequestResult,omitempty"`
-	CreateASwapBidCreationRequestResult          *CreateASwapBidCreationRequestResult          `json:"createASwapBidCreationRequestResult,omitempty"`
-	CancelASwapBidResult                         *CancelASwapBidResult                         `json:"cancelASwapBidResult,omitempty"`
-	CreateASwapRequestResult                     *CreateASwapRequestResult                     `json:"createASwapRequestResult,omitempty"`
+	CreateAtomicSwapAskRequestResult             *CreateAtomicSwapAskRequestResult             `json:"createAtomicSwapAskRequestResult,omitempty"`
+	CancelAtomicSwapAskResult                    *CancelAtomicSwapAskResult                    `json:"cancelAtomicSwapAskResult,omitempty"`
+	CreateAtomicSwapBidRequestResult             *CreateAtomicSwapBidRequestResult             `json:"createAtomicSwapBidRequestResult,omitempty"`
 	ManageAccountRoleResult                      *ManageAccountRoleResult                      `json:"manageAccountRoleResult,omitempty"`
 	ManageAccountRuleResult                      *ManageAccountRuleResult                      `json:"manageAccountRuleResult,omitempty"`
 	ManageSignerResult                           *ManageSignerResult                           `json:"manageSignerResult,omitempty"`
@@ -40736,6 +44749,11 @@ type OperationResultTr struct {
 	ManagePollResult                             *ManagePollResult                             `json:"managePollResult,omitempty"`
 	ManageCreatePollRequestResult                *ManageCreatePollRequestResult                `json:"manageCreatePollRequestResult,omitempty"`
 	ManageVoteResult                             *ManageVoteResult                             `json:"manageVoteResult,omitempty"`
+	ManageAccountSpecificRuleResult              *ManageAccountSpecificRuleResult              `json:"manageAccountSpecificRuleResult,omitempty"`
+	CancelChangeRoleRequestResult                *CancelChangeRoleRequestResult                `json:"cancelChangeRoleRequestResult,omitempty"`
+	RemoveAssetPairResult                        *RemoveAssetPairResult                        `json:"removeAssetPairResult,omitempty"`
+	CreateKycRecoveryRequestResult               *CreateKycRecoveryRequestResult               `json:"createKYCRecoveryRequestResult,omitempty"`
+	InitiateKycRecoveryResult                    *InitiateKycRecoveryResult                    `json:"initiateKYCRecoveryResult,omitempty"`
 }
 
 // SwitchFieldName returns the field name in which this union's
@@ -40800,12 +44818,12 @@ func (u OperationResultTr) ArmForSwitch(sw int32) (string, bool) {
 		return "ManageContractResult", true
 	case OperationTypeCancelSaleRequest:
 		return "CancelSaleCreationRequestResult", true
-	case OperationTypeCreateAswapBidRequest:
-		return "CreateASwapBidCreationRequestResult", true
-	case OperationTypeCancelAswapBid:
-		return "CancelASwapBidResult", true
-	case OperationTypeCreateAswapRequest:
-		return "CreateASwapRequestResult", true
+	case OperationTypeCreateAtomicSwapAskRequest:
+		return "CreateAtomicSwapAskRequestResult", true
+	case OperationTypeCancelAtomicSwapAsk:
+		return "CancelAtomicSwapAskResult", true
+	case OperationTypeCreateAtomicSwapBidRequest:
+		return "CreateAtomicSwapBidRequestResult", true
 	case OperationTypeManageAccountRole:
 		return "ManageAccountRoleResult", true
 	case OperationTypeManageAccountRule:
@@ -40826,6 +44844,16 @@ func (u OperationResultTr) ArmForSwitch(sw int32) (string, bool) {
 		return "ManageCreatePollRequestResult", true
 	case OperationTypeManageVote:
 		return "ManageVoteResult", true
+	case OperationTypeManageAccountSpecificRule:
+		return "ManageAccountSpecificRuleResult", true
+	case OperationTypeCancelChangeRoleRequest:
+		return "CancelChangeRoleRequestResult", true
+	case OperationTypeRemoveAssetPair:
+		return "RemoveAssetPairResult", true
+	case OperationTypeCreateKycRecoveryRequest:
+		return "CreateKycRecoveryRequestResult", true
+	case OperationTypeInitiateKycRecovery:
+		return "InitiateKycRecoveryResult", true
 	}
 	return "-", false
 }
@@ -41016,27 +45044,27 @@ func NewOperationResultTr(aType OperationType, value interface{}) (result Operat
 			return
 		}
 		result.CancelSaleCreationRequestResult = &tv
-	case OperationTypeCreateAswapBidRequest:
-		tv, ok := value.(CreateASwapBidCreationRequestResult)
+	case OperationTypeCreateAtomicSwapAskRequest:
+		tv, ok := value.(CreateAtomicSwapAskRequestResult)
 		if !ok {
-			err = fmt.Errorf("invalid value, must be CreateASwapBidCreationRequestResult")
+			err = fmt.Errorf("invalid value, must be CreateAtomicSwapAskRequestResult")
 			return
 		}
-		result.CreateASwapBidCreationRequestResult = &tv
-	case OperationTypeCancelAswapBid:
-		tv, ok := value.(CancelASwapBidResult)
+		result.CreateAtomicSwapAskRequestResult = &tv
+	case OperationTypeCancelAtomicSwapAsk:
+		tv, ok := value.(CancelAtomicSwapAskResult)
 		if !ok {
-			err = fmt.Errorf("invalid value, must be CancelASwapBidResult")
+			err = fmt.Errorf("invalid value, must be CancelAtomicSwapAskResult")
 			return
 		}
-		result.CancelASwapBidResult = &tv
-	case OperationTypeCreateAswapRequest:
-		tv, ok := value.(CreateASwapRequestResult)
+		result.CancelAtomicSwapAskResult = &tv
+	case OperationTypeCreateAtomicSwapBidRequest:
+		tv, ok := value.(CreateAtomicSwapBidRequestResult)
 		if !ok {
-			err = fmt.Errorf("invalid value, must be CreateASwapRequestResult")
+			err = fmt.Errorf("invalid value, must be CreateAtomicSwapBidRequestResult")
 			return
 		}
-		result.CreateASwapRequestResult = &tv
+		result.CreateAtomicSwapBidRequestResult = &tv
 	case OperationTypeManageAccountRole:
 		tv, ok := value.(ManageAccountRoleResult)
 		if !ok {
@@ -41107,6 +45135,41 @@ func NewOperationResultTr(aType OperationType, value interface{}) (result Operat
 			return
 		}
 		result.ManageVoteResult = &tv
+	case OperationTypeManageAccountSpecificRule:
+		tv, ok := value.(ManageAccountSpecificRuleResult)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be ManageAccountSpecificRuleResult")
+			return
+		}
+		result.ManageAccountSpecificRuleResult = &tv
+	case OperationTypeCancelChangeRoleRequest:
+		tv, ok := value.(CancelChangeRoleRequestResult)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be CancelChangeRoleRequestResult")
+			return
+		}
+		result.CancelChangeRoleRequestResult = &tv
+	case OperationTypeRemoveAssetPair:
+		tv, ok := value.(RemoveAssetPairResult)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be RemoveAssetPairResult")
+			return
+		}
+		result.RemoveAssetPairResult = &tv
+	case OperationTypeCreateKycRecoveryRequest:
+		tv, ok := value.(CreateKycRecoveryRequestResult)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be CreateKycRecoveryRequestResult")
+			return
+		}
+		result.CreateKycRecoveryRequestResult = &tv
+	case OperationTypeInitiateKycRecovery:
+		tv, ok := value.(InitiateKycRecoveryResult)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be InitiateKycRecoveryResult")
+			return
+		}
+		result.InitiateKycRecoveryResult = &tv
 	}
 	return
 }
@@ -41761,75 +45824,75 @@ func (u OperationResultTr) GetCancelSaleCreationRequestResult() (result CancelSa
 	return
 }
 
-// MustCreateASwapBidCreationRequestResult retrieves the CreateASwapBidCreationRequestResult value from the union,
+// MustCreateAtomicSwapAskRequestResult retrieves the CreateAtomicSwapAskRequestResult value from the union,
 // panicing if the value is not set.
-func (u OperationResultTr) MustCreateASwapBidCreationRequestResult() CreateASwapBidCreationRequestResult {
-	val, ok := u.GetCreateASwapBidCreationRequestResult()
+func (u OperationResultTr) MustCreateAtomicSwapAskRequestResult() CreateAtomicSwapAskRequestResult {
+	val, ok := u.GetCreateAtomicSwapAskRequestResult()
 
 	if !ok {
-		panic("arm CreateASwapBidCreationRequestResult is not set")
+		panic("arm CreateAtomicSwapAskRequestResult is not set")
 	}
 
 	return val
 }
 
-// GetCreateASwapBidCreationRequestResult retrieves the CreateASwapBidCreationRequestResult value from the union,
+// GetCreateAtomicSwapAskRequestResult retrieves the CreateAtomicSwapAskRequestResult value from the union,
 // returning ok if the union's switch indicated the value is valid.
-func (u OperationResultTr) GetCreateASwapBidCreationRequestResult() (result CreateASwapBidCreationRequestResult, ok bool) {
+func (u OperationResultTr) GetCreateAtomicSwapAskRequestResult() (result CreateAtomicSwapAskRequestResult, ok bool) {
 	armName, _ := u.ArmForSwitch(int32(u.Type))
 
-	if armName == "CreateASwapBidCreationRequestResult" {
-		result = *u.CreateASwapBidCreationRequestResult
+	if armName == "CreateAtomicSwapAskRequestResult" {
+		result = *u.CreateAtomicSwapAskRequestResult
 		ok = true
 	}
 
 	return
 }
 
-// MustCancelASwapBidResult retrieves the CancelASwapBidResult value from the union,
+// MustCancelAtomicSwapAskResult retrieves the CancelAtomicSwapAskResult value from the union,
 // panicing if the value is not set.
-func (u OperationResultTr) MustCancelASwapBidResult() CancelASwapBidResult {
-	val, ok := u.GetCancelASwapBidResult()
+func (u OperationResultTr) MustCancelAtomicSwapAskResult() CancelAtomicSwapAskResult {
+	val, ok := u.GetCancelAtomicSwapAskResult()
 
 	if !ok {
-		panic("arm CancelASwapBidResult is not set")
+		panic("arm CancelAtomicSwapAskResult is not set")
 	}
 
 	return val
 }
 
-// GetCancelASwapBidResult retrieves the CancelASwapBidResult value from the union,
+// GetCancelAtomicSwapAskResult retrieves the CancelAtomicSwapAskResult value from the union,
 // returning ok if the union's switch indicated the value is valid.
-func (u OperationResultTr) GetCancelASwapBidResult() (result CancelASwapBidResult, ok bool) {
+func (u OperationResultTr) GetCancelAtomicSwapAskResult() (result CancelAtomicSwapAskResult, ok bool) {
 	armName, _ := u.ArmForSwitch(int32(u.Type))
 
-	if armName == "CancelASwapBidResult" {
-		result = *u.CancelASwapBidResult
+	if armName == "CancelAtomicSwapAskResult" {
+		result = *u.CancelAtomicSwapAskResult
 		ok = true
 	}
 
 	return
 }
 
-// MustCreateASwapRequestResult retrieves the CreateASwapRequestResult value from the union,
+// MustCreateAtomicSwapBidRequestResult retrieves the CreateAtomicSwapBidRequestResult value from the union,
 // panicing if the value is not set.
-func (u OperationResultTr) MustCreateASwapRequestResult() CreateASwapRequestResult {
-	val, ok := u.GetCreateASwapRequestResult()
+func (u OperationResultTr) MustCreateAtomicSwapBidRequestResult() CreateAtomicSwapBidRequestResult {
+	val, ok := u.GetCreateAtomicSwapBidRequestResult()
 
 	if !ok {
-		panic("arm CreateASwapRequestResult is not set")
+		panic("arm CreateAtomicSwapBidRequestResult is not set")
 	}
 
 	return val
 }
 
-// GetCreateASwapRequestResult retrieves the CreateASwapRequestResult value from the union,
+// GetCreateAtomicSwapBidRequestResult retrieves the CreateAtomicSwapBidRequestResult value from the union,
 // returning ok if the union's switch indicated the value is valid.
-func (u OperationResultTr) GetCreateASwapRequestResult() (result CreateASwapRequestResult, ok bool) {
+func (u OperationResultTr) GetCreateAtomicSwapBidRequestResult() (result CreateAtomicSwapBidRequestResult, ok bool) {
 	armName, _ := u.ArmForSwitch(int32(u.Type))
 
-	if armName == "CreateASwapRequestResult" {
-		result = *u.CreateASwapRequestResult
+	if armName == "CreateAtomicSwapBidRequestResult" {
+		result = *u.CreateAtomicSwapBidRequestResult
 		ok = true
 	}
 
@@ -42086,6 +46149,131 @@ func (u OperationResultTr) GetManageVoteResult() (result ManageVoteResult, ok bo
 	return
 }
 
+// MustManageAccountSpecificRuleResult retrieves the ManageAccountSpecificRuleResult value from the union,
+// panicing if the value is not set.
+func (u OperationResultTr) MustManageAccountSpecificRuleResult() ManageAccountSpecificRuleResult {
+	val, ok := u.GetManageAccountSpecificRuleResult()
+
+	if !ok {
+		panic("arm ManageAccountSpecificRuleResult is not set")
+	}
+
+	return val
+}
+
+// GetManageAccountSpecificRuleResult retrieves the ManageAccountSpecificRuleResult value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u OperationResultTr) GetManageAccountSpecificRuleResult() (result ManageAccountSpecificRuleResult, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.Type))
+
+	if armName == "ManageAccountSpecificRuleResult" {
+		result = *u.ManageAccountSpecificRuleResult
+		ok = true
+	}
+
+	return
+}
+
+// MustCancelChangeRoleRequestResult retrieves the CancelChangeRoleRequestResult value from the union,
+// panicing if the value is not set.
+func (u OperationResultTr) MustCancelChangeRoleRequestResult() CancelChangeRoleRequestResult {
+	val, ok := u.GetCancelChangeRoleRequestResult()
+
+	if !ok {
+		panic("arm CancelChangeRoleRequestResult is not set")
+	}
+
+	return val
+}
+
+// GetCancelChangeRoleRequestResult retrieves the CancelChangeRoleRequestResult value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u OperationResultTr) GetCancelChangeRoleRequestResult() (result CancelChangeRoleRequestResult, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.Type))
+
+	if armName == "CancelChangeRoleRequestResult" {
+		result = *u.CancelChangeRoleRequestResult
+		ok = true
+	}
+
+	return
+}
+
+// MustRemoveAssetPairResult retrieves the RemoveAssetPairResult value from the union,
+// panicing if the value is not set.
+func (u OperationResultTr) MustRemoveAssetPairResult() RemoveAssetPairResult {
+	val, ok := u.GetRemoveAssetPairResult()
+
+	if !ok {
+		panic("arm RemoveAssetPairResult is not set")
+	}
+
+	return val
+}
+
+// GetRemoveAssetPairResult retrieves the RemoveAssetPairResult value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u OperationResultTr) GetRemoveAssetPairResult() (result RemoveAssetPairResult, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.Type))
+
+	if armName == "RemoveAssetPairResult" {
+		result = *u.RemoveAssetPairResult
+		ok = true
+	}
+
+	return
+}
+
+// MustCreateKycRecoveryRequestResult retrieves the CreateKycRecoveryRequestResult value from the union,
+// panicing if the value is not set.
+func (u OperationResultTr) MustCreateKycRecoveryRequestResult() CreateKycRecoveryRequestResult {
+	val, ok := u.GetCreateKycRecoveryRequestResult()
+
+	if !ok {
+		panic("arm CreateKycRecoveryRequestResult is not set")
+	}
+
+	return val
+}
+
+// GetCreateKycRecoveryRequestResult retrieves the CreateKycRecoveryRequestResult value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u OperationResultTr) GetCreateKycRecoveryRequestResult() (result CreateKycRecoveryRequestResult, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.Type))
+
+	if armName == "CreateKycRecoveryRequestResult" {
+		result = *u.CreateKycRecoveryRequestResult
+		ok = true
+	}
+
+	return
+}
+
+// MustInitiateKycRecoveryResult retrieves the InitiateKycRecoveryResult value from the union,
+// panicing if the value is not set.
+func (u OperationResultTr) MustInitiateKycRecoveryResult() InitiateKycRecoveryResult {
+	val, ok := u.GetInitiateKycRecoveryResult()
+
+	if !ok {
+		panic("arm InitiateKycRecoveryResult is not set")
+	}
+
+	return val
+}
+
+// GetInitiateKycRecoveryResult retrieves the InitiateKycRecoveryResult value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u OperationResultTr) GetInitiateKycRecoveryResult() (result InitiateKycRecoveryResult, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.Type))
+
+	if armName == "InitiateKycRecoveryResult" {
+		result = *u.InitiateKycRecoveryResult
+		ok = true
+	}
+
+	return
+}
+
 // OperationResult is an XDR Union defines as:
 //
 //   union OperationResult switch (OperationResultCode code)
@@ -42145,12 +46333,12 @@ func (u OperationResultTr) GetManageVoteResult() (result ManageVoteResult, ok bo
 //            ManageContractResult manageContractResult;
 //        case CANCEL_SALE_REQUEST:
 //            CancelSaleCreationRequestResult cancelSaleCreationRequestResult;
-//        case CREATE_ASWAP_BID_REQUEST:
-//            CreateASwapBidCreationRequestResult createASwapBidCreationRequestResult;
-//        case CANCEL_ASWAP_BID:
-//            CancelASwapBidResult cancelASwapBidResult;
-//        case CREATE_ASWAP_REQUEST:
-//            CreateASwapRequestResult createASwapRequestResult;
+//        case CREATE_ATOMIC_SWAP_ASK_REQUEST:
+//            CreateAtomicSwapAskRequestResult createAtomicSwapAskRequestResult;
+//        case CANCEL_ATOMIC_SWAP_ASK:
+//            CancelAtomicSwapAskResult cancelAtomicSwapAskResult;
+//        case CREATE_ATOMIC_SWAP_BID_REQUEST:
+//            CreateAtomicSwapBidRequestResult createAtomicSwapBidRequestResult;
 //        case MANAGE_ACCOUNT_ROLE:
 //            ManageAccountRoleResult manageAccountRoleResult;
 //        case MANAGE_ACCOUNT_RULE:
@@ -42171,6 +46359,16 @@ func (u OperationResultTr) GetManageVoteResult() (result ManageVoteResult, ok bo
 //            ManageCreatePollRequestResult manageCreatePollRequestResult;
 //        case MANAGE_VOTE:
 //            ManageVoteResult manageVoteResult;
+//        case MANAGE_ACCOUNT_SPECIFIC_RULE:
+//            ManageAccountSpecificRuleResult manageAccountSpecificRuleResult;
+//        case CANCEL_CHANGE_ROLE_REQUEST:
+//            CancelChangeRoleRequestResult cancelChangeRoleRequestResult;
+//        case REMOVE_ASSET_PAIR:
+//            RemoveAssetPairResult removeAssetPairResult;
+//        case CREATE_KYC_RECOVERY_REQUEST:
+//            CreateKYCRecoveryRequestResult createKYCRecoveryRequestResult;
+//        case INITIATE_KYC_RECOVERY:
+//            InitiateKYCRecoveryResult initiateKYCRecoveryResult;
 //        }
 //        tr;
 //    case opNO_ENTRY:
@@ -42469,6 +46667,7 @@ func (e TransactionResultCode) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range TransactionResultCodeAll {
 			if (value & e) == value {
@@ -42752,36 +46951,127 @@ type TransactionResult struct {
 
 // LedgerVersion is an XDR Enum defines as:
 //
-//   enum LedgerVersion {
-//    	EMPTY_VERSION = 0,
-//    	CHECK_SET_FEE_ACCOUNT_EXISTING = 1
+//   enum LedgerVersion
+//    {
+//        EMPTY_VERSION = 0,
+//        CHECK_SET_FEE_ACCOUNT_EXISTING = 1,
+//        FIX_PAYMENT_STATS = 2,
+//        ADD_INVEST_FEE = 3,
+//        ADD_SALE_WHITELISTS = 4,
+//        ASSET_PAIR_RESTRICTIONS = 5,
+//        FIX_CHANGE_TO_NON_EXISTING_ROLE = 6,
+//        FIX_REVERSE_SALE_PAIR = 7,
+//        FIX_NOT_CHECKING_SET_TASKS_PERMISSIONS = 8,
+//        UNLIMITED_ADMIN_COUNT = 9,
+//        FIX_AML_ALERT_ERROR_CODES = 10,
+//        FIX_EXT_SYS_ACC_EXPIRATION_TIME = 11,
+//        FIX_CHANGE_ROLE_REJECT_TASKS = 12,
+//        FIX_SAME_ASSET_PAIR = 13,
+//        ATOMIC_SWAP_RETURNING = 14,
+//        FIX_INVEST_FEE = 15,
+//        ADD_ACC_SPECIFIC_RULE_RESOURCE = 16
 //    };
 //
 type LedgerVersion int32
 
 const (
-	LedgerVersionEmptyVersion               LedgerVersion = 0
-	LedgerVersionCheckSetFeeAccountExisting LedgerVersion = 1
+	LedgerVersionEmptyVersion                      LedgerVersion = 0
+	LedgerVersionCheckSetFeeAccountExisting        LedgerVersion = 1
+	LedgerVersionFixPaymentStats                   LedgerVersion = 2
+	LedgerVersionAddInvestFee                      LedgerVersion = 3
+	LedgerVersionAddSaleWhitelists                 LedgerVersion = 4
+	LedgerVersionAssetPairRestrictions             LedgerVersion = 5
+	LedgerVersionFixChangeToNonExistingRole        LedgerVersion = 6
+	LedgerVersionFixReverseSalePair                LedgerVersion = 7
+	LedgerVersionFixNotCheckingSetTasksPermissions LedgerVersion = 8
+	LedgerVersionUnlimitedAdminCount               LedgerVersion = 9
+	LedgerVersionFixAmlAlertErrorCodes             LedgerVersion = 10
+	LedgerVersionFixExtSysAccExpirationTime        LedgerVersion = 11
+	LedgerVersionFixChangeRoleRejectTasks          LedgerVersion = 12
+	LedgerVersionFixSameAssetPair                  LedgerVersion = 13
+	LedgerVersionAtomicSwapReturning               LedgerVersion = 14
+	LedgerVersionFixInvestFee                      LedgerVersion = 15
+	LedgerVersionAddAccSpecificRuleResource        LedgerVersion = 16
 )
 
 var LedgerVersionAll = []LedgerVersion{
 	LedgerVersionEmptyVersion,
 	LedgerVersionCheckSetFeeAccountExisting,
+	LedgerVersionFixPaymentStats,
+	LedgerVersionAddInvestFee,
+	LedgerVersionAddSaleWhitelists,
+	LedgerVersionAssetPairRestrictions,
+	LedgerVersionFixChangeToNonExistingRole,
+	LedgerVersionFixReverseSalePair,
+	LedgerVersionFixNotCheckingSetTasksPermissions,
+	LedgerVersionUnlimitedAdminCount,
+	LedgerVersionFixAmlAlertErrorCodes,
+	LedgerVersionFixExtSysAccExpirationTime,
+	LedgerVersionFixChangeRoleRejectTasks,
+	LedgerVersionFixSameAssetPair,
+	LedgerVersionAtomicSwapReturning,
+	LedgerVersionFixInvestFee,
+	LedgerVersionAddAccSpecificRuleResource,
 }
 
 var ledgerVersionMap = map[int32]string{
-	0: "LedgerVersionEmptyVersion",
-	1: "LedgerVersionCheckSetFeeAccountExisting",
+	0:  "LedgerVersionEmptyVersion",
+	1:  "LedgerVersionCheckSetFeeAccountExisting",
+	2:  "LedgerVersionFixPaymentStats",
+	3:  "LedgerVersionAddInvestFee",
+	4:  "LedgerVersionAddSaleWhitelists",
+	5:  "LedgerVersionAssetPairRestrictions",
+	6:  "LedgerVersionFixChangeToNonExistingRole",
+	7:  "LedgerVersionFixReverseSalePair",
+	8:  "LedgerVersionFixNotCheckingSetTasksPermissions",
+	9:  "LedgerVersionUnlimitedAdminCount",
+	10: "LedgerVersionFixAmlAlertErrorCodes",
+	11: "LedgerVersionFixExtSysAccExpirationTime",
+	12: "LedgerVersionFixChangeRoleRejectTasks",
+	13: "LedgerVersionFixSameAssetPair",
+	14: "LedgerVersionAtomicSwapReturning",
+	15: "LedgerVersionFixInvestFee",
+	16: "LedgerVersionAddAccSpecificRuleResource",
 }
 
 var ledgerVersionShortMap = map[int32]string{
-	0: "empty_version",
-	1: "check_set_fee_account_existing",
+	0:  "empty_version",
+	1:  "check_set_fee_account_existing",
+	2:  "fix_payment_stats",
+	3:  "add_invest_fee",
+	4:  "add_sale_whitelists",
+	5:  "asset_pair_restrictions",
+	6:  "fix_change_to_non_existing_role",
+	7:  "fix_reverse_sale_pair",
+	8:  "fix_not_checking_set_tasks_permissions",
+	9:  "unlimited_admin_count",
+	10: "fix_aml_alert_error_codes",
+	11: "fix_ext_sys_acc_expiration_time",
+	12: "fix_change_role_reject_tasks",
+	13: "fix_same_asset_pair",
+	14: "atomic_swap_returning",
+	15: "fix_invest_fee",
+	16: "add_acc_specific_rule_resource",
 }
 
 var ledgerVersionRevMap = map[string]int32{
-	"LedgerVersionEmptyVersion":               0,
-	"LedgerVersionCheckSetFeeAccountExisting": 1,
+	"LedgerVersionEmptyVersion":                      0,
+	"LedgerVersionCheckSetFeeAccountExisting":        1,
+	"LedgerVersionFixPaymentStats":                   2,
+	"LedgerVersionAddInvestFee":                      3,
+	"LedgerVersionAddSaleWhitelists":                 4,
+	"LedgerVersionAssetPairRestrictions":             5,
+	"LedgerVersionFixChangeToNonExistingRole":        6,
+	"LedgerVersionFixReverseSalePair":                7,
+	"LedgerVersionFixNotCheckingSetTasksPermissions": 8,
+	"LedgerVersionUnlimitedAdminCount":               9,
+	"LedgerVersionFixAmlAlertErrorCodes":             10,
+	"LedgerVersionFixExtSysAccExpirationTime":        11,
+	"LedgerVersionFixChangeRoleRejectTasks":          12,
+	"LedgerVersionFixSameAssetPair":                  13,
+	"LedgerVersionAtomicSwapReturning":               14,
+	"LedgerVersionFixInvestFee":                      15,
+	"LedgerVersionAddAccSpecificRuleResource":        16,
 }
 
 // ValidEnum validates a proposed value for this enum.  Implements
@@ -42816,6 +47106,7 @@ func (e LedgerVersion) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range LedgerVersionAll {
 			if (value & e) == value {
@@ -42980,6 +47271,7 @@ func (e CryptoKeyType) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range CryptoKeyTypeAll {
 			if (value & e) == value {
@@ -43070,6 +47362,7 @@ func (e PublicKeyType) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range PublicKeyTypeAll {
 			if (value & e) == value {
@@ -43197,14 +47490,16 @@ func (u PublicKey) GetEd25519() (result Uint256, ok bool) {
 //        CONTRACT = 25,
 //        ACCOUNT_ROLE = 26,
 //        ACCOUNT_RULE = 27,
-//        ATOMIC_SWAP_BID = 28,
+//        ATOMIC_SWAP_ASK = 28,
 //        TRANSACTION = 29, // is used for account rule resource
 //        SIGNER_RULE = 30,
 //        SIGNER_ROLE = 31,
 //        STAMP = 32,
 //        LICENSE = 33,
 //        POLL = 34,
-//        VOTE = 35
+//        VOTE = 35,
+//        ACCOUNT_SPECIFIC_RULE = 36,
+//        INITIATE_KYC_RECOVERY = 37
 //    };
 //
 type LedgerEntryType int32
@@ -43235,7 +47530,7 @@ const (
 	LedgerEntryTypeContract                         LedgerEntryType = 25
 	LedgerEntryTypeAccountRole                      LedgerEntryType = 26
 	LedgerEntryTypeAccountRule                      LedgerEntryType = 27
-	LedgerEntryTypeAtomicSwapBid                    LedgerEntryType = 28
+	LedgerEntryTypeAtomicSwapAsk                    LedgerEntryType = 28
 	LedgerEntryTypeTransaction                      LedgerEntryType = 29
 	LedgerEntryTypeSignerRule                       LedgerEntryType = 30
 	LedgerEntryTypeSignerRole                       LedgerEntryType = 31
@@ -43243,6 +47538,8 @@ const (
 	LedgerEntryTypeLicense                          LedgerEntryType = 33
 	LedgerEntryTypePoll                             LedgerEntryType = 34
 	LedgerEntryTypeVote                             LedgerEntryType = 35
+	LedgerEntryTypeAccountSpecificRule              LedgerEntryType = 36
+	LedgerEntryTypeInitiateKycRecovery              LedgerEntryType = 37
 )
 
 var LedgerEntryTypeAll = []LedgerEntryType{
@@ -43271,7 +47568,7 @@ var LedgerEntryTypeAll = []LedgerEntryType{
 	LedgerEntryTypeContract,
 	LedgerEntryTypeAccountRole,
 	LedgerEntryTypeAccountRule,
-	LedgerEntryTypeAtomicSwapBid,
+	LedgerEntryTypeAtomicSwapAsk,
 	LedgerEntryTypeTransaction,
 	LedgerEntryTypeSignerRule,
 	LedgerEntryTypeSignerRole,
@@ -43279,6 +47576,8 @@ var LedgerEntryTypeAll = []LedgerEntryType{
 	LedgerEntryTypeLicense,
 	LedgerEntryTypePoll,
 	LedgerEntryTypeVote,
+	LedgerEntryTypeAccountSpecificRule,
+	LedgerEntryTypeInitiateKycRecovery,
 }
 
 var ledgerEntryTypeMap = map[int32]string{
@@ -43307,7 +47606,7 @@ var ledgerEntryTypeMap = map[int32]string{
 	25: "LedgerEntryTypeContract",
 	26: "LedgerEntryTypeAccountRole",
 	27: "LedgerEntryTypeAccountRule",
-	28: "LedgerEntryTypeAtomicSwapBid",
+	28: "LedgerEntryTypeAtomicSwapAsk",
 	29: "LedgerEntryTypeTransaction",
 	30: "LedgerEntryTypeSignerRule",
 	31: "LedgerEntryTypeSignerRole",
@@ -43315,6 +47614,8 @@ var ledgerEntryTypeMap = map[int32]string{
 	33: "LedgerEntryTypeLicense",
 	34: "LedgerEntryTypePoll",
 	35: "LedgerEntryTypeVote",
+	36: "LedgerEntryTypeAccountSpecificRule",
+	37: "LedgerEntryTypeInitiateKycRecovery",
 }
 
 var ledgerEntryTypeShortMap = map[int32]string{
@@ -43343,7 +47644,7 @@ var ledgerEntryTypeShortMap = map[int32]string{
 	25: "contract",
 	26: "account_role",
 	27: "account_rule",
-	28: "atomic_swap_bid",
+	28: "atomic_swap_ask",
 	29: "transaction",
 	30: "signer_rule",
 	31: "signer_role",
@@ -43351,6 +47652,8 @@ var ledgerEntryTypeShortMap = map[int32]string{
 	33: "license",
 	34: "poll",
 	35: "vote",
+	36: "account_specific_rule",
+	37: "initiate_kyc_recovery",
 }
 
 var ledgerEntryTypeRevMap = map[string]int32{
@@ -43379,7 +47682,7 @@ var ledgerEntryTypeRevMap = map[string]int32{
 	"LedgerEntryTypeContract":                         25,
 	"LedgerEntryTypeAccountRole":                      26,
 	"LedgerEntryTypeAccountRule":                      27,
-	"LedgerEntryTypeAtomicSwapBid":                    28,
+	"LedgerEntryTypeAtomicSwapAsk":                    28,
 	"LedgerEntryTypeTransaction":                      29,
 	"LedgerEntryTypeSignerRule":                       30,
 	"LedgerEntryTypeSignerRole":                       31,
@@ -43387,6 +47690,8 @@ var ledgerEntryTypeRevMap = map[string]int32{
 	"LedgerEntryTypeLicense":                          33,
 	"LedgerEntryTypePoll":                             34,
 	"LedgerEntryTypeVote":                             35,
+	"LedgerEntryTypeAccountSpecificRule":              36,
+	"LedgerEntryTypeInitiateKycRecovery":              37,
 }
 
 // ValidEnum validates a proposed value for this enum.  Implements
@@ -43421,6 +47726,7 @@ func (e LedgerEntryType) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range LedgerEntryTypeAll {
 			if (value & e) == value {
@@ -43725,7 +48031,8 @@ func NewFeeExt(v LedgerVersion, value interface{}) (result FeeExt, err error) {
 
 // Fee is an XDR Struct defines as:
 //
-//   struct Fee {
+//   //: `Fee` is used to unite fixed and percent fee amounts
+//    struct Fee {
 //        //: Fixed amount to pay for the operation
 //    	uint64 fixed;
 //    	//: Part of the managed amount in percents
@@ -43778,9 +48085,9 @@ type Fee struct {
 //        PAYOUT = 32,
 //        MANAGE_ACCOUNT_ROLE = 33,
 //        MANAGE_ACCOUNT_RULE = 34,
-//        CREATE_ASWAP_BID_REQUEST = 35,
-//        CANCEL_ASWAP_BID = 36,
-//        CREATE_ASWAP_REQUEST = 37,
+//        CREATE_ATOMIC_SWAP_ASK_REQUEST = 35,
+//        CANCEL_ATOMIC_SWAP_ASK = 36,
+//        CREATE_ATOMIC_SWAP_BID_REQUEST = 37,
 //        MANAGE_SIGNER = 38,
 //        MANAGE_SIGNER_ROLE = 39,
 //        MANAGE_SIGNER_RULE = 40,
@@ -43788,7 +48095,12 @@ type Fee struct {
 //        LICENSE = 42,
 //        MANAGE_CREATE_POLL_REQUEST = 43,
 //        MANAGE_POLL = 44,
-//        MANAGE_VOTE = 45
+//        MANAGE_VOTE = 45,
+//        MANAGE_ACCOUNT_SPECIFIC_RULE = 46,
+//        CANCEL_CHANGE_ROLE_REQUEST = 47,
+//        INITIATE_KYC_RECOVERY = 48,
+//        CREATE_KYC_RECOVERY_REQUEST = 49,
+//        REMOVE_ASSET_PAIR = 50
 //    };
 //
 type OperationType int32
@@ -43822,9 +48134,9 @@ const (
 	OperationTypePayout                                 OperationType = 32
 	OperationTypeManageAccountRole                      OperationType = 33
 	OperationTypeManageAccountRule                      OperationType = 34
-	OperationTypeCreateAswapBidRequest                  OperationType = 35
-	OperationTypeCancelAswapBid                         OperationType = 36
-	OperationTypeCreateAswapRequest                     OperationType = 37
+	OperationTypeCreateAtomicSwapAskRequest             OperationType = 35
+	OperationTypeCancelAtomicSwapAsk                    OperationType = 36
+	OperationTypeCreateAtomicSwapBidRequest             OperationType = 37
 	OperationTypeManageSigner                           OperationType = 38
 	OperationTypeManageSignerRole                       OperationType = 39
 	OperationTypeManageSignerRule                       OperationType = 40
@@ -43833,6 +48145,11 @@ const (
 	OperationTypeManageCreatePollRequest                OperationType = 43
 	OperationTypeManagePoll                             OperationType = 44
 	OperationTypeManageVote                             OperationType = 45
+	OperationTypeManageAccountSpecificRule              OperationType = 46
+	OperationTypeCancelChangeRoleRequest                OperationType = 47
+	OperationTypeInitiateKycRecovery                    OperationType = 48
+	OperationTypeCreateKycRecoveryRequest               OperationType = 49
+	OperationTypeRemoveAssetPair                        OperationType = 50
 )
 
 var OperationTypeAll = []OperationType{
@@ -43864,9 +48181,9 @@ var OperationTypeAll = []OperationType{
 	OperationTypePayout,
 	OperationTypeManageAccountRole,
 	OperationTypeManageAccountRule,
-	OperationTypeCreateAswapBidRequest,
-	OperationTypeCancelAswapBid,
-	OperationTypeCreateAswapRequest,
+	OperationTypeCreateAtomicSwapAskRequest,
+	OperationTypeCancelAtomicSwapAsk,
+	OperationTypeCreateAtomicSwapBidRequest,
 	OperationTypeManageSigner,
 	OperationTypeManageSignerRole,
 	OperationTypeManageSignerRule,
@@ -43875,6 +48192,11 @@ var OperationTypeAll = []OperationType{
 	OperationTypeManageCreatePollRequest,
 	OperationTypeManagePoll,
 	OperationTypeManageVote,
+	OperationTypeManageAccountSpecificRule,
+	OperationTypeCancelChangeRoleRequest,
+	OperationTypeInitiateKycRecovery,
+	OperationTypeCreateKycRecoveryRequest,
+	OperationTypeRemoveAssetPair,
 }
 
 var operationTypeMap = map[int32]string{
@@ -43906,9 +48228,9 @@ var operationTypeMap = map[int32]string{
 	32: "OperationTypePayout",
 	33: "OperationTypeManageAccountRole",
 	34: "OperationTypeManageAccountRule",
-	35: "OperationTypeCreateAswapBidRequest",
-	36: "OperationTypeCancelAswapBid",
-	37: "OperationTypeCreateAswapRequest",
+	35: "OperationTypeCreateAtomicSwapAskRequest",
+	36: "OperationTypeCancelAtomicSwapAsk",
+	37: "OperationTypeCreateAtomicSwapBidRequest",
 	38: "OperationTypeManageSigner",
 	39: "OperationTypeManageSignerRole",
 	40: "OperationTypeManageSignerRule",
@@ -43917,6 +48239,11 @@ var operationTypeMap = map[int32]string{
 	43: "OperationTypeManageCreatePollRequest",
 	44: "OperationTypeManagePoll",
 	45: "OperationTypeManageVote",
+	46: "OperationTypeManageAccountSpecificRule",
+	47: "OperationTypeCancelChangeRoleRequest",
+	48: "OperationTypeInitiateKycRecovery",
+	49: "OperationTypeCreateKycRecoveryRequest",
+	50: "OperationTypeRemoveAssetPair",
 }
 
 var operationTypeShortMap = map[int32]string{
@@ -43948,9 +48275,9 @@ var operationTypeShortMap = map[int32]string{
 	32: "payout",
 	33: "manage_account_role",
 	34: "manage_account_rule",
-	35: "create_aswap_bid_request",
-	36: "cancel_aswap_bid",
-	37: "create_aswap_request",
+	35: "create_atomic_swap_ask_request",
+	36: "cancel_atomic_swap_ask",
+	37: "create_atomic_swap_bid_request",
 	38: "manage_signer",
 	39: "manage_signer_role",
 	40: "manage_signer_rule",
@@ -43959,6 +48286,11 @@ var operationTypeShortMap = map[int32]string{
 	43: "manage_create_poll_request",
 	44: "manage_poll",
 	45: "manage_vote",
+	46: "manage_account_specific_rule",
+	47: "cancel_change_role_request",
+	48: "initiate_kyc_recovery",
+	49: "create_kyc_recovery_request",
+	50: "remove_asset_pair",
 }
 
 var operationTypeRevMap = map[string]int32{
@@ -43990,9 +48322,9 @@ var operationTypeRevMap = map[string]int32{
 	"OperationTypePayout":                                 32,
 	"OperationTypeManageAccountRole":                      33,
 	"OperationTypeManageAccountRule":                      34,
-	"OperationTypeCreateAswapBidRequest":                  35,
-	"OperationTypeCancelAswapBid":                         36,
-	"OperationTypeCreateAswapRequest":                     37,
+	"OperationTypeCreateAtomicSwapAskRequest":             35,
+	"OperationTypeCancelAtomicSwapAsk":                    36,
+	"OperationTypeCreateAtomicSwapBidRequest":             37,
 	"OperationTypeManageSigner":                           38,
 	"OperationTypeManageSignerRole":                       39,
 	"OperationTypeManageSignerRule":                       40,
@@ -44001,6 +48333,11 @@ var operationTypeRevMap = map[string]int32{
 	"OperationTypeManageCreatePollRequest":                43,
 	"OperationTypeManagePoll":                             44,
 	"OperationTypeManageVote":                             45,
+	"OperationTypeManageAccountSpecificRule":              46,
+	"OperationTypeCancelChangeRoleRequest":                47,
+	"OperationTypeInitiateKycRecovery":                    48,
+	"OperationTypeCreateKycRecoveryRequest":               49,
+	"OperationTypeRemoveAssetPair":                        50,
 }
 
 // ValidEnum validates a proposed value for this enum.  Implements
@@ -44035,6 +48372,7 @@ func (e OperationType) MarshalJSON() ([]byte, error) {
 		// marshal as mask
 		result := flag{
 			Value: int32(e),
+			Flags: make([]flagValue, 0),
 		}
 		for _, value := range OperationTypeAll {
 			if (value & e) == value {
@@ -44078,4 +48416,4 @@ type DecoratedSignature struct {
 }
 
 var fmtTest = fmt.Sprint("this is a dummy usage of fmt")
-var Revision = "91680467ba4dcc7e1f66a1e33b760283407b212a"
+var Revision = "744e82c8f3e8226b222b1af3a45aaaeebd345216"

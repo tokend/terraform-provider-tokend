@@ -187,7 +187,11 @@ func requestTargetLine(req *http.Request) string {
 		url = req.URL.RequestURI()
 	}
 
-	return fmt.Sprintf("%s: %s %s", RequestTarget, strings.ToLower(req.Method), url)
+	return fmt.Sprintf("%s: %s", RequestTarget, RequestTargetValue(strings.ToLower(req.Method), url))
+}
+
+func RequestTargetValue(method, url string) string {
+	return fmt.Sprintf("%s %s", strings.ToLower(method), url)
 }
 
 func headerLine(req *http.Request, header string) (string, error) {
