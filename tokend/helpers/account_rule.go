@@ -21,6 +21,7 @@ var AccountEntries = map[string]AccountEntryFunc{
 	"asset":              accountRuleResourceAsset,
 	"external_system_account_id_pool_entry": accountRuleResourceExternalSystemAccountIdPool,
 	"vote": accountRuleResourceVote,
+	"poll": accountRuleResourcePoll,
 }
 
 func AccountRuleEntry(d *schema.ResourceData) (*xdr.AccountRuleResource, error) {
@@ -161,6 +162,28 @@ func accountRuleResourceVote(d *schema.ResourceData) (*xdr.AccountRuleResource, 
 	}
 
 	resource.Vote = &xdr.AccountRuleResourceVote{
+		PollId:         xdr.Uint64(pollID),
+		PermissionType: xdr.Uint32(permissionType),
+	}
+	return &resource, nil
+}
+
+func accountRuleResourcePoll(d *schema.ResourceData) (*xdr.AccountRuleResource, error) {
+	var resource xdr.AccountRuleResource
+	resource.Type = xdr.LedgerEntryTypePoll
+	entry := d.Get("entry").(map[string]interface{})
+	pollIDRaw := entry["poll_id"].(string)
+	permissionTypeRaw := entry["permission_type"].(string)
+	pollID, err := WildCardUintFromRaw(pollIDRaw)
+	if err != nil {
+		return nil, errors.Wrap(err, "failed to cast poll_id")
+	}
+	permissionType, err := WildCardUintFromRaw(permissionTypeRaw)
+	if err != nil {
+		return nil, errors.Wrap(err, "failed to cast permission_type")
+	}
+
+	resource.Poll = &xdr.AccountRuleResourcePoll{
 		PollId:         xdr.Uint64(pollID),
 		PermissionType: xdr.Uint32(permissionType),
 	}
