@@ -22,6 +22,7 @@ var AccountEntries = map[string]AccountEntryFunc{
 	"external_system_account_id_pool_entry": accountRuleResourceExternalSystemAccountIdPool,
 	"vote": accountRuleResourceVote,
 	"poll": accountRuleResourcePoll,
+	"atomic_swap_ask": accountRuleResourceAtomicSwapAsk,
 }
 
 func AccountRuleEntry(d *schema.ResourceData) (*xdr.AccountRuleResource, error) {
@@ -186,6 +187,24 @@ func accountRuleResourcePoll(d *schema.ResourceData) (*xdr.AccountRuleResource, 
 	resource.Poll = &xdr.AccountRuleResourcePoll{
 		PollId:         xdr.Uint64(pollID),
 		PermissionType: xdr.Uint32(permissionType),
+	}
+	return &resource, nil
+}
+
+func accountRuleResourceAtomicSwapAsk(d *schema.ResourceData) (*xdr.AccountRuleResource, error) {
+	var resource xdr.AccountRuleResource
+	resource.Type = xdr.LedgerEntryTypeAtomicSwapAsk
+	entry := d.Get("entry").(map[string]interface{})
+	assetCode := entry["asset_code"].(string)
+	assetTypeRaw := entry["asset_type"].(string)
+	assetType, err := WildCardUintFromRaw(assetTypeRaw)
+	if err != nil {
+		return nil, errors.Wrap(err, "failed to cast asset_type")
+	}
+
+	resource.AtomicSwapAsk = &xdr.AccountRuleResourceAtomicSwapAsk{
+		AssetCode: xdr.AssetCode(assetCode),
+		AssetType: xdr.Uint64(assetType),
 	}
 	return &resource, nil
 }
