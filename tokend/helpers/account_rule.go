@@ -20,8 +20,8 @@ var AccountEntries = map[string]AccountEntryFunc{
 	"sale":               accountRuleResourceSale,
 	"asset":              accountRuleResourceAsset,
 	"external_system_account_id_pool_entry": accountRuleResourceExternalSystemAccountIdPool,
-	"vote": accountRuleResourceVote,
-	"poll": accountRuleResourcePoll,
+	"vote":            accountRuleResourceVote,
+	"poll":            accountRuleResourcePoll,
 	"atomic_swap_ask": accountRuleResourceAtomicSwapAsk,
 }
 
@@ -67,12 +67,26 @@ func accountRuleResourceBalance(_ *schema.ResourceData) (*xdr.AccountRuleResourc
 	}, nil
 }
 
-func accountRuleResourceReviewableRequest(_ *schema.ResourceData) (*xdr.AccountRuleResource, error) {
+func accountRuleResourceReviewableRequest(d *schema.ResourceData) (*xdr.AccountRuleResource, error) {
+	requestTypeRaw := d.Get("entry.request_type").(string)
+	var requestType xdr.ReviewableRequestType
+	if requestTypeRaw == "*" {
+		requestType = xdr.ReviewableRequestTypeAny
+	} else {
+		for _, guess := range xdr.ReviewableRequestTypeAll {
+			if guess.ShortString() == requestTypeRaw {
+				requestType = guess
+			}
+		}
+		if requestType == 0 {
+			return nil, fmt.Errorf("unknown request type: %s", requestTypeRaw)
+		}
+	}
 	return &xdr.AccountRuleResource{
 		Type: xdr.LedgerEntryTypeReviewableRequest,
 		ReviewableRequest: &xdr.AccountRuleResourceReviewableRequest{
 			Details: xdr.ReviewableRequestResource{
-				RequestType: xdr.ReviewableRequestTypeAny, // TODO
+				RequestType: requestType,
 				Ext:         &xdr.EmptyExt{},
 			},
 		},
