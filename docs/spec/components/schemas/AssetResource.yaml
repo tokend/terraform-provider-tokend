@@ -1,0 +1,26 @@
+type: object
+properties:
+  code:
+    type: string
+    description: Code of an asset to create
+  max_issuance_amount:
+    type: string
+    description: Maximal amount to be issued
+  initial_pre_issuance_amount:
+    type: string
+    description: Amount to pre issue on asset creation
+  pre_issuance_signer:
+    type: string
+    description: Public key of a signer that will perform pre issuance
+  trailing_digits_count:
+    type: integer
+    description: Number of significant decimal places
+  details:
+    type: object
+    properties:
+      name:
+        type: string
+  policies:
+    type: array
+    items:
+      type: string

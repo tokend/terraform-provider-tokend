@@ -1,0 +1,17 @@
+get:
+  x-item-type: resource
+  tags:
+    - Asset
+  summary: Asset
+  description: |
+    Operation docs - [Assets](https://tokend.github.io/xdr/#tag/Assets)
+  operationId: asset
+  parameters:
+    - name: Asset
+      in: query
+      required: false
+      style: form
+      explode: true
+      schema:
+        type: object
+        $ref: '#/components/schemas/AssetResource'

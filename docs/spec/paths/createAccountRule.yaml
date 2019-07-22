@@ -1,0 +1,30 @@
+get:
+  x-item-type: resource
+  tags:
+    - Account Rule
+  summary: Account Rule
+  description: >
+    Operation docs - [Account
+    Rules](https://tokend.github.io/xdr/#tag/Account-Rules)
+  operationId: accountRule
+  parameters:
+    - name: AccountRule
+      in: query
+      required: false
+      style: form
+      explode: true
+      schema:
+        type: object
+        oneOf:
+          - $ref: '#/components/schemas/AccountRuleEntryTypeAsset'
+          - $ref: '#/components/schemas/AccountRuleEntryTypeAtomicSwapAsk'
+          - $ref: '#/components/schemas/AccountRuleEntryTypeBalance'
+          - $ref: '#/components/schemas/AccountRuleEntryTypeSigner'
+          - $ref: '#/components/schemas/AccountRuleEntryTypeTransaction'
+          - $ref: '#/components/schemas/AccountRuleEntryTypeVote'
+          - $ref: '#/components/schemas/AccountRuleEntryTypePoll'
+          - $ref: '#/components/schemas/AccountRuleEntryTypeReviewableRequest'
+          - $ref: '#/components/schemas/AccountRuleEntryTypeOffer'
+          - $ref: '#/components/schemas/AccountRuleEntryTypeSale'
+          - $ref: >-
+              #/components/schemas/AccountRuleEntryTypeExternalSystemAccountIDPool

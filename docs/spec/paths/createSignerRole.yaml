@@ -1,0 +1,29 @@
+get:
+  x-item-type: resource
+  tags:
+    - Signer Role
+  summary: Signer Role
+  description: >
+    Operation docs - [Signer
+    Roles](https://tokend.github.io/xdr/#tag/Signer-Roles)
+  operationId: signerRole
+  parameters:
+    - name: SignerRole
+      in: query
+      required: false
+      style: form
+      explode: true
+      schema:
+        type: array
+        items:
+          anyOf:
+            - $ref: '#/components/schemas/SignerRuleEntryTypeSigner'
+            - $ref: '#/components/schemas/SignerRuleEntryTypeTransaction'
+            - $ref: '#/components/schemas/SignerRuleEntryTypeFee'
+            - $ref: '#/components/schemas/SignerRuleEntryTypeLimits'
+            - $ref: '#/components/schemas/SignerRuleEntryTypeKeyValue'
+            - $ref: '#/components/schemas/SignerRuleEntryTypeSale'
+            - $ref: '#/components/schemas/SignerRuleEntryTypeAsset'
+            - $ref: '#/components/schemas/SignerRuleEntryTypeReviewableRequest'
+            - $ref: '#/components/schemas/SignerRuleEntryTypeStamp'
+            - $ref: '#/components/schemas/SignerRuleEntryTypeLicense'

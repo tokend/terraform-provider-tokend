@@ -1,0 +1,12 @@
+type: object
+properties:
+  key:
+    type: string
+  value_type:
+    type: string
+    enum:
+      - uint32
+      - uint64
+      - string
+  value:
+    type: string

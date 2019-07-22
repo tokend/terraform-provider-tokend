@@ -1,0 +1,13 @@
+type: object
+properties:
+  action:
+    type: string
+  entry_type:
+    type: string
+  entry:
+    type: object
+    properties:
+      poll_id:
+        type: string
+      permission_type:
+        type: string

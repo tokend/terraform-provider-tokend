@@ -1,0 +1,16 @@
+type: object
+properties:
+  action:
+    type: string
+  entry_type:
+    type: string
+  entry:
+    type: object
+    properties:
+      is_buy:
+        type: boolean
+        example: true
+      quote_asset_type:
+        type: string
+      base_asset_type:
+        type: string

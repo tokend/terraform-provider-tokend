@@ -1,0 +1,13 @@
+type: object
+properties:
+  action:
+    type: string
+  entry_type:
+    type: string
+  entry:
+    type: object
+    properties:
+      sale_id:
+        type: string
+      sale_type:
+        type: string

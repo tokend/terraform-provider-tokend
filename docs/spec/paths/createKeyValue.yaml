@@ -1,0 +1,18 @@
+get:
+  x-item-type: resource
+  tags:
+    - Key Value
+  summary: Key Value
+  description: >
+    Operations docs -
+    [ManageKeyValueOp](https://tokend.github.io/xdr/#operation/manageKeyValueOp)
+  operationId: keyValue
+  parameters:
+    - name: KeyValue
+      in: query
+      required: false
+      style: form
+      explode: true
+      schema:
+        type: object
+        $ref: '#/components/schemas/KeyValueResource'
