@@ -6,6 +6,31 @@ get:
   description: >
     Operation docs - [Account
     Rules](https://tokend.github.io/xdr/#tag/Account-Rules)
+  x-code-samples:
+    - lang: "tf"
+      source: |
+        resource tokend_account_rule "balance_creator" {
+          action = "create"
+          entry_type = "balance"
+        }
+
+        resource tokend_account_rule "role_updater" {
+          action = "create"
+          entry_type = "reviewable_request"
+          entry = {
+            request_type = "change_role"
+          }
+        }
+
+        resource tokend_account_rule "asset_creator" {
+          action = "create"
+          entry_type = "asset"
+          entry = {
+            asset_type = "*"
+            asset_code = "*"
+          }
+        }
+
   operationId: accountRule
   parameters:
     - name: AccountRule
