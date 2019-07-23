@@ -54,10 +54,16 @@ func resourceExternalSystemPoolEntryCreate(d *schema.ResourceData, _m interface{
 	if err != nil {
 		return errors.Wrap(err, "failed to get stellar external system type")
 	}
+	if stellarExternalSystemType == nil {
+		return errors.New("stellar external system type key value not set")
+	}
 
 	ethereumExternalSystemType, err := m.Connector.KeyValues().Value(externalSystemTypeEthereumKey)
 	if err != nil {
 		return errors.Wrap(err, "failed to get ethereum external system type")
+	}
+	if ethereumExternalSystemType == nil {
+		return errors.New("ethereum external system type key value not set")
 	}
 
 	externalType := d.Get("external_system_type").(int)
