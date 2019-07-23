@@ -17,10 +17,18 @@ properties:
     description: Number of significant decimal places
   details:
     type: object
-    properties:
-      name:
-        type: string
+    description: >-
+      Arbitrary stringified JSON object that can be used to attach data to be
+      reviewed by an admin
   policies:
     type: array
     items:
       type: string
+      enum:
+        - transferable
+        - base_asset
+        - stats_quote_asset
+        - withdrawable
+        - issuance_manual_review_required
+        - can_be_base_in_atomic_swap
+        - can_be_quote_in_atomic_swap

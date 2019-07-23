@@ -6,6 +6,9 @@ get:
   description: >
     Operation docs - [Account
     Roles](https://tokend.github.io/xdr/#tag/Account-Roles)
+
+
+    Array of rules must be specified to set the role.
   operationId: accountRole
   parameters:
     - name: AccountRole

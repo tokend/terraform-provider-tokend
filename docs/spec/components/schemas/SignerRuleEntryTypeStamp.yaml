@@ -2,5 +2,27 @@ type: object
 properties:
   action:
     type: string
+    description: wildcard value "*" can be used
+    enum:
+      - '*'
+      - create
+      - create_for_other
+      - update
+      - manage
+      - send
+      - remove
+      - cancel
+      - review
+      - receive_atomic_swap
+      - participate
+      - bind
+      - update_max_issuance
+      - check
+      - close
+      - update_end_time
+      - create_with_tasks
+      - create_for_other_with_tasks
   entry_type:
     type: string
+    enum:
+      - stamp

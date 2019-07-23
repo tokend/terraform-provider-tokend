@@ -1,6 +1,0 @@
-type: object
-properties:
-  action:
-    type: string
-  entry_type:
-    type: string

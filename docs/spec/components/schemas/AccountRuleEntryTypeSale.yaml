@@ -2,12 +2,37 @@ type: object
 properties:
   action:
     type: string
+    description: wildcard value "*" can be used
+    enum:
+      - '*'
+      - create
+      - create_for_other
+      - create_with_tasks
+      - manage
+      - send
+      - withdraw
+      - receive_issuance
+      - receive_payment
+      - receive_atomic_swap
+      - participate
+      - bind
+      - update_max_issuance
+      - check
+      - cancel
+      - close
+      - remove
+      - update_end_time
+      - create_for_other_with_tasks
   entry_type:
     type: string
+    enum:
+      - sale
   entry:
     type: object
     properties:
       sale_id:
         type: string
+        description: wildcard value "*" can be used
       sale_type:
         type: string
+        description: wildcard value "*" can be used
