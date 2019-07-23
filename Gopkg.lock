@@ -613,7 +613,8 @@
   version = "v3.7.1"
 
 [[projects]]
-  digest = "1:cb2545d436c1457b214ee996efa64cd5fb181d1c81d8707add27a87442fdb741"
+  branch = "feature/op-manage-external-system-pool-entry"
+  digest = "1:16bb6965c47f34a7ac21d5161c3db18dcd8889cdc563419db72cd864f846c63d"
   name = "gitlab.com/tokend/go"
   packages = [
     "amount",
@@ -630,8 +631,7 @@
     "xdrbuild/internal",
   ]
   pruneopts = "UT"
-  revision = "4912d9d0be3775e861c0f095ece478d0a514a8b9"
-  version = "v3.8.0"
+  revision = "58b84195f716cdb41715244d3345fba88c569eb6"
 
 [[projects]]
   digest = "1:c97dfec4041199ff4fdfd22b2b2aa8ca038af9c7efc1b17620999027f53cce61"

@@ -12,9 +12,9 @@
   name = "github.com/spf13/cast"
   version = "1.3.0"
 
-[[constraint]]
+[[override]]
   name = "gitlab.com/tokend/go"
-  version = "3.8.0"
+  branch = "feature/op-manage-external-system-pool-entry"
 
 [[constraint]]
   name = "gitlab.com/tokend/horizon-connector"

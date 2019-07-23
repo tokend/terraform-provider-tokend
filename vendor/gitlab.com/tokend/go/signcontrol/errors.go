@@ -27,3 +27,7 @@ type Error struct {
 func (e *Error) Error() string {
 	return e.msg
 }
+
+func (e *Error) BadRequest() bool {
+	return true
+}
