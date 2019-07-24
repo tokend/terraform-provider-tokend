@@ -11,8 +11,8 @@ import (
 )
 
 const (
-	externalSystemTypeStellarKey  = "external_system_type_stellar"
-	externalSystemTypeEthereumKey = "external_system_type_ethereum"
+	externalSystemTypeStellarKey  = "external_system_type:stellar"
+	externalSystemTypeEthereumKey = "external_system_type:ethereum"
 )
 
 func resourceExternalSystemPoolEntry() *schema.Resource {
