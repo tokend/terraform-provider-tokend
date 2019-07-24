@@ -7,11 +7,10 @@ import (
 
 	"github.com/tokend/terraform-provider-tokend/tokend/connector"
 
-	"github.com/tokend/terraform-provider-tokend/tokend/helpers/validation"
-
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/pkg/errors"
+	"github.com/tokend/terraform-provider-tokend/tokend/helpers/validation"
 	"gitlab.com/tokend/go/xdrbuild"
 	"gitlab.com/tokend/horizon-connector"
 	"gitlab.com/tokend/keypair"
