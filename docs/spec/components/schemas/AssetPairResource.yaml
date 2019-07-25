@@ -1,0 +1,8 @@
+type: object
+properties:
+  base:
+    type: string
+  quote:
+    type: string
+  price:
+    type: string

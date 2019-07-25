@@ -1,0 +1,53 @@
+get:
+  x-item-type: resource
+  tags:
+    - Signer Rule
+  summary: Signer Rule
+  description: >
+    Operation docs - [Signer
+    Rules](https://tokend.github.io/xdr/#tag/Signer-Rules)
+  x-code-samples:
+    - lang: "tf"
+      source: |
+        resource tokend_signer_rule "tx_sender" {
+          action     = "send"
+          entry_type = "transaction"
+        }
+
+        resource tokend_signer_rule "request_reviewer" {
+          action = "review"
+          entry_type = "reviewable_request"
+          entry = {
+            request_type = "*"
+          }
+        }
+
+        resource tokend_signer_rule "sale_checker" {
+          action = "check"
+          entry_type = "sale"
+          entry = {
+            sale_id = "*"
+            sale_type = "*"
+          }
+        }
+
+  operationId: signerRule
+  parameters:
+    - name: SignerRule
+      in: query
+      required: false
+      style: form
+      explode: true
+      schema:
+        type: object
+        oneOf:
+          - $ref: '#/components/schemas/SignerRuleEntryTypeSigner'
+          - $ref: '#/components/schemas/SignerRuleEntryTypeTransaction'
+          - $ref: '#/components/schemas/SignerRuleEntryTypeFee'
+          - $ref: '#/components/schemas/SignerRuleEntryTypeLimits'
+          - $ref: '#/components/schemas/SignerRuleEntryTypeKeyValue'
+          - $ref: '#/components/schemas/SignerRuleEntryTypeSale'
+          - $ref: '#/components/schemas/SignerRuleEntryTypeAsset'
+          - $ref: '#/components/schemas/SignerRuleEntryTypeReviewableRequest'
+          - $ref: '#/components/schemas/SignerRuleEntryTypeStamp'
+          - $ref: '#/components/schemas/SignerRuleEntryTypeLicense'

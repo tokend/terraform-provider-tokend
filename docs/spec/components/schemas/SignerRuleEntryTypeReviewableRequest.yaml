@@ -1,0 +1,51 @@
+type: object
+properties:
+  action:
+    type: string
+    description: wildcard value "*" can be used
+    enum:
+      - '*'
+      - create
+      - create_for_other
+      - update
+      - manage
+      - send
+      - remove
+      - cancel
+      - review
+      - receive_atomic_swap
+      - participate
+      - bind
+      - update_max_issuance
+      - check
+      - close
+      - update_end_time
+      - create_with_tasks
+      - create_for_other_with_tasks
+  entry_type:
+    type: string
+    enum:
+      - reviewable_request
+  entry:
+    type: object
+    properties:
+      request_type:
+        type: string
+        description: wildcard value "*" can be used
+        enum:
+          - create_pre_issuance
+          - create_issuance
+          - create_withdraw
+          - create_sale
+          - update_limits
+          - create_aml_alert
+          - change_role
+          - update_sale_details
+          - create_asset
+          - create_invoice
+          - manage_contract
+          - update_asset
+          - create_poll
+          - create_atomic_swap_ask
+          - create_atomic_swap_bid
+          - kyc_recovery

@@ -1,0 +1,9 @@
+
+apiTitle: terraform-provider-tokend
+splitSpec: true
+codeSamples: false
+swaggerUI: true
+travis: true
+repo: tokend/terraform-provider-tokend
+oasVersion: 1.0.0
+

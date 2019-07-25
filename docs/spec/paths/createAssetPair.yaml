@@ -1,0 +1,27 @@
+get:
+  x-item-type: resource
+  tags:
+    - Asset Pair
+  summary: Asset Pair
+  description: >
+    Operation docs -
+    [ManageAssetPairOp](https://tokend.github.io/xdr/#operation/manageAssetPairOp)
+  x-code-samples:
+    - lang: "tf"
+      source: |
+        resource tokend_asset_pair "USD_BTC" {
+          base  = "BTC"
+          quote = "USD"
+          price = "2344111116"
+        }
+
+  operationId: assetPair
+  parameters:
+    - name: AssetPair
+      in: query
+      required: false
+      style: form
+      explode: true
+      schema:
+        type: object
+        $ref: '#/components/schemas/AssetPairResource'

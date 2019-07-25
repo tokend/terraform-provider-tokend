@@ -1,0 +1,27 @@
+get:
+  x-item-type: resource
+  tags:
+    - Key Value
+  summary: Key Value
+  description: >
+    Operations docs -
+    [ManageKeyValueOp](https://tokend.github.io/xdr/#operation/manageKeyValueOp)
+  x-code-samples:
+    - lang: "tf"
+      source: |
+        resource tokend_key_value "new_key" {
+          key        = "new_key"
+          value_type = "uint32"
+          value      = "1"
+        }
+
+  operationId: keyValue
+  parameters:
+    - name: KeyValue
+      in: query
+      required: false
+      style: form
+      explode: true
+      schema:
+        type: object
+        $ref: '#/components/schemas/KeyValueResource'
