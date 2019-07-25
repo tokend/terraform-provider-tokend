@@ -12,17 +12,18 @@ import (
 type AccountEntryFunc func(d *schema.ResourceData) (*xdr.AccountRuleResource, error)
 
 var AccountEntries = map[string]AccountEntryFunc{
-	"offer":              accountRuleResourceOffer,
-	"transaction":        accountRuleResourceTransaction,
-	"balance":            accountRuleResourceBalance,
-	"signer":             accountRuleResourceSigner,
-	"reviewable_request": accountRuleResourceReviewableRequest,
-	"sale":               accountRuleResourceSale,
-	"asset":              accountRuleResourceAsset,
+	"offer":                                 accountRuleResourceOffer,
+	"transaction":                           accountRuleResourceTransaction,
+	"balance":                               accountRuleResourceBalance,
+	"signer":                                accountRuleResourceSigner,
+	"reviewable_request":                    accountRuleResourceReviewableRequest,
+	"sale":                                  accountRuleResourceSale,
+	"asset":                                 accountRuleResourceAsset,
 	"external_system_account_id_pool_entry": accountRuleResourceExternalSystemAccountIdPool,
-	"vote":            accountRuleResourceVote,
-	"poll":            accountRuleResourcePoll,
-	"atomic_swap_ask": accountRuleResourceAtomicSwapAsk,
+	"vote":                                  accountRuleResourceVote,
+	"poll":                                  accountRuleResourcePoll,
+	"atomic_swap_ask":                       accountRuleResourceAtomicSwapAsk,
+	"asset_pair":                            accountRuleResourceAssetPair,
 }
 
 func AccountRuleEntry(d *schema.ResourceData) (*xdr.AccountRuleResource, error) {
@@ -37,6 +38,13 @@ func AccountRuleEntry(d *schema.ResourceData) (*xdr.AccountRuleResource, error) 
 	}
 
 	return resource, nil
+}
+
+func accountRuleResourceAssetPair(_ *schema.ResourceData) (*xdr.AccountRuleResource, error) {
+	return &xdr.AccountRuleResource{
+		Type: xdr.LedgerEntryTypeAssetPair,
+		Ext:  &xdr.EmptyExt{},
+	}, nil
 }
 
 func accountRuleResourceExternalSystemAccountIdPool(_ *schema.ResourceData) (*xdr.AccountRuleResource, error) {
