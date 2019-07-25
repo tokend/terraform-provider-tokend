@@ -100,6 +100,32 @@
   version = "v3.5.1"
 
 [[projects]]
+  branch = "master"
+  digest = "1:105a241bcf26d4ef2d08d9afe3a8d232018df9d1402216aeaaa403142723059c"
+  name = "github.com/btcsuite/btcd"
+  packages = [
+    "btcec",
+    "chaincfg",
+    "chaincfg/chainhash",
+    "wire",
+  ]
+  pruneopts = "UT"
+  revision = "c26ffa870fd817666a857af1bf6498fabba1ffe3"
+
+[[projects]]
+  branch = "master"
+  digest = "1:456e40540d5256454d0585141c0338946d552d5dec04ede6bded006509ec4c35"
+  name = "github.com/btcsuite/btcutil"
+  packages = [
+    ".",
+    "base58",
+    "bech32",
+    "hdkeychain",
+  ]
+  pruneopts = "UT"
+  revision = "9e5f4b9a998d263e3ce9c56664a7816001ac8000"
+
+[[projects]]
   digest = "1:fed1f537c2f1269fe475a8556c393fe466641682d73ef8fd0491cd3aa1e47bad"
   name = "github.com/certifi/gocertifi"
   packages = ["."]
@@ -114,6 +140,21 @@
   pruneopts = "UT"
   revision = "8991bc29aa16c548c550c7ff78260e27b9ab7c73"
   version = "v1.1.1"
+
+[[projects]]
+  digest = "1:d38d20ba0407c4bd4545945d49ae032c41819928a5acd558a707d683b2c6ae55"
+  name = "github.com/ethereum/go-ethereum"
+  packages = [
+    "common",
+    "common/hexutil",
+    "common/math",
+    "crypto",
+    "crypto/secp256k1",
+    "rlp",
+  ]
+  pruneopts = "UT"
+  revision = "52f2461774bcb8cdd310f86b4bc501df5b783852"
+  version = "v1.9.0"
 
 [[projects]]
   digest = "1:2faeefda33c255e905c48ce82c2c64bd02eda980ab639d5aa0d6fc21e061c78e"
@@ -613,7 +654,16 @@
   version = "v3.7.1"
 
 [[projects]]
-  digest = "1:cb2545d436c1457b214ee996efa64cd5fb181d1c81d8707add27a87442fdb741"
+  branch = "master"
+  digest = "1:64fcc35b2d61405398a7470402b66ca301543ee6d9aa1917acc595cc949a39eb"
+  name = "gitlab.com/tokend/derive"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "866488352b62ee8a5961f6176a2c5f8dcf767ef5"
+
+[[projects]]
+  branch = "feature/op-manage-external-system-pool-entry"
+  digest = "1:16bb6965c47f34a7ac21d5161c3db18dcd8889cdc563419db72cd864f846c63d"
   name = "gitlab.com/tokend/go"
   packages = [
     "amount",
@@ -630,8 +680,7 @@
     "xdrbuild/internal",
   ]
   pruneopts = "UT"
-  revision = "4912d9d0be3775e861c0f095ece478d0a514a8b9"
-  version = "v3.8.0"
+  revision = "58b84195f716cdb41715244d3345fba88c569eb6"
 
 [[projects]]
   digest = "1:c97dfec4041199ff4fdfd22b2b2aa8ca038af9c7efc1b17620999027f53cce61"
@@ -693,7 +742,7 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:cdd8417bb2665f79623d6c639d091366ec5bd4236d91dd1e0977982c8b059dc0"
+  digest = "1:d3a967211ae9f9a01054f496f428eea3fbb5c43155fb335bdb28c4df18729029"
   name = "golang.org/x/crypto"
   packages = [
     "bcrypt",
@@ -707,6 +756,8 @@
     "openpgp/errors",
     "openpgp/packet",
     "openpgp/s2k",
+    "ripemd160",
+    "sha3",
     "ssh/terminal",
   ]
   pruneopts = "UT"
@@ -829,11 +880,13 @@
     "github.com/hashicorp/terraform/helper/schema",
     "github.com/hashicorp/terraform/plugin",
     "github.com/hashicorp/terraform/terraform",
+    "github.com/mitchellh/mapstructure",
     "github.com/pkg/errors",
     "github.com/spf13/cast",
     "github.com/stretchr/testify/assert",
     "github.com/stretchr/testify/mock",
     "gitlab.com/distributed_lab/logan/v3/errors",
+    "gitlab.com/tokend/derive",
     "gitlab.com/tokend/go/amount",
     "gitlab.com/tokend/go/strkey",
     "gitlab.com/tokend/go/xdr",
