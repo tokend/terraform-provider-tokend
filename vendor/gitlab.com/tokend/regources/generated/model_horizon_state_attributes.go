@@ -19,7 +19,6 @@ type HorizonStateAttributes struct {
 	// Defines user friendly name of the network
 	EnvironmentName string     `json:"environment_name"`
 	History         LedgerInfo `json:"history"`
-	HistoryV2       LedgerInfo `json:"history_v2"`
 	// Defines public account id of the master account for this network. All admins are signers of this account
 	MasterAccountId string `json:"master_account_id"`
 	// TokenD network identificator. Shows in which network horizon is working.

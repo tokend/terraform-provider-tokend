@@ -64,15 +64,16 @@ func (r SubmitResult) GetLoganFields() map[string]interface{} {
 }
 
 func (s *Submitter) Submit(ctx context.Context, envelope string) SubmitResult {
-	_, response, err := s.client.PostJSONWithContext("transactions", &regources.SubmitTransactionBody{
+	_, response, err := s.client.PostJSONWithContext("/v3/transactions", &regources.SubmitTransactionBody{
 		Tx: envelope,
 	}, ctx)
 	if err == nil {
 		var success regources.TransactionResponse
 		if err := json.Unmarshal(response, &success); err != nil {
-			// oops, tx was successful but we failed to unmarshal response.
-			// let's ignore error and hope nothing will break
-			// TODO debug log
+			return SubmitResult{
+				Err:         err,
+				RawResponse: response,
+			}
 		}
 		// successful submission
 		return SubmitResult{
