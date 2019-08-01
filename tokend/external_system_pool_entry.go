@@ -11,8 +11,7 @@ import (
 )
 
 const (
-	externalSystemTypeStellarKey  = "external_system_type:stellar"
-	externalSystemTypeEthereumKey = "external_system_type:ethereum"
+	externalSystemTypeStellarKey = "external_system_type:stellar"
 )
 
 func resourceExternalSystemPoolEntry() *schema.Resource {
@@ -50,14 +49,6 @@ func resourceExternalSystemPoolEntryCreate(d *schema.ResourceData, _m interface{
 		return errors.New("stellar external system type key value not set")
 	}
 
-	ethereumExternalSystemType, err := m.Connector.KeyValues().Value(externalSystemTypeEthereumKey)
-	if err != nil {
-		return errors.Wrap(err, "failed to get ethereum external system type")
-	}
-	if ethereumExternalSystemType == nil {
-		return errors.New("ethereum external system type key value not set")
-	}
-
 	externalType := d.Get("external_system_type").(int)
 	count := d.Get("target_count").(int)
 
@@ -65,11 +56,6 @@ func resourceExternalSystemPoolEntryCreate(d *schema.ResourceData, _m interface{
 	switch uint32(externalType) {
 	case *stellarExternalSystemType.U32:
 		envelopes, err = helpers.StellarExternalTypeEnvelopes(count, uint32(externalType), d, m.Builder, m.Signer)
-		if err != nil {
-			return errors.Wrap(err, "failed to create transaction envelope")
-		}
-	case *ethereumExternalSystemType.U32:
-		envelopes, err = helpers.EthereumExternalTypeEnvelopes(count, uint32(externalType), d, m.Builder, m.Signer)
 		if err != nil {
 			return errors.Wrap(err, "failed to create transaction envelope")
 		}
