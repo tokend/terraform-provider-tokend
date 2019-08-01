@@ -17,7 +17,7 @@ type PollAttributes struct {
 	// is used to restrict using of poll through rules
 	PermissionType uint32   `json:"permission_type"`
 	PollData       PollData `json:"poll_data"`
-	// * 1 - open * 2 - passed * 3 - failed
+	// * 1 - open * 2 - passed * 3 - failed * 4 - cancelled
 	PollState PollState `json:"poll_state"`
 	// the date from which voting in the poll will be allowed
 	StartTime time.Time `json:"start_time"`

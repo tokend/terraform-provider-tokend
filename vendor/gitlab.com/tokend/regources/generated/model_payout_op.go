@@ -14,7 +14,7 @@ type PayoutOpResponse struct {
 	Included Included `json:"included"`
 }
 
-type PayoutOpsResponse struct {
+type PayoutOpListResponse struct {
 	Data     []PayoutOp `json:"data"`
 	Included Included   `json:"included"`
 	Links    *Links     `json:"links"`

@@ -14,7 +14,7 @@ type CreateAssetRequestResponse struct {
 	Included Included           `json:"included"`
 }
 
-type CreateAssetRequestsResponse struct {
+type CreateAssetRequestListResponse struct {
 	Data     []CreateAssetRequest `json:"data"`
 	Included Included             `json:"included"`
 	Links    *Links               `json:"links"`

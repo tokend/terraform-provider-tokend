@@ -13,7 +13,7 @@ type LicenseOpResponse struct {
 	Included Included  `json:"included"`
 }
 
-type LicenseOpsResponse struct {
+type LicenseOpListResponse struct {
 	Data     []LicenseOp `json:"data"`
 	Included Included    `json:"included"`
 	Links    *Links      `json:"links"`

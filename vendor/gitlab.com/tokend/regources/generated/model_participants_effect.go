@@ -13,7 +13,7 @@ type ParticipantsEffectResponse struct {
 	Included Included           `json:"included"`
 }
 
-type ParticipantsEffectsResponse struct {
+type ParticipantsEffectListResponse struct {
 	Data     []ParticipantsEffect `json:"data"`
 	Included Included             `json:"included"`
 	Links    *Links               `json:"links"`

@@ -13,7 +13,7 @@ type OrderBookResponse struct {
 	Included Included  `json:"included"`
 }
 
-type OrderBooksResponse struct {
+type OrderBookListResponse struct {
 	Data     []OrderBook `json:"data"`
 	Included Included    `json:"included"`
 	Links    *Links      `json:"links"`

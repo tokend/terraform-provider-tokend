@@ -14,7 +14,7 @@ type LimitsResponse struct {
 	Included Included `json:"included"`
 }
 
-type LimitssResponse struct {
+type LimitsListResponse struct {
 	Data     []Limits `json:"data"`
 	Included Included `json:"included"`
 	Links    *Links   `json:"links"`

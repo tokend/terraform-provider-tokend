@@ -14,7 +14,7 @@ type ManageAssetOpResponse struct {
 	Included Included      `json:"included"`
 }
 
-type ManageAssetOpsResponse struct {
+type ManageAssetOpListResponse struct {
 	Data     []ManageAssetOp `json:"data"`
 	Included Included        `json:"included"`
 	Links    *Links          `json:"links"`

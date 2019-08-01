@@ -14,7 +14,7 @@ type AssetPairResponse struct {
 	Included Included  `json:"included"`
 }
 
-type AssetPairsResponse struct {
+type AssetPairListResponse struct {
 	Data     []AssetPair `json:"data"`
 	Included Included    `json:"included"`
 	Links    *Links      `json:"links"`

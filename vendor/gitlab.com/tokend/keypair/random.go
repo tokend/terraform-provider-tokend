@@ -2,16 +2,19 @@ package keypair
 
 import (
 	"crypto/rand"
-
+	"github.com/pkg/errors"
 	"gitlab.com/tokend/keypair/internal"
 	"golang.org/x/crypto/ed25519"
 )
 
 // Random creates a random full keypair
 func Random() (Full, error) {
-	_, private, err := ed25519.GenerateKey(rand.Reader)
+	seed := make([]byte, ed25519.SeedSize)
+	// rand.Read guaranties that we'll read full seed, if there is no error
+	_, err := rand.Read(seed)
 	if err != nil {
-		return nil, err
+		return nil, errors.Wrap(err, "failed to read random seed")
 	}
-	return internal.NewFull(private[32:]), nil
+
+	return internal.NewFull(seed), nil
 }

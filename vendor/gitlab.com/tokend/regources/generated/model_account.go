@@ -6,6 +6,7 @@ package regources
 
 type Account struct {
 	Key
+	Attributes    AccountAttributes    `json:"attributes"`
 	Relationships AccountRelationships `json:"relationships"`
 }
 type AccountResponse struct {
@@ -13,7 +14,7 @@ type AccountResponse struct {
 	Included Included `json:"included"`
 }
 
-type AccountsResponse struct {
+type AccountListResponse struct {
 	Data     []Account `json:"data"`
 	Included Included  `json:"included"`
 	Links    *Links    `json:"links"`

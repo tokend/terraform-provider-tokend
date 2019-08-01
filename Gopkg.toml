@@ -14,11 +14,11 @@
 
 [[override]]
   name = "gitlab.com/tokend/go"
-  branch = "feature/op-manage-external-system-pool-entry"
+  branch = "assets"
 
 [[constraint]]
-  name = "gitlab.com/tokend/horizon-connector"
-  version = "4"
+  name = "gitlab.com/tokend/regources"
+  branch = "assets"
 
 [prune]
   go-tests = true

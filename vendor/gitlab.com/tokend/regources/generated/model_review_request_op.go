@@ -13,7 +13,7 @@ type ReviewRequestOpResponse struct {
 	Included Included        `json:"included"`
 }
 
-type ReviewRequestOpsResponse struct {
+type ReviewRequestOpListResponse struct {
 	Data     []ReviewRequestOp `json:"data"`
 	Included Included          `json:"included"`
 	Links    *Links            `json:"links"`

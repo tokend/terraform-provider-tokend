@@ -14,7 +14,7 @@ type ExternalSystemIdResponse struct {
 	Included Included         `json:"included"`
 }
 
-type ExternalSystemIdsResponse struct {
+type ExternalSystemIdListResponse struct {
 	Data     []ExternalSystemId `json:"data"`
 	Included Included           `json:"included"`
 	Links    *Links             `json:"links"`

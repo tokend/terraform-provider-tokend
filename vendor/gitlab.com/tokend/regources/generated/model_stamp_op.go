@@ -13,7 +13,7 @@ type StampOpResponse struct {
 	Included Included `json:"included"`
 }
 
-type StampOpsResponse struct {
+type StampOpListResponse struct {
 	Data     []StampOp `json:"data"`
 	Included Included  `json:"included"`
 	Links    *Links    `json:"links"`

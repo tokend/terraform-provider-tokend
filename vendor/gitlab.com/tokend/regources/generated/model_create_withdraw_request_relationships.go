@@ -5,5 +5,6 @@
 package regources
 
 type CreateWithdrawRequestRelationships struct {
+	Asset   *Relation `json:"asset,omitempty"`
 	Balance *Relation `json:"balance,omitempty"`
 }

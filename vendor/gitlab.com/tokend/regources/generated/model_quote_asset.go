@@ -13,7 +13,7 @@ type QuoteAssetResponse struct {
 	Included Included   `json:"included"`
 }
 
-type QuoteAssetsResponse struct {
+type QuoteAssetListResponse struct {
 	Data     []QuoteAsset `json:"data"`
 	Included Included     `json:"included"`
 	Links    *Links       `json:"links"`

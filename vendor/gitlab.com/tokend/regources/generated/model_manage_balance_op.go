@@ -14,7 +14,7 @@ type ManageBalanceOpResponse struct {
 	Included Included        `json:"included"`
 }
 
-type ManageBalanceOpsResponse struct {
+type ManageBalanceOpListResponse struct {
 	Data     []ManageBalanceOp `json:"data"`
 	Included Included          `json:"included"`
 	Links    *Links            `json:"links"`

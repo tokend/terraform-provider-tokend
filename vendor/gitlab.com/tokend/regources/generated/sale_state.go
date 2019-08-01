@@ -31,3 +31,14 @@ func (s SaleState) MarshalJSON() ([]byte, error) {
 func (s SaleState) String() string {
 	return saleStateMap[s]
 }
+
+func (s *SaleState) UnmarshalJSON(b []byte) error {
+	var res Flag
+	err := json.Unmarshal(b, &res)
+	if err != nil {
+		return err
+	}
+
+	*s = SaleState(res.Value)
+	return nil
+}

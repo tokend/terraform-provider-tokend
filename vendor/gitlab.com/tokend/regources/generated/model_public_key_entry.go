@@ -13,7 +13,7 @@ type PublicKeyEntryResponse struct {
 	Included Included       `json:"included"`
 }
 
-type PublicKeyEntrysResponse struct {
+type PublicKeyEntryListResponse struct {
 	Data     []PublicKeyEntry `json:"data"`
 	Included Included         `json:"included"`
 	Links    *Links           `json:"links"`

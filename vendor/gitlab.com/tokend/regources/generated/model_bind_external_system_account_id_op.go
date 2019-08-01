@@ -13,7 +13,7 @@ type BindExternalSystemAccountIdOpResponse struct {
 	Included Included                      `json:"included"`
 }
 
-type BindExternalSystemAccountIdOpsResponse struct {
+type BindExternalSystemAccountIdOpListResponse struct {
 	Data     []BindExternalSystemAccountIdOp `json:"data"`
 	Included Included                        `json:"included"`
 	Links    *Links                          `json:"links"`

@@ -13,7 +13,7 @@ type ManageExternalSystemAccountIdPoolEntryOpResponse struct {
 	Included Included                                 `json:"included"`
 }
 
-type ManageExternalSystemAccountIdPoolEntryOpsResponse struct {
+type ManageExternalSystemAccountIdPoolEntryOpListResponse struct {
 	Data     []ManageExternalSystemAccountIdPoolEntryOp `json:"data"`
 	Included Included                                   `json:"included"`
 	Links    *Links                                     `json:"links"`

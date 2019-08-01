@@ -13,7 +13,7 @@ type EffectBalanceChangeResponse struct {
 	Included Included            `json:"included"`
 }
 
-type EffectBalanceChangesResponse struct {
+type EffectBalanceChangeListResponse struct {
 	Data     []EffectBalanceChange `json:"data"`
 	Included Included              `json:"included"`
 	Links    *Links                `json:"links"`

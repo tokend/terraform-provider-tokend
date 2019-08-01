@@ -14,7 +14,7 @@ type SaleResponse struct {
 	Included Included `json:"included"`
 }
 
-type SalesResponse struct {
+type SaleListResponse struct {
 	Data     []Sale   `json:"data"`
 	Included Included `json:"included"`
 	Links    *Links   `json:"links"`

@@ -14,7 +14,7 @@ type OrderBookEntryResponse struct {
 	Included Included       `json:"included"`
 }
 
-type OrderBookEntrysResponse struct {
+type OrderBookEntryListResponse struct {
 	Data     []OrderBookEntry `json:"data"`
 	Included Included         `json:"included"`
 	Links    *Links           `json:"links"`

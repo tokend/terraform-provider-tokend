@@ -14,7 +14,7 @@ type ReviewableRequestResponse struct {
 	Included Included          `json:"included"`
 }
 
-type ReviewableRequestsResponse struct {
+type ReviewableRequestListResponse struct {
 	Data     []ReviewableRequest `json:"data"`
 	Included Included            `json:"included"`
 	Links    *Links              `json:"links"`

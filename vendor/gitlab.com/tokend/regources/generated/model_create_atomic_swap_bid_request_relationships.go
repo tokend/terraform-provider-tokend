@@ -5,6 +5,6 @@
 package regources
 
 type CreateAtomicSwapBidRequestRelationships struct {
-	BaseBalance *Relation           `json:"base_balance,omitempty"`
-	QuoteAssets *RelationCollection `json:"quote_assets,omitempty"`
+	Ask        *Relation `json:"ask,omitempty"`
+	QuoteAsset *Relation `json:"quote_asset,omitempty"`
 }

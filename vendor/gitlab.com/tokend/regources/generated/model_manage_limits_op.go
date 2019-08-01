@@ -13,7 +13,7 @@ type ManageLimitsOpResponse struct {
 	Included Included       `json:"included"`
 }
 
-type ManageLimitsOpsResponse struct {
+type ManageLimitsOpListResponse struct {
 	Data     []ManageLimitsOp `json:"data"`
 	Included Included         `json:"included"`
 	Links    *Links           `json:"links"`

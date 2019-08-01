@@ -14,7 +14,7 @@ type CreateIssuanceRequestResponse struct {
 	Included Included              `json:"included"`
 }
 
-type CreateIssuanceRequestsResponse struct {
+type CreateIssuanceRequestListResponse struct {
 	Data     []CreateIssuanceRequest `json:"data"`
 	Included Included                `json:"included"`
 	Links    *Links                  `json:"links"`

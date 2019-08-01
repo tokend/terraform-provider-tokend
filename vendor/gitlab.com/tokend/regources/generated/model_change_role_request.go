@@ -14,7 +14,7 @@ type ChangeRoleRequestResponse struct {
 	Included Included          `json:"included"`
 }
 
-type ChangeRoleRequestsResponse struct {
+type ChangeRoleRequestListResponse struct {
 	Data     []ChangeRoleRequest `json:"data"`
 	Included Included            `json:"included"`
 	Links    *Links              `json:"links"`

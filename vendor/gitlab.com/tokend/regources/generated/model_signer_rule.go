@@ -14,7 +14,7 @@ type SignerRuleResponse struct {
 	Included Included   `json:"included"`
 }
 
-type SignerRulesResponse struct {
+type SignerRuleListResponse struct {
 	Data     []SignerRule `json:"data"`
 	Included Included     `json:"included"`
 	Links    *Links       `json:"links"`

@@ -14,7 +14,7 @@ type CreateAmlAlertRequestResponse struct {
 	Included Included              `json:"included"`
 }
 
-type CreateAmlAlertRequestsResponse struct {
+type CreateAmlAlertRequestListResponse struct {
 	Data     []CreateAmlAlertRequest `json:"data"`
 	Included Included                `json:"included"`
 	Links    *Links                  `json:"links"`

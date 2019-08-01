@@ -13,7 +13,7 @@ type SetFeeOpResponse struct {
 	Included Included `json:"included"`
 }
 
-type SetFeeOpsResponse struct {
+type SetFeeOpListResponse struct {
 	Data     []SetFeeOp `json:"data"`
 	Included Included   `json:"included"`
 	Links    *Links     `json:"links"`

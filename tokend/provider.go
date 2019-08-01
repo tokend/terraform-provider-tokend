@@ -1,6 +1,7 @@
 package tokend
 
 import (
+	"github.com/tokend/terraform-provider-tokend/tokend/horizon"
 	"net/url"
 
 	"github.com/tokend/terraform-provider-tokend/tokend/data"
@@ -12,7 +13,6 @@ import (
 	"github.com/pkg/errors"
 	"github.com/tokend/terraform-provider-tokend/tokend/helpers/validation"
 	"gitlab.com/tokend/go/xdrbuild"
-	"gitlab.com/tokend/horizon-connector"
 	"gitlab.com/tokend/keypair"
 )
 

@@ -13,7 +13,7 @@ type ManageSaleOpResponse struct {
 	Included Included     `json:"included"`
 }
 
-type ManageSaleOpsResponse struct {
+type ManageSaleOpListResponse struct {
 	Data     []ManageSaleOp `json:"data"`
 	Included Included       `json:"included"`
 	Links    *Links         `json:"links"`

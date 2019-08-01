@@ -14,7 +14,7 @@ type PaymentOpResponse struct {
 	Included Included  `json:"included"`
 }
 
-type PaymentOpsResponse struct {
+type PaymentOpListResponse struct {
 	Data     []PaymentOp `json:"data"`
 	Included Included    `json:"included"`
 	Links    *Links      `json:"links"`

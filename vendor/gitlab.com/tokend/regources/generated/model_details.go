@@ -38,7 +38,7 @@ func (d Details) String() string {
 func (r Details) Value() (driver.Value, error) {
 	result, err := json.Marshal(r)
 	if err != nil {
-		return nil, errors.Wrap(err, "failed to marshal vote data")
+		return nil, errors.Wrap(err, "failed to marshal Details data")
 	}
 
 	return result, nil
@@ -58,7 +58,7 @@ func (r *Details) Scan(src interface{}) error {
 
 	err := json.Unmarshal(data, r)
 	if err != nil {
-		return errors.Wrap(err, "failed to unmarshal vote data")
+		return errors.Wrap(err, "failed to unmarshal Details data")
 	}
 
 	return nil

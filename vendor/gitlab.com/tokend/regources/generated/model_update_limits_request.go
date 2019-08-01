@@ -13,7 +13,7 @@ type UpdateLimitsRequestResponse struct {
 	Included Included            `json:"included"`
 }
 
-type UpdateLimitsRequestsResponse struct {
+type UpdateLimitsRequestListResponse struct {
 	Data     []UpdateLimitsRequest `json:"data"`
 	Included Included              `json:"included"`
 	Links    *Links                `json:"links"`

@@ -13,7 +13,7 @@ type PollParticipationResponse struct {
 	Included Included          `json:"included"`
 }
 
-type PollParticipationsResponse struct {
+type PollParticipationListResponse struct {
 	Data     []PollParticipation `json:"data"`
 	Included Included            `json:"included"`
 	Links    *Links              `json:"links"`

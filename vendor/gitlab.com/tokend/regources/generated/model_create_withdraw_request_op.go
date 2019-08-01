@@ -14,7 +14,7 @@ type CreateWithdrawRequestOpResponse struct {
 	Included Included                `json:"included"`
 }
 
-type CreateWithdrawRequestOpsResponse struct {
+type CreateWithdrawRequestOpListResponse struct {
 	Data     []CreateWithdrawRequestOp `json:"data"`
 	Included Included                  `json:"included"`
 	Links    *Links                    `json:"links"`

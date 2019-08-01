@@ -14,7 +14,7 @@ type ManagePollOpResponse struct {
 	Included Included     `json:"included"`
 }
 
-type ManagePollOpsResponse struct {
+type ManagePollOpListResponse struct {
 	Data     []ManagePollOp `json:"data"`
 	Included Included       `json:"included"`
 	Links    *Links         `json:"links"`

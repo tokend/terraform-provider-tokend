@@ -13,7 +13,7 @@ type BalanceResponse struct {
 	Included Included `json:"included"`
 }
 
-type BalancesResponse struct {
+type BalanceListResponse struct {
 	Data     []Balance `json:"data"`
 	Included Included  `json:"included"`
 	Links    *Links    `json:"links"`

@@ -13,7 +13,7 @@ type CalculatedFeeResponse struct {
 	Included Included      `json:"included"`
 }
 
-type CalculatedFeesResponse struct {
+type CalculatedFeeListResponse struct {
 	Data     []CalculatedFee `json:"data"`
 	Included Included        `json:"included"`
 	Links    *Links          `json:"links"`
