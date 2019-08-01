@@ -12,12 +12,14 @@ const (
 	PollStateOpen PollState = iota + 1
 	PollStatePassed
 	PollStateFailed
+	PollStateCancelled
 )
 
 var pollStateStr = map[PollState]string{
-	PollStateOpen:   "open",
-	PollStatePassed: "passed",
-	PollStateFailed: "failed",
+	PollStateOpen:      "open",
+	PollStatePassed:    "passed",
+	PollStateFailed:    "failed",
+	PollStateCancelled: "cancelled",
 }
 
 func (s PollState) String() string {

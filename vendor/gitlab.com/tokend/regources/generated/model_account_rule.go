@@ -13,7 +13,7 @@ type AccountRuleResponse struct {
 	Included Included    `json:"included"`
 }
 
-type AccountRulesResponse struct {
+type AccountRuleListResponse struct {
 	Data     []AccountRule `json:"data"`
 	Included Included      `json:"included"`
 	Links    *Links        `json:"links"`

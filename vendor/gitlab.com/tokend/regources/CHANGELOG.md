@@ -1,5 +1,101 @@
 # Changelog
 
+## 4.7.0
+
+### Added 
+
+* `KYCRecoveryStatus`
+* `AccountAttributes`
+
+### Fixed
+
+* Atomic swap ask and bid typo issue
+
+## 4.6.0
+
+### Added
+
+* `AccountKyc` resource to handle kyc data for account
+* Operation to remove asset pair
+* `Atomic swap ask` resource
+
+## 4.5.0
+
+### Added
+
+* `trailing_digits_count` to asset creation request attributes
+* `Asset` relationship to create withdraw request relationships
+
+## 4.4.1
+
+### Fixed
+
+* CreateKycRecoveryRequestOpAttributes
+
+## 4.4.0
+
+### Added
+
+* `ManageAccountSpecificRuleOp` resource to handle `/v3/history`
+
+## 4.3.4
+
+### Added
+
+* `AccessDefinitionType` attribute to sale
+
+### Changed
+
+* Switched to go 3.5.0
+
+## 4.3.3
+
+### Added
+
+* `BaseHardCap` to `SaleAttributes` resource
+* `SoftCap` and `HardCap` `CreateSaleRequestAttributes`
+
+## 4.3.2
+
+### Added
+
+* `Asset` relationship to `ConvertedBalancesCollection`
+
+## 4.3.1
+
+### Added
+* `Match` resource
+
+## 4.3.0
+
+### Added
+* `Statistics` resource
+* `LimitsWithStats` resource
+
+## Removed
+* `Asset` relation from `ConvertedBalanceStateRelationships`
+
+## 4.2.3
+### Added
+* `ConvertedBalancesCollection` and `ConvertedBalanceState` resources
+
+## 4.2.2
+### Fixed
+* Updated tokend/go to 3.3.4
+## 4.2.1
+### Added
+* Manage Account Specific Rules for Sale
+## 4.2.0
+
+### Added 
+
+* `Owner` relation to `Balance` (ID of the owner's account)
+* `Horizon-State` resource for `/v3` endpoint (info regarding horizon and it's dependencies state)
+* `SubmitTransactionBody` resource for `POST /v3/transactions` endpoint (now possible to specify if we should wait for tx to be ingested)
+* `Cancelled` poll state
+* `UpdatePollEndTimeOp` type
+* `PollId` moved to `ManagePollOp`
+
 ## 4.1.0
 
 ### Added

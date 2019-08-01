@@ -19,7 +19,7 @@ type SignerData struct {
 	Details   json.Marshaler
 }
 
-func (d *SignerData) XDR() (*xdr.UpdateSignerData, error) {
+func (d *SignerData) XDR() (*xdr.SignerData, error) {
 	details, err := d.Details.MarshalJSON()
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to marshal details")
@@ -30,7 +30,7 @@ func (d *SignerData) XDR() (*xdr.UpdateSignerData, error) {
 		return nil, errors.Wrap(err, "failed to set public key")
 	}
 
-	return &xdr.UpdateSignerData{
+	return &xdr.SignerData{
 		PublicKey: xdr.PublicKey(publicKey),
 		RoleId:    xdr.Uint64(d.RoleID),
 		Weight:    xdr.Uint32(d.Weight),

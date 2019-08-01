@@ -3,9 +3,9 @@ package keyvalues
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/tokend/terraform-provider-tokend/tokend/horizon"
 
 	"gitlab.com/distributed_lab/logan/v3/errors"
-	"gitlab.com/tokend/horizon-connector"
 	"gitlab.com/tokend/regources/generated"
 )
 

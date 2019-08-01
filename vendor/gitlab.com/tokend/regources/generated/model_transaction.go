@@ -15,7 +15,7 @@ type TransactionResponse struct {
 	Meta     TransactionResponseMeta `json:"meta"`
 }
 
-type TransactionsResponse struct {
+type TransactionListResponse struct {
 	Data     []Transaction           `json:"data"`
 	Included Included                `json:"included"`
 	Links    *Links                  `json:"links"`

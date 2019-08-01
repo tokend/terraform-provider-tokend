@@ -100,32 +100,6 @@
   version = "v3.5.1"
 
 [[projects]]
-  branch = "master"
-  digest = "1:105a241bcf26d4ef2d08d9afe3a8d232018df9d1402216aeaaa403142723059c"
-  name = "github.com/btcsuite/btcd"
-  packages = [
-    "btcec",
-    "chaincfg",
-    "chaincfg/chainhash",
-    "wire",
-  ]
-  pruneopts = "UT"
-  revision = "c26ffa870fd817666a857af1bf6498fabba1ffe3"
-
-[[projects]]
-  branch = "master"
-  digest = "1:456e40540d5256454d0585141c0338946d552d5dec04ede6bded006509ec4c35"
-  name = "github.com/btcsuite/btcutil"
-  packages = [
-    ".",
-    "base58",
-    "bech32",
-    "hdkeychain",
-  ]
-  pruneopts = "UT"
-  revision = "9e5f4b9a998d263e3ce9c56664a7816001ac8000"
-
-[[projects]]
   digest = "1:fed1f537c2f1269fe475a8556c393fe466641682d73ef8fd0491cd3aa1e47bad"
   name = "github.com/certifi/gocertifi"
   packages = ["."]
@@ -140,21 +114,6 @@
   pruneopts = "UT"
   revision = "8991bc29aa16c548c550c7ff78260e27b9ab7c73"
   version = "v1.1.1"
-
-[[projects]]
-  digest = "1:d38d20ba0407c4bd4545945d49ae032c41819928a5acd558a707d683b2c6ae55"
-  name = "github.com/ethereum/go-ethereum"
-  packages = [
-    "common",
-    "common/hexutil",
-    "common/math",
-    "crypto",
-    "crypto/secp256k1",
-    "rlp",
-  ]
-  pruneopts = "UT"
-  revision = "52f2461774bcb8cdd310f86b4bc501df5b783852"
-  version = "v1.9.0"
 
 [[projects]]
   digest = "1:2faeefda33c255e905c48ce82c2c64bd02eda980ab639d5aa0d6fc21e061c78e"
@@ -179,14 +138,6 @@
   pruneopts = "UT"
   revision = "f04e7487e9a6b9d9837d52743fb5f40576c56411"
   version = "v0.2.0"
-
-[[projects]]
-  digest = "1:c116114869f44c711fa5baf9e019fa327101c82ddc4dcc1de84db1f6c43a2d36"
-  name = "github.com/go-ozzo/ozzo-validation"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "106681dbb37bfa3e7683c4c8129cb7f5925ea3e9"
-  version = "v3.5.0"
 
 [[projects]]
   digest = "1:4c0989ca0bcd10799064318923b9bc2db6b4d6338dd75f3f2d86c3511aaaf5cf"
@@ -654,16 +605,8 @@
   version = "v3.7.1"
 
 [[projects]]
-  branch = "master"
-  digest = "1:64fcc35b2d61405398a7470402b66ca301543ee6d9aa1917acc595cc949a39eb"
-  name = "gitlab.com/tokend/derive"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "866488352b62ee8a5961f6176a2c5f8dcf767ef5"
-
-[[projects]]
-  branch = "feature/op-manage-external-system-pool-entry"
-  digest = "1:16bb6965c47f34a7ac21d5161c3db18dcd8889cdc563419db72cd864f846c63d"
+  branch = "keys"
+  digest = "1:952ef941ff2fa4b1803dd2bd62b654144f78cf705f28ad9c07a13e346c8153f7"
   name = "gitlab.com/tokend/go"
   packages = [
     "amount",
@@ -680,7 +623,7 @@
     "xdrbuild/internal",
   ]
   pruneopts = "UT"
-  revision = "58b84195f716cdb41715244d3345fba88c569eb6"
+  revision = "55b6f447ff639fe48837623bbdfd133fe1c38a88"
 
 [[projects]]
   digest = "1:c97dfec4041199ff4fdfd22b2b2aa8ca038af9c7efc1b17620999027f53cce61"
@@ -729,7 +672,8 @@
   revision = "d2483e9113373a67d704f48c047ef81a7ae8059f"
 
 [[projects]]
-  digest = "1:4ff2f4e19dcf0e17268c2b23a4507150ef51d8fd05350a759e7a6162f6eaed09"
+  branch = "keys"
+  digest = "1:e5836ec42d32770b03e6497e6b1bbf504fbda6782ab48b4576f0afe1302712dd"
   name = "gitlab.com/tokend/regources"
   packages = [
     ".",
@@ -737,12 +681,11 @@
     "v2",
   ]
   pruneopts = "UT"
-  revision = "ebcf3409be3cd8c98a30e7ec14a6e002a3607672"
-  version = "v4.1.0"
+  revision = "322adf4924257c3609e0f8de96d0402b5e86959a"
 
 [[projects]]
   branch = "master"
-  digest = "1:d3a967211ae9f9a01054f496f428eea3fbb5c43155fb335bdb28c4df18729029"
+  digest = "1:cdd8417bb2665f79623d6c639d091366ec5bd4236d91dd1e0977982c8b059dc0"
   name = "golang.org/x/crypto"
   packages = [
     "bcrypt",
@@ -756,8 +699,6 @@
     "openpgp/errors",
     "openpgp/packet",
     "openpgp/s2k",
-    "ripemd160",
-    "sha3",
     "ssh/terminal",
   ]
   pruneopts = "UT"
@@ -885,9 +826,10 @@
     "github.com/spf13/cast",
     "github.com/stretchr/testify/assert",
     "github.com/stretchr/testify/mock",
+    "gitlab.com/distributed_lab/logan/v3",
     "gitlab.com/distributed_lab/logan/v3/errors",
-    "gitlab.com/tokend/derive",
-    "gitlab.com/tokend/go/amount",
+    "gitlab.com/tokend/go/keypair",
+    "gitlab.com/tokend/go/signcontrol",
     "gitlab.com/tokend/go/strkey",
     "gitlab.com/tokend/go/xdr",
     "gitlab.com/tokend/go/xdrbuild",

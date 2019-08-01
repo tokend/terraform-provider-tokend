@@ -13,7 +13,7 @@ type LedgerEntryChangeResponse struct {
 	Included Included          `json:"included"`
 }
 
-type LedgerEntryChangesResponse struct {
+type LedgerEntryChangeListResponse struct {
 	Data     []LedgerEntryChange `json:"data"`
 	Included Included            `json:"included"`
 	Links    *Links              `json:"links"`

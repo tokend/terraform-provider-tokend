@@ -13,7 +13,7 @@ type ManageKeyValueOpResponse struct {
 	Included Included         `json:"included"`
 }
 
-type ManageKeyValueOpsResponse struct {
+type ManageKeyValueOpListResponse struct {
 	Data     []ManageKeyValueOp `json:"data"`
 	Included Included           `json:"included"`
 	Links    *Links             `json:"links"`

@@ -30,8 +30,9 @@
   version = "0.8.0"
 
 [[constraint]]
+  #version = "3.7.0"
   name = "gitlab.com/tokend/go"
-  version = "3.2"
+  branch = "keys"
 
 [prune]
   go-tests = true

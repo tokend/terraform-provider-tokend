@@ -14,7 +14,7 @@ type ManageSignerOpResponse struct {
 	Included Included       `json:"included"`
 }
 
-type ManageSignerOpsResponse struct {
+type ManageSignerOpListResponse struct {
 	Data     []ManageSignerOp `json:"data"`
 	Included Included         `json:"included"`
 	Links    *Links           `json:"links"`

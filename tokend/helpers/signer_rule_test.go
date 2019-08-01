@@ -49,38 +49,6 @@ func TestSignerRules_Balance(t *testing.T) {
 	assert.Equal(t, expected, got)
 }
 
-func TestSignerRules_Fee(t *testing.T) {
-	c := map[string]interface{}{
-		"entry_type": "fee",
-	}
-	expected := &xdr.SignerRuleResource{
-		Type: xdr.LedgerEntryTypeFee,
-		Ext:  &xdr.EmptyExt{},
-	}
-
-	resource := schema.TestResourceDataRaw(t, accountRuleSchema, c)
-	got, err := SignerRuleEntry(resource)
-
-	assert.NoError(t, err)
-	assert.Equal(t, expected, got)
-}
-
-func TestSignerRules_Limits(t *testing.T) {
-	c := map[string]interface{}{
-		"entry_type": "limits",
-	}
-	expected := &xdr.SignerRuleResource{
-		Type: xdr.LedgerEntryTypeLimitsV2,
-		Ext:  &xdr.EmptyExt{},
-	}
-
-	resource := schema.TestResourceDataRaw(t, accountRuleSchema, c)
-	got, err := SignerRuleEntry(resource)
-
-	assert.NoError(t, err)
-	assert.Equal(t, expected, got)
-}
-
 func TestSignerRules_Signer(t *testing.T) {
 	c := map[string]interface{}{
 		"entry_type": "signer",
@@ -95,100 +63,6 @@ func TestSignerRules_Signer(t *testing.T) {
 
 	assert.NoError(t, err)
 	assert.Equal(t, expected, got)
-}
-
-func TestSignerRules_Asset(t *testing.T) {
-	t.Run("maxUint64", func(t *testing.T) {
-		c := map[string]interface{}{
-			"entry_type": "asset",
-			"entry": map[string]interface{}{
-				"asset_code": "*",
-				"asset_type": "*"},
-		}
-		expected := &xdr.SignerRuleResource{
-			Type: xdr.LedgerEntryTypeAsset,
-			Asset: &xdr.SignerRuleResourceAsset{
-				AssetCode: xdr.AssetCode("*"),
-				AssetType: math.MaxUint64,
-			},
-		}
-
-		resource := schema.TestResourceDataRaw(t, accountRuleSchema, c)
-		got, err := SignerRuleEntry(resource)
-
-		assert.NoError(t, err)
-		assert.Equal(t, expected, got)
-	})
-
-	t.Run("with value", func(t *testing.T) {
-		c := map[string]interface{}{
-			"entry_type": "asset",
-			"entry": map[string]interface{}{
-				"asset_code": "*",
-				"asset_type": "1"},
-		}
-		expected := &xdr.SignerRuleResource{
-			Type: xdr.LedgerEntryTypeAsset,
-			Asset: &xdr.SignerRuleResourceAsset{
-				AssetCode: xdr.AssetCode("*"),
-				AssetType: xdr.Uint64(1),
-			},
-		}
-
-		resource := schema.TestResourceDataRaw(t, accountRuleSchema, c)
-		got, err := SignerRuleEntry(resource)
-
-		assert.NoError(t, err)
-		assert.Equal(t, expected, got)
-	})
-
-}
-
-func TestSignerRules_Sale(t *testing.T) {
-	t.Run("maxUint64", func(t *testing.T) {
-		c := map[string]interface{}{
-			"entry_type": "sale",
-			"entry": map[string]interface{}{
-				"sale_id":   "*",
-				"sale_type": "*"},
-		}
-		expected := &xdr.SignerRuleResource{
-			Type: xdr.LedgerEntryTypeSale,
-			Sale: &xdr.SignerRuleResourceSale{
-				SaleId:   math.MaxUint64,
-				SaleType: math.MaxUint64,
-			},
-		}
-
-		resource := schema.TestResourceDataRaw(t, accountRuleSchema, c)
-		got, err := SignerRuleEntry(resource)
-
-		assert.NoError(t, err)
-		assert.Equal(t, expected, got)
-	})
-
-	t.Run("with value", func(t *testing.T) {
-		c := map[string]interface{}{
-			"entry_type": "sale",
-			"entry": map[string]interface{}{
-				"sale_id":   "1",
-				"sale_type": "1"},
-		}
-		expected := &xdr.SignerRuleResource{
-			Type: xdr.LedgerEntryTypeSale,
-			Sale: &xdr.SignerRuleResourceSale{
-				SaleId:   xdr.Uint64(1),
-				SaleType: xdr.Uint64(1),
-			},
-		}
-
-		resource := schema.TestResourceDataRaw(t, accountRuleSchema, c)
-		got, err := SignerRuleEntry(resource)
-
-		assert.NoError(t, err)
-		assert.Equal(t, expected, got)
-	})
-
 }
 
 func TestSignerRules_KeyValue(t *testing.T) {
@@ -238,10 +112,7 @@ func TestSignerRules_ReviewableRequest(t *testing.T) {
 			TasksToAdd:    xdr.Uint64(math.MaxUint64),
 			TasksToRemove: xdr.Uint64(math.MaxUint64),
 			AllTasks:      xdr.Uint64(math.MaxUint64),
-			Details: xdr.ReviewableRequestResource{
-				RequestType: xdr.ReviewableRequestTypeAny,
-				Ext:         &xdr.EmptyExt{},
-			},
+			RequestType:   xdr.ReviewableRequestTypeAny,
 		},
 	}
 

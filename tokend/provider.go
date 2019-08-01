@@ -1,6 +1,7 @@
 package tokend
 
 import (
+	"github.com/tokend/terraform-provider-tokend/tokend/horizon"
 	"net/url"
 
 	"github.com/tokend/terraform-provider-tokend/tokend/data"
@@ -12,7 +13,6 @@ import (
 	"github.com/pkg/errors"
 	"github.com/tokend/terraform-provider-tokend/tokend/helpers/validation"
 	"gitlab.com/tokend/go/xdrbuild"
-	"gitlab.com/tokend/horizon-connector"
 	"gitlab.com/tokend/keypair"
 )
 
@@ -38,12 +38,9 @@ func Provider() terraform.ResourceProvider {
 			"tokend_account_rule":               resourceAccountRule(),
 			"tokend_account_role":               resourceAccountRole(),
 			"tokend_key_value":                  resourceKeyValue(),
-			"tokend_asset":                      resourceAsset(),
 			"tokend_signer_rule":                resourceSignerRule(),
 			"tokend_signer_role":                resourceSignerRole(),
-			"tokend_asset_pair":                 resourceAssetPair(),
 			"tokend_account_signer":             resourceAccountSigner(),
-			"tokend_external_system_pool_entry": resourceExternalSystemPoolEntry(),
 		},
 		ConfigureFunc: func(d *schema.ResourceData) (interface{}, error) {
 			endpoint, err := url.Parse(d.Get("endpoint").(string))

@@ -26,9 +26,6 @@ type ParticipantEffect struct {
 
 //ParticipantEffectRelation - represents relations of resource
 type ParticipantEffectRelation struct {
-	Account   *Relation `json:"account"`
-	Balance   *Relation `json:"balance,omitempty"`
-	Asset     *Relation `json:"asset,omitempty"`
 	Operation *Relation `json:"operation"`
 	Effect    *Relation `json:"effect"`
 }

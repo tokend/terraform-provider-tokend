@@ -14,7 +14,7 @@ type ManageAccountRoleOpResponse struct {
 	Included Included            `json:"included"`
 }
 
-type ManageAccountRoleOpsResponse struct {
+type ManageAccountRoleOpListResponse struct {
 	Data     []ManageAccountRoleOp `json:"data"`
 	Included Included              `json:"included"`
 	Links    *Links                `json:"links"`

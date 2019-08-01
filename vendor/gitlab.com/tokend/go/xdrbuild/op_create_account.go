@@ -24,7 +24,7 @@ func (op *CreateAccount) XDR() (*xdr.Operation, error) {
 			return nil, errors.Wrap(err, "failed to set referrer address")
 		}
 	}
-	signers := make([]xdr.UpdateSignerData, 0, len(op.Signers))
+	signers := make([]xdr.SignerData, 0, len(op.Signers))
 	for _, signer := range op.Signers {
 		data, err := signer.XDR()
 		if err != nil {

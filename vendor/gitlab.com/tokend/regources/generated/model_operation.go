@@ -14,7 +14,7 @@ type OperationResponse struct {
 	Included Included  `json:"included"`
 }
 
-type OperationsResponse struct {
+type OperationListResponse struct {
 	Data     []Operation `json:"data"`
 	Included Included    `json:"included"`
 	Links    *Links      `json:"links"`
