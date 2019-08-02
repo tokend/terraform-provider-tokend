@@ -40,11 +40,11 @@ func (c *Connector) TXBuilder() (*xdrbuild.Builder, error) {
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to get horizon info")
 	}
-
-	return xdrbuild.NewBuilder(info.Attributes.NetworkPassphrase, info.Attributes.TxExpirationPeriod), nil
+	return xdrbuild.NewBuilder(info.Data.Attributes.NetworkPassphrase, info.Data.Attributes.TxExpirationPeriod), nil
 }
 
-func (c *Connector) Info() (info *regources.HorizonState, err error) {
+func (c *Connector) Info() (info *regources.HorizonStateResponse, err error) {
+	info = &regources.HorizonStateResponse{}
 	response, err := c.client.Get("/v3/info")
 	if err != nil {
 		return nil, errors.Wrap(err, "request failed")
@@ -54,7 +54,6 @@ func (c *Connector) Info() (info *regources.HorizonState, err error) {
 	}
 	return info, nil
 }
-
 
 func (c *Connector) Submitter() *Submitter {
 	return &Submitter{

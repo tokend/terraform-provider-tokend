@@ -70,9 +70,10 @@ func (s *Submitter) Submit(ctx context.Context, envelope string) SubmitResult {
 	if err == nil {
 		var success regources.TransactionResponse
 		if err := json.Unmarshal(response, &success); err != nil {
-			// oops, tx was successful but we failed to unmarshal response.
-			// let's ignore error and hope nothing will break
-			// TODO debug log
+			return SubmitResult{
+				Err:         err,
+				RawResponse: response,
+			}
 		}
 		// successful submission
 		return SubmitResult{
