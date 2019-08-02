@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/tokend/terraform-provider-tokend.svg?branch=master)](https://travis-ci.org/tokend/terraform-provider-tokend)
+
 # TokenD Terraform Provider
 
 ## Requirements
