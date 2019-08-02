@@ -823,7 +823,7 @@
     "googleapis/type/expr",
   ]
   pruneopts = "UT"
-  revision = "c506a9f9061087022822e8da603a52fc387115a8"
+  revision = "fa694d86fc64c7654a660f8908de4e879866748d"
 
 [[projects]]
   digest = "1:630e92180cd33deada273ff1fe293c9451884eb3c25b73f835c28f5f3444a76c"
