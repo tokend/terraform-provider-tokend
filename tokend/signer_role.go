@@ -121,5 +121,54 @@ func resourceSignerRoleRead(d *schema.ResourceData, meta interface{}) error {
 }
 
 func resourceSignerRoleDelete(d *schema.ResourceData, meta interface{}) error {
-	return errors.New("tokend_signer_role delete is not implemented")
+	m := meta.(Meta)
+
+	id, err := cast.ToUint64E(d.Id())
+	if err != nil {
+		return errors.Wrap(err, "failed to cast id")
+	}
+
+	env, err := m.Builder.Transaction(m.Source).Op(&RemoveSignerRole{
+		ID: id,
+	}).Sign(m.Signer).Marshal()
+	if err != nil {
+		return errors.Wrap(err, "failed to marshal tx")
+	}
+	result := m.Horizon.Submitter().Submit(context.TODO(), env)
+	if result.Err != nil {
+		return errors.Wrapf(result.Err, "failed to submit tx: %s %q", result.TXCode, result.OpCodes)
+	}
+	var txResult xdr.TransactionResult
+	if err := xdr.SafeUnmarshalBase64(result.ResultXDR, &txResult); err != nil {
+		return errors.Wrap(err, "failed to decode result")
+	}
+	txCodes := *(txResult.Result.Results)
+	roleID := txCodes[0].Tr.ManageSignerRoleResult.Success.RoleId
+	d.SetId(fmt.Sprintf("%d", roleID))
+	return nil
+
+	//return errors.New("tokend_signer_role delete is not implemented")
+
+}
+
+// TODO:- Add this part to op_manage_signer_role.go
+type RemoveSignerRole struct {
+	ID uint64
+}
+
+func (op *RemoveSignerRole) XDR() (*xdr.Operation, error) {
+
+	return &xdr.Operation{
+		Body: xdr.OperationBody{
+			Type: xdr.OperationTypeManageSignerRole,
+			ManageSignerRoleOp: &xdr.ManageSignerRoleOp{
+				Data: xdr.ManageSignerRoleOpData{
+					Action: xdr.ManageSignerRoleActionRemove,
+					RemoveData: &xdr.RemoveSignerRoleData{
+						RoleId: xdr.Uint64(op.ID),
+					},
+				},
+			},
+		},
+	}, nil
 }
