@@ -2,6 +2,7 @@ package tokend
 
 import (
 	"context"
+	"encoding/json"
 
 	"github.com/tokend/terraform-provider-tokend/tokend/helpers"
 
@@ -119,7 +120,89 @@ func resourceAssetCreate(d *schema.ResourceData, _m interface{}) (err error) {
 }
 
 func resourceAssetUpdate(d *schema.ResourceData, meta interface{}) error {
-	return errors.New("tokend_asset update is not implemented")
+	m := meta.(Meta)
+
+	var zero uint32 = 0
+
+	var policies uint32
+	for _, policyRaw := range d.Get("policies").([]interface{}) {
+		policy, err := cast.ToStringE(policyRaw)
+		if err != nil {
+			return errors.Wrap(err, "failed to cast policy")
+		}
+		ok := false
+		for _, guess := range xdr.AssetPolicyAll {
+			if guess.ShortString() == policy {
+				ok = true
+				policies |= uint32(guess)
+			}
+		}
+		if !ok {
+			panic(errors.Errorf("invalid policy name: %s", policy))
+		}
+	}
+
+	rawDetails := d.Get("details")
+	details, err := helpers.DetailsFromRaw(rawDetails)
+	if err != nil {
+		return errors.Wrap(err, "failed to get details")
+	}
+
+	env, err := m.Builder.Transaction(m.Source).Op(&UpdateAsset{
+		CreatorDetails: details,
+		Code:           d.Get("code").(string),
+		Policies:       policies,
+		AllTasks:       &zero,
+	}).Sign(m.Signer).Marshal()
+	if err != nil {
+		return errors.Wrap(err, "failed to marshal tx")
+	}
+	result := m.Horizon.Submitter().Submit(context.TODO(), env)
+	if result.Err != nil {
+		return errors.Wrapf(result.Err, "failed to submit tx: %s %q", result.TXCode, result.OpCodes)
+	}
+	return nil
+	//return errors.New("tokend_asset update is not implemented")
+
+}
+
+//TODO: Add to op_manage_asset.go
+type UpdateAsset struct {
+	Code           string
+	Policies       uint32
+	CreatorDetails json.Marshaler
+	AllTasks       *uint32
+}
+
+func (op *UpdateAsset) XDR() (*xdr.Operation, error) {
+	details, err := op.CreatorDetails.MarshalJSON()
+	if err != nil {
+		return nil, errors.Wrap(err, "failed to marshal creator details")
+	}
+
+	var tasks *xdr.Uint32
+	if op.AllTasks != nil {
+		tasks = (*xdr.Uint32)(op.AllTasks)
+	}
+
+	return &xdr.Operation{
+		Body: xdr.OperationBody{
+			Type: xdr.OperationTypeManageAsset,
+			ManageAssetOp: &xdr.ManageAssetOp{
+				Request: xdr.ManageAssetOpRequest{
+					Action: xdr.ManageAssetActionCreateAssetUpdateRequest,
+					CreateAssetUpdateRequest: &xdr.ManageAssetOpCreateAssetUpdateRequest{
+						UpdateAsset: xdr.AssetUpdateRequest{
+							Code:           xdr.AssetCode(op.Code),
+							Policies:       xdr.Uint32(op.Policies),
+							CreatorDetails: xdr.Longstring(details),
+						},
+						AllTasks: tasks,
+					},
+				},
+			},
+		},
+	}, nil
 }
 
 func resourceAssetRead(d *schema.ResourceData, meta interface{}) error {
