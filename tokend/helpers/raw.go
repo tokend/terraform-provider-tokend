@@ -2,6 +2,8 @@ package helpers
 
 import (
 	"encoding/json"
+	"gitlab.com/tokend/go/strkey"
+	"gitlab.com/tokend/go/xdr"
 	"math"
 
 	"github.com/mitchellh/mapstructure"
@@ -74,4 +76,35 @@ func EthereumDataFromRaw(raw interface{}) (*EthereumData, error) {
 		return nil, errors.Wrap(err, "failed to decode data")
 	}
 	return &data, nil
+}
+func AccountIDFromRaw(raw interface{}) (*xdr.AccountId, error) {
+	rawstr, errCast := cast.ToStringE(raw)
+	if errCast != nil {
+		return nil, errors.Wrap(errCast, "failed to cast to string")
+	}
+	var accountID xdr.AccountId
+	err := Validate(rawstr)
+	if err == nil {
+		errAdr := accountID.SetAddress(rawstr)
+		if errAdr != nil {
+			return nil, errors.Wrap(errCast, "failed to set address")
+		}
+	}
+	return &accountID, nil
+}
+func Validate(a string) error {
+	_, err := strkey.Decode(strkey.VersionByteAccountID, string(a))
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func LimitsAreValidated(dailyOut uint64, weeklyOut uint64, monthlyOut uint64, annualOut uint64) bool {
+
+	if dailyOut <= weeklyOut && weeklyOut <= monthlyOut && monthlyOut <= annualOut {
+		return true
+	} else {
+		return false
+	}
 }
