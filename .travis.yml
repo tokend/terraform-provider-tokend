@@ -1,38 +1,22 @@
-dist: bionic
-addons:
-  apt:
-    source:
-    - docker-bionic
-    packages:
-    - docker
-services:
-- docker
-env:
-  global:
-  - PROJECT: tokend
-  - IMAGE_NAME: stellar-deposit-svc
-  - secure: 4SG3A8TRXMrLfvrXVI/MHKBVeWLmvnmmIBDXYLUTVHNdnIgwl3oZ/8BiY+A34U5TdrlgJmlLYff3sdC1TRm9YwQpL4m+zKjZzsvChoOABU7gIqHqSG5hWxgArMIINsf647OTFn3C2bczuY1mYxIkyzYjmk2V8EMTTxF5Zs/VO0KYIWkPbNrxzirUFPiyoas/M2j+gP4yTkcEtBECltJazA6SXpbfuuus47/lIPzePMNFnDyDM/DqBvIdkfmmFtK0TV0xVnLaHnX570jt9tAz06HP8DmYkeqTKFvnlWESDelKwZ/6xHxGZ9TNVz523DFp0WDWSinU8+3iv6PWpuaw6Mzg3q94h8+bf+HHIn25yVFbTIRZdCR7z7C9MTFEJqCB9aAwqSDlS4dTGP3i7AT/epFlUGrbSvmKvw0t5ddzrjQdw/MrtRIvxVrzDboZVHbzKX1Fxreu8bTbJRzVbe8CVX6fF1K+THzkCCwGAVV2mtQ5Q9nK6phBpUdwO3AhMI53howHPsdFWm3EWAIfMtGHmvnCbUss0OHRdF369JImjWB928G0hcgj03FukciShMVO+Mt02XIdn2NHkdOhzqVGxFcChFfha2w0g2M56XinKhnOAC0gk8eVGLJS4voSRHvWf/FSMSXCONyQ3/PqLYjUNHAg0fC2f21pQ4oIOexc6E4=
-  - secure: vurPoHfZSltbfku0Xb0D+2K+dEE0aIcaxbqq3GFoAp568dKvc6fgNwPE0mqtLVaqzlgwOpzgc1cK0pTzfa5wp98VaZ1fa31HadJTZnTOBKRHiglm4p7yMDDeUo6DTdoLiNX4uIKKMeNDyP+6rXp3gA/EPZbpy3JIQ7Hci/p/g0CEC8QMhswpVfsr0mpS1q0LrjNzNUemYrYoy5crNi3jM7qtTIdC6dKb0UNmAwPJSiAy5gAJEqqRQrWbm+VkhQOm5ha1UwZNL5RPNLTz/QyLzFznJDyzlX0ThDJjXA31C6x8pYofY9p4KdAwJf4Ck7c3T4zPlgrUVWH9lotpkyQ2luI8NZ3Cztt6wE1zK0E01D4aYAwoEmEs3ARRQ8BCxdlM9Bp6o8nRHqMiRmX++xAvEKFoXyvoLqYTKXMCfVzeOrACqKqBsUNI8h/Y2E9g3vxhAF+RHGHgTxxdAeMzB6tcne3BIlRXyyWEvIp5Tj+1WzHW+eSlFdX82JvncZwRG8q3oB8WWKSdqUUee0f38Aa7TxBzljgVn8bV3hLIBUlCziBB63TKkeX15CZJVGoIUPfVlwtym+Yw18+AqBbSABt6SPlLWWVOo8wLkzIE/NSRkR6h2zhlGeuEN7r++PeTAkIODAZ5CFKBj6nSDh4K76A/3FhLf+Bt2eMMSlzNruIyg8c=
-  - secure: Pr5m2KrYqySW2h4/Mp1jbTZJnJNYNLE3r6NarFcnszf2ZtTEZgalZ6773z6x86zsLq6JS67OeGGivQqzcpZknStZ+2r0hzhFIaXhNw+V3oc9u1Re4GjjSotSWkBy91NT2Kh+yFT6gkQJeHLAYo8YF0h/W5wRczzGGWPufoJ20S5R1dkC4BfZFq+NMsT3h0ENLCdZVY3UxN2HCN3edvkuzJ1S+WEalKRwDZUWzyISF04Tb9Jvin4WeKPlBKmuvdJl2W/KEbQ/TCRvFc2dAYVt23SuxySP3HH42dsB6xgtqzXZKg+80li25u2fq0DyfTDazi5wrQI+2vrJ9ojoCZyHh8vTtH1+2chRV8jEvA4cB2yTyS1RAADwPErhdcYo71kGBS/LQLA+297xCfBf01B1LaMW0ZaJoDMm7uPSdPt271w1zrfqTFT2rtANt9fgLgrWiCzfKSE381N/Me4MkYwN4hFD492u7oSPMZSonr3pqCSx9C5s0mVhk8Vx5UYWl2gA7yjGZgH4BUtHQJq1IlHrBzYWVBgTgM8qxHOdEXkH3zAjpRcIs4cfuusQuOJ7pfUoYHqu4GlMbvE/1L+SWVrznEd39avKc9386S1f8mhsnrv9G6rv8Ju9mncDD3RcRhV/qLtJkYbhyYEKmiwZhj21W3tqeGx0wIrZjA3EKvciOyc=
-  - secure: Wfiwxf4BDmnZ/U8e+i0zzBBhymI+GqS7flBPrRO7gkFgbIBRwAzSEF6ormNvMQ2gnHGIuQYnHRLKNZfuN40OtnpCyZzve67hSdq1Vuj9xXhfrpsu1XyTmsJMKS4mh/OOmoMgrnemyxdxoJc4xant7gEPpAM1y+hEzafgccrFNZfUCCRmODoYLjK/UvT+pvxu0ixbp3kK0jd+t3u45pO3lCfz1/5cyDb5QoVNMrBhiddDxj0x4zhQsm4Sdt5HQtv7q5WWI1anv0BtSOf5uV3CmMX9CeQitKOTVU6obf0ozeAPh193GlzJRpF8FzBqwrUqwRM/1YrDlun9dpppp5d2OQrdqckLxox2t5MOqc7GsG1QzRoaxyckow2YJFLoX/yAWrTdVh+1mOXd+AsFSY8jh1Ct7hBrvbcuNUkNUhAXbqcHt1j9/LSmjnd8/Knuk8ZXvHaGOdcoEGnzfroJmjiDGuFx6L6XC2CQrapcQM4cUgiB7oaDVPEyooM7IgV0GmlXitUsVtCJF8RsnTjWMgS7OX8pz8YlMKEUMtDNAw2DTB3y36v8qpkwlg1B+6quj0CUs0jvwNUFxVOajKPIqQ/dDe/8Pej1zBnDL1gWrK76KEOtpiz4kSVb4b/pJRsX5UJBpayTCrWtSNABExEfpAxWCsI9961eFSFzbDZvm66SlzI=
+language: go
+
+go:
+- 1.12.x
+
 script:
-- export IMAGE_TAG=$(test -z $TRAVIS_TAG && echo $TRAVIS_COMMIT || echo $TRAVIS_TAG)
-- docker build -t $PROJECT/$IMAGE_NAME:$IMAGE_TAG .
-before_deploy:
-- echo "$DOCKERHUB_PASSWORD" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
-- echo "$GITLABREG_PASSWORD" | docker login -u "$GITLABREG_USERNAME" --password-stdin
-  registry.gitlab.com
-- docker tag $PROJECT/$IMAGE_NAME:$IMAGE_TAG registry.gitlab.com/$PROJECT/docker-registry/$IMAGE_NAME:$IMAGE_TAG
+- CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o terraform-provider-tokend-linux -v github.com/tokend/terraform-provider-tokend
+- CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -o terraform-provider-tokend-darwin -v github.com/tokend/terraform-provider-tokend
+- CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -o terraform-provider-tokend-windows -v github.com/tokend/terraform-provider-tokend
+
 deploy:
-- provider: script
-  script:
-  - docker push $PROJECT/$IMAGE_NAME:$IMAGE_TAG
+  skip_cleanup: true
+  provider: releases
+  api_key:
+    secure: nFx3LUivirbPr7SIspIHb116ffjVp86vAOjS9+Rn6m+mzXLsXF/xs7XlVrsQEHaY2uzxIoj+Bz7MyNHdapKOUnsVsB/4Hs9kb3Lce45fQHA+9NjcXvM/ZZYcKmDt74wnntZI5OKg1w0RUAxTqzRPlMmPQYya1m/USwNl4Ni5FlYRvOACy5AfWLyzrhvh5A8hEl5kQhKQpvn+JAi+yHUfYAl0Idv9/4kwQT+3OVkmMuepWFuwaYEV1eHLp7C+b0neYqk013wdC6VjFYetcDC2oklWHLVg8KBkXrox6BuVSfkhx2k0yq5dgo+pfPyUuRVj29ikBW7I1WHtZS/51bKfNpaWydzdSjKhNtgqB3xP71d8NX1v5AiomvqHF7IPtDQ+PR8XWZKz/z73xbOIif+nRREo5b4GYo4wT5VP5yXR+M6wKMaT77JqSUZwOy/gjK2YBd4fRbE4X6LdydmpHnr66CLHscrovhCqaRKVTwBjES0MNx9vWtG6oviiZRX0i3kTH/ud9U5oOke6NZcEBK7pEnZsFISCw0FxLHeq0RFF80C4qMLTKj1TLejvITOjQqffoO4ko8oMEBDYTC0QffiPgJkDJ8WmNuldR2WZjZMigr5nvImIiMWiAWrv3ZNLs8dzCkCvsmzxDcQhoZRtWfDjvhTuajWpvYVcI/iPx5ZQg4E=
+  file:
+  - terraform-provider-tokend-linux
+  - terraform-provider-tokend-darwin
+  - terraform-provider-tokend-windows
   on:
-    all_branches: true
+    repo: tokend/terraform-provider-tokend
     tags: true
-- provider: script
-  script:
-  - docker push registry.gitlab.com/$PROJECT/docker-registry/$IMAGE_NAME:$IMAGE_TAG
-  on:
-    all_branches: true
-    tags: false
