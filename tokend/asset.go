@@ -162,7 +162,6 @@ func resourceAssetUpdate(d *schema.ResourceData, meta interface{}) error {
 		return errors.Wrapf(result.Err, "failed to submit tx: %s %q", result.TXCode, result.OpCodes)
 	}
 	return nil
-	//return errors.New("tokend_asset update is not implemented")
 
 }
 

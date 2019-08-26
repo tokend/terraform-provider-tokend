@@ -69,15 +69,18 @@ func resourceAssetPairUpdate(d *schema.ResourceData, meta interface{}) error {
 	m := meta.(Meta)
 	actionRaw := d.Get("action").(string)
 	var action xdr.ManageAssetPairAction
-	if actionRaw == "CREATE" {
+	switch actionRaw {
+	case "CREATE":
 		action = xdr.ManageAssetPairActionCreate
-	} else if actionRaw == "UPDATE_PRICE" {
-		action = xdr.ManageAssetPairActionUpdatePrice
-	} else if actionRaw == "UPDATE_POLICIES" {
-		action = xdr.ManageAssetPairActionUpdatePolicies
-	} else {
-		action = xdr.ManageAssetPairAction(xdr.ManageAssetPairResultCodeInvalidAction)
 
+	case "UPDATE_PRICE":
+		action = xdr.ManageAssetPairActionUpdatePrice
+
+	case "UPDATE_POLICIES":
+		action = xdr.ManageAssetPairActionUpdatePolicies
+
+	default:
+		action = xdr.ManageAssetPairAction(xdr.ManageAssetPairResultCodeInvalidAction)
 		return fmt.Errorf("INVALID_ACTION %s", action)
 
 	}
@@ -103,11 +106,11 @@ func resourceAssetPairUpdate(d *schema.ResourceData, meta interface{}) error {
 	}
 
 	if price < 0 || priceCorrection < 0 || maxStep < 0 || maxStep > 100 {
-		return errors.Wrap(err, "MALFORMED")
+		return errors.New("MALFORMED")
 	}
 	policies := d.Get("policies").(int32)
 	if policies < 0 {
-		return errors.Wrap(err, "INVALID_POLICIES")
+		return errors.New("INVALID_POLICIES")
 	}
 
 	env, err := m.Builder.Transaction(m.Source).Op(&xdrbuild.UpdateAssetPairPolicies{

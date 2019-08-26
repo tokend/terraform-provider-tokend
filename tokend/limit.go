@@ -13,7 +13,10 @@ import (
 func resourceLimit() *schema.Resource {
 	return &schema.Resource{
 		Create: resourceLimitsCreate,
+		Read:   resourceSignerRuleRead,
+		Update: resourceSignerRuleUpdate,
 		Delete: resourceLimitsDelete,
+
 		Schema: map[string]*schema.Schema{
 			"action": {
 				Type:     schema.TypeString,
@@ -22,18 +25,16 @@ func resourceLimit() *schema.Resource {
 			"role": {
 				Type:     schema.TypeInt,
 				Optional: true,
-				Default:  1,
 			},
 			"account_id": {
 				Type:     schema.TypeString,
 				Optional: true,
-				Default:  1,
 			},
 			"stats_type": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"code": {
+			"asset_code": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
@@ -68,8 +69,8 @@ func resourceLimit() *schema.Resource {
 func resourceLimitsCreate(d *schema.ResourceData, _m interface{}) (err error) {
 	m := _m.(Meta)
 
-	rawAccountId := d.Get("account_id")
-	accountId, err := helpers.AccountIDFromRaw(rawAccountId)
+	rawAccountID := d.Get("account_id")
+	accountID, err := helpers.AccountIDFromRaw(rawAccountID)
 	if err != nil {
 		return errors.Wrap(err, "failed to get account id")
 	}
@@ -102,33 +103,24 @@ func resourceLimitsCreate(d *schema.ResourceData, _m interface{}) (err error) {
 		return errors.Wrap(err, "failed to cast annual out")
 	}
 
-	boolValidation := helpers.LimitsAreValidated(dailyOut, weeklyOut, monthlyOut, annualOut)
-	if boolValidation == true {
+	if helpers.ValidateLimits(dailyOut, weeklyOut, monthlyOut, annualOut) == false {
 		return errors.New("failed to set limits - incorrect values")
 	}
 
 	actionRaw := d.Get("action").(string)
 	var action xdr.ManageLimitsAction
-	if actionRaw == "CREATE" {
-		action = xdr.ManageLimitsActionCreate
+	if actionRaw != "CREATE" {
+		return fmt.Errorf("unknown account rule action: %s", actionRaw)
 	} else {
-		for _, guess := range xdr.ManageLimitsActionAll {
-			fmt.Println(guess.ShortString(), actionRaw)
-			if guess.ShortString() == actionRaw {
-				action = guess
-			}
-		}
-		if action == 0 {
-			return fmt.Errorf("unknown account rule action: %s", actionRaw)
-		}
+		action = xdr.ManageLimitsActionCreate
 	}
 
 	env, err := m.Builder.Transaction(m.Source).Op(&CreateLimit{
 		Action:     action,
 		Role:       rawAccountRole.(*xdr.Uint64),
-		Id:         accountId,
+		Id:         accountID,
 		Type:       rawStatsType.(xdr.StatsOpType),
-		Code:       d.Get("code").(xdr.AssetCode),
+		Code:       d.Get("asset_code").(xdr.AssetCode),
 		Convert:    d.Get("convert").(bool),
 		DailyOut:   rawDailyOut.(xdr.Uint64),
 		WeeklyOut:  rawWeeklyOut.(xdr.Uint64),
@@ -182,6 +174,14 @@ func (op *CreateLimit) XDR() (*xdr.Operation, error) {
 			},
 		},
 	}, nil
+}
+
+func resourceLimitsRead(d *schema.ResourceData, meta interface{}) error {
+	return nil
+}
+
+func resourceLimitsUpdate(d *schema.ResourceData, meta interface{}) error {
+	return nil
 }
 
 func resourceLimitsDelete(d *schema.ResourceData, meta interface{}) error {

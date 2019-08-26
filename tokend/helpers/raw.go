@@ -2,11 +2,10 @@ package helpers
 
 import (
 	"encoding/json"
+	"github.com/mitchellh/mapstructure"
 	"gitlab.com/tokend/go/strkey"
 	"gitlab.com/tokend/go/xdr"
 	"math"
-
-	"github.com/mitchellh/mapstructure"
 
 	"github.com/spf13/cast"
 	"gitlab.com/distributed_lab/logan/v3/errors"
@@ -83,7 +82,7 @@ func AccountIDFromRaw(raw interface{}) (*xdr.AccountId, error) {
 		return nil, errors.Wrap(errCast, "failed to cast to string")
 	}
 	var accountID xdr.AccountId
-	err := Validate(rawstr)
+	err := ValidateAccountID(rawstr)
 	if err == nil {
 		errAdr := accountID.SetAddress(rawstr)
 		if errAdr != nil {
@@ -92,7 +91,8 @@ func AccountIDFromRaw(raw interface{}) (*xdr.AccountId, error) {
 	}
 	return &accountID, nil
 }
-func Validate(a string) error {
+
+func ValidateAccountID(a string) error {
 	_, err := strkey.Decode(strkey.VersionByteAccountID, string(a))
 	if err != nil {
 		return err
@@ -100,11 +100,6 @@ func Validate(a string) error {
 	return nil
 }
 
-func LimitsAreValidated(dailyOut uint64, weeklyOut uint64, monthlyOut uint64, annualOut uint64) bool {
-
-	if dailyOut <= weeklyOut && weeklyOut <= monthlyOut && monthlyOut <= annualOut {
-		return true
-	} else {
-		return false
-	}
+func ValidateLimits(dailyOut uint64, weeklyOut uint64, monthlyOut uint64, annualOut uint64) bool {
+	return dailyOut <= weeklyOut && weeklyOut <= monthlyOut && monthlyOut <= annualOut
 }
