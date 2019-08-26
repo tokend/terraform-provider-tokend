@@ -3,6 +3,7 @@ package tokend
 import (
 	"context"
 	"fmt"
+
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/pkg/errors"
 	"github.com/spf13/cast"
@@ -18,10 +19,6 @@ func resourceLimit() *schema.Resource {
 		Delete: resourceLimitsDelete,
 
 		Schema: map[string]*schema.Schema{
-			"action": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
 			"role": {
 				Type:     schema.TypeInt,
 				Optional: true,
@@ -106,26 +103,18 @@ func resourceLimitsCreate(d *schema.ResourceData, _m interface{}) (err error) {
 	if helpers.ValidateLimits(dailyOut, weeklyOut, monthlyOut, annualOut) == false {
 		return errors.New("failed to set limits - incorrect values")
 	}
-
-	actionRaw := d.Get("action").(string)
-	var action xdr.ManageLimitsAction
-	if actionRaw != "CREATE" {
-		return fmt.Errorf("unknown account rule action: %s", actionRaw)
-	} else {
-		action = xdr.ManageLimitsActionCreate
-	}
-
+	accountRole := xdr.Uint64((rawAccountRole.(int)))
 	env, err := m.Builder.Transaction(m.Source).Op(&CreateLimit{
-		Action:     action,
-		Role:       rawAccountRole.(*xdr.Uint64),
+		Action:     xdr.ManageLimitsActionCreate,
+		Role:       &accountRole,
 		Id:         accountID,
-		Type:       rawStatsType.(xdr.StatsOpType),
-		Code:       d.Get("asset_code").(xdr.AssetCode),
+		Type:       xdr.StatsOpType(rawStatsType.(int)),
+		Code:       xdr.AssetCode(d.Get("asset_code").(string)),
 		Convert:    d.Get("convert").(bool),
-		DailyOut:   rawDailyOut.(xdr.Uint64),
-		WeeklyOut:  rawWeeklyOut.(xdr.Uint64),
-		MonthlyOut: rawMonthlyOut.(xdr.Uint64),
-		AnnualOut:  rawAnnualOut.(xdr.Uint64),
+		DailyOut:   xdr.Uint64(rawDailyOut.(int)),
+		WeeklyOut:  xdr.Uint64(rawWeeklyOut.(int)),
+		MonthlyOut: xdr.Uint64(rawMonthlyOut.(int)),
+		AnnualOut:  xdr.Uint64(rawAnnualOut.(int)),
 	}).Sign(m.Signer).Marshal()
 	if err != nil {
 		return errors.Wrap(err, "failed to marshal tx")
