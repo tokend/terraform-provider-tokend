@@ -38,22 +38,18 @@ func resourceLimit() *schema.Resource {
 			"convert": {
 				Type:     schema.TypeBool,
 				Required: true,
-				//Default:  false,
 			},
 			"daily_out": {
 				Type:     schema.TypeInt,
 				Required: true,
-				//Default: 1,
 			},
 			"weekly_out": {
 				Type:     schema.TypeInt,
 				Required: true,
-				//Default: 1,
 			},
 			"monthly_out": {
 				Type:     schema.TypeInt,
 				Required: true,
-				//Default: 1,
 			},
 			"annual_out": {
 				Type:     schema.TypeInt,
@@ -73,8 +69,23 @@ func resourceLimitsCreate(d *schema.ResourceData, _m interface{}) (err error) {
 	}
 
 	rawAccountRole := d.Get("role")
+	var typesCode int32
+	typeRaw := d.Get("stats_type").(string)
+	oneType, err := cast.ToStringE(typeRaw)
+	if err != nil {
+		return errors.Wrap(err, "failed to cast type")
+	}
+	ok := false
 
-	rawStatsType := d.Get("stats_type")
+	for index, guess := range xdr.StatsOpTypeAll {
+		if guess.ShortString() == oneType {
+			ok = true
+			typesCode |= int32(index)
+		}
+	}
+	if !ok {
+		panic(errors.Errorf("invalid type code: %s", oneType))
+	}
 
 	rawDailyOut := d.Get("daily_out")
 	dailyOut, err := cast.ToUint64E(rawDailyOut)
@@ -93,7 +104,6 @@ func resourceLimitsCreate(d *schema.ResourceData, _m interface{}) (err error) {
 	if err != nil {
 		return errors.Wrap(err, "failed to cast monthly out")
 	}
-
 	rawAnnualOut := d.Get("annual_out")
 	annualOut, err := cast.ToUint64E(rawAnnualOut)
 	if err != nil {
@@ -108,7 +118,7 @@ func resourceLimitsCreate(d *schema.ResourceData, _m interface{}) (err error) {
 		Action:     xdr.ManageLimitsActionCreate,
 		Role:       &accountRole,
 		Id:         accountID,
-		Type:       xdr.StatsOpType(rawStatsType.(int)),
+		Type:       xdr.StatsOpType(typesCode),
 		Code:       xdr.AssetCode(d.Get("asset_code").(string)),
 		Convert:    d.Get("convert").(bool),
 		DailyOut:   xdr.Uint64(rawDailyOut.(int)),
@@ -123,7 +133,6 @@ func resourceLimitsCreate(d *schema.ResourceData, _m interface{}) (err error) {
 	if result.Err != nil {
 		return errors.Wrapf(result.Err, "failed to submit tx: %s %q", result.TXCode, result.OpCodes)
 	}
-
 	return nil
 }
 
@@ -141,24 +150,29 @@ type CreateLimit struct {
 }
 
 func (op *CreateLimit) XDR() (*xdr.Operation, error) {
+	details := xdr.LimitsCreateDetails{
+		StatsOpType:     op.Type,
+		AssetCode:       op.Code,
+		IsConvertNeeded: op.Convert,
+		DailyOut:        op.DailyOut,
+		WeeklyOut:       op.WeeklyOut,
+		MonthlyOut:      op.MonthlyOut,
+		AnnualOut:       op.AnnualOut,
+	}
+
+	if op.Id == nil {
+		details.AccountRole = op.Role
+	} else if op.Role == nil {
+		details.AccountId = op.Id
+	}
 
 	return &xdr.Operation{
 		Body: xdr.OperationBody{
 			Type: xdr.OperationTypeManageLimits,
 			ManageLimitsOp: &xdr.ManageLimitsOp{
 				Details: xdr.ManageLimitsOpDetails{
-					Action: xdr.ManageLimitsActionCreate,
-					LimitsCreateDetails: &xdr.LimitsCreateDetails{
-						AccountId:       op.Id,
-						AccountRole:     op.Role,
-						StatsOpType:     op.Type,
-						AssetCode:       op.Code,
-						IsConvertNeeded: op.Convert,
-						DailyOut:        op.DailyOut,
-						WeeklyOut:       op.WeeklyOut,
-						MonthlyOut:      op.MonthlyOut,
-						AnnualOut:       op.AnnualOut,
-					},
+					Action:              xdr.ManageLimitsActionCreate,
+					LimitsCreateDetails: &details,
 				},
 			},
 		},
@@ -175,7 +189,6 @@ func resourceLimitsUpdate(d *schema.ResourceData, meta interface{}) error {
 
 func resourceLimitsDelete(d *schema.ResourceData, meta interface{}) error {
 	m := meta.(Meta)
-
 	id, err := cast.ToUint64E(d.Id())
 	if err != nil {
 		return errors.Wrap(err, "failed to cast limit id")
