@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+
 	"github.com/spf13/cast"
 
 	"github.com/hashicorp/terraform/helper/schema"
@@ -130,7 +131,6 @@ func resourceSignerRuleUpdate(d *schema.ResourceData, meta interface{}) error {
 	return nil
 }
 
-// TODO:- Add this part to op_manage_signer_rule.go
 type UpdateSignerRule struct {
 	ID       uint64
 	Resource xdr.SignerRuleResource
@@ -194,7 +194,6 @@ func resourceSignerRuleDelete(d *schema.ResourceData, meta interface{}) error {
 	return nil
 }
 
-// TODO:- Add this part to op_manage_signer_rule.go
 type RemoveSignerRule struct {
 	ID uint64
 }

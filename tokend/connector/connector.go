@@ -1,9 +1,9 @@
 package connector
 
 import (
-	"gitlab.com/tokend/horizon-connector"
 	"github.com/tokend/terraform-provider-tokend/tokend/connector/keyvalues"
 	"github.com/tokend/terraform-provider-tokend/tokend/data"
+	"gitlab.com/tokend/horizon-connector"
 )
 
 type connector struct {

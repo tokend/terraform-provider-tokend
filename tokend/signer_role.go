@@ -147,11 +147,8 @@ func resourceSignerRoleDelete(d *schema.ResourceData, meta interface{}) error {
 	d.SetId(fmt.Sprintf("%d", roleID))
 	return nil
 
-	//return errors.New("tokend_signer_role delete is not implemented")
-
 }
 
-// TODO:- Add this part to op_manage_signer_role.go
 type RemoveSignerRole struct {
 	ID uint64
 }
