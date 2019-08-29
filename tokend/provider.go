@@ -44,6 +44,7 @@ func Provider() terraform.ResourceProvider {
 			"tokend_asset_pair":                 resourceAssetPair(),
 			"tokend_account_signer":             resourceAccountSigner(),
 			"tokend_external_system_pool_entry": resourceExternalSystemPoolEntry(),
+			"tokend_limit":                      resourceLimit(),
 		},
 		ConfigureFunc: func(d *schema.ResourceData) (interface{}, error) {
 			endpoint, err := url.Parse(d.Get("endpoint").(string))

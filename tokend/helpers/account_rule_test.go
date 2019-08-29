@@ -61,7 +61,7 @@ func TestAccountRules_Offer(t *testing.T) {
 	assert.Equal(t, expected, got)
 }
 
-func TestAccountRules_ExternalSystemAccountIdPoolEntry(t *testing.T) {
+func TestAccountRules_ExternalSystemAccountIDPoolEntry(t *testing.T) {
 	c := map[string]interface{}{
 		"entry_type": "external_system_account_id_pool_entry",
 	}

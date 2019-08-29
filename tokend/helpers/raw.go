@@ -2,6 +2,9 @@ package helpers
 
 import (
 	"encoding/json"
+	"github.com/mitchellh/mapstructure"
+	"gitlab.com/tokend/go/strkey"
+	"gitlab.com/tokend/go/xdr"
 	"math"
 
 	"github.com/mitchellh/mapstructure"
