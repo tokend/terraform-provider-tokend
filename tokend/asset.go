@@ -74,22 +74,10 @@ func resourceAssetCreate(d *schema.ResourceData, _m interface{}) (err error) {
 
 	var zero uint32 = 0
 
-	var policies uint32
-	for _, policyRaw := range d.Get("policies").([]interface{}) {
-		policy, err := cast.ToStringE(policyRaw)
-		if err != nil {
-			return errors.Wrap(err, "failed to cast policy")
-		}
-		ok := false
-		for _, guess := range xdr.AssetPolicyAll {
-			if guess.ShortString() == policy {
-				ok = true
-				policies |= uint32(guess)
-			}
-		}
-		if !ok {
-			panic(errors.Errorf("invalid policy name: %s", policy))
-		}
+	policyRaw := d.Get("policies").([]interface{})
+	policyCode, err := helpers.PolicyFromRaw(policyRaw)
+	if err != nil {
+		return errors.Wrap(err, "failed to cast policy")
 	}
 
 	rawDetails := d.Get("details")
@@ -105,7 +93,7 @@ func resourceAssetCreate(d *schema.ResourceData, _m interface{}) (err error) {
 		PreIssuanceSigner:        d.Get("pre_issuance_signer").(string),
 		InitialPreIssuanceAmount: preIssuanceAmount,
 		TrailingDigitsCount:      uint32(d.Get("trailing_digits_count").(int)),
-		Policies:                 policies,
+		Policies:                 policyCode,
 		AllTasks:                 &zero,
 	}).Sign(m.Signer).Marshal()
 	if err != nil {
@@ -162,11 +150,8 @@ func resourceAssetUpdate(d *schema.ResourceData, meta interface{}) error {
 		return errors.Wrapf(result.Err, "failed to submit tx: %s %q", result.TXCode, result.OpCodes)
 	}
 	return nil
-	//return errors.New("tokend_asset update is not implemented")
-
 }
 
-//TODO: Add to op_manage_asset.go
 type UpdateAsset struct {
 	Code           string
 	Policies       uint32
