@@ -14,8 +14,8 @@ import (
 func resourceLimit() *schema.Resource {
 	return &schema.Resource{
 		Create: resourceLimitsCreate,
-		Read:   resourceSignerRuleRead,
-		Update: resourceSignerRuleUpdate,
+		Read:   resourceLimitsRead,
+		Update: resourceLimitsUpdate,
 		Delete: resourceLimitsDelete,
 
 		Schema: map[string]*schema.Schema{
@@ -68,23 +68,13 @@ func resourceLimitsCreate(d *schema.ResourceData, _m interface{}) (err error) {
 		return errors.Wrap(err, "failed to get account id")
 	}
 
-	rawAccountRole := d.Get("role")
-	var typesCode int32
-	typeRaw := d.Get("stats_type").(string)
-	oneType, err := cast.ToStringE(typeRaw)
-	if err != nil {
-		return errors.Wrap(err, "failed to cast type")
-	}
-	ok := false
+	rawAccountRole := d.Get("role").(int)
+	accountRole := xdr.Uint64((rawAccountRole))
 
-	for index, guess := range xdr.StatsOpTypeAll {
-		if guess.ShortString() == oneType {
-			ok = true
-			typesCode |= int32(index)
-		}
-	}
-	if !ok {
-		panic(errors.Errorf("invalid type code: %s", oneType))
+	rawType := d.Get("stats_type")
+	typesCode, err := helpers.StatsOpTypeFromRaw(rawType)
+	if err != nil {
+		return errors.Wrap(err, "failed to get type")
 	}
 
 	rawDailyOut := d.Get("daily_out")
@@ -110,21 +100,33 @@ func resourceLimitsCreate(d *schema.ResourceData, _m interface{}) (err error) {
 		return errors.Wrap(err, "failed to cast annual out")
 	}
 
-	if helpers.ValidateLimits(dailyOut, weeklyOut, monthlyOut, annualOut) == false {
+	if !helpers.ValidateLimits(dailyOut, weeklyOut, monthlyOut, annualOut) {
 		return errors.New("failed to set limits - incorrect values")
 	}
-	accountRole := xdr.Uint64((rawAccountRole.(int)))
+
+	rawAssetCode := d.Get("asset_code")
+	assetCode, err := cast.ToStringE(rawAssetCode)
+	if err != nil {
+		return errors.Wrap(err, "failed to cast asset code")
+	}
+
+	rawConvertNeed := d.Get("convert")
+	convertNeed, err := cast.ToBoolE(rawConvertNeed)
+	if err != nil {
+		return errors.Wrap(err, "failed to cast if convert is needed")
+	}
+
 	env, err := m.Builder.Transaction(m.Source).Op(&CreateLimit{
 		Action:     xdr.ManageLimitsActionCreate,
 		Role:       &accountRole,
 		Id:         accountID,
 		Type:       xdr.StatsOpType(typesCode),
-		Code:       xdr.AssetCode(d.Get("asset_code").(string)),
-		Convert:    d.Get("convert").(bool),
-		DailyOut:   xdr.Uint64(rawDailyOut.(int)),
-		WeeklyOut:  xdr.Uint64(rawWeeklyOut.(int)),
-		MonthlyOut: xdr.Uint64(rawMonthlyOut.(int)),
-		AnnualOut:  xdr.Uint64(rawAnnualOut.(int)),
+		Code:       xdr.AssetCode(assetCode),
+		Convert:    convertNeed,
+		DailyOut:   xdr.Uint64(dailyOut),
+		WeeklyOut:  xdr.Uint64(weeklyOut),
+		MonthlyOut: xdr.Uint64(monthlyOut),
+		AnnualOut:  xdr.Uint64(annualOut),
 	}).Sign(m.Signer).Marshal()
 	if err != nil {
 		return errors.Wrap(err, "failed to marshal tx")
@@ -160,10 +162,16 @@ func (op *CreateLimit) XDR() (*xdr.Operation, error) {
 		AnnualOut:       op.AnnualOut,
 	}
 
-	if op.Id == nil {
-		details.AccountRole = op.Role
-	} else if op.Role == nil {
+	if op.Id != nil {
 		details.AccountId = op.Id
+	}
+
+	if op.Role != nil {
+		details.AccountRole = op.Role
+	}
+
+	if op.Role == nil && op.Id == nil {
+		return nil, errors.New("invalid role and id values")
 	}
 
 	return &xdr.Operation{
