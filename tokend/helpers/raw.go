@@ -7,6 +7,10 @@ import (
 	"gitlab.com/tokend/go/xdr"
 	"math"
 
+	"github.com/mitchellh/mapstructure"
+	"gitlab.com/tokend/go/strkey"
+	"gitlab.com/tokend/go/xdr"
+
 	"github.com/spf13/cast"
 	"gitlab.com/distributed_lab/logan/v3/errors"
 )
@@ -47,6 +51,28 @@ type StellarData struct {
 	Address string
 }
 
+func PolicyFromRaw(raw []interface{}) (uint32, error) {
+	var policiesCode uint32
+	for _, policiesRaw := range raw {
+
+		policyRaw := cast.ToString(policiesRaw)
+
+		ok := false
+
+		for _, guess := range xdr.AssetPolicyAll {
+			if guess.ShortString() == policyRaw {
+				ok = true
+				policiesCode |= uint32(guess)
+			}
+		}
+
+		if !ok {
+			return 0, errors.New("invalid policy name")
+		}
+	}
+	return policiesCode, nil
+}
+
 func StellarDataFromRaw(raw interface{}) (*StellarData, error) {
 	rawData, err := cast.ToStringMapE(raw)
 	if err != nil {
@@ -83,15 +109,36 @@ func AccountIDFromRaw(raw interface{}) (*xdr.AccountId, error) {
 	}
 	var accountID xdr.AccountId
 	err := ValidateAccountID(rawstr)
-	if err == nil {
-		errAdr := accountID.SetAddress(rawstr)
-		if errAdr != nil {
-			return nil, errors.Wrap(errCast, "failed to set address")
-		}
+
+	if err != nil {
+		return nil, errors.Wrap(err, "not valid account ID")
 	}
+
+	errAdr := accountID.SetAddress(rawstr)
+	if errAdr != nil {
+		return nil, errors.Wrap(errCast, "failed to set address")
+	}
+
 	return &accountID, nil
 }
+func StatsOpTypeFromRaw(raw interface{}) (int32, error) {
+	var typesCode int32
+	typeRaw := cast.ToString(raw)
 
+	ok := false
+
+	for index, guess := range xdr.StatsOpTypeAll {
+		if guess.ShortString() == typeRaw {
+			ok = true
+			typesCode |= int32(index)
+		}
+	}
+	if !ok {
+		return 0, errors.New("invalid type code: %s")
+	}
+
+	return typesCode, nil
+}
 func ValidateAccountID(a string) error {
 	_, err := strkey.Decode(strkey.VersionByteAccountID, string(a))
 	if err != nil {
