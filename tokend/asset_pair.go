@@ -125,7 +125,7 @@ func resourceAssetPairDelete(d *schema.ResourceData, _m interface{}) error {
 	base := d.Get("base").(string)
 	quote := d.Get("quote").(string)
 
-	env, err := m.Builder.Transaction(m.Source).Op(&RemoveAssetPair{
+	env, err := m.Builder.Transaction(m.Source).Op(&xdrbuild.RemoveAssetPair{
 		Base:  base,
 		Quote: quote,
 	}).Sign(m.Signer).Marshal()
@@ -145,22 +145,4 @@ func resourceAssetPairDelete(d *schema.ResourceData, _m interface{}) error {
 	d.SetId(fmt.Sprintf("%d", CurrentPrice))
 	return nil
 
-}
-
-type RemoveAssetPair struct {
-	Base  string
-	Quote string
-}
-
-func (ap RemoveAssetPair) XDR() (*xdr.Operation, error) {
-	op := &xdr.Operation{
-		Body: xdr.OperationBody{
-			Type: xdr.OperationTypeRemoveAssetPair,
-			RemoveAssetPairOp: &xdr.RemoveAssetPairOp{
-				Base:  xdr.AssetCode(ap.Base),
-				Quote: xdr.AssetCode(ap.Quote),
-			},
-		},
-	}
-	return op, nil
 }

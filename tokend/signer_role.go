@@ -128,7 +128,7 @@ func resourceSignerRoleDelete(d *schema.ResourceData, meta interface{}) error {
 		return errors.Wrap(err, "failed to cast id")
 	}
 
-	env, err := m.Builder.Transaction(m.Source).Op(&RemoveSignerRole{
+	env, err := m.Builder.Transaction(m.Source).Op(&xdrbuild.RemoveSignerRole{
 		ID: id,
 	}).Sign(m.Signer).Marshal()
 	if err != nil {
@@ -147,25 +147,4 @@ func resourceSignerRoleDelete(d *schema.ResourceData, meta interface{}) error {
 	d.SetId(fmt.Sprintf("%d", roleID))
 	return nil
 
-}
-
-type RemoveSignerRole struct {
-	ID uint64
-}
-
-func (op *RemoveSignerRole) XDR() (*xdr.Operation, error) {
-
-	return &xdr.Operation{
-		Body: xdr.OperationBody{
-			Type: xdr.OperationTypeManageSignerRole,
-			ManageSignerRoleOp: &xdr.ManageSignerRoleOp{
-				Data: xdr.ManageSignerRoleOpData{
-					Action: xdr.ManageSignerRoleActionRemove,
-					RemoveData: &xdr.RemoveSignerRoleData{
-						RoleId: xdr.Uint64(op.ID),
-					},
-				},
-			},
-		},
-	}, nil
 }

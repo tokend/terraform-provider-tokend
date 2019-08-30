@@ -77,6 +77,7 @@ func resourceAccountRuleCreate(d *schema.ResourceData, _m interface{}) (err erro
 	}
 
 	env, err := m.Builder.Transaction(m.Source).Op(&xdrbuild.CreateAccountRule{
+
 		Resource: *resource,
 		Action:   action,
 		Forbid:   d.Get("forbids").(bool),
@@ -149,7 +150,7 @@ func resourceAccountRuleDelete(d *schema.ResourceData, meta interface{}) error {
 	if err != nil {
 		return errors.Wrap(err, "failed to cast account rule id")
 	}
-	env, err := m.Builder.Transaction(m.Source).Op(&RemoveAccountRule{
+	env, err := m.Builder.Transaction(m.Source).Op(&xdrbuild.RemoveAccountRule{
 		ID: id,
 	}).Sign(m.Signer).Marshal()
 	if err != nil {
@@ -167,25 +168,4 @@ func resourceAccountRuleDelete(d *schema.ResourceData, meta interface{}) error {
 	ruleID := txCodes[0].Tr.ManageAccountRuleResult.Success.RuleId
 	d.SetId(fmt.Sprintf("%d", ruleID))
 	return nil
-}
-
-type RemoveAccountRule struct {
-	ID uint64
-}
-
-func (op *RemoveAccountRule) XDR() (*xdr.Operation, error) {
-
-	return &xdr.Operation{
-		Body: xdr.OperationBody{
-			Type: xdr.OperationTypeManageAccountRule,
-			ManageAccountRuleOp: &xdr.ManageAccountRuleOp{
-				Data: xdr.ManageAccountRuleOpData{
-					Action: xdr.ManageAccountRuleActionRemove,
-					RemoveData: &xdr.RemoveAccountRuleData{
-						RuleId: xdr.Uint64(op.ID),
-					},
-				},
-			},
-		},
-	}, nil
 }

@@ -2,14 +2,10 @@ package tokend
 
 import (
 	"context"
-	"encoding/json"
 
 	"github.com/tokend/terraform-provider-tokend/tokend/helpers"
 
-	"github.com/spf13/cast"
-
 	"github.com/tokend/terraform-provider-tokend/tokend/helpers/validation"
-	"gitlab.com/tokend/go/xdr"
 
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/pkg/errors"
@@ -112,22 +108,10 @@ func resourceAssetUpdate(d *schema.ResourceData, meta interface{}) error {
 
 	var zero uint32 = 0
 
-	var policies uint32
-	for _, policyRaw := range d.Get("policies").([]interface{}) {
-		policy, err := cast.ToStringE(policyRaw)
-		if err != nil {
-			return errors.Wrap(err, "failed to cast policy")
-		}
-		ok := false
-		for _, guess := range xdr.AssetPolicyAll {
-			if guess.ShortString() == policy {
-				ok = true
-				policies |= uint32(guess)
-			}
-		}
-		if !ok {
-			panic(errors.Errorf("invalid policy name: %s", policy))
-		}
+	policyRaw := d.Get("policies").([]interface{})
+	policyCode, err := helpers.PolicyFromRaw(policyRaw)
+	if err != nil {
+		return errors.Wrap(err, "failed to cast policy")
 	}
 
 	rawDetails := d.Get("details")
@@ -136,10 +120,10 @@ func resourceAssetUpdate(d *schema.ResourceData, meta interface{}) error {
 		return errors.Wrap(err, "failed to get details")
 	}
 
-	env, err := m.Builder.Transaction(m.Source).Op(&UpdateAsset{
+	env, err := m.Builder.Transaction(m.Source).Op(&xdrbuild.UpdateAsset{
 		CreatorDetails: details,
 		Code:           d.Get("code").(string),
-		Policies:       policies,
+		Policies:       policyCode,
 		AllTasks:       &zero,
 	}).Sign(m.Signer).Marshal()
 	if err != nil {
@@ -150,44 +134,6 @@ func resourceAssetUpdate(d *schema.ResourceData, meta interface{}) error {
 		return errors.Wrapf(result.Err, "failed to submit tx: %s %q", result.TXCode, result.OpCodes)
 	}
 	return nil
-}
-
-type UpdateAsset struct {
-	Code           string
-	Policies       uint32
-	CreatorDetails json.Marshaler
-	AllTasks       *uint32
-}
-
-func (op *UpdateAsset) XDR() (*xdr.Operation, error) {
-	details, err := op.CreatorDetails.MarshalJSON()
-	if err != nil {
-		return nil, errors.Wrap(err, "failed to marshal creator details")
-	}
-
-	var tasks *xdr.Uint32
-	if op.AllTasks != nil {
-		tasks = (*xdr.Uint32)(op.AllTasks)
-	}
-
-	return &xdr.Operation{
-		Body: xdr.OperationBody{
-			Type: xdr.OperationTypeManageAsset,
-			ManageAssetOp: &xdr.ManageAssetOp{
-				Request: xdr.ManageAssetOpRequest{
-					Action: xdr.ManageAssetActionCreateAssetUpdateRequest,
-					CreateAssetUpdateRequest: &xdr.ManageAssetOpCreateAssetUpdateRequest{
-						UpdateAsset: xdr.AssetUpdateRequest{
-							Code:           xdr.AssetCode(op.Code),
-							Policies:       xdr.Uint32(op.Policies),
-							CreatorDetails: xdr.Longstring(details),
-						},
-						AllTasks: tasks,
-					},
-				},
-			},
-		},
-	}, nil
 }
 
 func resourceAssetRead(d *schema.ResourceData, meta interface{}) error {
