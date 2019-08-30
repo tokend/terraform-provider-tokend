@@ -55,7 +55,7 @@ func TestTypeFromRaw(t *testing.T) {
 		typeName := "aaaabbbccd"
 		typeCode, err := StatsOpTypeFromRaw(typeName)
 		assert.Error(t, err)
-		assert.Equal(t, uint32(0), typeCode)
+		assert.Equal(t, int32(0), typeCode)
 
 	})
 }
