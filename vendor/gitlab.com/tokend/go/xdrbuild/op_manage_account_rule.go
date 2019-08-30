@@ -70,3 +70,24 @@ func (op *UpdateAccountRule) XDR() (*xdr.Operation, error) {
 		},
 	}, nil
 }
+
+type RemoveAccountRule struct {
+	ID uint64
+}
+
+func (op *RemoveAccountRule) XDR() (*xdr.Operation, error) {
+
+	return &xdr.Operation{
+		Body: xdr.OperationBody{
+			Type: xdr.OperationTypeManageAccountRule,
+			ManageAccountRuleOp: &xdr.ManageAccountRuleOp{
+				Data: xdr.ManageAccountRuleOpData{
+					Action: xdr.ManageAccountRuleActionRemove,
+					RemoveData: &xdr.RemoveAccountRuleData{
+						RuleId: xdr.Uint64(op.ID),
+					},
+				},
+			},
+		},
+	}, nil
+}

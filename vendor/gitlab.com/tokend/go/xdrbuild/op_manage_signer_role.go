@@ -74,3 +74,24 @@ func (op *UpdateSignerRole) XDR() (*xdr.Operation, error) {
 		},
 	}, nil
 }
+
+type RemoveSignerRole struct {
+	ID uint64
+}
+
+func (op *RemoveSignerRole) XDR() (*xdr.Operation, error) {
+
+	return &xdr.Operation{
+		Body: xdr.OperationBody{
+			Type: xdr.OperationTypeManageSignerRole,
+			ManageSignerRoleOp: &xdr.ManageSignerRoleOp{
+				Data: xdr.ManageSignerRoleOpData{
+					Action: xdr.ManageSignerRoleActionRemove,
+					RemoveData: &xdr.RemoveSignerRoleData{
+						RoleId: xdr.Uint64(op.ID),
+					},
+				},
+			},
+		},
+	}, nil
+}

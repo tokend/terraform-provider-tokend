@@ -59,3 +59,41 @@ func (op *CreateAsset) XDR() (*xdr.Operation, error) {
 		},
 	}, nil
 }
+
+type UpdateAsset struct {
+	Code           string
+	Policies       uint32
+	CreatorDetails json.Marshaler
+	AllTasks       *uint32
+}
+
+func (op *UpdateAsset) XDR() (*xdr.Operation, error) {
+	details, err := op.CreatorDetails.MarshalJSON()
+	if err != nil {
+		return nil, errors.Wrap(err, "failed to marshal creator details")
+	}
+
+	var tasks *xdr.Uint32
+	if op.AllTasks != nil {
+		tasks = (*xdr.Uint32)(op.AllTasks)
+	}
+
+	return &xdr.Operation{
+		Body: xdr.OperationBody{
+			Type: xdr.OperationTypeManageAsset,
+			ManageAssetOp: &xdr.ManageAssetOp{
+				Request: xdr.ManageAssetOpRequest{
+					Action: xdr.ManageAssetActionCreateAssetUpdateRequest,
+					CreateAssetUpdateRequest: &xdr.ManageAssetOpCreateAssetUpdateRequest{
+						UpdateAsset: xdr.AssetUpdateRequest{
+							Code:           xdr.AssetCode(op.Code),
+							Policies:       xdr.Uint32(op.Policies),
+							CreatorDetails: xdr.Longstring(details),
+						},
+						AllTasks: tasks,
+					},
+				},
+			},
+		},
+	}, nil
+}
