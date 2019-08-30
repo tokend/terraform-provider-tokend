@@ -2,8 +2,8 @@ package tokend
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
+
 	"github.com/spf13/cast"
 
 	"github.com/hashicorp/terraform/helper/schema"
@@ -27,7 +27,6 @@ func resourceSignerRule() *schema.Resource {
 			"forbids": {
 				Type:     schema.TypeBool,
 				Optional: true,
-				//Default:  false,
 			},
 			"details": {
 				Type:     schema.TypeMap,
@@ -114,7 +113,7 @@ func resourceSignerRuleUpdate(d *schema.ResourceData, meta interface{}) error {
 		}
 	}
 
-	env, err := m.Builder.Transaction(m.Source).Op(&UpdateSignerRule{
+	env, err := m.Builder.Transaction(m.Source).Op(&xdrbuild.UpdateSignerRule{
 		Resource: *resource,
 		Action:   action,
 		Forbid:   d.Get("forbids").(bool),
@@ -130,40 +129,6 @@ func resourceSignerRuleUpdate(d *schema.ResourceData, meta interface{}) error {
 	return nil
 }
 
-// TODO:- Add this part to op_manage_signer_rule.go
-type UpdateSignerRule struct {
-	ID       uint64
-	Resource xdr.SignerRuleResource
-	Action   xdr.SignerRuleAction
-	Forbid   bool
-	Details  json.Marshaler
-}
-
-func (op *UpdateSignerRule) XDR() (*xdr.Operation, error) {
-	details, err := op.Details.MarshalJSON()
-	if err != nil {
-		return nil, errors.Wrap(err, "failed to marshal details")
-	}
-
-	return &xdr.Operation{
-		Body: xdr.OperationBody{
-			Type: xdr.OperationTypeManageSignerRule,
-			ManageSignerRuleOp: &xdr.ManageSignerRuleOp{
-				Data: xdr.ManageSignerRuleOpData{
-					Action: xdr.ManageSignerRuleActionUpdate,
-					UpdateData: &xdr.UpdateSignerRuleData{
-						RuleId:   xdr.Uint64(op.ID),
-						Resource: op.Resource,
-						Action:   op.Action,
-						Forbids:  op.Forbid,
-						Details:  xdr.Longstring(details),
-					},
-				},
-			},
-		},
-	}, nil
-}
-
 func resourceSignerRuleRead(d *schema.ResourceData, meta interface{}) error {
 	return nil
 }
@@ -174,7 +139,7 @@ func resourceSignerRuleDelete(d *schema.ResourceData, meta interface{}) error {
 	if err != nil {
 		return errors.Wrap(err, "failed to cast account rule id")
 	}
-	env, err := m.Builder.Transaction(m.Source).Op(&RemoveSignerRule{
+	env, err := m.Builder.Transaction(m.Source).Op(&xdrbuild.RemoveSignerRule{
 		ID: id,
 	}).Sign(m.Signer).Marshal()
 	if err != nil {
@@ -192,26 +157,4 @@ func resourceSignerRuleDelete(d *schema.ResourceData, meta interface{}) error {
 	ruleID := txCodes[0].Tr.ManageSignerRuleResult.Success.RuleId
 	d.SetId(fmt.Sprintf("%d", ruleID))
 	return nil
-}
-
-// TODO:- Add this part to op_manage_signer_rule.go
-type RemoveSignerRule struct {
-	ID uint64
-}
-
-func (op *RemoveSignerRule) XDR() (*xdr.Operation, error) {
-
-	return &xdr.Operation{
-		Body: xdr.OperationBody{
-			Type: xdr.OperationTypeManageSignerRule,
-			ManageSignerRuleOp: &xdr.ManageSignerRuleOp{
-				Data: xdr.ManageSignerRuleOpData{
-					Action: xdr.ManageSignerRuleActionRemove,
-					RemoveData: &xdr.RemoveSignerRuleData{
-						RuleId: xdr.Uint64(op.ID),
-					},
-				},
-			},
-		},
-	}, nil
 }

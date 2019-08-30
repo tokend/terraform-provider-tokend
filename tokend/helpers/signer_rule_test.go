@@ -17,7 +17,6 @@ var signerRuleSchema = map[string]*schema.Schema{
 	"forbids": {
 		Type:     schema.TypeBool,
 		Optional: true,
-		//Default:  false,
 	},
 	"details": {
 		Type:     schema.TypeMap,
@@ -42,7 +41,7 @@ func TestSignerRules_Balance(t *testing.T) {
 		Ext:  &xdr.EmptyExt{},
 	}
 
-	resource := schema.TestResourceDataRaw(t, accountRuleSchema, c)
+	resource := schema.TestResourceDataRaw(t, signerRuleSchema, c)
 	got, err := SignerRuleEntry(resource)
 
 	assert.NoError(t, err)
@@ -58,7 +57,7 @@ func TestSignerRules_Fee(t *testing.T) {
 		Ext:  &xdr.EmptyExt{},
 	}
 
-	resource := schema.TestResourceDataRaw(t, accountRuleSchema, c)
+	resource := schema.TestResourceDataRaw(t, signerRuleSchema, c)
 	got, err := SignerRuleEntry(resource)
 
 	assert.NoError(t, err)
@@ -74,7 +73,7 @@ func TestSignerRules_Limits(t *testing.T) {
 		Ext:  &xdr.EmptyExt{},
 	}
 
-	resource := schema.TestResourceDataRaw(t, accountRuleSchema, c)
+	resource := schema.TestResourceDataRaw(t, signerRuleSchema, c)
 	got, err := SignerRuleEntry(resource)
 
 	assert.NoError(t, err)
@@ -90,7 +89,7 @@ func TestSignerRules_Signer(t *testing.T) {
 		Ext:  &xdr.EmptyExt{},
 	}
 
-	resource := schema.TestResourceDataRaw(t, accountRuleSchema, c)
+	resource := schema.TestResourceDataRaw(t, signerRuleSchema, c)
 	got, err := SignerRuleEntry(resource)
 
 	assert.NoError(t, err)
@@ -113,7 +112,7 @@ func TestSignerRules_Asset(t *testing.T) {
 			},
 		}
 
-		resource := schema.TestResourceDataRaw(t, accountRuleSchema, c)
+		resource := schema.TestResourceDataRaw(t, signerRuleSchema, c)
 		got, err := SignerRuleEntry(resource)
 
 		assert.NoError(t, err)
@@ -135,7 +134,7 @@ func TestSignerRules_Asset(t *testing.T) {
 			},
 		}
 
-		resource := schema.TestResourceDataRaw(t, accountRuleSchema, c)
+		resource := schema.TestResourceDataRaw(t, signerRuleSchema, c)
 		got, err := SignerRuleEntry(resource)
 
 		assert.NoError(t, err)
@@ -160,7 +159,7 @@ func TestSignerRules_Sale(t *testing.T) {
 			},
 		}
 
-		resource := schema.TestResourceDataRaw(t, accountRuleSchema, c)
+		resource := schema.TestResourceDataRaw(t, signerRuleSchema, c)
 		got, err := SignerRuleEntry(resource)
 
 		assert.NoError(t, err)
@@ -182,7 +181,7 @@ func TestSignerRules_Sale(t *testing.T) {
 			},
 		}
 
-		resource := schema.TestResourceDataRaw(t, accountRuleSchema, c)
+		resource := schema.TestResourceDataRaw(t, signerRuleSchema, c)
 		got, err := SignerRuleEntry(resource)
 
 		assert.NoError(t, err)
@@ -202,7 +201,7 @@ func TestSignerRules_KeyValue(t *testing.T) {
 		},
 	}
 
-	resource := schema.TestResourceDataRaw(t, accountRuleSchema, c)
+	resource := schema.TestResourceDataRaw(t, signerRuleSchema, c)
 	got, err := SignerRuleEntry(resource)
 
 	assert.NoError(t, err)
@@ -245,7 +244,7 @@ func TestSignerRules_ReviewableRequest(t *testing.T) {
 		},
 	}
 
-	resource := schema.TestResourceDataRaw(t, accountRuleSchema, c)
+	resource := schema.TestResourceDataRaw(t, signerRuleSchema, c)
 	got, err := SignerRuleEntry(resource)
 
 	assert.NoError(t, err)

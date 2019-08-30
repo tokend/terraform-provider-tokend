@@ -3,6 +3,7 @@ package tokend
 import (
 	"context"
 	"fmt"
+
 	"github.com/spf13/cast"
 
 	"github.com/tokend/terraform-provider-tokend/tokend/helpers"
@@ -28,7 +29,6 @@ func resourceAccountRule() *schema.Resource {
 			"forbids": {
 				Type:     schema.TypeBool,
 				Optional: true,
-				//Default:  false,
 			},
 			"details": {
 				Type:     schema.TypeMap,
@@ -77,6 +77,7 @@ func resourceAccountRuleCreate(d *schema.ResourceData, _m interface{}) (err erro
 	}
 
 	env, err := m.Builder.Transaction(m.Source).Op(&xdrbuild.CreateAccountRule{
+
 		Resource: *resource,
 		Action:   action,
 		Forbid:   d.Get("forbids").(bool),
@@ -139,40 +140,6 @@ func resourceAccountRuleUpdate(d *schema.ResourceData, _m interface{}) (err erro
 	return nil
 }
 
-// TODO:- This part is already exist in op_manage_account_rule.go
-/*type UpdateAccountRule struct {
-	ID       uint64
-	Resource xdr.AccountRuleResource
-	Action   xdr.AccountRuleAction
-	Forbid   bool
-	Details  json.Marshaler
-}
-
-func (op *UpdateAccountRule) XDR() (*xdr.Operation, error) {
-	details, err := op.Details.MarshalJSON()
-	if err != nil {
-		return nil, errors.Wrap(err, "failed to marshal details")
-	}
-
-	return &xdr.Operation{
-		Body: xdr.OperationBody{
-			Type: xdr.OperationTypeManageAccountRule,
-			ManageAccountRuleOp: &xdr.ManageAccountRuleOp{
-				Data: xdr.ManageAccountRuleOpData{
-					Action: xdr.ManageAccountRuleActionUpdate,
-					UpdateData: &xdr.UpdateAccountRuleData{
-						RuleId:   xdr.Uint64(op.ID),
-						Resource: op.Resource,
-						Action:   op.Action,
-						Forbids:  op.Forbid,
-						Details:  xdr.Longstring(details),
-					},
-				},
-			},
-		},
-	}, nil
-}*/
-
 func resourceAccountRuleRead(d *schema.ResourceData, meta interface{}) error {
 	return nil
 }
@@ -183,7 +150,7 @@ func resourceAccountRuleDelete(d *schema.ResourceData, meta interface{}) error {
 	if err != nil {
 		return errors.Wrap(err, "failed to cast account rule id")
 	}
-	env, err := m.Builder.Transaction(m.Source).Op(&RemoveAccountRule{
+	env, err := m.Builder.Transaction(m.Source).Op(&xdrbuild.RemoveAccountRule{
 		ID: id,
 	}).Sign(m.Signer).Marshal()
 	if err != nil {
@@ -201,26 +168,4 @@ func resourceAccountRuleDelete(d *schema.ResourceData, meta interface{}) error {
 	ruleID := txCodes[0].Tr.ManageAccountRuleResult.Success.RuleId
 	d.SetId(fmt.Sprintf("%d", ruleID))
 	return nil
-}
-
-// TODO:- Add this part to op_manage_account_rule.go
-type RemoveAccountRule struct {
-	ID uint64
-}
-
-func (op *RemoveAccountRule) XDR() (*xdr.Operation, error) {
-
-	return &xdr.Operation{
-		Body: xdr.OperationBody{
-			Type: xdr.OperationTypeManageAccountRule,
-			ManageAccountRuleOp: &xdr.ManageAccountRuleOp{
-				Data: xdr.ManageAccountRuleOpData{
-					Action: xdr.ManageAccountRuleActionRemove,
-					RemoveData: &xdr.RemoveAccountRuleData{
-						RuleId: xdr.Uint64(op.ID),
-					},
-				},
-			},
-		},
-	}, nil
 }

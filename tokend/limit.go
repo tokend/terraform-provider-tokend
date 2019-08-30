@@ -4,6 +4,8 @@ import (
 	"context"
 	"fmt"
 
+	"gitlab.com/tokend/go/xdrbuild"
+
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/pkg/errors"
 	"github.com/spf13/cast"
@@ -69,7 +71,7 @@ func resourceLimitsCreate(d *schema.ResourceData, _m interface{}) (err error) {
 	}
 
 	rawAccountRole := d.Get("role").(int)
-	accountRole := xdr.Uint64((rawAccountRole))
+	accountRole := xdr.Uint64(rawAccountRole)
 
 	rawType := d.Get("stats_type")
 	typesCode, err := helpers.StatsOpTypeFromRaw(rawType)
@@ -116,7 +118,7 @@ func resourceLimitsCreate(d *schema.ResourceData, _m interface{}) (err error) {
 		return errors.Wrap(err, "failed to cast if convert is needed")
 	}
 
-	env, err := m.Builder.Transaction(m.Source).Op(&CreateLimit{
+	env, err := m.Builder.Transaction(m.Source).Op(&xdrbuild.CreateLimit{
 		Action:     xdr.ManageLimitsActionCreate,
 		Role:       &accountRole,
 		Id:         accountID,
@@ -138,55 +140,6 @@ func resourceLimitsCreate(d *schema.ResourceData, _m interface{}) (err error) {
 	return nil
 }
 
-type CreateLimit struct {
-	Action     xdr.ManageLimitsAction
-	Role       *xdr.Uint64
-	Id         *xdr.AccountId
-	Type       xdr.StatsOpType
-	Code       xdr.AssetCode
-	Convert    bool
-	DailyOut   xdr.Uint64
-	WeeklyOut  xdr.Uint64
-	MonthlyOut xdr.Uint64
-	AnnualOut  xdr.Uint64
-}
-
-func (op *CreateLimit) XDR() (*xdr.Operation, error) {
-	details := xdr.LimitsCreateDetails{
-		StatsOpType:     op.Type,
-		AssetCode:       op.Code,
-		IsConvertNeeded: op.Convert,
-		DailyOut:        op.DailyOut,
-		WeeklyOut:       op.WeeklyOut,
-		MonthlyOut:      op.MonthlyOut,
-		AnnualOut:       op.AnnualOut,
-	}
-
-	if op.Id != nil {
-		details.AccountId = op.Id
-	}
-
-	if op.Role != nil {
-		details.AccountRole = op.Role
-	}
-
-	if op.Role == nil && op.Id == nil {
-		return nil, errors.New("invalid role and id values")
-	}
-
-	return &xdr.Operation{
-		Body: xdr.OperationBody{
-			Type: xdr.OperationTypeManageLimits,
-			ManageLimitsOp: &xdr.ManageLimitsOp{
-				Details: xdr.ManageLimitsOpDetails{
-					Action:              xdr.ManageLimitsActionCreate,
-					LimitsCreateDetails: &details,
-				},
-			},
-		},
-	}, nil
-}
-
 func resourceLimitsRead(d *schema.ResourceData, meta interface{}) error {
 	return nil
 }
@@ -201,7 +154,7 @@ func resourceLimitsDelete(d *schema.ResourceData, meta interface{}) error {
 	if err != nil {
 		return errors.Wrap(err, "failed to cast limit id")
 	}
-	env, err := m.Builder.Transaction(m.Source).Op(&RemoveLimit{
+	env, err := m.Builder.Transaction(m.Source).Op(&xdrbuild.RemoveLimit{
 		ID: id,
 	}).Sign(m.Signer).Marshal()
 	if err != nil {
@@ -219,24 +172,4 @@ func resourceLimitsDelete(d *schema.ResourceData, meta interface{}) error {
 	reply := txCodes[0].Tr.ManageLimitsResult.Success.Details.Id
 	d.SetId(fmt.Sprintf("%d", reply))
 	return nil
-}
-
-type RemoveLimit struct {
-	ID uint64
-}
-
-func (op *RemoveLimit) XDR() (*xdr.Operation, error) {
-	Id := xdr.Uint64(op.ID)
-
-	return &xdr.Operation{
-		Body: xdr.OperationBody{
-			Type: xdr.OperationTypeManageLimits,
-			ManageLimitsOp: &xdr.ManageLimitsOp{
-				Details: xdr.ManageLimitsOpDetails{
-					Action: xdr.ManageLimitsActionRemove,
-					Id:     &Id,
-				},
-			},
-		},
-	}, nil
 }
