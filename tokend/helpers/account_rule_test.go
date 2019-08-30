@@ -128,6 +128,9 @@ func TestAccountRules_Balance(t *testing.T) {
 func TestAccountRules_ReviewableRequest(t *testing.T) {
 	c := map[string]interface{}{
 		"entry_type": "reviewable_request",
+		"entry": map[string]interface{}{
+			"request_type": "*",
+		},
 	}
 	expected := &xdr.AccountRuleResource{
 		Type: xdr.LedgerEntryTypeReviewableRequest,
