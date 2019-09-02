@@ -15,11 +15,10 @@ func TestAccountIDFromRaw(t *testing.T) {
 	})
 
 	t.Run("valid", func(t *testing.T) {
-		invalidAccountID := "GBA4EX43M25UPV4WIE6RRMQOFTWXZZRIPFAI5VPY6Z2ZVVXVWZ6NEOOB"
-		accountID, err := AccountIDFromRaw(invalidAccountID)
+		validAccountID := "GBA4EX43M25UPV4WIE6RRMQOFTWXZZRIPFAI5VPY6Z2ZVVXVWZ6NEOOB"
+		accountID, err := AccountIDFromRaw(validAccountID)
 		assert.NoError(t, err)
-		//assert.NNil(t, accountID)
-		assert.Equal(t, invalidAccountID, accountID.Address())
+		assert.Equal(t, validAccountID, accountID.Address())
 	})
 }
 
@@ -48,7 +47,7 @@ func TestTypeFromRaw(t *testing.T) {
 		typeCode, err := StatsOpTypeFromRaw(typeName)
 		assert.NoError(t, err)
 		assert.NotNil(t, typeCode)
-		assert.Equal(t, int32(1), typeCode)
+		assert.Equal(t, int32(2), typeCode)
 	})
 
 	t.Run("invalid", func(t *testing.T) {

@@ -14,17 +14,17 @@ type CreateAssetPair struct {
 }
 
 type UpdateAssetPairPrice struct {
-	Base          string
-	Quote         string
-	PhysicalPrice int64
+	Base                    string
+	Quote                   string
+	PhysicalPrice           int64
+	PhysicalPriceCorrection int64
 }
 
 type UpdateAssetPairPolicies struct {
-	Base                    string
-	Quote                   string
-	PhysicalPriceCorrection int64
-	MaxPriceStep            int64
-	Policies                int32
+	Base         string
+	Quote        string
+	MaxPriceStep int64
+	Policies     int32
 }
 
 func (ap CreateAssetPair) XDR() (*xdr.Operation, error) {
@@ -50,10 +50,11 @@ func (ap UpdateAssetPairPrice) XDR() (*xdr.Operation, error) {
 		Body: xdr.OperationBody{
 			Type: xdr.OperationTypeManageAssetPair,
 			ManageAssetPairOp: &xdr.ManageAssetPairOp{
-				Action:        xdr.ManageAssetPairActionUpdatePrice,
-				Base:          xdr.AssetCode(ap.Base),
-				Quote:         xdr.AssetCode(ap.Quote),
-				PhysicalPrice: xdr.Int64(ap.PhysicalPrice),
+				Action:                  xdr.ManageAssetPairActionUpdatePrice,
+				Base:                    xdr.AssetCode(ap.Base),
+				Quote:                   xdr.AssetCode(ap.Quote),
+				PhysicalPrice:           xdr.Int64(ap.PhysicalPrice),
+				PhysicalPriceCorrection: xdr.Int64(ap.PhysicalPriceCorrection),
 			},
 		},
 	}
@@ -65,12 +66,11 @@ func (ap UpdateAssetPairPolicies) XDR() (*xdr.Operation, error) {
 		Body: xdr.OperationBody{
 			Type: xdr.OperationTypeManageAssetPair,
 			ManageAssetPairOp: &xdr.ManageAssetPairOp{
-				Action:                  xdr.ManageAssetPairActionUpdatePolicies,
-				Base:                    xdr.AssetCode(ap.Base),
-				Quote:                   xdr.AssetCode(ap.Quote),
-				Policies:                xdr.Int32(ap.Policies),
-				PhysicalPriceCorrection: xdr.Int64(ap.PhysicalPriceCorrection),
-				MaxPriceStep:            xdr.Int64(ap.MaxPriceStep),
+				Action:       xdr.ManageAssetPairActionUpdatePolicies,
+				Base:         xdr.AssetCode(ap.Base),
+				Quote:        xdr.AssetCode(ap.Quote),
+				Policies:     xdr.Int32(ap.Policies),
+				MaxPriceStep: xdr.Int64(ap.MaxPriceStep),
 			},
 		},
 	}

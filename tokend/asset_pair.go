@@ -15,10 +15,11 @@ import (
 func resourceAssetPair() *schema.Resource {
 	return &schema.Resource{
 		Create: resourceAssetPairCreate,
-		Update: resourceAssetPairUpdate,
+		Update: resourceAssetPairUpdatePolicies,
 		Read:   resourceAssetPairRead,
 		Delete: resourceAssetPairDelete,
 		Schema: map[string]*schema.Schema{
+
 			"base": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -27,9 +28,25 @@ func resourceAssetPair() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"price": {
-				Type:     schema.TypeString,
+			"current_price": {
+				Type:     schema.TypeInt,
 				Required: true,
+			},
+			"physical_price": {
+				Type:     schema.TypeInt,
+				Required: true,
+			},
+			"physical_price_correction": {
+				Type:     schema.TypeInt,
+				Required: true,
+			},
+			"max_price_step": {
+				Type:     schema.TypeInt,
+				Required: true,
+			},
+			"policies": {
+				Type:     schema.TypeInt,
+				Optional: true,
 			},
 		},
 	}
@@ -66,44 +83,28 @@ func resourceAssetPairCreate(d *schema.ResourceData, _m interface{}) (err error)
 	return nil
 }
 
-func resourceAssetPairUpdate(d *schema.ResourceData, meta interface{}) error {
+func resourceAssetPairUpdatePolicies(d *schema.ResourceData, meta interface{}) error {
 	m := meta.(Meta)
 
 	base := d.Get("base").(string)
 	quote := d.Get("quote").(string)
 
-	priceRaw := d.Get("price").(string)
-	price, err := amount.Parse(priceRaw)
-	if err != nil {
-		return errors.Wrap(err, "failed to parse price")
-	}
-
-	physicalPriceCorrection := d.Get("physicalPriceCorrection").(string)
-	priceCorrection, err := amount.Parse(physicalPriceCorrection)
-	if err != nil {
-		return errors.Wrap(err, "failed to parse correction")
-	}
-
-	maxPriceStep := d.Get("maxPriceStep").(string)
+	maxPriceStep := d.Get("max_price_step").(string)
 	maxStep, err := amount.Parse(maxPriceStep)
 	if err != nil {
 		return errors.Wrap(err, "failed to parse step")
 	}
 
-	if price < 0 || priceCorrection < 0 || maxStep < 0 || maxStep > 100 {
-		return errors.New("MALFORMED")
-	}
 	policies := d.Get("policies").(int32)
 	if policies < 0 {
 		return errors.New("INVALID_POLICIES")
 	}
 
 	env, err := m.Builder.Transaction(m.Source).Op(&xdrbuild.UpdateAssetPairPolicies{
-		Base:                    base,
-		Quote:                   quote,
-		PhysicalPriceCorrection: priceCorrection,
-		MaxPriceStep:            maxStep,
-		Policies:                policies,
+		Base:         base,
+		Quote:        quote,
+		MaxPriceStep: maxStep,
+		Policies:     policies,
 	}).Sign(m.Signer).Marshal()
 	if err != nil {
 		return errors.Wrap(err, "failed to marshal tx")
@@ -116,6 +117,50 @@ func resourceAssetPairUpdate(d *schema.ResourceData, meta interface{}) error {
 	return nil
 }
 
+func resourceAssetPairUpdatePrice(d *schema.ResourceData, meta interface{}) error {
+	m := meta.(Meta)
+
+	base := d.Get("base").(string)
+	quote := d.Get("quote").(string)
+
+	physicalPriceRaw := d.Get("physical_price").(string)
+	physicalPrice, err := amount.Parse(physicalPriceRaw)
+	if err != nil {
+		return errors.Wrap(err, "failed to parse price")
+	}
+
+	physicalPriceCorrection := d.Get("physical_price_correction").(string)
+	priceCorrection, err := amount.Parse(physicalPriceCorrection)
+	if err != nil {
+		return errors.Wrap(err, "failed to parse correction")
+	}
+
+	maxPriceStep := d.Get("max_price_step").(string)
+	maxStep, err := amount.Parse(maxPriceStep)
+	if err != nil {
+		return errors.Wrap(err, "failed to parse step")
+	}
+
+	if physicalPrice < 0 || priceCorrection < 0 || maxStep < 0 || maxStep > 100 {
+		return errors.New("MALFORMED")
+	}
+
+	env, err := m.Builder.Transaction(m.Source).Op(&xdrbuild.UpdateAssetPairPrice{
+		Base:                    base,
+		Quote:                   quote,
+		PhysicalPrice:           priceCorrection,
+		PhysicalPriceCorrection: priceCorrection,
+	}).Sign(m.Signer).Marshal()
+	if err != nil {
+		return errors.Wrap(err, "failed to marshal tx")
+	}
+	result := m.Horizon.Submitter().Submit(context.TODO(), env)
+	if result.Err != nil {
+		return errors.Wrapf(result.Err, "failed to submit tx: %s %q", result.TXCode, result.OpCodes)
+	}
+
+	return nil
+}
 func resourceAssetPairRead(d *schema.ResourceData, meta interface{}) error {
 	return nil
 }

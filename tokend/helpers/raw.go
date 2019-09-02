@@ -124,10 +124,10 @@ func StatsOpTypeFromRaw(raw interface{}) (int32, error) {
 
 	ok := false
 
-	for index, guess := range xdr.StatsOpTypeAll {
+	for _, guess := range xdr.StatsOpTypeAll {
 		if guess.ShortString() == typeRaw {
 			ok = true
-			typesCode |= int32(index)
+			typesCode |= int32(guess)
 		}
 	}
 	if !ok {
