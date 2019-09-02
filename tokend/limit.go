@@ -70,8 +70,7 @@ func resourceLimitsCreate(d *schema.ResourceData, _m interface{}) (err error) {
 		return errors.Wrap(err, "failed to get account id")
 	}
 
-	rawAccountRole := d.Get("role").(int)
-	accountRole := xdr.Uint64(rawAccountRole)
+	accountRole := xdr.Uint64(d.Get("role").(int))
 
 	rawType := d.Get("stats_type")
 	typesCode, err := helpers.StatsOpTypeFromRaw(rawType)
@@ -79,44 +78,21 @@ func resourceLimitsCreate(d *schema.ResourceData, _m interface{}) (err error) {
 		return errors.Wrap(err, "failed to get type")
 	}
 
-	rawDailyOut := d.Get("daily_out")
-	dailyOut, err := cast.ToUint64E(rawDailyOut)
-	if err != nil {
-		return errors.Wrap(err, "failed to cast daily out")
-	}
+	dailyOut := d.Get("daily_out").(int)
 
-	rawWeeklyOut := d.Get("weekly_out")
-	weeklyOut, err := cast.ToUint64E(rawWeeklyOut)
-	if err != nil {
-		return errors.Wrap(err, "failed to cast weekly out")
-	}
+	weeklyOut := d.Get("weekly_out").(int)
 
-	rawMonthlyOut := d.Get("monthly_out")
-	monthlyOut, err := cast.ToUint64E(rawMonthlyOut)
-	if err != nil {
-		return errors.Wrap(err, "failed to cast monthly out")
-	}
-	rawAnnualOut := d.Get("annual_out")
-	annualOut, err := cast.ToUint64E(rawAnnualOut)
-	if err != nil {
-		return errors.Wrap(err, "failed to cast annual out")
-	}
+	monthlyOut := d.Get("monthly_out").(int)
+
+	annualOut := d.Get("annual_out").(int)
 
 	if !helpers.ValidateLimits(dailyOut, weeklyOut, monthlyOut, annualOut) {
 		return errors.New("failed to set limits - incorrect values")
 	}
 
-	rawAssetCode := d.Get("asset_code")
-	assetCode, err := cast.ToStringE(rawAssetCode)
-	if err != nil {
-		return errors.Wrap(err, "failed to cast asset code")
-	}
+	assetCode := d.Get("asset_code").(string)
 
-	rawConvertNeed := d.Get("convert")
-	convertNeed, err := cast.ToBoolE(rawConvertNeed)
-	if err != nil {
-		return errors.Wrap(err, "failed to cast if convert is needed")
-	}
+	convertNeed := d.Get("convert").(bool)
 
 	env, err := m.Builder.Transaction(m.Source).Op(&xdrbuild.CreateLimit{
 		Action:     xdr.ManageLimitsActionCreate,

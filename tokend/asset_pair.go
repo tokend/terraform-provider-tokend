@@ -4,6 +4,8 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/tokend/terraform-provider-tokend/tokend/helpers"
+
 	"gitlab.com/tokend/go/xdr"
 
 	"github.com/hashicorp/terraform/helper/schema"
@@ -15,11 +17,10 @@ import (
 func resourceAssetPair() *schema.Resource {
 	return &schema.Resource{
 		Create: resourceAssetPairCreate,
-		Update: resourceAssetPairUpdatePolicies,
+		Update: resourceAssetPairUpdate,
 		Read:   resourceAssetPairRead,
 		Delete: resourceAssetPairDelete,
 		Schema: map[string]*schema.Schema{
-
 			"base": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -29,24 +30,27 @@ func resourceAssetPair() *schema.Resource {
 				Required: true,
 			},
 			"current_price": {
-				Type:     schema.TypeInt,
-				Required: true,
+				Type:     schema.TypeString,
+				Optional: true,
 			},
-			"physical_price": {
-				Type:     schema.TypeInt,
-				Required: true,
+			"price": {
+				Type:     schema.TypeString,
+				Optional: true,
 			},
-			"physical_price_correction": {
-				Type:     schema.TypeInt,
-				Required: true,
+			"price_correction": {
+				Type:     schema.TypeString,
+				Optional: true,
 			},
 			"max_price_step": {
-				Type:     schema.TypeInt,
-				Required: true,
+				Type:     schema.TypeString,
+				Optional: true,
 			},
 			"policies": {
-				Type:     schema.TypeInt,
+				Type:     schema.TypeList,
 				Optional: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
 			},
 		},
 	}
@@ -83,7 +87,8 @@ func resourceAssetPairCreate(d *schema.ResourceData, _m interface{}) (err error)
 	return nil
 }
 
-func resourceAssetPairUpdatePolicies(d *schema.ResourceData, meta interface{}) error {
+//FIXME this func must update policy or price fields (now policies only)
+func resourceAssetPairUpdate(d *schema.ResourceData, meta interface{}) error {
 	m := meta.(Meta)
 
 	base := d.Get("base").(string)
@@ -95,16 +100,17 @@ func resourceAssetPairUpdatePolicies(d *schema.ResourceData, meta interface{}) e
 		return errors.Wrap(err, "failed to parse step")
 	}
 
-	policies := d.Get("policies").(int32)
-	if policies < 0 {
-		return errors.New("INVALID_POLICIES")
+	policyRaw := d.Get("policies").([]interface{})
+	policyCode, err := helpers.PoliciesFromRaw(policyRaw)
+	if err != nil {
+		return errors.Wrap(err, "failed to cast policy")
 	}
 
 	env, err := m.Builder.Transaction(m.Source).Op(&xdrbuild.UpdateAssetPairPolicies{
 		Base:         base,
 		Quote:        quote,
 		MaxPriceStep: maxStep,
-		Policies:     policies,
+		Policies:     int32(policyCode),
 	}).Sign(m.Signer).Marshal()
 	if err != nil {
 		return errors.Wrap(err, "failed to marshal tx")
@@ -123,32 +129,22 @@ func resourceAssetPairUpdatePrice(d *schema.ResourceData, meta interface{}) erro
 	base := d.Get("base").(string)
 	quote := d.Get("quote").(string)
 
-	physicalPriceRaw := d.Get("physical_price").(string)
+	physicalPriceRaw := d.Get("price").(string)
 	physicalPrice, err := amount.Parse(physicalPriceRaw)
 	if err != nil {
 		return errors.Wrap(err, "failed to parse price")
 	}
 
-	physicalPriceCorrection := d.Get("physical_price_correction").(string)
+	physicalPriceCorrection := d.Get("price_correction").(string)
 	priceCorrection, err := amount.Parse(physicalPriceCorrection)
 	if err != nil {
 		return errors.Wrap(err, "failed to parse correction")
 	}
 
-	maxPriceStep := d.Get("max_price_step").(string)
-	maxStep, err := amount.Parse(maxPriceStep)
-	if err != nil {
-		return errors.Wrap(err, "failed to parse step")
-	}
-
-	if physicalPrice < 0 || priceCorrection < 0 || maxStep < 0 || maxStep > 100 {
-		return errors.New("MALFORMED")
-	}
-
 	env, err := m.Builder.Transaction(m.Source).Op(&xdrbuild.UpdateAssetPairPrice{
 		Base:                    base,
 		Quote:                   quote,
-		PhysicalPrice:           priceCorrection,
+		PhysicalPrice:           physicalPrice,
 		PhysicalPriceCorrection: priceCorrection,
 	}).Sign(m.Signer).Marshal()
 	if err != nil {
@@ -189,5 +185,4 @@ func resourceAssetPairDelete(d *schema.ResourceData, _m interface{}) error {
 	CurrentPrice := txCodes[0].Tr.ManageAssetPairResult.Success.CurrentPrice
 	d.SetId(fmt.Sprintf("%d", CurrentPrice))
 	return nil
-
 }

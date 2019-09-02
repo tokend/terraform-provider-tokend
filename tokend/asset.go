@@ -71,7 +71,7 @@ func resourceAssetCreate(d *schema.ResourceData, _m interface{}) (err error) {
 	var zero uint32 = 0
 
 	policyRaw := d.Get("policies").([]interface{})
-	policyCode, err := helpers.PolicyFromRaw(policyRaw)
+	policyCode, err := helpers.PoliciesFromRaw(policyRaw)
 	if err != nil {
 		return errors.Wrap(err, "failed to cast policy")
 	}
@@ -109,7 +109,7 @@ func resourceAssetUpdate(d *schema.ResourceData, meta interface{}) error {
 	var zero uint32 = 0
 
 	policyRaw := d.Get("policies").([]interface{})
-	policyCode, err := helpers.PolicyFromRaw(policyRaw)
+	policyCode, err := helpers.PoliciesFromRaw(policyRaw)
 	if err != nil {
 		return errors.Wrap(err, "failed to cast policy")
 	}

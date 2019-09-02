@@ -25,7 +25,7 @@ func TestAccountIDFromRaw(t *testing.T) {
 func TestPolicyFromRaw(t *testing.T) {
 	t.Run("valid", func(t *testing.T) {
 		policiesNames := []interface{}{"withdrawable", "transferable"}
-		policyCode, err := PolicyFromRaw(policiesNames)
+		policyCode, err := PoliciesFromRaw(policiesNames)
 		assert.NoError(t, err)
 		assert.NotNil(t, policyCode)
 		assert.Equal(t, uint32(9), policyCode)
@@ -33,7 +33,7 @@ func TestPolicyFromRaw(t *testing.T) {
 
 	t.Run("invalid", func(t *testing.T) {
 		policiesNames := []interface{}{"invalid_data", "invalid_data_too"}
-		policyCode, err := PolicyFromRaw(policiesNames)
+		policyCode, err := PoliciesFromRaw(policiesNames)
 		assert.Error(t, err)
 		assert.Equal(t, uint32(0), policyCode)
 

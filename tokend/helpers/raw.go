@@ -48,7 +48,7 @@ type StellarData struct {
 	Address string
 }
 
-func PolicyFromRaw(raw []interface{}) (uint32, error) {
+func PoliciesFromRaw(raw []interface{}) (uint32, error) {
 	var policiesCode uint32
 	for _, policiesRaw := range raw {
 
@@ -104,6 +104,10 @@ func AccountIDFromRaw(raw interface{}) (*xdr.AccountId, error) {
 	if errCast != nil {
 		return nil, errors.Wrap(errCast, "failed to cast to string")
 	}
+
+	if rawstr == "" {
+		return nil, nil
+	}
 	var accountID xdr.AccountId
 	err := ValidateAccountID(rawstr)
 
@@ -144,6 +148,6 @@ func ValidateAccountID(a string) error {
 	return nil
 }
 
-func ValidateLimits(dailyOut uint64, weeklyOut uint64, monthlyOut uint64, annualOut uint64) bool {
+func ValidateLimits(dailyOut, weeklyOut, monthlyOut, annualOut int) bool {
 	return dailyOut <= weeklyOut && weeklyOut <= monthlyOut && monthlyOut <= annualOut
 }
