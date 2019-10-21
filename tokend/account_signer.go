@@ -3,13 +3,12 @@ package tokend
 import (
 	"context"
 
-	"github.com/tokend/terraform-provider-tokend/tokend/helpers"
-
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/pkg/errors"
 	"github.com/spf13/cast"
-	"gitlab.com/tokend/go/xdrbuild"
+	"github.com/tokend/terraform-provider-tokend/tokend/helpers"
 	"github.com/tokend/terraform-provider-tokend/tokend/helpers/validation"
+	"gitlab.com/tokend/go/xdrbuild"
 )
 
 func resourceAccountSigner() *schema.Resource {

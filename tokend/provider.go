@@ -35,6 +35,7 @@ func Provider() terraform.ResourceProvider {
 			},
 		},
 		ResourcesMap: map[string]*schema.Resource{
+			"tokend_account":                    resourceAccount(),
 			"tokend_account_rule":               resourceAccountRule(),
 			"tokend_account_role":               resourceAccountRole(),
 			"tokend_key_value":                  resourceKeyValue(),
