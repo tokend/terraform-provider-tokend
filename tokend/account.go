@@ -12,7 +12,6 @@ import (
 	"gitlab.com/distributed_lab/logan/v3/errors"
 	"gitlab.com/tokend/go/xdr"
 	"gitlab.com/tokend/go/xdrbuild"
-	"gitlab.com/tokend/keypair"
 )
 
 func resourceAccount() *schema.Resource {
@@ -22,6 +21,11 @@ func resourceAccount() *schema.Resource {
 		Update: resourceAccountUpdate,
 		Delete: resourceAccountDelete,
 		Schema: map[string]*schema.Schema{
+			"public_key": {
+				Type:         schema.TypeString,
+				Required:     true,
+				ValidateFunc: validation.ValidateSource,
+			},
 			"role_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -41,11 +45,11 @@ func resourceAccount() *schema.Resource {
 func resourceAccountCreate(d *schema.ResourceData, _m interface{}) error {
 	m := _m.(Meta)
 
-	kp, err := keypair.Random()
+	rawDestination := d.Get("public_key")
+	destination, err := cast.ToStringE(rawDestination)
 	if err != nil {
-		return errors.Wrap(err, "failed to generate random kp")
+		return errors.Wrap(err, "failed to cast public_key to string")
 	}
-	destination := kp.Address()
 
 	rawRoleID := d.Get("role_id")
 	roleID, err := cast.ToUint64E(rawRoleID)
