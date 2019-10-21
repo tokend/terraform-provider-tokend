@@ -88,6 +88,9 @@ func resourceAccountCreate(d *schema.ResourceData, _m interface{}) error {
 		RoleID:      roleID,
 		Signers:     signers,
 	}).Sign(m.Signer).Marshal()
+	if err != nil {
+		return errors.Wrap(err, "failed to marshal tx")
+	}
 
 	result := m.Horizon.Submitter().Submit(context.TODO(), env)
 	if result.Err != nil {
