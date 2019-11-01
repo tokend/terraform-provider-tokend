@@ -59,3 +59,18 @@ func (op *CreateAsset) XDR() (*xdr.Operation, error) {
 		},
 	}, nil
 }
+
+type RemoveAsset struct {
+	Code string
+}
+
+func (op *RemoveAsset) XDR() (*xdr.Operation, error) {
+	return &xdr.Operation{
+		Body: xdr.OperationBody{
+			Type: xdr.OperationTypeRemoveAsset,
+			RemoveAssetOp: &xdr.RemoveAssetOp{
+				Code: xdr.AssetCode(op.Code),
+			},
+		},
+	}, nil
+}

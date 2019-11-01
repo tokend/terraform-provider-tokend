@@ -14,7 +14,7 @@
 
 [[override]]
   name = "gitlab.com/tokend/go"
-  branch = "feature/op-manage-external-system-pool-entry"
+  branch = "master"
 
 [[constraint]]
   name = "gitlab.com/tokend/horizon-connector"
