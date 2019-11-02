@@ -3,11 +3,12 @@ package tokend
 import (
 	"context"
 
+	"github.com/tokend/terraform-provider-tokend/tokend/helpers"
+
 	"github.com/tokend/terraform-provider-tokend/tokend/helpers/validation"
 
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/spf13/cast"
-	"gitlab.com/distributed_lab/figure"
 	"gitlab.com/distributed_lab/logan/v3"
 	"gitlab.com/distributed_lab/logan/v3/errors"
 	"gitlab.com/tokend/go/xdr"
@@ -21,7 +22,7 @@ func resourceAccount() *schema.Resource {
 		Update: resourceAccountUpdate,
 		Delete: resourceAccountDelete,
 		Schema: map[string]*schema.Schema{
-			"public_key": {
+			"account_id": {
 				Type:         schema.TypeString,
 				Required:     true,
 				ValidateFunc: validation.ValidateSource,
@@ -33,9 +34,32 @@ func resourceAccount() *schema.Resource {
 			"signers": {
 				Type:     schema.TypeSet,
 				Required: true,
-				Elem: &schema.Schema{
-					Type:         schema.TypeMap,
-					ValidateFunc: validation.ValidateSignerRole,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"public_key": {
+							Type:         schema.TypeString,
+							Required:     true,
+							ValidateFunc: validation.ValidateSource,
+						},
+						"weight": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Default:  1000,
+						},
+						"identity": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Default:  1,
+						},
+						"role_id": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+						"details": {
+							Type:     schema.TypeMap,
+							Optional: true,
+						},
+					},
 				},
 			},
 		},
@@ -45,7 +69,7 @@ func resourceAccount() *schema.Resource {
 func resourceAccountCreate(d *schema.ResourceData, _m interface{}) error {
 	m := _m.(Meta)
 
-	rawDestination := d.Get("public_key")
+	rawDestination := d.Get("account_id")
 	destination, err := cast.ToStringE(rawDestination)
 	if err != nil {
 		return errors.Wrap(err, "failed to cast public_key to string")
@@ -61,26 +85,12 @@ func resourceAccountCreate(d *schema.ResourceData, _m interface{}) error {
 
 	var signers []xdrbuild.SignerData
 	for _, rawSigner := range rawSigners {
-		signerMap, err := cast.ToStringMapE(rawSigner)
+		signer, err := getSigner(rawSigner)
 		if err != nil {
-			return errors.Wrap(err, "failed to cast signer")
+			return errors.Wrap(err, "failed to get signer")
 		}
 
-		var role struct {
-			ID uint64 `fig:"role_id"`
-		}
-		if err := figure.Out(&role).From(signerMap).Please(); err != nil {
-			return errors.Wrap(err, "failed to figure out signer data")
-		}
-
-		signer := xdrbuild.SignerData{
-			PublicKey: destination,
-			Weight:    1000,
-			RoleID:    role.ID,
-			Details:   VoidDetails{},
-		}
-
-		signers = append(signers, signer)
+		signers = append(signers, *signer)
 	}
 
 	env, err := m.Builder.Transaction(m.Source).Op(&xdrbuild.CreateAccount{
@@ -118,4 +128,43 @@ func resourceAccountRead(d *schema.ResourceData, meta interface{}) error {
 
 func resourceAccountDelete(d *schema.ResourceData, meta interface{}) error {
 	return errors.New("tokend_account delete is not implemented")
+}
+
+func getSigner(rawSigner interface{}) (*xdrbuild.SignerData, error) {
+	d, err := cast.ToStringMapE(rawSigner)
+	if err != nil {
+		return nil, errors.Wrap(err, "failed to get signer")
+	}
+
+	publicKey := d["public_key"].(string)
+	rawWeight := d["weight"]
+	weight, err := cast.ToUint32E(rawWeight)
+	if err != nil {
+		return nil, errors.Wrap(err, "failed to cast weight to uint32")
+	}
+	rawIdentity := d["identity"]
+	identity, err := cast.ToUint32E(rawIdentity)
+	if err != nil {
+		return nil, errors.Wrap(err, "failed to cast identity to uint32")
+	}
+
+	rawRoleID := d["role_id"]
+	roleID, err := cast.ToUint64E(rawRoleID)
+	if err != nil {
+		return nil, errors.Wrap(err, "failed to cast roleID to uint64")
+	}
+
+	rawDetails := d["details"]
+	details, err := helpers.DetailsFromRaw(rawDetails)
+	if err != nil {
+		return nil, errors.Wrap(err, "failed to get details")
+	}
+
+	return &xdrbuild.SignerData{
+		PublicKey: publicKey,
+		Weight:    weight,
+		Identity:  identity,
+		RoleID:    roleID,
+		Details:   details,
+	}, nil
 }
