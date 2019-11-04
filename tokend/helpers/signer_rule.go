@@ -9,9 +9,9 @@ import (
 	"gitlab.com/tokend/go/xdr"
 )
 
-type SignerEntryFunc func(d *schema.ResourceData) (*xdr.SignerRuleResource, error)
+type SignerRuleEntryFunc func(d *schema.ResourceData) (*xdr.SignerRuleResource, error)
 
-var SignerEntries = map[string]SignerEntryFunc{
+var SignerRuleEntries = map[string]SignerRuleEntryFunc{
 	"signer":             signerRuleResourceSigner,
 	"transaction":        signerRuleResourceTransaction,
 	"limits":             signerRuleResourceLimits,
@@ -26,7 +26,7 @@ var SignerEntries = map[string]SignerEntryFunc{
 
 func SignerRuleEntry(d *schema.ResourceData) (*xdr.SignerRuleResource, error) {
 	tpe := d.Get("entry_type").(string)
-	createEntry, ok := SignerEntries[tpe]
+	createEntry, ok := SignerRuleEntries[tpe]
 	if !ok {
 		return nil, fmt.Errorf(`entry_type "%s" is not supported`, tpe)
 	}
