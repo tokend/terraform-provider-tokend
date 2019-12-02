@@ -6,7 +6,7 @@ import (
 	"github.com/tokend/terraform-provider-tokend/tokend/data/mocks"
 
 	"gitlab.com/tokend/go/xdr"
-	"gitlab.com/tokend/regources/generated"
+	"gitlab.com/tokend/regources"
 
 	mocks2 "github.com/tokend/terraform-provider-tokend/tokend/connector/keyvalues/mocks"
 

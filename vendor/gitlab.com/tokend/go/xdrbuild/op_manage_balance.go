@@ -5,13 +5,12 @@ import (
 	"gitlab.com/tokend/go/xdr"
 )
 
-type ManageBalanceOp struct {
-	Action      xdr.ManageBalanceAction
+type CreateBalance struct {
 	Destination string
 	AssetCode   string
 }
 
-func (op *ManageBalanceOp) XDR() (*xdr.Operation, error) {
+func (op *CreateBalance) XDR() (*xdr.Operation, error) {
 	var dest xdr.AccountId
 	err := dest.SetAddress(op.Destination)
 	if err != nil {
@@ -19,9 +18,8 @@ func (op *ManageBalanceOp) XDR() (*xdr.Operation, error) {
 	}
 	return &xdr.Operation{
 		Body: xdr.OperationBody{
-			Type: xdr.OperationTypeManageBalance,
-			ManageBalanceOp: &xdr.ManageBalanceOp{
-				Action:      op.Action,
+			Type: xdr.OperationTypeCreateBalance,
+			CreateBalanceOp: &xdr.CreateBalanceOp{
 				Destination: dest,
 				Asset:       xdr.AssetCode(op.AssetCode),
 			},

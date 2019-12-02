@@ -1,9 +1,9 @@
 package xdr
 
 import (
+	"database/sql/driver"
 	"errors"
 	"fmt"
-	"database/sql/driver"
 )
 
 // This file contains implementations of the sql.Scanner interface for stellar xdr types
@@ -29,21 +29,6 @@ func (t *LedgerHeader) Scan(src interface{}) error {
 	return safeBase64Scan(src, t)
 }
 
-// Scan reads from src into an ScpEnvelope struct
-func (t *ScpEnvelope) Scan(src interface{}) error {
-	return safeBase64Scan(src, t)
-}
-
-// Scan reads from src into an ScpEnvelope struct
-func (t *ScpQuorumSet) Scan(src interface{}) error {
-	return safeBase64Scan(src, t)
-}
-
-// Scan reads from src into an Thresholds struct
-func (t *Thresholds) Scan(src interface{}) error {
-	return safeBase64Scan(src, t)
-}
-
 // Scan reads from src into an TransactionEnvelope struct
 func (t *TransactionEnvelope) Scan(src interface{}) error {
 	return safeBase64Scan(src, t)
@@ -64,13 +49,8 @@ func (t *TransactionResultPair) Scan(src interface{}) error {
 	return safeBase64Scan(src, t)
 }
 
-// Scan reads from src into an AccountRuleResource struct
-func (r *AccountRuleResource) Scan(src interface{}) error {
-	return safeBase64Scan(src, r)
-}
-
-// Scan reads from src into an SignerRuleResource struct
-func (r *SignerRuleResource) Scan(src interface{}) error {
+// Scan reads from src into an RuleResource struct
+func (r *RuleResource) Scan(src interface{}) error {
 	return safeBase64Scan(src, r)
 }
 

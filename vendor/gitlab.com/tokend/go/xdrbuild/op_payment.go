@@ -6,31 +6,46 @@ import (
 )
 
 type Payment struct {
+	SecurityType    uint32
 	SourceBalanceID xdr.BalanceId
-	Destination     xdr.PaymentOpDestination
+	Destination     xdr.MovementDestination
 	FeeData         xdr.PaymentFeeData
 	Amount          uint64
 	Subject         string
 	Reference       string
+	Source          string
 }
 
 func (op *Payment) XDR() (*xdr.Operation, error) {
+	var source *xdr.AccountId
+	if op.Source != "" {
+		source = new(xdr.AccountId)
+		err := source.SetAddress(op.Source)
+		if err != nil {
+			return nil, errors.Wrap(err, "failed to set source account id")
+		}
+	}
+
 	return &xdr.Operation{
 		Body: xdr.OperationBody{
 			Type: xdr.OperationTypePayment,
 			PaymentOp: &xdr.PaymentOp{
 				SourceBalanceId: op.SourceBalanceID,
+				SecurityType:    xdr.Uint32(op.SecurityType),
 				Destination:     op.Destination,
 				Amount:          xdr.Uint64(op.Amount),
+				FeeData:         op.FeeData,
 				Subject:         xdr.Longstring(op.Subject),
 				Reference:       xdr.Longstring(op.Reference),
-				FeeData:         op.FeeData,
+				Ext:             xdr.PaymentOpExt{},
 			},
 		},
+		SourceAccount: source,
 	}, nil
 }
 
 type CreatePaymentForBalanceOpts struct {
+	SecurityType         uint32
 	SourceBalanceID      string
 	DestinationBalanceID string
 	Amount               uint64
@@ -61,9 +76,10 @@ func CreatePaymentForBalance(opts CreatePaymentForBalanceOpts) (*Payment, error)
 	}
 
 	return &Payment{
+		SecurityType:    opts.SecurityType,
 		SourceBalanceID: sb,
-		Destination: xdr.PaymentOpDestination{
-			Type:      xdr.PaymentDestinationTypeBalance,
+		Destination: xdr.MovementDestination{
+			Type:      xdr.DestinationTypeBalance,
 			BalanceId: &db,
 		},
 		Amount:    opts.Amount,
@@ -84,6 +100,7 @@ func CreatePaymentForBalance(opts CreatePaymentForBalanceOpts) (*Payment, error)
 }
 
 type CreatePaymentForAccountOpts struct {
+	SecurityType         uint32
 	SourceBalanceID      string
 	DestinationAccountID string
 	Amount               uint64
@@ -106,9 +123,10 @@ func CreatePaymentForAccount(opts CreatePaymentForAccountOpts) (*Payment, error)
 	}
 
 	return &Payment{
+		SecurityType:    opts.SecurityType,
 		SourceBalanceID: sb,
-		Destination: xdr.PaymentOpDestination{
-			Type:      xdr.PaymentDestinationTypeAccount,
+		Destination: xdr.MovementDestination{
+			Type:      xdr.DestinationTypeAccount,
 			AccountId: &da,
 		},
 		Amount:    opts.Amount,

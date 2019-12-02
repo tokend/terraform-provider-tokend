@@ -30,8 +30,8 @@
   version = "0.8.0"
 
 [[constraint]]
+  branch = "refactor/internal_work"
   name = "gitlab.com/tokend/go"
-  version = "3.2"
 
 [prune]
   go-tests = true

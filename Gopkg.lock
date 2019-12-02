@@ -10,6 +10,14 @@
   version = "v1.2.1"
 
 [[projects]]
+  branch = "master"
+  digest = "1:dcb7cadd45a5ce5f7a8a344358e25d92c66298759a1cb52cc0c8645cfc31bfd2"
+  name = "github.com/alecthomas/jsonschema"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "4bb6e3fae4f22dac4e1ecbeb001cfcf46ebbfba0"
+
+[[projects]]
   digest = "1:ef98942770803ae37c4787ad6bf70e401c99834dfba5e3034b97ba7c24e66c10"
   name = "github.com/apparentlymart/go-cidr"
   packages = ["cidr"]
@@ -124,6 +132,14 @@
   version = "v0.8.2"
 
 [[projects]]
+  digest = "1:af43bdaaf86655a2343f113e9b293bbc16b12099eaeb223982bbe4d4c22ba14d"
+  name = "github.com/fatih/structs"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "4966fc68f5b7593aafa6cbbba2d65ec6e1416047"
+  version = "v1.1.0"
+
+[[projects]]
   digest = "1:abeb38ade3f32a92943e5be54f55ed6d6e3b6602761d74b4aab4c9dd45c18abd"
   name = "github.com/fsnotify/fsnotify"
   packages = ["."]
@@ -140,12 +156,58 @@
   version = "v0.2.0"
 
 [[projects]]
-  digest = "1:c116114869f44c711fa5baf9e019fa327101c82ddc4dcc1de84db1f6c43a2d36"
+  digest = "1:5672cac2a0190dbb0658806e0f8e220ae4a4120451603504c22ef89a1126c109"
   name = "github.com/go-ozzo/ozzo-validation"
   packages = ["."]
   pruneopts = "UT"
-  revision = "106681dbb37bfa3e7683c4c8129cb7f5925ea3e9"
-  version = "v3.5.0"
+  revision = "199b55b36bc1af151e6eea487cc92ffa5b460b81"
+  version = "v3.6.0"
+
+[[projects]]
+  digest = "1:57ae8919194013fb07b8390fb8a32e700c12fdab96e8dc4bb15d5fe45dc43245"
+  name = "github.com/gobuffalo/envy"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "dc9565002201aca1286f8d6262f5cd568226562a"
+  version = "v1.8.1"
+
+[[projects]]
+  digest = "1:4be32eaa2aff0bac6ccb3cacd9a84b3bc79c1f8ec00765b03d4a8f5cc542cdaa"
+  name = "github.com/gobuffalo/logger"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "fe10b71a76d5acb502f99cd88d1fd28062906dac"
+  version = "v1.0.3"
+
+[[projects]]
+  digest = "1:40849e8495ef81a84ff335ef65e23d33671b61e60e9db464fbab55f19f43f120"
+  name = "github.com/gobuffalo/packd"
+  packages = [
+    ".",
+    "internal/takeon/github.com/markbates/errx",
+  ]
+  pruneopts = "UT"
+  revision = "54ea459691466cfb630ccc276723fe3963f3e9d5"
+  version = "v0.3.0"
+
+[[projects]]
+  digest = "1:d9bb9cf750ff72f31e893a47a18ac0c802fa3abcd66befe1422069d67eeba069"
+  name = "github.com/gobuffalo/packr"
+  packages = [
+    "v2",
+    "v2/file",
+    "v2/file/resolver",
+    "v2/file/resolver/encoding/hex",
+    "v2/internal/takeon/github.com/karrick/godirwalk",
+    "v2/internal/takeon/github.com/markbates/errx",
+    "v2/internal/takeon/github.com/markbates/oncer",
+    "v2/internal/takeon/github.com/markbates/safe",
+    "v2/jam/parser",
+    "v2/plog",
+  ]
+  pruneopts = "UT"
+  revision = "4b4a3c432a2e5a17b4f14c971179b40021c67530"
+  version = "v2.7.1"
 
 [[projects]]
   digest = "1:4c0989ca0bcd10799064318923b9bc2db6b4d6338dd75f3f2d86c3511aaaf5cf"
@@ -251,6 +313,17 @@
   version = "v1.1.0"
 
 [[projects]]
+  digest = "1:c77361e611524ec8f2ad37c408c3c916111a70b6acf806a1200855696bf8fa4d"
+  name = "github.com/hashicorp/golang-lru"
+  packages = [
+    ".",
+    "simplelru",
+  ]
+  pruneopts = "UT"
+  revision = "7f827b33c0f158ec5dfbba01bb0b14a4541fd81d"
+  version = "v0.5.3"
+
+[[projects]]
   digest = "1:c0d19ab64b32ce9fe5cf4ddceba78d5bc9807f0016db6b1183599da3dcc24d10"
   name = "github.com/hashicorp/hcl"
   packages = [
@@ -343,6 +416,14 @@
   packages = ["."]
   pruneopts = "UT"
   revision = "c2b33e84"
+
+[[projects]]
+  digest = "1:ecd9aa82687cf31d1585d4ac61d0ba180e42e8a6182b85bd785fcca8dfeefc1b"
+  name = "github.com/joho/godotenv"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "23d116af351c84513e1946b527c88823e476be13"
+  version = "v1.3.0"
 
 [[projects]]
   digest = "1:0a69a1c0db3591fcefb47f115b224592c8dfa4368b7ba9fae509d5e16cdc95c8"
@@ -483,6 +564,18 @@
   version = "v1.2.1"
 
 [[projects]]
+  digest = "1:e09ada96a5a41deda4748b1659cc8953961799e798aea557257b56baee4ecaf3"
+  name = "github.com/rogpeppe/go-internal"
+  packages = [
+    "modfile",
+    "module",
+    "semver",
+  ]
+  pruneopts = "UT"
+  revision = "d89504fbbf2c313df24867a5ffafcc9b847961ff"
+  version = "v1.5.0"
+
+[[projects]]
   digest = "1:87c2e02fb01c27060ccc5ba7c5a407cc91147726f8f40b70cceeedbc52b1f3a8"
   name = "github.com/sirupsen/logrus"
   packages = ["."]
@@ -567,6 +660,30 @@
 
 [[projects]]
   branch = "master"
+  digest = "1:87fe9bca786484cef53d52adeec7d1c52bc2bfbee75734eddeb75fc5c7023871"
+  name = "github.com/xeipuuv/gojsonpointer"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "02993c407bfbf5f6dae44c4f4b1cf6a39b5fc5bb"
+
+[[projects]]
+  branch = "master"
+  digest = "1:dc6a6c28ca45d38cfce9f7cb61681ee38c5b99ec1425339bfc1e1a7ba769c807"
+  name = "github.com/xeipuuv/gojsonreference"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "bd5ef7bd5415a7ac448318e64f11a24cd21e594b"
+
+[[projects]]
+  digest = "1:a8a0ed98532819a3b0dc5cf3264a14e30aba5284b793ba2850d6f381ada5f987"
+  name = "github.com/xeipuuv/gojsonschema"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "82fcdeb203eb6ab2a67d0a623d9c19e5e5a64927"
+  version = "v1.2.0"
+
+[[projects]]
+  branch = "master"
   digest = "1:4c972ed29eba5f27d3c3e9e84c5d49b9e03aeaae8f1976603e87c13e455ef121"
   name = "github.com/zclconf/go-cty"
   packages = [
@@ -590,6 +707,20 @@
   version = "v2.1.0"
 
 [[projects]]
+  branch = "refactor/internal-work"
+  digest = "1:5e71e439f23422519116ba7ba3815bbdfd3dcc462bfb13efb4b41760b1404cfe"
+  name = "gitlab.com/distributed_lab/json-api-connector"
+  packages = [
+    ".",
+    "horizon",
+    "horizon/errors",
+    "horizon/jsonschema",
+    "types",
+  ]
+  pruneopts = "UT"
+  revision = "fe023168a2e850b8183511d9947ae10a8e483b4d"
+
+[[projects]]
   digest = "1:b6ae00753cd7f63ae5508f9cd3db7eb7c6d5a084d5825e11adfda5995f04eba0"
   name = "gitlab.com/distributed_lab/kit"
   packages = [
@@ -601,7 +732,7 @@
   version = "v0.7.0"
 
 [[projects]]
-  digest = "1:5c74250e2fc48f2fc18808f58640b9b030a76e6eca083486a227441f0803be19"
+  digest = "1:05e77d0e1ee929c1023153896175c5f1a38f5a6ff93f88d42b1d88b8c8126451"
   name = "gitlab.com/distributed_lab/logan"
   packages = [
     "v3",
@@ -609,12 +740,12 @@
     "v3/fields",
   ]
   pruneopts = "UT"
-  revision = "df004fabe2425cd853d9787ec32b04189a22762f"
-  version = "v3.7.1"
+  revision = "276f103dea6704f4535335a139604a7756a2b39b"
+  version = "v3.7.2"
 
 [[projects]]
-  branch = "master"
-  digest = "1:8cf1c104011cf55f570e9480ab1f21c5ef7298c78ac2efcf069809ab4464b9b6"
+  branch = "refactor/internal_work"
+  digest = "1:4da6c237d63a6a554d1d3dc6981c0d7db4500ff847ce9b90da27248debccdf12"
   name = "gitlab.com/tokend/go"
   packages = [
     "amount",
@@ -622,7 +753,6 @@
     "hash",
     "keypair",
     "network",
-    "resources",
     "signcontrol",
     "signcontrol/internal/httpsignatures",
     "strkey",
@@ -631,43 +761,10 @@
     "xdrbuild/internal",
   ]
   pruneopts = "UT"
-  revision = "db6124282137b0e14cec7a3c6c0e3f4551315e61"
+  revision = "1db152ebcda46f56337b75ac17523f0211415b39"
 
 [[projects]]
-  digest = "1:c97dfec4041199ff4fdfd22b2b2aa8ca038af9c7efc1b17620999027f53cce61"
-  name = "gitlab.com/tokend/horizon-connector"
-  packages = [
-    ".",
-    "internal",
-    "internal/account",
-    "internal/asset",
-    "internal/balance",
-    "internal/blob",
-    "internal/document",
-    "internal/errors",
-    "internal/keyvalue",
-    "internal/listener",
-    "internal/operation",
-    "internal/orders",
-    "internal/resources",
-    "internal/resources/operations",
-    "internal/responses",
-    "internal/sale",
-    "internal/system",
-    "internal/templates",
-    "internal/transaction",
-    "internal/transactionv2",
-    "internal/user",
-    "internal/wallets",
-    "types",
-  ]
-  pruneopts = "UT"
-  revision = "e1ed19e7218ad22d49c5c7011a095f5388b07c91"
-  version = "v4.2.0"
-
-[[projects]]
-  branch = "master"
-  digest = "1:2096744bacfbf67b0e9a5fcd00f678309dd7982334082590ff7f94142e1fc6c2"
+  digest = "1:0cc74bfe93bf9807f21bd164dcdbe6fe8415f00803ac06fd455d8088fdffc0bf"
   name = "gitlab.com/tokend/keypair"
   packages = [
     ".",
@@ -677,19 +774,16 @@
     "internal/strkey",
   ]
   pruneopts = "UT"
-  revision = "d2483e9113373a67d704f48c047ef81a7ae8059f"
+  revision = "b9d7e0c8b3122309d8b9c37e4650bc821bb8be5d"
+  version = "1.0.0"
 
 [[projects]]
-  digest = "1:4ff2f4e19dcf0e17268c2b23a4507150ef51d8fd05350a759e7a6162f6eaed09"
+  branch = "refactor/internal-work"
+  digest = "1:493a2ede26008c97e8ee3cf18b0c493bc22292f58cd0f269afc8f0e231cc2545"
   name = "gitlab.com/tokend/regources"
-  packages = [
-    ".",
-    "generated",
-    "v2",
-  ]
+  packages = ["."]
   pruneopts = "UT"
-  revision = "ebcf3409be3cd8c98a30e7ec14a6e002a3607672"
-  version = "v4.1.0"
+  revision = "fbee69fa0dd01f9b343af9915661112323074463"
 
 [[projects]]
   branch = "master"
@@ -826,7 +920,6 @@
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
-    "github.com/davecgh/go-spew/spew",
     "github.com/hashicorp/terraform/helper/schema",
     "github.com/hashicorp/terraform/plugin",
     "github.com/hashicorp/terraform/terraform",
@@ -835,16 +928,13 @@
     "github.com/spf13/cast",
     "github.com/stretchr/testify/assert",
     "github.com/stretchr/testify/mock",
-    "gitlab.com/distributed_lab/figure",
-    "gitlab.com/distributed_lab/logan/v3",
+    "gitlab.com/distributed_lab/json-api-connector/horizon",
     "gitlab.com/distributed_lab/logan/v3/errors",
-    "gitlab.com/tokend/go/amount",
     "gitlab.com/tokend/go/strkey",
     "gitlab.com/tokend/go/xdr",
     "gitlab.com/tokend/go/xdrbuild",
-    "gitlab.com/tokend/horizon-connector",
     "gitlab.com/tokend/keypair",
-    "gitlab.com/tokend/regources/generated",
+    "gitlab.com/tokend/regources",
   ]
   solver-name = "gps-cdcl"
   solver-version = 1

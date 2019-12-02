@@ -1,6 +1,9 @@
 package xdr
 
-import "fmt"
+import (
+	"crypto/sha256"
+	"fmt"
+)
 
 // LedgerKey implements the `Keyer` interface
 func (key *LedgerKey) LedgerKey() LedgerKey {
@@ -19,13 +22,13 @@ func (key *LedgerKey) Equals(other LedgerKey) bool {
 		r := other.MustAccount()
 		return l.AccountId.Equals(r.AccountId)
 	default:
-		panic(fmt.Errorf("Unknown ledger key type: %v", key.Type))
+		panic(fmt.Errorf("unknown ledger key type: %v", key.Type))
 	}
 }
 
 // SetAccount mutates `key` such that it represents the identity of `account`
 func (key *LedgerKey) SetAccount(account AccountId) error {
-	data := LedgerKeyAccount{AccountId:account}
+	data := LedgerKeyAccount{AccountId: account}
 	nkey, err := NewLedgerKey(LedgerEntryTypeAccount, data)
 	if err != nil {
 		return err
@@ -33,4 +36,67 @@ func (key *LedgerKey) SetAccount(account AccountId) error {
 
 	*key = nkey
 	return nil
+}
+
+func LedgerKeyFromKeyValue(key Longstring) LedgerKey {
+	return LedgerKey{
+		Type: LedgerEntryTypeKeyValue,
+		KeyValue: &LedgerKeyKeyValue{
+			Key: key,
+		},
+	}
+}
+
+type CacheKey struct {
+	Type LedgerEntryType
+	// Value is a value of switch arm filed (Account, Asset), but without pointer
+	Value interface{}
+}
+
+func (key LedgerKey) CacheKey() CacheKey {
+	result := CacheKey{
+		Type: key.Type,
+	}
+
+	switch key.Type {
+	case LedgerEntryTypeAccount:
+		result.Value = key.MustAccount()
+	case LedgerEntryTypeSigner:
+		result.Value = key.MustSigner()
+	case LedgerEntryTypeBalance:
+		result.Value = key.MustBalance()
+	case LedgerEntryTypeData:
+		result.Value = key.MustData()
+	case LedgerEntryTypeAsset:
+		result.Value = key.MustAsset()
+	case LedgerEntryTypeReferenceEntry:
+		result.Value = key.MustReference()
+	case LedgerEntryTypeReviewableRequest:
+		result.Value = key.MustReviewableRequest()
+	case LedgerEntryTypeAccountKyc:
+		result.Value = key.MustAccountKyc()
+	case LedgerEntryTypeKeyValue:
+		result.Value = key.MustKeyValue()
+	case LedgerEntryTypeRule:
+		result.Value = key.MustRule()
+	case LedgerEntryTypeRole:
+		result.Value = key.MustRole()
+	default:
+		panic("unexpected ledger key type in CacheKey method")
+	}
+
+	return result
+}
+
+func (key LedgerKey) Hash() [32]byte {
+	h := sha256.New()
+	_, err := Marshal(h, key)
+	if err != nil {
+		panic("failed to marshal during ledger key Hash method")
+	}
+
+	result := [32]byte{}
+	copy(result[:], h.Sum(nil))
+
+	return result
 }

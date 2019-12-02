@@ -1,6 +1,7 @@
 package tokend
 
 import (
+	"net/http"
 	"net/url"
 
 	"github.com/tokend/terraform-provider-tokend/tokend/data"
@@ -11,8 +12,8 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/pkg/errors"
 	"github.com/tokend/terraform-provider-tokend/tokend/helpers/validation"
+	"gitlab.com/distributed_lab/json-api-connector/horizon"
 	"gitlab.com/tokend/go/xdrbuild"
-	"gitlab.com/tokend/horizon-connector"
 	"gitlab.com/tokend/keypair"
 )
 
@@ -35,16 +36,12 @@ func Provider() terraform.ResourceProvider {
 			},
 		},
 		ResourcesMap: map[string]*schema.Resource{
-			"tokend_account":                    resourceAccount(),
-			"tokend_account_rule":               resourceAccountRule(),
-			"tokend_account_role":               resourceAccountRole(),
-			"tokend_key_value":                  resourceKeyValue(),
-			"tokend_asset":                      resourceAsset(),
-			"tokend_signer_rule":                resourceSignerRule(),
-			"tokend_signer_role":                resourceSignerRole(),
-			"tokend_asset_pair":                 resourceAssetPair(),
-			"tokend_account_signer":             resourceAccountSigner(),
-			"tokend_external_system_pool_entry": resourceExternalSystemPoolEntry(),
+			"tokend_account":        resourceAccount(),
+			"tokend_rule":           resourceRule(),
+			"tokend_role":           resourceRole(),
+			"tokend_key_value":      resourceKeyValue(),
+			"tokend_asset":          resourceAsset(),
+			"tokend_account_signer": resourceAccountSigner(),
 		},
 		ConfigureFunc: func(d *schema.ResourceData) (interface{}, error) {
 			endpoint, err := url.Parse(d.Get("endpoint").(string))
@@ -59,14 +56,15 @@ func Provider() terraform.ResourceProvider {
 			if err != nil {
 				return nil, errors.Wrap(err, "failed to parse source")
 			}
-			hrz := horizon.NewConnector(endpoint).WithSigner(signer)
+			client := horizon.NewClient(http.DefaultClient, endpoint).WithSigner(signer)
+			hrz := horizon.NewConnector(client, false)
 			builder, err := hrz.TXBuilder()
 			if err != nil {
 				return nil, errors.Wrap(err, "failed to init builder")
 			}
 			return Meta{
 				Horizon:   hrz,
-				Connector: connector.NewConnector(hrz.Client()),
+				Connector: connector.NewConnector(client),
 				Builder:   *builder,
 				Source:    source,
 				Signer:    signer,
@@ -78,6 +76,7 @@ func Provider() terraform.ResourceProvider {
 type Meta struct {
 	Horizon   *horizon.Connector
 	Connector data.Connector
+	Submitter connector.Submitter
 	Signer    keypair.Full
 	Source    keypair.Address
 	Builder   xdrbuild.Builder

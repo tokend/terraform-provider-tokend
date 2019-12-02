@@ -13,13 +13,13 @@ type CreateSigner struct {
 
 type SignerData struct {
 	PublicKey string
-	RoleID    uint64
+	RoleIDs   []uint64
 	Weight    uint32
 	Identity  uint32
 	Details   json.Marshaler
 }
 
-func (d *SignerData) XDR() (*xdr.UpdateSignerData, error) {
+func (d *SignerData) XDR() (*xdr.SignerData, error) {
 	details, err := d.Details.MarshalJSON()
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to marshal details")
@@ -30,9 +30,14 @@ func (d *SignerData) XDR() (*xdr.UpdateSignerData, error) {
 		return nil, errors.Wrap(err, "failed to set public key")
 	}
 
-	return &xdr.UpdateSignerData{
+	roleIDs := make([]xdr.Uint64, 0, len(d.RoleIDs))
+	for _, roleID := range d.RoleIDs {
+		roleIDs = append(roleIDs, xdr.Uint64(roleID))
+	}
+
+	return &xdr.SignerData{
 		PublicKey: xdr.PublicKey(publicKey),
-		RoleId:    xdr.Uint64(d.RoleID),
+		RoleIDs:   roleIDs,
 		Weight:    xdr.Uint32(d.Weight),
 		Identity:  xdr.Uint32(d.Identity),
 		Details:   xdr.Longstring(details),
@@ -47,12 +52,50 @@ func (op *CreateSigner) XDR() (*xdr.Operation, error) {
 
 	return &xdr.Operation{
 		Body: xdr.OperationBody{
-			Type: xdr.OperationTypeManageSigner,
-			ManageSignerOp: &xdr.ManageSignerOp{
-				Data: xdr.ManageSignerOpData{
-					Action:     xdr.ManageSignerActionCreate,
-					CreateData: data,
-				},
+			Type: xdr.OperationTypeCreateSigner,
+			CreateSignerOp: &xdr.CreateSignerOp{
+				Data: *data,
+			},
+		},
+	}, nil
+}
+
+type UpdateSigner struct {
+	SignerData
+}
+
+func (op *UpdateSigner) XDR() (*xdr.Operation, error) {
+	data, err := op.SignerData.XDR()
+	if err != nil {
+		return nil, errors.Wrap(err, "failed to build signer data")
+	}
+
+	return &xdr.Operation{
+		Body: xdr.OperationBody{
+			Type: xdr.OperationTypeUpdateSigner,
+			UpdateSignerOp: &xdr.UpdateSignerOp{
+				Data: *data,
+			},
+		},
+	}, nil
+}
+
+type RemoveSigner struct {
+	PublicKey string
+}
+
+func (op *RemoveSigner) XDR() (*xdr.Operation, error) {
+	publicKey := xdr.PublicKey{}
+	err := publicKey.FromString(op.PublicKey)
+	if err != nil {
+		return nil, errors.Wrap(err, "failed to set public key from string")
+	}
+
+	return &xdr.Operation{
+		Body: xdr.OperationBody{
+			Type: xdr.OperationTypeRemoveSigner,
+			RemoveSignerOp: &xdr.RemoveSignerOp{
+				PublicKey: publicKey,
 			},
 		},
 	}, nil

@@ -10,13 +10,27 @@ import (
 	"gitlab.com/distributed_lab/logan/v3/errors"
 )
 
-func WildCardUintFromRaw(raw string) (uint64, error) {
+func WildCardUint64FromRaw(raw string) (uint64, error) {
 	var result uint64
 	var err error
 	if raw == "*" {
 		result = math.MaxUint64
 	} else {
 		result, err = cast.ToUint64E(raw)
+		if err != nil {
+			return 0, errors.Wrap(err, "failed to cast to uint")
+		}
+	}
+	return result, nil
+}
+
+func WildCardUint32FromRaw(raw string) (uint32, error) {
+	var result uint32
+	var err error
+	if raw == "*" {
+		result = math.MaxUint32
+	} else {
+		result, err = cast.ToUint32E(raw)
 		if err != nil {
 			return 0, errors.Wrap(err, "failed to cast to uint")
 		}

@@ -52,7 +52,7 @@ func IsSigned(request *http.Request) (*Signature, bool) {
 	return &s, s.Signature != "" && s.Signer != "" && s.RawValidUntil != ""
 }
 
-func SignRequest(request *http.Request, kp keypair.KP) error {
+func SignRequest(request *http.Request, kp keypair.KP, address keypair.KP) error {
 	algorithm, err := httpsignatures.GetAlgorithm(SignatureAlgorithm)
 	if err != nil {
 		return errors.Wrap(err, "failed to get signature algorithm")
@@ -68,8 +68,13 @@ func SignRequest(request *http.Request, kp keypair.KP) error {
 	if request.Header.Get("date") == "" {
 		request.Header.Set("date", time.Now().UTC().Format(http.TimeFormat))
 	}
+	if request.Header.Get("account") == "" {
+		request.Header.Set("account",
+			address.Address(),
+		)
+	}
 
-	signer := httpsignatures.NewSigner(algorithm, "date", realRequestTargetHeader)
+	signer := httpsignatures.NewSigner(algorithm, "date", realRequestTargetHeader, "account")
 	if err = signer.SignRequest(kp.Address(), kp, request); err != nil {
 		return err
 	}

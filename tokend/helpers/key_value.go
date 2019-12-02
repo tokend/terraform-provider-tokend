@@ -6,7 +6,7 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"gitlab.com/distributed_lab/logan/v3/errors"
 	"gitlab.com/tokend/go/xdr"
-	regources "gitlab.com/tokend/regources/generated"
+	regources "gitlab.com/tokend/regources"
 )
 
 func UpdateKeyValue(d *schema.ResourceData, rawValue *regources.KeyValueEntryValue) error {

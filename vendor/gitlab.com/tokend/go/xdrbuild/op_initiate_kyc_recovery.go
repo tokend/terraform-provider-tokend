@@ -5,31 +5,26 @@ import (
 	"gitlab.com/tokend/go/xdr"
 )
 
-type InitiateKYCRecovery struct {
-	AccountID string
-	Signer    string
+type InitiateKycRecovery struct {
+	Account string
+	Signer  string
 }
 
-func (op *InitiateKYCRecovery) XDR() (*xdr.Operation, error) {
-	var account xdr.AccountId
-	err := account.SetAddress(op.AccountID)
+func (op *InitiateKycRecovery) XDR() (*xdr.Operation, error) {
+	initOp := xdr.InitiateKycRecoveryOp{}
+	err := initOp.Account.SetAddress(op.Account)
 	if err != nil {
-		return nil, errors.Wrap(err, "failed to set account")
+		return nil, errors.Wrap(err, "failed to set account address")
 	}
-
-	var signer xdr.AccountId
-	err = signer.SetAddress(op.Signer)
+	err = initOp.Signer.FromString(op.Signer)
 	if err != nil {
-		return nil, errors.Wrap(err, "failed to set signer")
+		return nil, errors.Wrap(err, "failed to set signer address")
 	}
 
 	return &xdr.Operation{
 		Body: xdr.OperationBody{
-			Type: xdr.OperationTypeInitiateKycRecovery,
-			InitiateKycRecoveryOp: &xdr.InitiateKycRecoveryOp{
-				Account: account,
-				Signer:  xdr.PublicKey(signer),
-			},
+			Type:                  xdr.OperationTypeInitiateKycRecovery,
+			InitiateKycRecoveryOp: &initOp,
 		},
 	}, nil
 }

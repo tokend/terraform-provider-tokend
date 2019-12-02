@@ -14,11 +14,15 @@
 
 [[override]]
   name = "gitlab.com/tokend/go"
-  branch = "master"
+  branch = "refactor/internal_work"
+
+[[override]]
+  name = "gitlab.com/tokend/regources"
+  branch = "refactor/internal-work"
 
 [[constraint]]
-  name = "gitlab.com/tokend/horizon-connector"
-  version = "4"
+  name = "gitlab.com/distributed_lab/json-api-connector"
+  branch = "refactor/internal-work"
 
 [prune]
   go-tests = true

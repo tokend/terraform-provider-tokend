@@ -3,10 +3,11 @@ package keyvalues
 import (
 	"encoding/json"
 	"fmt"
+	url2 "net/url"
 
+	"gitlab.com/distributed_lab/json-api-connector/horizon"
 	"gitlab.com/distributed_lab/logan/v3/errors"
-	"gitlab.com/tokend/horizon-connector"
-	"gitlab.com/tokend/regources/generated"
+	"gitlab.com/tokend/regources"
 )
 
 //go:generate mockery -case underscore -name KeyValues
@@ -25,7 +26,11 @@ func NewKeyValues(client *horizon.Client) KeyValues {
 }
 
 func (q *keyValues) Value(key string) (*regources.KeyValueEntryValue, error) {
-	resp, err := q.client.Get(fmt.Sprintf("/v3/key_values/%s", key))
+	url, err := url2.Parse(fmt.Sprintf("/key_values/%s", key))
+	if err != nil {
+		return nil, errors.Wrap(err, "failed to parse url")
+	}
+	resp, err := q.client.Get(url)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to get key value")
 	}

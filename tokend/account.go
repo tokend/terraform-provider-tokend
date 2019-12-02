@@ -2,6 +2,8 @@ package tokend
 
 import (
 	"context"
+	"github.com/pkg/errors"
+	"github.com/tokend/terraform-provider-tokend/tokend/connector"
 
 	"github.com/tokend/terraform-provider-tokend/tokend/helpers"
 
@@ -9,8 +11,6 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/spf13/cast"
-	"gitlab.com/distributed_lab/logan/v3"
-	"gitlab.com/distributed_lab/logan/v3/errors"
 	"gitlab.com/tokend/go/xdr"
 	"gitlab.com/tokend/go/xdrbuild"
 )
@@ -27,9 +27,13 @@ func resourceAccount() *schema.Resource {
 				Required:     true,
 				ValidateFunc: validation.ValidateSource,
 			},
-			"role_id": {
-				Type:     schema.TypeString,
+			"role_ids": {
+				Type:     schema.TypeList,
 				Required: true,
+				MinItems: 1,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
 			},
 			"signers": {
 				Type:     schema.TypeSet,
@@ -51,9 +55,13 @@ func resourceAccount() *schema.Resource {
 							Optional: true,
 							Default:  1,
 						},
-						"role_id": {
-							Type:     schema.TypeString,
+						"role_ids": {
+							Type:     schema.TypeList,
 							Required: true,
+							MinItems: 1,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
 						},
 						"details": {
 							Type:     schema.TypeMap,
@@ -75,12 +83,17 @@ func resourceAccountCreate(d *schema.ResourceData, _m interface{}) error {
 		return errors.Wrap(err, "failed to cast public_key to string")
 	}
 
-	rawRoleID := d.Get("role_id")
-	roleID, err := cast.ToUint64E(rawRoleID)
-	if err != nil {
-		return errors.Wrap(err, "failed to cast roleID to uint64")
-	}
+	rawRoleIDs := d.Get("role_ids").([]interface{})
+	roles := make([]uint64, 0, len(rawRoleIDs))
 
+	for _, r := range rawRoleIDs {
+		roleID, err := cast.ToUint64E(r)
+		if err != nil {
+			return errors.Wrap(err, "failed to cast roleID to uint64")
+		}
+
+		roles = append(roles, roleID)
+	}
 	rawSigners := d.Get("signers").(*schema.Set).List()
 
 	var signers []xdrbuild.SignerData
@@ -95,22 +108,22 @@ func resourceAccountCreate(d *schema.ResourceData, _m interface{}) error {
 
 	env, err := m.Builder.Transaction(m.Source).Op(&xdrbuild.CreateAccount{
 		Destination: destination,
-		RoleID:      roleID,
+		RoleIDs:     roles,
 		Signers:     signers,
 	}).Sign(m.Signer).Marshal()
 	if err != nil {
 		return errors.Wrap(err, "failed to marshal tx")
 	}
 
-	result := m.Horizon.Submitter().Submit(context.TODO(), env)
-	if result.Err != nil {
-		return errors.Wrap(result.Err, "failed to submit tx", logan.F{
-			"tx_code":  result.TXCode,
-			"op_codes": result.OpCodes,
-		})
+	resp, err := m.Submitter.Submit(context.TODO(), env, true)
+	if err != nil {
+		if txErr, ok := err.(connector.TxFailure); ok {
+			return errors.Wrapf(err, "failed to submit tx: %s %q", txErr.TransactionResultCode, txErr.OperationResultCodes)
+		}
+		return errors.Wrap(err, "unknown error occurred")
 	}
 	var txResult xdr.TransactionResult
-	if err := xdr.SafeUnmarshalBase64(result.ResultXDR, &txResult); err != nil {
+	if err := xdr.SafeUnmarshalBase64(resp.Data.Attributes.ResultXdr, &txResult); err != nil {
 		return errors.Wrap(err, "failed to decode result")
 	}
 
@@ -148,10 +161,16 @@ func getSigner(rawSigner interface{}) (*xdrbuild.SignerData, error) {
 		return nil, errors.Wrap(err, "failed to cast identity to uint32")
 	}
 
-	rawRoleID := d["role_id"]
-	roleID, err := cast.ToUint64E(rawRoleID)
-	if err != nil {
-		return nil, errors.Wrap(err, "failed to cast roleID to uint64")
+	rawRoleIDs := d["role_ids"].([]interface{})
+	roles := make([]uint64, 0, len(rawRoleIDs))
+
+	for _, r := range rawRoleIDs {
+		roleID, err := cast.ToUint64E(r)
+		if err != nil {
+			return nil, errors.Wrap(err, "failed to cast roleID to uint64")
+		}
+
+		roles = append(roles, roleID)
 	}
 
 	rawDetails := d["details"]
@@ -164,7 +183,7 @@ func getSigner(rawSigner interface{}) (*xdrbuild.SignerData, error) {
 		PublicKey: publicKey,
 		Weight:    weight,
 		Identity:  identity,
-		RoleID:    roleID,
+		RoleIDs:   roles,
 		Details:   details,
 	}, nil
 }

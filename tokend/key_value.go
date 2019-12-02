@@ -3,13 +3,14 @@ package tokend
 import (
 	"context"
 	"fmt"
+	"github.com/tokend/terraform-provider-tokend/tokend/connector"
 
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/pkg/errors"
 	"github.com/spf13/cast"
-	"gitlab.com/tokend/go/xdrbuild"
 	"github.com/tokend/terraform-provider-tokend/tokend/helpers"
 	"github.com/tokend/terraform-provider-tokend/tokend/helpers/validation"
+	"gitlab.com/tokend/go/xdrbuild"
 )
 
 var keyValueSchema = map[string]*schema.Schema{
@@ -64,9 +65,12 @@ func resourceKeyValueCreate(d *schema.ResourceData, _m interface{}) (err error) 
 	if err != nil {
 		return errors.Wrap(err, "failed to marshal tx")
 	}
-	result := m.Horizon.Submitter().Submit(context.TODO(), env)
-	if result.Err != nil {
-		return errors.Wrapf(result.Err, "failed to submit tx: %s %q", result.TXCode, result.OpCodes)
+	_, err = m.Submitter.Submit(context.TODO(), env, true)
+	if err != nil {
+		if txErr, ok := err.(connector.TxFailure); ok {
+			return errors.Wrapf(err, "failed to submit tx: %s %q", txErr.TransactionResultCode, txErr.OperationResultCodes)
+		}
+		return errors.Wrap(err, "unknown error occurred")
 	}
 	d.SetId(d.Get("key").(string))
 
@@ -98,9 +102,12 @@ func resourceKeyValueUpdate(d *schema.ResourceData, _m interface{}) (err error) 
 	if err != nil {
 		return errors.Wrap(err, "failed to marshal tx")
 	}
-	result := m.Horizon.Submitter().Submit(context.TODO(), env)
-	if result.Err != nil {
-		return errors.Wrapf(result.Err, "failed to submit tx: %s %q", result.TXCode, result.OpCodes)
+	_, err = m.Submitter.Submit(context.TODO(), env, true)
+	if err != nil {
+		if txErr, ok := err.(connector.TxFailure); ok {
+			return errors.Wrapf(err, "failed to submit tx: %s %q", txErr.TransactionResultCode, txErr.OperationResultCodes)
+		}
+		return errors.Wrap(err, "unknown error occurred")
 	}
 
 	return nil
@@ -131,9 +138,12 @@ func resourceKeyValueDelete(d *schema.ResourceData, _m interface{}) error {
 	if err != nil {
 		return errors.Wrap(err, "failed to marshal tx")
 	}
-	result := m.Horizon.Submitter().Submit(context.TODO(), env)
-	if result.Err != nil {
-		return errors.Wrap(result.Err, "failed to submit tx")
+	_, err = m.Submitter.Submit(context.TODO(), env, true)
+	if err != nil {
+		if txErr, ok := err.(connector.TxFailure); ok {
+			return errors.Wrapf(err, "failed to submit tx: %s %q", txErr.TransactionResultCode, txErr.OperationResultCodes)
+		}
+		return errors.Wrap(err, "unknown error occurred")
 	}
 	return nil
 }

@@ -30,13 +30,10 @@ func (op PutKeyValue) XDR() (*xdr.Operation, error) {
 	}
 	return &xdr.Operation{
 		Body: xdr.OperationBody{
-			Type: xdr.OperationTypeManageKeyValue,
-			ManageKeyValueOp: &xdr.ManageKeyValueOp{
-				Key: xdr.Longstring(op.Key),
-				Action: xdr.ManageKeyValueOpAction{
-					Action: xdr.ManageKvActionPut,
-					Value:  &value,
-				},
+			Type: xdr.OperationTypePutKeyValue,
+			PutKeyValueOp: &xdr.PutKeyValueOp{
+				Key:   xdr.Longstring(op.Key),
+				Value: value,
 			},
 		},
 	}, nil
@@ -49,12 +46,9 @@ type RemoveKeyValue struct {
 func (op RemoveKeyValue) XDR() (*xdr.Operation, error) {
 	return &xdr.Operation{
 		Body: xdr.OperationBody{
-			Type: xdr.OperationTypeManageKeyValue,
-			ManageKeyValueOp: &xdr.ManageKeyValueOp{
+			Type: xdr.OperationTypeRemoveKeyValue,
+			RemoveKeyValueOp: &xdr.RemoveKeyValueOp{
 				Key: xdr.Longstring(op.Key),
-				Action: xdr.ManageKeyValueOpAction{
-					Action: xdr.ManageKvActionRemove,
-				},
 			},
 		},
 	}, nil
