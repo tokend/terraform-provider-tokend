@@ -27,8 +27,8 @@ var accountRuleSchema = map[string]*schema.Schema{
 		Type:     schema.TypeString,
 		Required: true,
 	},
-	"resource": {
-		Type:     schema.TypeMap,
+	"resource_json": {
+		Type:     schema.TypeString,
 		Optional: true,
 	},
 }
@@ -36,9 +36,7 @@ var accountRuleSchema = map[string]*schema.Schema{
 func TestAccountRules_Transaction(t *testing.T) {
 	c := map[string]interface{}{
 		"resource_type": "ledger_entry",
-		"resource": map[string]interface{}{
-			"entry_type": "transaction",
-		},
+		"resource_json": `{"entry_type": "transaction"}`,
 	}
 	expected := &xdr.RuleResource{
 		ResourceType: xdr.RuleResourceTypeLedgerEntry,
@@ -57,15 +55,16 @@ func TestAccountRules_Transaction(t *testing.T) {
 func TestAccountRules_Signer(t *testing.T) {
 	c := map[string]interface{}{
 		"resource_type": "ledger_entry",
-		"resource": map[string]interface{}{
-			"entry_type": "signer",
-			"rule_ids":   []string{"1", "2", "3"},
-		},
+		"resource_json": `{"entry_type": "signer","role_ids":["1", "2", "3"]}`,
 	}
 	expected := &xdr.RuleResource{
 		ResourceType: xdr.RuleResourceTypeLedgerEntry,
 		InternalRuleResource: &xdr.InternalRuleResource{
 			Type: xdr.LedgerEntryTypeSigner,
+			Signer: &xdr.InternalRuleResourceSigner{
+				RoleIDs: []xdr.Uint64{1, 2, 3},
+				Ext:     xdr.EmptyExt{},
+			},
 		},
 	}
 

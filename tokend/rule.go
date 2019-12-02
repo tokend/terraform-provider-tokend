@@ -46,6 +46,9 @@ func resourceRule() *schema.Resource {
 			"resource": {
 				Type:     schema.TypeMap,
 				Optional: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeList,
+				},
 			},
 		},
 	}

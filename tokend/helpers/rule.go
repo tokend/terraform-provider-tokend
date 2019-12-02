@@ -1,6 +1,7 @@
 package helpers
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/hashicorp/terraform/helper/schema"
 	"gitlab.com/distributed_lab/logan/v3/errors"
@@ -66,8 +67,13 @@ func reviewableRequestRuleEntry(d *schema.ResourceData) (*xdr.RuleResource, erro
 }
 
 func internalRuleEntry(d *schema.ResourceData) (*xdr.RuleResource, error) {
-	res := d.Get("resource").(map[string]interface{})
-	tpe := res["entry_type"].(string)
+	res := d.Get("resource_json").(string)
+	resMap := make(map[string]interface{})
+	err := json.Unmarshal([]byte(res), &resMap)
+	if err != nil {
+		return nil, errors.Wrap(err, "failed to unmarshal resource_json")
+	}
+	tpe := resMap["entry_type"].(string)
 	createEntry, ok := RuleLedgerEntries[tpe]
 	if !ok {
 		return nil, fmt.Errorf(`entry_type "%s" is not supported`, tpe)
@@ -102,10 +108,16 @@ func ruleResourceTransaction(_ *schema.ResourceData) (*xdr.RuleResource, error) 
 }
 
 func ruleResourceSigner(d *schema.ResourceData) (*xdr.RuleResource, error) {
-	rawRoleIDs := d.Get("resource.role_ids")
-	roleIDs := rawRoleIDs.([]interface{})
-	roles := make([]xdr.Uint64, 0, len(roleIDs))
-	for _, r := range roleIDs {
+	res := d.Get("resource_json").(string)
+	resMap := make(map[string]interface{})
+	err := json.Unmarshal([]byte(res), &resMap)
+	if err != nil {
+		return nil, errors.Wrap(err, "failed to unmarshal resource_json")
+	}
+
+	rawRoleIDs := resMap["role_ids"].([]interface{})
+	roles := make([]xdr.Uint64, 0, len(rawRoleIDs))
+	for _, r := range rawRoleIDs {
 		roleID, err := WildCardUint64FromRaw(r.(string))
 		if err != nil {
 			return nil, errors.Wrap(err, "failed to cast roleID to uint64")
@@ -121,7 +133,6 @@ func ruleResourceSigner(d *schema.ResourceData) (*xdr.RuleResource, error) {
 				RoleIDs: roles,
 				Ext:     xdr.EmptyExt{},
 			},
-			Ext: &xdr.EmptyExt{},
 		},
 	}, nil
 }
