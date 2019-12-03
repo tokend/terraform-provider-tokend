@@ -8,8 +8,7 @@ import (
 	"gitlab.com/tokend/go/xdr"
 )
 
-type RuleEntryFunc func(d *schema.ResourceData) (*xdr.RuleResource, error)
-type ruleEntryMFunc func(d map[string]interface{}) (*xdr.RuleResource, error)
+type RuleEntryFunc func(d map[string]interface{}) (*xdr.RuleResource, error)
 
 var RuleEntries = map[string]RuleEntryFunc{
 	"custom":             customRuleEntry,
@@ -23,13 +22,13 @@ var RuleEntries = map[string]RuleEntryFunc{
 	"data":               ruleResourceData,
 }
 
-var reviewableRequestEntries = map[string]ruleEntryMFunc{
-	"asset":     ruleResourceAssetMap,
-	"balance":   ruleResourceBalanceMap,
-	"role":      ruleResourceRoleMap,
-	"signer":    ruleResourceSignerMap,
-	"key_value": ruleResourceKeyValueMap,
-	"data":      ruleResourceDataMap,
+var reviewableRequestEntries = map[string]RuleEntryFunc{
+	"asset":     ruleResourceAsset,
+	"balance":   ruleResourceBalance,
+	"role":      ruleResourceRole,
+	"signer":    ruleResourceSigner,
+	"key_value": ruleResourceKeyValue,
+	"data":      ruleResourceData,
 }
 
 func RuleEntry(d *schema.ResourceData) (*xdr.RuleResource, error) {
@@ -38,8 +37,17 @@ func RuleEntry(d *schema.ResourceData) (*xdr.RuleResource, error) {
 	if !ok {
 		return nil, fmt.Errorf(`entry_type "%s" is not supported`, tpe)
 	}
-
-	resource, err := createEntry(d)
+	var entry map[string]interface{}
+	t, ok := d.GetOk(tpe)
+	if ok {
+		switch t.(type) {
+		case []interface{}:
+			entry = t.([]interface{})[0].(map[string]interface{})
+		case map[string]interface{}:
+			entry = t.(map[string]interface{})
+		}
+	}
+	resource, err := createEntry(entry)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to create rule resource")
 	}
@@ -70,9 +78,9 @@ func reviewableRequestRuleEntry(d map[string]interface{}) (*xdr.RuleResource, er
 	return resource, nil
 }
 
-func customRuleEntry(d *schema.ResourceData) (*xdr.RuleResource, error) {
-	resourceType := d.Get("custom.resource_type").(string)
-	resourcePayload := d.Get("custom.resource_payload").(string)
+func customRuleEntry(d map[string]interface{}) (*xdr.RuleResource, error) {
+	resourceType := d["custom.resource_type"].(string)
+	resourcePayload := d["custom.resource_payload"].(string)
 	return &xdr.RuleResource{
 		ResourceType: xdr.RuleResourceTypeCustom,
 		CustomRuleResource: &xdr.CustomRuleResource{
@@ -82,10 +90,7 @@ func customRuleEntry(d *schema.ResourceData) (*xdr.RuleResource, error) {
 	}, nil
 }
 
-func ruleResourceTransaction(_ *schema.ResourceData) (*xdr.RuleResource, error) {
-	return ruleResourceTransactionRaw()
-}
-func ruleResourceTransactionRaw() (*xdr.RuleResource, error) {
+func ruleResourceTransaction(_ map[string]interface{}) (*xdr.RuleResource, error) {
 	return &xdr.RuleResource{
 		ResourceType: xdr.RuleResourceTypeLedgerEntry,
 		InternalRuleResource: &xdr.InternalRuleResource{
@@ -94,11 +99,7 @@ func ruleResourceTransactionRaw() (*xdr.RuleResource, error) {
 	}, nil
 }
 
-func ruleResourceSigner(d *schema.ResourceData) (*xdr.RuleResource, error) {
-	entry := d.Get("signer.0").(map[string]interface{})
-	return ruleResourceSignerMap(entry)
-}
-func ruleResourceSignerMap(d map[string]interface{}) (*xdr.RuleResource, error) {
+func ruleResourceSigner(d map[string]interface{}) (*xdr.RuleResource, error) {
 	roleIDs := d["role_ids"].([]interface{})
 	roles := make([]xdr.Uint64, 0, len(roleIDs))
 	for _, r := range roleIDs {
@@ -121,11 +122,7 @@ func ruleResourceSignerMap(d map[string]interface{}) (*xdr.RuleResource, error) 
 	}, nil
 }
 
-func ruleResourceBalance(_ *schema.ResourceData) (*xdr.RuleResource, error) {
-	return ruleResourceBalanceRaw()
-}
-
-func ruleResourceBalanceMap(_ map[string]interface{}) (*xdr.RuleResource, error) {
+func ruleResourceBalance(_ map[string]interface{}) (*xdr.RuleResource, error) {
 	return ruleResourceBalanceRaw()
 }
 
@@ -138,12 +135,7 @@ func ruleResourceBalanceRaw() (*xdr.RuleResource, error) {
 	}, nil
 }
 
-func ruleResourceKeyValue(d *schema.ResourceData) (*xdr.RuleResource, error) {
-	entry := d.Get("key_value").(map[string]interface{})
-	return ruleResourceKeyValueMap(entry)
-}
-
-func ruleResourceKeyValueMap(d map[string]interface{}) (*xdr.RuleResource, error) {
+func ruleResourceKeyValue(d map[string]interface{}) (*xdr.RuleResource, error) {
 	prefix := d["prefix"].(string)
 	return &xdr.RuleResource{
 		ResourceType: xdr.RuleResourceTypeLedgerEntry,
@@ -156,12 +148,7 @@ func ruleResourceKeyValueMap(d map[string]interface{}) (*xdr.RuleResource, error
 	}, nil
 }
 
-func ruleResourceAsset(d *schema.ResourceData) (*xdr.RuleResource, error) {
-	entry := d.Get("asset").(map[string]interface{})
-	return ruleResourceAssetMap(entry)
-}
-
-func ruleResourceAssetMap(d map[string]interface{}) (*xdr.RuleResource, error) {
+func ruleResourceAsset(d map[string]interface{}) (*xdr.RuleResource, error) {
 	var internalResource xdr.InternalRuleResource
 	internalResource.Type = xdr.LedgerEntryTypeAsset
 	assetCode := d["asset_code"].(string)
@@ -181,11 +168,7 @@ func ruleResourceAssetMap(d map[string]interface{}) (*xdr.RuleResource, error) {
 	}, nil
 }
 
-func ruleResourceData(d *schema.ResourceData) (*xdr.RuleResource, error) {
-	entry := d.Get("data").(map[string]interface{})
-	return ruleResourceDataMap(entry)
-}
-func ruleResourceDataMap(d map[string]interface{}) (*xdr.RuleResource, error) {
+func ruleResourceData(d map[string]interface{}) (*xdr.RuleResource, error) {
 	var internalResource xdr.InternalRuleResource
 	internalResource.Type = xdr.LedgerEntryTypeData
 	secTypeRaw := d["security_type"].(string)
@@ -203,11 +186,7 @@ func ruleResourceDataMap(d map[string]interface{}) (*xdr.RuleResource, error) {
 	}, nil
 }
 
-func ruleResourceRole(d *schema.ResourceData) (*xdr.RuleResource, error) {
-	entry := d.Get("role").(map[string]interface{})
-	return ruleResourceRoleMap(entry)
-}
-func ruleResourceRoleMap(d map[string]interface{}) (*xdr.RuleResource, error) {
+func ruleResourceRole(d map[string]interface{}) (*xdr.RuleResource, error) {
 	var internalResource xdr.InternalRuleResource
 	internalResource.Type = xdr.LedgerEntryTypeAsset
 	roleIDRaw := d["role_id"].(string)
@@ -224,16 +203,14 @@ func ruleResourceRoleMap(d map[string]interface{}) (*xdr.RuleResource, error) {
 	}, nil
 }
 
-func ruleResourceReviewableRequest(d *schema.ResourceData) (*xdr.RuleResource, error) {
-	rr := d.Get("reviewable_request.0").(map[string]interface{})
-
-	securityTypeRaw := rr["security_type"].(string)
+func ruleResourceReviewableRequest(d map[string]interface{}) (*xdr.RuleResource, error) {
+	securityTypeRaw := d["security_type"].(string)
 	securityType, err := WildCardUint32FromRaw(securityTypeRaw)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to cast security_type")
 	}
 
-	opRulesRaw := d.Get("reviewable_request.0.op_rules").([]interface{})
+	opRulesRaw := d["op_rules"].([]interface{})
 
 	opRules := make([]xdr.ReviewableRequestOperationRule, 0, len(opRulesRaw))
 
