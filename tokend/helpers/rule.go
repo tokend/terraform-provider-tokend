@@ -1,21 +1,18 @@
 package helpers
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/spf13/cast"
 	"gitlab.com/distributed_lab/logan/v3/errors"
 	"gitlab.com/tokend/go/xdr"
 )
 
 type RuleEntryFunc func(d *schema.ResourceData) (*xdr.RuleResource, error)
+type ruleEntryMFunc func(d map[string]interface{}) (*xdr.RuleResource, error)
 
 var RuleEntries = map[string]RuleEntryFunc{
-	"ledger_entry": internalRuleEntry,
-	"custom":       customRuleEntry,
-}
-
-var RuleLedgerEntries = map[string]RuleEntryFunc{
+	"custom":             customRuleEntry,
 	"reviewable_request": ruleResourceReviewableRequest,
 	"asset":              ruleResourceAsset,
 	"balance":            ruleResourceBalance,
@@ -26,21 +23,20 @@ var RuleLedgerEntries = map[string]RuleEntryFunc{
 	"data":               ruleResourceData,
 }
 
-var reviewableRequestEntries = map[string]RuleEntryFunc{
-	"asset":       ruleResourceAsset,
-	"balance":     ruleResourceBalance,
-	"transaction": ruleResourceTransaction,
-	"role":        ruleResourceRole,
-	"signer":      ruleResourceSigner,
-	"key_value":   ruleResourceKeyValue,
-	"data":        ruleResourceData,
+var reviewableRequestEntries = map[string]ruleEntryMFunc{
+	"asset":     ruleResourceAssetMap,
+	"balance":   ruleResourceBalanceMap,
+	"role":      ruleResourceRoleMap,
+	"signer":    ruleResourceSignerMap,
+	"key_value": ruleResourceKeyValueMap,
+	"data":      ruleResourceDataMap,
 }
 
 func RuleEntry(d *schema.ResourceData) (*xdr.RuleResource, error) {
-	tpe := d.Get("resource_type").(string)
+	tpe := d.Get("entry_type").(string)
 	createEntry, ok := RuleEntries[tpe]
 	if !ok {
-		return nil, fmt.Errorf(`resource_type "%s" is not supported`, tpe)
+		return nil, fmt.Errorf(`entry_type "%s" is not supported`, tpe)
 	}
 
 	resource, err := createEntry(d)
@@ -51,34 +47,22 @@ func RuleEntry(d *schema.ResourceData) (*xdr.RuleResource, error) {
 	return resource, nil
 }
 
-func reviewableRequestRuleEntry(d *schema.ResourceData) (*xdr.RuleResource, error) {
-	tpe := d.Get("resource_type").(string)
+func reviewableRequestRuleEntry(d map[string]interface{}) (*xdr.RuleResource, error) {
+	tpe := d["entry_type"].(string)
 	createEntry, ok := reviewableRequestEntries[tpe]
 	if !ok {
 		return nil, fmt.Errorf(`resource_type "%s" is not supported`, tpe)
 	}
-
-	resource, err := createEntry(d)
-	if err != nil {
-		return nil, errors.Wrap(err, "failed to create rule resource")
+	t := d[tpe]
+	var entry map[string]interface{}
+	switch t.(type) {
+	case []interface{}:
+		entry = t.([]interface{})[0].(map[string]interface{})
+	case map[string]interface{}:
+		entry = t.(map[string]interface{})
 	}
 
-	return resource, nil
-}
-
-func internalRuleEntry(d *schema.ResourceData) (*xdr.RuleResource, error) {
-	res := d.Get("resource_json").(string)
-	resMap := make(map[string]interface{})
-	err := json.Unmarshal([]byte(res), &resMap)
-	if err != nil {
-		return nil, errors.Wrap(err, "failed to unmarshal resource_json")
-	}
-	tpe := resMap["entry_type"].(string)
-	createEntry, ok := RuleLedgerEntries[tpe]
-	if !ok {
-		return nil, fmt.Errorf(`entry_type "%s" is not supported`, tpe)
-	}
-	resource, err := createEntry(d)
+	resource, err := createEntry(entry)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to create rule resource")
 	}
@@ -87,8 +71,8 @@ func internalRuleEntry(d *schema.ResourceData) (*xdr.RuleResource, error) {
 }
 
 func customRuleEntry(d *schema.ResourceData) (*xdr.RuleResource, error) {
-	resourceType := d.Get("resource.custom_type").(string)
-	resourcePayload := d.Get("resource.custom_payload").(string)
+	resourceType := d.Get("custom.resource_type").(string)
+	resourcePayload := d.Get("custom.resource_payload").(string)
 	return &xdr.RuleResource{
 		ResourceType: xdr.RuleResourceTypeCustom,
 		CustomRuleResource: &xdr.CustomRuleResource{
@@ -99,6 +83,9 @@ func customRuleEntry(d *schema.ResourceData) (*xdr.RuleResource, error) {
 }
 
 func ruleResourceTransaction(_ *schema.ResourceData) (*xdr.RuleResource, error) {
+	return ruleResourceTransactionRaw()
+}
+func ruleResourceTransactionRaw() (*xdr.RuleResource, error) {
 	return &xdr.RuleResource{
 		ResourceType: xdr.RuleResourceTypeLedgerEntry,
 		InternalRuleResource: &xdr.InternalRuleResource{
@@ -108,19 +95,16 @@ func ruleResourceTransaction(_ *schema.ResourceData) (*xdr.RuleResource, error) 
 }
 
 func ruleResourceSigner(d *schema.ResourceData) (*xdr.RuleResource, error) {
-	res := d.Get("resource_json").(string)
-	resMap := make(map[string]interface{})
-	err := json.Unmarshal([]byte(res), &resMap)
-	if err != nil {
-		return nil, errors.Wrap(err, "failed to unmarshal resource_json")
-	}
-
-	rawRoleIDs := resMap["role_ids"].([]interface{})
-	roles := make([]xdr.Uint64, 0, len(rawRoleIDs))
-	for _, r := range rawRoleIDs {
+	entry := d.Get("signer.0").(map[string]interface{})
+	return ruleResourceSignerMap(entry)
+}
+func ruleResourceSignerMap(d map[string]interface{}) (*xdr.RuleResource, error) {
+	roleIDs := d["role_ids"].([]interface{})
+	roles := make([]xdr.Uint64, 0, len(roleIDs))
+	for _, r := range roleIDs {
 		roleID, err := WildCardUint64FromRaw(r.(string))
 		if err != nil {
-			return nil, errors.Wrap(err, "failed to cast roleID to uint64")
+			return nil, errors.Wrap(err, "failed to cast role_id")
 		}
 		roles = append(roles, xdr.Uint64(roleID))
 	}
@@ -137,8 +121,15 @@ func ruleResourceSigner(d *schema.ResourceData) (*xdr.RuleResource, error) {
 	}, nil
 }
 
-func ruleResourceBalance(d *schema.ResourceData) (*xdr.RuleResource, error) {
+func ruleResourceBalance(_ *schema.ResourceData) (*xdr.RuleResource, error) {
+	return ruleResourceBalanceRaw()
+}
 
+func ruleResourceBalanceMap(_ map[string]interface{}) (*xdr.RuleResource, error) {
+	return ruleResourceBalanceRaw()
+}
+
+func ruleResourceBalanceRaw() (*xdr.RuleResource, error) {
 	return &xdr.RuleResource{
 		ResourceType: xdr.RuleResourceTypeLedgerEntry,
 		InternalRuleResource: &xdr.InternalRuleResource{
@@ -148,7 +139,12 @@ func ruleResourceBalance(d *schema.ResourceData) (*xdr.RuleResource, error) {
 }
 
 func ruleResourceKeyValue(d *schema.ResourceData) (*xdr.RuleResource, error) {
-	prefix := d.Get("resource.prefix").(string)
+	entry := d.Get("key_value").(map[string]interface{})
+	return ruleResourceKeyValueMap(entry)
+}
+
+func ruleResourceKeyValueMap(d map[string]interface{}) (*xdr.RuleResource, error) {
+	prefix := d["prefix"].(string)
 	return &xdr.RuleResource{
 		ResourceType: xdr.RuleResourceTypeLedgerEntry,
 		InternalRuleResource: &xdr.InternalRuleResource{
@@ -161,14 +157,18 @@ func ruleResourceKeyValue(d *schema.ResourceData) (*xdr.RuleResource, error) {
 }
 
 func ruleResourceAsset(d *schema.ResourceData) (*xdr.RuleResource, error) {
+	entry := d.Get("asset").(map[string]interface{})
+	return ruleResourceAssetMap(entry)
+}
+
+func ruleResourceAssetMap(d map[string]interface{}) (*xdr.RuleResource, error) {
 	var internalResource xdr.InternalRuleResource
 	internalResource.Type = xdr.LedgerEntryTypeAsset
-	entry := d.Get("resource").(map[string]interface{})
-	assetCode := entry["asset_code"].(string)
-	secTypeRaw := entry["security_type"].(string)
+	assetCode := d["asset_code"].(string)
+	secTypeRaw := d["security_type"].(string)
 	secType, err := WildCardUint32FromRaw(secTypeRaw)
 	if err != nil {
-		return nil, errors.Wrap(err, "failed to cast asset_type")
+		return nil, errors.Wrap(err, "failed to cast security_type")
 	}
 
 	internalResource.Asset = &xdr.InternalRuleResourceAsset{
@@ -182,10 +182,13 @@ func ruleResourceAsset(d *schema.ResourceData) (*xdr.RuleResource, error) {
 }
 
 func ruleResourceData(d *schema.ResourceData) (*xdr.RuleResource, error) {
+	entry := d.Get("data").(map[string]interface{})
+	return ruleResourceDataMap(entry)
+}
+func ruleResourceDataMap(d map[string]interface{}) (*xdr.RuleResource, error) {
 	var internalResource xdr.InternalRuleResource
 	internalResource.Type = xdr.LedgerEntryTypeData
-	entry := d.Get("resource").(map[string]interface{})
-	secTypeRaw := entry["security_type"].(string)
+	secTypeRaw := d["security_type"].(string)
 	secType, err := WildCardUint32FromRaw(secTypeRaw)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to cast asset_type")
@@ -201,10 +204,13 @@ func ruleResourceData(d *schema.ResourceData) (*xdr.RuleResource, error) {
 }
 
 func ruleResourceRole(d *schema.ResourceData) (*xdr.RuleResource, error) {
+	entry := d.Get("role").(map[string]interface{})
+	return ruleResourceRoleMap(entry)
+}
+func ruleResourceRoleMap(d map[string]interface{}) (*xdr.RuleResource, error) {
 	var internalResource xdr.InternalRuleResource
 	internalResource.Type = xdr.LedgerEntryTypeAsset
-	entry := d.Get("resource").(map[string]interface{})
-	roleIDRaw := entry["role_id"].(string)
+	roleIDRaw := d["role_id"].(string)
 	roleID, err := WildCardUint64FromRaw(roleIDRaw)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to cast role_id")
@@ -219,31 +225,38 @@ func ruleResourceRole(d *schema.ResourceData) (*xdr.RuleResource, error) {
 }
 
 func ruleResourceReviewableRequest(d *schema.ResourceData) (*xdr.RuleResource, error) {
-	securityTypeRaw := d.Get("resource.security_type").(string)
+	rr := d.Get("reviewable_request.0").(map[string]interface{})
+
+	securityTypeRaw := rr["security_type"].(string)
 	securityType, err := WildCardUint32FromRaw(securityTypeRaw)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to cast security_type")
 	}
 
-	operations := d.Get("resource.op_rules").([]interface{})
-	opRules := make([]xdr.ReviewableRequestOperationRule, 0, len(operations))
+	opRulesRaw := d.Get("reviewable_request.0.op_rules").([]interface{})
 
-	for _, opr := range operations {
-		opRule := opr.(*schema.ResourceData)
+	opRules := make([]xdr.ReviewableRequestOperationRule, 0, len(opRulesRaw))
 
-		opResource, err := reviewableRequestRuleEntry(opRule)
+	for _, opr := range opRulesRaw {
+		opResource, err := reviewableRequestRuleEntry(opr.(map[string]interface{}))
 		if err != nil {
 			return nil, errors.Wrap(err, "failed to cast entry")
 		}
 
-		//todo probably should validate
+		action, err := ruleActionRaw(opr.(map[string]interface{}))
+		if err != nil {
+			return nil, errors.Wrap(err, "failed to cast action")
+		}
+
 		opRules = append(opRules, xdr.ReviewableRequestOperationRule{
 			Resource: *opResource.InternalRuleResource,
+			Action:   *action,
 		})
 	}
 	return &xdr.RuleResource{
 		ResourceType: xdr.RuleResourceTypeLedgerEntry,
 		InternalRuleResource: &xdr.InternalRuleResource{
+			Type: xdr.LedgerEntryTypeReviewableRequest,
 			ReviewableRequest: &xdr.InternalRuleResourceReviewableRequest{
 				SecurityType: xdr.Uint32(securityType),
 				OpRules:      opRules,
@@ -253,7 +266,8 @@ func ruleResourceReviewableRequest(d *schema.ResourceData) (*xdr.RuleResource, e
 }
 
 func RuleAction(d *schema.ResourceData) (*xdr.RuleAction, error) {
-	actionTypeRaw := d.Get("action").(string)
+	actionTypeRaw := d.Get("action_type").(string)
+	actionRaw := d.Get("action").([]interface{})
 	var actionType xdr.RuleActionType
 	if actionTypeRaw == "*" {
 		actionType = xdr.RuleActionTypeAny
@@ -269,13 +283,18 @@ func RuleAction(d *schema.ResourceData) (*xdr.RuleAction, error) {
 		}
 	}
 
-	tpe := d.Get("action_type").(string)
-	actionFunc, ok := RuleActions[tpe]
-	if !ok {
-		return nil, fmt.Errorf(`resource_type "%s" is not supported`, tpe)
+	var entry map[string]interface{}
+	if len(actionRaw) != 0 {
+		actionMap := actionRaw[0].(map[string]interface{})
+		entry = GetMapFromInterface(actionMap[actionTypeRaw])
 	}
 
-	action, err := actionFunc(d)
+	actionFunc, ok := RuleActions[actionTypeRaw]
+	if !ok {
+		return nil, fmt.Errorf(`action_type "%s" is not supported`, actionTypeRaw)
+	}
+
+	action, err := actionFunc(entry)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to create rule resource")
 	}
@@ -284,7 +303,44 @@ func RuleAction(d *schema.ResourceData) (*xdr.RuleAction, error) {
 	return action, nil
 }
 
-type RuleActionFunc func(d *schema.ResourceData) (*xdr.RuleAction, error)
+func ruleActionRaw(d map[string]interface{}) (*xdr.RuleAction, error) {
+	actionTypeRaw := d["action_type"].(string)
+	actionRaw := d["action"].([]interface{})
+
+	var actionType xdr.RuleActionType
+	if actionTypeRaw == "*" {
+		actionType = xdr.RuleActionTypeAny
+	} else {
+		for _, guess := range xdr.RuleActionTypeAll {
+			if guess.ShortString() == actionTypeRaw {
+				actionType = guess
+			}
+		}
+		if actionType == 0 {
+			return nil, fmt.Errorf("unknown rule action type: %s", actionTypeRaw)
+		}
+	}
+
+	var entry map[string]interface{}
+	if len(actionRaw) != 0 {
+		actionMap := actionRaw[0].(map[string]interface{})
+		entry = GetMapFromInterface(actionMap[actionTypeRaw])
+	}
+	actionFunc, ok := RuleActions[actionTypeRaw]
+	if !ok {
+		return nil, fmt.Errorf(`action_type "%s" is not supported`, actionType)
+	}
+
+	action, err := actionFunc(entry)
+	if err != nil {
+		return nil, errors.Wrap(err, "failed to create rule resource")
+	}
+
+	action.Type = actionType
+	return action, nil
+}
+
+type RuleActionFunc func(d map[string]interface{}) (*xdr.RuleAction, error)
 
 var RuleActions = map[string]RuleActionFunc{
 	"create":            ruleActionCreate,
@@ -298,44 +354,56 @@ var RuleActions = map[string]RuleActionFunc{
 	"custom":            ruleActionCustom,
 }
 
-func ruleActionCreate(d *schema.ResourceData) (*xdr.RuleAction, error) {
+func ruleActionCreate(d map[string]interface{}) (*xdr.RuleAction, error) {
+	var forOther bool
+	if b, ok := d["for_other"]; ok {
+		forOther = cast.ToBool(b)
+	}
 	return &xdr.RuleAction{
 		Create: &xdr.RuleActionCreate{
-			ForOther: d.Get("action.for_other").(bool),
+			ForOther: forOther,
 		},
 	}, nil
 }
 
-func ruleActionUpdate(d *schema.ResourceData) (*xdr.RuleAction, error) {
+func ruleActionUpdate(d map[string]interface{}) (*xdr.RuleAction, error) {
+	var forOther bool
+	if b, ok := d["for_other"]; ok {
+		forOther = cast.ToBool(b)
+	}
 	return &xdr.RuleAction{
 		Update: &xdr.RuleActionUpdate{
-			ForOther: d.Get("action.for_other").(bool),
+			ForOther: forOther,
 		},
 	}, nil
 }
 
-func ruleActionDestroy(d *schema.ResourceData) (*xdr.RuleAction, error) {
-	securityTypeRaw := d.Get("action.security_type").(string)
+func ruleActionDestroy(d map[string]interface{}) (*xdr.RuleAction, error) {
+	securityTypeRaw := d["security_type"].(string)
 	securityType, err := WildCardUint32FromRaw(securityTypeRaw)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to cast security_type")
 	}
 
+	var forOther bool
+	if b, ok := d["for_other"]; ok {
+		forOther = cast.ToBool(b)
+	}
+
 	return &xdr.RuleAction{
 		Destroy: &xdr.RuleActionDestroy{
-			ForOther:     d.Get("action.for_other").(bool),
+			ForOther:     forOther,
 			SecurityType: xdr.Uint32(securityType),
 		},
 	}, nil
 }
 
-func ruleActionSend(d *schema.ResourceData) (*xdr.RuleAction, error) {
-	securityTypeRaw := d.Get("action.security_type").(string)
+func ruleActionSend(d map[string]interface{}) (*xdr.RuleAction, error) {
+	securityTypeRaw := d["security_type"].(string)
 	securityType, err := WildCardUint32FromRaw(securityTypeRaw)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to cast security_type")
 	}
-
 	return &xdr.RuleAction{
 		Send: &xdr.RuleActionSend{
 			SecurityType: xdr.Uint32(securityType),
@@ -343,8 +411,8 @@ func ruleActionSend(d *schema.ResourceData) (*xdr.RuleAction, error) {
 	}, nil
 }
 
-func ruleActionReceive(d *schema.ResourceData) (*xdr.RuleAction, error) {
-	securityTypeRaw := d.Get("action.security_type").(string)
+func ruleActionReceive(d map[string]interface{}) (*xdr.RuleAction, error) {
+	securityTypeRaw := d["security_type"].(string)
 	securityType, err := WildCardUint32FromRaw(securityTypeRaw)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to cast security_type")
@@ -357,8 +425,8 @@ func ruleActionReceive(d *schema.ResourceData) (*xdr.RuleAction, error) {
 	}, nil
 }
 
-func ruleActionReceiveIssuance(d *schema.ResourceData) (*xdr.RuleAction, error) {
-	securityTypeRaw := d.Get("action.security_type").(string)
+func ruleActionReceiveIssuance(d map[string]interface{}) (*xdr.RuleAction, error) {
+	securityTypeRaw := d["security_type"].(string)
 	securityType, err := WildCardUint32FromRaw(securityTypeRaw)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to cast security_type")
@@ -371,11 +439,16 @@ func ruleActionReceiveIssuance(d *schema.ResourceData) (*xdr.RuleAction, error) 
 	}, nil
 }
 
-func ruleActionInitiateRecovery(d *schema.ResourceData) (*xdr.RuleAction, error) {
-	roleIDs := d.Get("action.role_ids").([]uint64)
+func ruleActionInitiateRecovery(d map[string]interface{}) (*xdr.RuleAction, error) {
+	roleIDs := d["action_role_ids"].([]interface{})
 	roles := make([]xdr.Uint64, 0, len(roleIDs))
 	for _, r := range roleIDs {
-		roles = append(roles, xdr.Uint64(r))
+		roleID, err := WildCardUint64FromRaw(r.(string))
+		if err != nil {
+			return nil, errors.Wrap(err, "failed to cast roleID to uint64")
+		}
+
+		roles = append(roles, xdr.Uint64(roleID))
 	}
 
 	return &xdr.RuleAction{
@@ -385,9 +458,18 @@ func ruleActionInitiateRecovery(d *schema.ResourceData) (*xdr.RuleAction, error)
 	}, nil
 }
 
-func ruleActionReview(d *schema.ResourceData) (*xdr.RuleAction, error) {
-	tasksToAdd := d.Get("action.tasks_to_add").(uint64)
-	tasksToRemove := d.Get("action.tasks_to_remove").(uint64)
+func ruleActionReview(d map[string]interface{}) (*xdr.RuleAction, error) {
+	tasksToAddRaw := d["tasks_to_add"].(string)
+	tasksToRemoveRaw := d["tasks_to_remove"].(string)
+
+	tasksToAdd, err := WildCardUint64FromRaw(tasksToAddRaw)
+	if err != nil {
+		return nil, errors.Wrap(err, "failed to cast roleID to uint64")
+	}
+	tasksToRemove, err := WildCardUint64FromRaw(tasksToRemoveRaw)
+	if err != nil {
+		return nil, errors.Wrap(err, "failed to cast roleID to uint64")
+	}
 
 	return &xdr.RuleAction{
 		Review: &xdr.RuleActionReview{
@@ -397,9 +479,9 @@ func ruleActionReview(d *schema.ResourceData) (*xdr.RuleAction, error) {
 	}, nil
 }
 
-func ruleActionCustom(d *schema.ResourceData) (*xdr.RuleAction, error) {
-	customType := d.Get("action.custom_type").(string)
-	customPayload := d.Get("action.custom_payload").(string)
+func ruleActionCustom(d map[string]interface{}) (*xdr.RuleAction, error) {
+	customType := d["custom_type"].(string)
+	customPayload := d["custom_payload"].(string)
 
 	return &xdr.RuleAction{
 		CustomRuleAction: &xdr.CustomRuleAction{

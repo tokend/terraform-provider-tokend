@@ -4,8 +4,6 @@ import (
 	"encoding/json"
 	"math"
 
-	"github.com/mitchellh/mapstructure"
-
 	"github.com/spf13/cast"
 	"gitlab.com/distributed_lab/logan/v3/errors"
 )
@@ -56,36 +54,14 @@ func DetailsFromRaw(raw interface{}) (MapDetails, error) {
 	return details, nil
 }
 
-type StellarData struct {
-	Address string
-}
+func GetMapFromInterface(t interface{}) map[string]interface{} {
+	var entry map[string]interface{}
+	switch t.(type) {
+	case []interface{}:
+		entry = t.([]interface{})[0].(map[string]interface{})
+	case map[string]interface{}:
+		entry = t.(map[string]interface{})
+	}
 
-func StellarDataFromRaw(raw interface{}) (*StellarData, error) {
-	rawData, err := cast.ToStringMapE(raw)
-	if err != nil {
-		return nil, errors.Wrap(err, "failed to cast to map")
-	}
-	var data StellarData
-	err = mapstructure.Decode(rawData, &data)
-	if err != nil {
-		return nil, errors.Wrap(err, "failed to decode data")
-	}
-	return &data, nil
-}
-
-type EthereumData struct {
-	XPub string `mapstructure:"x_pub"`
-}
-
-func EthereumDataFromRaw(raw interface{}) (*EthereumData, error) {
-	rawData, err := cast.ToStringMapE(raw)
-	if err != nil {
-		return nil, errors.Wrap(err, "failed to cast to map")
-	}
-	var data EthereumData
-	err = mapstructure.Decode(rawData, &data)
-	if err != nil {
-		return nil, errors.Wrap(err, "failed to decode data")
-	}
-	return &data, nil
+	return entry
 }

@@ -23,8 +23,79 @@ func resourceRule() *schema.Resource {
 		Delete: resourceRuleDelete,
 		Schema: map[string]*schema.Schema{
 			"action": {
-				Type:     schema.TypeMap,
+				Type:     schema.TypeSet,
 				Optional: true,
+				MaxItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"create": {
+							Type:     schema.TypeMap,
+							Optional: true,
+						},
+						"update": {
+							Type:     schema.TypeMap,
+							Optional: true,
+						},
+						"issue": {
+							Type:     schema.TypeMap,
+							Optional: true,
+						},
+						"send": {
+							Type:     schema.TypeMap,
+							Optional: true,
+						},
+						"receive": {
+							Type:     schema.TypeMap,
+							Optional: true,
+						},
+						"receive_issuance": {
+							Type:     schema.TypeMap,
+							Optional: true,
+						},
+						"remove": {
+							Type:     schema.TypeMap,
+							Optional: true,
+						},
+						"destroy": {
+							Type:     schema.TypeMap,
+							Optional: true,
+						},
+						"review": {
+							Type:     schema.TypeMap,
+							Optional: true,
+						},
+						"change_roles": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"role_ids": {
+										Type:     schema.TypeList,
+										Required: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
+								},
+							},
+						},
+						"initiate_recovery": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"role_ids": {
+										Type:     schema.TypeList,
+										Required: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
+								},
+							},
+						},
+					},
+				},
 			},
 			"action_type": {
 				Type:     schema.TypeString,
@@ -33,22 +104,192 @@ func resourceRule() *schema.Resource {
 			"forbids": {
 				Type:     schema.TypeBool,
 				Optional: true,
-				//Default:  false,
 			},
 			"details": {
 				Type:     schema.TypeMap,
 				Optional: true,
 			},
-			"resource_type": {
+			"entry_type": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"resource": {
+			"reviewable_request": {
+				Type:     schema.TypeList,
+				MaxItems: 1,
+				Optional: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"op_rules": {
+							Type:     schema.TypeList,
+							Required: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"action": {
+										Type:     schema.TypeList,
+										Optional: true,
+										MaxItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												"create": {
+													Type:     schema.TypeMap,
+													Optional: true,
+												},
+												"update": {
+													Type:     schema.TypeMap,
+													Optional: true,
+												},
+												"issue": {
+													Type:     schema.TypeMap,
+													Optional: true,
+												},
+												"send": {
+													Type:     schema.TypeMap,
+													Optional: true,
+												},
+												"receive": {
+													Type:     schema.TypeMap,
+													Optional: true,
+												},
+												"receive_issuance": {
+													Type:     schema.TypeMap,
+													Optional: true,
+												},
+												"remove": {
+													Type:     schema.TypeMap,
+													Optional: true,
+												},
+												"destroy": {
+													Type:     schema.TypeMap,
+													Optional: true,
+												},
+												"review": {
+													Type:     schema.TypeMap,
+													Optional: true,
+												},
+												"change_roles": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															"role_ids": {
+																Type:     schema.TypeList,
+																Required: true,
+																Elem: &schema.Schema{
+																	Type: schema.TypeString,
+																},
+															},
+														},
+													},
+												},
+												"initiate_recovery": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															"role_ids": {
+																Type:     schema.TypeList,
+																Required: true,
+																Elem: &schema.Schema{
+																	Type: schema.TypeString,
+																},
+															},
+														},
+													},
+												},
+											},
+										},
+									},
+									"action_type": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+									"forbids": {
+										Type:     schema.TypeBool,
+										Optional: true,
+									},
+									"details": {
+										Type:     schema.TypeMap,
+										Optional: true,
+									},
+									"entry_type": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+									"asset": {
+										Type:     schema.TypeMap,
+										Optional: true,
+									},
+									"role": {
+										Type:     schema.TypeMap,
+										Optional: true,
+									},
+									"signer": {
+										Type:     schema.TypeList,
+										Optional: true,
+										MaxItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												"role_ids": {
+													Type: schema.TypeList,
+													Elem: &schema.Schema{
+														Type: schema.TypeString,
+													},
+												},
+											},
+										},
+									},
+									"key_value": {
+										Type:     schema.TypeMap,
+										Optional: true,
+									},
+									"data": {
+										Type:     schema.TypeMap,
+										Optional: true,
+									},
+								},
+							},
+						},
+						"security_type": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+					},
+				},
+			},
+			"asset": {
 				Type:     schema.TypeMap,
 				Optional: true,
-				Elem: &schema.Schema{
-					Type: schema.TypeList,
+			},
+			"role": {
+				Type:     schema.TypeMap,
+				Optional: true,
+			},
+			"signer": {
+				Type:     schema.TypeList,
+				Optional: true,
+				MaxItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"role_ids": {
+							Type: schema.TypeList,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
+					},
 				},
+			},
+			"key_value": {
+				Type:     schema.TypeMap,
+				Optional: true,
+			},
+			"data": {
+				Type:     schema.TypeMap,
+				Optional: true,
+			},
+			"custom": {
+				Type:     schema.TypeMap,
+				Optional: true,
 			},
 		},
 	}
