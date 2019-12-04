@@ -233,6 +233,10 @@ var ruleschema = map[string]*schema.Schema{
 								Type:     schema.TypeMap,
 								Optional: true,
 							},
+							"custom": {
+								Type:     schema.TypeMap,
+								Optional: true,
+							},
 						},
 					},
 				},
@@ -411,8 +415,11 @@ func TestRules_ReviewableRequest(t *testing.T) {
 			ReviewableRequest: &xdr.InternalRuleResourceReviewableRequest{
 				OpRules: []xdr.ReviewableRequestOperationRule{
 					{
-						Resource: xdr.InternalRuleResource{
-							Type: xdr.LedgerEntryTypeBalance,
+						Resource: xdr.RuleResource{
+							ResourceType: xdr.RuleResourceTypeLedgerEntry,
+							InternalRuleResource: &xdr.InternalRuleResource{
+								Type: xdr.LedgerEntryTypeBalance,
+							},
 						},
 						Action: xdr.RuleAction{
 							Type: xdr.RuleActionTypeCreate,
@@ -424,11 +431,14 @@ func TestRules_ReviewableRequest(t *testing.T) {
 					},
 
 					{
-						Resource: xdr.InternalRuleResource{
-							Type: xdr.LedgerEntryTypeSigner,
-							Signer: &xdr.InternalRuleResourceSigner{
-								RoleIDs: []xdr.Uint64{1, 2, 3},
-								Ext:     xdr.EmptyExt{},
+						Resource: xdr.RuleResource{
+							ResourceType: xdr.RuleResourceTypeLedgerEntry,
+							InternalRuleResource: &xdr.InternalRuleResource{
+								Type: xdr.LedgerEntryTypeSigner,
+								Signer: &xdr.InternalRuleResourceSigner{
+									RoleIDs: []xdr.Uint64{1, 2, 3},
+									Ext:     xdr.EmptyExt{},
+								},
 							},
 						},
 						Action: xdr.RuleAction{

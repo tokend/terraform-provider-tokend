@@ -1,4 +1,4 @@
-// revision: 2efa51c931dc71565fcedc696e425d0bd065599a
+// revision: c39f7fa6d18007af2a70028c2aecfd29e1208d7f
 // branch:   refactor/internal_work
 // Package xdr is generated from:
 //
@@ -14810,6 +14810,7 @@ func (u InternalRuleResource) GetExt() (result EmptyExt, ok bool) {
 //    {
 //        ANY = 1,
 //        CREATE = 2,
+//        READ = 3,
 //        UPDATE = 4,
 //        ISSUE = 5,
 //        SEND = 6,
@@ -14831,6 +14832,7 @@ type RuleActionType int32
 const (
 	RuleActionTypeAny               RuleActionType = 1
 	RuleActionTypeCreate            RuleActionType = 2
+	RuleActionTypeRead              RuleActionType = 3
 	RuleActionTypeUpdate            RuleActionType = 4
 	RuleActionTypeIssue             RuleActionType = 5
 	RuleActionTypeSend              RuleActionType = 6
@@ -14850,6 +14852,7 @@ const (
 var RuleActionTypeAll = []RuleActionType{
 	RuleActionTypeAny,
 	RuleActionTypeCreate,
+	RuleActionTypeRead,
 	RuleActionTypeUpdate,
 	RuleActionTypeIssue,
 	RuleActionTypeSend,
@@ -14869,6 +14872,7 @@ var RuleActionTypeAll = []RuleActionType{
 var ruleActionTypeMap = map[int32]string{
 	1:  "RuleActionTypeAny",
 	2:  "RuleActionTypeCreate",
+	3:  "RuleActionTypeRead",
 	4:  "RuleActionTypeUpdate",
 	5:  "RuleActionTypeIssue",
 	6:  "RuleActionTypeSend",
@@ -14888,6 +14892,7 @@ var ruleActionTypeMap = map[int32]string{
 var ruleActionTypeShortMap = map[int32]string{
 	1:  "any",
 	2:  "create",
+	3:  "read",
 	4:  "update",
 	5:  "issue",
 	6:  "send",
@@ -14907,6 +14912,7 @@ var ruleActionTypeShortMap = map[int32]string{
 var ruleActionTypeRevMap = map[string]int32{
 	"RuleActionTypeAny":               1,
 	"RuleActionTypeCreate":            2,
+	"RuleActionTypeRead":              3,
 	"RuleActionTypeUpdate":            4,
 	"RuleActionTypeIssue":             5,
 	"RuleActionTypeSend":              6,
@@ -15645,7 +15651,7 @@ func (u RuleAction) GetExt() (result EmptyExt, ok bool) {
 //
 //   struct ReviewableRequestOperationRule
 //    {
-//        InternalRuleResource resource;
+//        RuleResource resource;
 //
 //        RuleAction action;
 //
@@ -15653,9 +15659,9 @@ func (u RuleAction) GetExt() (result EmptyExt, ok bool) {
 //    };
 //
 type ReviewableRequestOperationRule struct {
-	Resource InternalRuleResource `json:"resource,omitempty"`
-	Action   RuleAction           `json:"action,omitempty"`
-	Ext      EmptyExt             `json:"ext,omitempty"`
+	Resource RuleResource `json:"resource,omitempty"`
+	Action   RuleAction   `json:"action,omitempty"`
+	Ext      EmptyExt     `json:"ext,omitempty"`
 }
 
 // OperationBody is an XDR NestedUnion defines as:
@@ -20390,4 +20396,4 @@ func (u MovementDestination) GetBalanceId() (result BalanceId, ok bool) {
 }
 
 var fmtTest = fmt.Sprint("this is a dummy usage of fmt")
-var Revision = "2efa51c931dc71565fcedc696e425d0bd065599a"
+var Revision = "c39f7fa6d18007af2a70028c2aecfd29e1208d7f"

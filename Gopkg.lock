@@ -745,7 +745,7 @@
 
 [[projects]]
   branch = "refactor/internal_work"
-  digest = "1:4da6c237d63a6a554d1d3dc6981c0d7db4500ff847ce9b90da27248debccdf12"
+  digest = "1:2f0bf3b8d7c8aa41ffc877cd6dade6b03abd514c8524f0b0f495a4487745768f"
   name = "gitlab.com/tokend/go"
   packages = [
     "amount",
@@ -761,7 +761,7 @@
     "xdrbuild/internal",
   ]
   pruneopts = "UT"
-  revision = "1db152ebcda46f56337b75ac17523f0211415b39"
+  revision = "efc235130293e28a78b93f30eea2328ce0b40d31"
 
 [[projects]]
   digest = "1:0cc74bfe93bf9807f21bd164dcdbe6fe8415f00803ac06fd455d8088fdffc0bf"
@@ -923,13 +923,13 @@
     "github.com/hashicorp/terraform/helper/schema",
     "github.com/hashicorp/terraform/plugin",
     "github.com/hashicorp/terraform/terraform",
-    "github.com/mitchellh/mapstructure",
     "github.com/pkg/errors",
     "github.com/spf13/cast",
     "github.com/stretchr/testify/assert",
     "github.com/stretchr/testify/mock",
     "gitlab.com/distributed_lab/json-api-connector/horizon",
     "gitlab.com/distributed_lab/logan/v3/errors",
+    "gitlab.com/tokend/go/amount",
     "gitlab.com/tokend/go/strkey",
     "gitlab.com/tokend/go/xdr",
     "gitlab.com/tokend/go/xdrbuild",

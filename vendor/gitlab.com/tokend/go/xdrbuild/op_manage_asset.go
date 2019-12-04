@@ -36,3 +36,46 @@ func (op *CreateAsset) XDR() (*xdr.Operation, error) {
 		},
 	}, nil
 }
+
+type UpdateAsset struct {
+	Code              string
+	MaxIssuanceAmount *uint64
+	State             *uint32
+	Details           json.Marshaler
+}
+
+func (op *UpdateAsset) XDR() (*xdr.Operation, error) {
+	var details *xdr.Longstring
+	if op.Details != nil {
+		tmpDetails, err := op.Details.MarshalJSON()
+		if err != nil {
+			return nil, errors.Wrap(err, "failed to marshal details")
+		}
+		longDetails := xdr.Longstring(tmpDetails)
+		details = &longDetails
+	}
+
+	var maxIssuance *xdr.Uint64
+	if op.MaxIssuanceAmount != nil {
+		tmpMax := xdr.Uint64(*op.MaxIssuanceAmount)
+		maxIssuance = &tmpMax
+	}
+
+	var state *xdr.Uint32
+	if op.State != nil {
+		tmpState := xdr.Uint32(*op.State)
+		state = &tmpState
+	}
+
+	return &xdr.Operation{
+		Body: xdr.OperationBody{
+			Type: xdr.OperationTypeUpdateAsset,
+			UpdateAssetOp: &xdr.UpdateAssetOp{
+				Code:              xdr.AssetCode(op.Code),
+				MaxIssuanceAmount: maxIssuance,
+				Details:           details,
+				State:             state,
+			},
+		},
+	}, nil
+}

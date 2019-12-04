@@ -8,7 +8,9 @@ import (
 	"gitlab.com/tokend/go/xdr"
 )
 
-type RuleEntryFunc func(d map[string]interface{}) (*xdr.RuleResource, error)
+type Map map[string]interface{}
+
+type RuleEntryFunc func(d Map) (*xdr.RuleResource, error)
 
 var RuleEntries = map[string]RuleEntryFunc{
 	"custom":             customRuleEntry,
@@ -55,7 +57,7 @@ func RuleEntry(d *schema.ResourceData) (*xdr.RuleResource, error) {
 	return resource, nil
 }
 
-func reviewableRequestRuleEntry(d map[string]interface{}) (*xdr.RuleResource, error) {
+func reviewableRequestRuleEntry(d Map) (*xdr.RuleResource, error) {
 	tpe := d["entry_type"].(string)
 	createEntry, ok := reviewableRequestEntries[tpe]
 	if !ok {
@@ -78,7 +80,7 @@ func reviewableRequestRuleEntry(d map[string]interface{}) (*xdr.RuleResource, er
 	return resource, nil
 }
 
-func customRuleEntry(d map[string]interface{}) (*xdr.RuleResource, error) {
+func customRuleEntry(d Map) (*xdr.RuleResource, error) {
 	resourceType := d["custom.resource_type"].(string)
 	resourcePayload := d["custom.resource_payload"].(string)
 	return &xdr.RuleResource{
@@ -90,7 +92,7 @@ func customRuleEntry(d map[string]interface{}) (*xdr.RuleResource, error) {
 	}, nil
 }
 
-func ruleResourceTransaction(_ map[string]interface{}) (*xdr.RuleResource, error) {
+func ruleResourceTransaction(_ Map) (*xdr.RuleResource, error) {
 	return &xdr.RuleResource{
 		ResourceType: xdr.RuleResourceTypeLedgerEntry,
 		InternalRuleResource: &xdr.InternalRuleResource{
@@ -99,7 +101,7 @@ func ruleResourceTransaction(_ map[string]interface{}) (*xdr.RuleResource, error
 	}, nil
 }
 
-func ruleResourceSigner(d map[string]interface{}) (*xdr.RuleResource, error) {
+func ruleResourceSigner(d Map) (*xdr.RuleResource, error) {
 	roleIDs := d["role_ids"].([]interface{})
 	roles := make([]xdr.Uint64, 0, len(roleIDs))
 	for _, r := range roleIDs {
@@ -122,7 +124,7 @@ func ruleResourceSigner(d map[string]interface{}) (*xdr.RuleResource, error) {
 	}, nil
 }
 
-func ruleResourceBalance(_ map[string]interface{}) (*xdr.RuleResource, error) {
+func ruleResourceBalance(_ Map) (*xdr.RuleResource, error) {
 	return ruleResourceBalanceRaw()
 }
 
@@ -135,7 +137,7 @@ func ruleResourceBalanceRaw() (*xdr.RuleResource, error) {
 	}, nil
 }
 
-func ruleResourceKeyValue(d map[string]interface{}) (*xdr.RuleResource, error) {
+func ruleResourceKeyValue(d Map) (*xdr.RuleResource, error) {
 	prefix := d["prefix"].(string)
 	return &xdr.RuleResource{
 		ResourceType: xdr.RuleResourceTypeLedgerEntry,
@@ -148,7 +150,7 @@ func ruleResourceKeyValue(d map[string]interface{}) (*xdr.RuleResource, error) {
 	}, nil
 }
 
-func ruleResourceAsset(d map[string]interface{}) (*xdr.RuleResource, error) {
+func ruleResourceAsset(d Map) (*xdr.RuleResource, error) {
 	var internalResource xdr.InternalRuleResource
 	internalResource.Type = xdr.LedgerEntryTypeAsset
 	assetCode := d["asset_code"].(string)
@@ -168,7 +170,7 @@ func ruleResourceAsset(d map[string]interface{}) (*xdr.RuleResource, error) {
 	}, nil
 }
 
-func ruleResourceData(d map[string]interface{}) (*xdr.RuleResource, error) {
+func ruleResourceData(d Map) (*xdr.RuleResource, error) {
 	var internalResource xdr.InternalRuleResource
 	internalResource.Type = xdr.LedgerEntryTypeData
 	secTypeRaw := d["security_type"].(string)
@@ -186,7 +188,7 @@ func ruleResourceData(d map[string]interface{}) (*xdr.RuleResource, error) {
 	}, nil
 }
 
-func ruleResourceRole(d map[string]interface{}) (*xdr.RuleResource, error) {
+func ruleResourceRole(d Map) (*xdr.RuleResource, error) {
 	var internalResource xdr.InternalRuleResource
 	internalResource.Type = xdr.LedgerEntryTypeAsset
 	roleIDRaw := d["role_id"].(string)
@@ -203,7 +205,7 @@ func ruleResourceRole(d map[string]interface{}) (*xdr.RuleResource, error) {
 	}, nil
 }
 
-func ruleResourceReviewableRequest(d map[string]interface{}) (*xdr.RuleResource, error) {
+func ruleResourceReviewableRequest(d Map) (*xdr.RuleResource, error) {
 	securityTypeRaw := d["security_type"].(string)
 	securityType, err := WildCardUint32FromRaw(securityTypeRaw)
 	if err != nil {
@@ -226,7 +228,7 @@ func ruleResourceReviewableRequest(d map[string]interface{}) (*xdr.RuleResource,
 		}
 
 		opRules = append(opRules, xdr.ReviewableRequestOperationRule{
-			Resource: *opResource.InternalRuleResource,
+			Resource: *opResource,
 			Action:   *action,
 		})
 	}
@@ -280,7 +282,7 @@ func RuleAction(d *schema.ResourceData) (*xdr.RuleAction, error) {
 	return action, nil
 }
 
-func ruleActionRaw(d map[string]interface{}) (*xdr.RuleAction, error) {
+func ruleActionRaw(d Map) (*xdr.RuleAction, error) {
 	actionTypeRaw := d["action_type"].(string)
 	actionRaw := d["action"].([]interface{})
 
@@ -317,7 +319,7 @@ func ruleActionRaw(d map[string]interface{}) (*xdr.RuleAction, error) {
 	return action, nil
 }
 
-type RuleActionFunc func(d map[string]interface{}) (*xdr.RuleAction, error)
+type RuleActionFunc func(d Map) (*xdr.RuleAction, error)
 
 var RuleActions = map[string]RuleActionFunc{
 	"create":            ruleActionCreate,
@@ -331,7 +333,7 @@ var RuleActions = map[string]RuleActionFunc{
 	"custom":            ruleActionCustom,
 }
 
-func ruleActionCreate(d map[string]interface{}) (*xdr.RuleAction, error) {
+func ruleActionCreate(d Map) (*xdr.RuleAction, error) {
 	var forOther bool
 	if b, ok := d["for_other"]; ok {
 		forOther = cast.ToBool(b)
@@ -343,7 +345,7 @@ func ruleActionCreate(d map[string]interface{}) (*xdr.RuleAction, error) {
 	}, nil
 }
 
-func ruleActionUpdate(d map[string]interface{}) (*xdr.RuleAction, error) {
+func ruleActionUpdate(d Map) (*xdr.RuleAction, error) {
 	var forOther bool
 	if b, ok := d["for_other"]; ok {
 		forOther = cast.ToBool(b)
@@ -355,7 +357,7 @@ func ruleActionUpdate(d map[string]interface{}) (*xdr.RuleAction, error) {
 	}, nil
 }
 
-func ruleActionDestroy(d map[string]interface{}) (*xdr.RuleAction, error) {
+func ruleActionDestroy(d Map) (*xdr.RuleAction, error) {
 	securityTypeRaw := d["security_type"].(string)
 	securityType, err := WildCardUint32FromRaw(securityTypeRaw)
 	if err != nil {
@@ -375,7 +377,7 @@ func ruleActionDestroy(d map[string]interface{}) (*xdr.RuleAction, error) {
 	}, nil
 }
 
-func ruleActionSend(d map[string]interface{}) (*xdr.RuleAction, error) {
+func ruleActionSend(d Map) (*xdr.RuleAction, error) {
 	securityTypeRaw := d["security_type"].(string)
 	securityType, err := WildCardUint32FromRaw(securityTypeRaw)
 	if err != nil {
@@ -388,7 +390,7 @@ func ruleActionSend(d map[string]interface{}) (*xdr.RuleAction, error) {
 	}, nil
 }
 
-func ruleActionReceive(d map[string]interface{}) (*xdr.RuleAction, error) {
+func ruleActionReceive(d Map) (*xdr.RuleAction, error) {
 	securityTypeRaw := d["security_type"].(string)
 	securityType, err := WildCardUint32FromRaw(securityTypeRaw)
 	if err != nil {
@@ -402,7 +404,7 @@ func ruleActionReceive(d map[string]interface{}) (*xdr.RuleAction, error) {
 	}, nil
 }
 
-func ruleActionReceiveIssuance(d map[string]interface{}) (*xdr.RuleAction, error) {
+func ruleActionReceiveIssuance(d Map) (*xdr.RuleAction, error) {
 	securityTypeRaw := d["security_type"].(string)
 	securityType, err := WildCardUint32FromRaw(securityTypeRaw)
 	if err != nil {
@@ -416,7 +418,7 @@ func ruleActionReceiveIssuance(d map[string]interface{}) (*xdr.RuleAction, error
 	}, nil
 }
 
-func ruleActionInitiateRecovery(d map[string]interface{}) (*xdr.RuleAction, error) {
+func ruleActionInitiateRecovery(d Map) (*xdr.RuleAction, error) {
 	roleIDs := d["action_role_ids"].([]interface{})
 	roles := make([]xdr.Uint64, 0, len(roleIDs))
 	for _, r := range roleIDs {
@@ -435,7 +437,7 @@ func ruleActionInitiateRecovery(d map[string]interface{}) (*xdr.RuleAction, erro
 	}, nil
 }
 
-func ruleActionReview(d map[string]interface{}) (*xdr.RuleAction, error) {
+func ruleActionReview(d Map) (*xdr.RuleAction, error) {
 	tasksToAddRaw := d["tasks_to_add"].(string)
 	tasksToRemoveRaw := d["tasks_to_remove"].(string)
 
@@ -456,7 +458,7 @@ func ruleActionReview(d map[string]interface{}) (*xdr.RuleAction, error) {
 	}, nil
 }
 
-func ruleActionCustom(d map[string]interface{}) (*xdr.RuleAction, error) {
+func ruleActionCustom(d Map) (*xdr.RuleAction, error) {
 	customType := d["custom_type"].(string)
 	customPayload := d["custom_payload"].(string)
 
