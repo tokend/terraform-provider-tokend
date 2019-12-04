@@ -31,6 +31,7 @@ var reviewableRequestEntries = map[string]RuleEntryFunc{
 	"signer":    ruleResourceSigner,
 	"key_value": ruleResourceKeyValue,
 	"data":      ruleResourceData,
+	"custom":    customRuleEntry,
 }
 
 func RuleEntry(d *schema.ResourceData) (*xdr.RuleResource, error) {

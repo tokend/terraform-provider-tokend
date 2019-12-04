@@ -65,6 +65,7 @@ func Provider() terraform.ResourceProvider {
 			return Meta{
 				Horizon:   hrz,
 				Connector: connector.NewConnector(client),
+				Submitter: connector.NewSubmitter(hrz),
 				Builder:   *builder,
 				Source:    source,
 				Signer:    signer,

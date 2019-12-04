@@ -23,7 +23,7 @@ func resourceRule() *schema.Resource {
 		Delete: resourceRuleDelete,
 		Schema: map[string]*schema.Schema{
 			"action": {
-				Type:     schema.TypeSet,
+				Type:     schema.TypeList,
 				Optional: true,
 				MaxItems: 1,
 				Elem: &schema.Resource{

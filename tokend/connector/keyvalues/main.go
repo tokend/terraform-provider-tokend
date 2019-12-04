@@ -26,7 +26,7 @@ func NewKeyValues(client *horizon.Client) KeyValues {
 }
 
 func (q *keyValues) Value(key string) (*regources.KeyValueEntryValue, error) {
-	url, err := url2.Parse(fmt.Sprintf("/key_values/%s", key))
+	url, err := url2.Parse(fmt.Sprintf("/horizon/key_values/%s", key))
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to parse url")
 	}

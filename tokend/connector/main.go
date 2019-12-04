@@ -55,7 +55,7 @@ type txFailureResponse struct {
 }
 
 func (s *Submitter) Submit(ctx context.Context, envelope string, waitIngest bool) (*regources.TransactionResponse, error) {
-	u, _ := url.Parse("/v3/transactions")
+	u, _ := url.Parse("/horizon/v3/transactions")
 	status, respBB, err := s.connector.Submit(ctx, u, envelope, waitIngest)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to submit tx to horizon")
