@@ -134,6 +134,7 @@ func ruleResourceBalanceRaw() (*xdr.RuleResource, error) {
 		ResourceType: xdr.RuleResourceTypeLedgerEntry,
 		InternalRuleResource: &xdr.InternalRuleResource{
 			Type: xdr.LedgerEntryTypeBalance,
+			Ext:  &xdr.EmptyExt{},
 		},
 	}, nil
 }
@@ -251,6 +252,10 @@ func RuleAction(d *schema.ResourceData) (*xdr.RuleAction, error) {
 	var actionType xdr.RuleActionType
 	if actionTypeRaw == "*" {
 		actionType = xdr.RuleActionTypeAny
+		return &xdr.RuleAction{
+			Type: actionType,
+			Ext:  &xdr.EmptyExt{},
+		}, nil
 	} else {
 		for _, guess := range xdr.RuleActionTypeAll {
 			fmt.Println(guess.ShortString(), actionTypeRaw)
@@ -290,6 +295,10 @@ func ruleActionRaw(d Map) (*xdr.RuleAction, error) {
 	var actionType xdr.RuleActionType
 	if actionTypeRaw == "*" {
 		actionType = xdr.RuleActionTypeAny
+		return &xdr.RuleAction{
+			Type: actionType,
+			Ext:  &xdr.EmptyExt{},
+		}, nil
 	} else {
 		for _, guess := range xdr.RuleActionTypeAll {
 			if guess.ShortString() == actionTypeRaw {
@@ -316,7 +325,6 @@ func ruleActionRaw(d Map) (*xdr.RuleAction, error) {
 		return nil, errors.Wrap(err, "failed to create rule resource")
 	}
 
-	action.Type = actionType
 	return action, nil
 }
 
@@ -340,6 +348,7 @@ func ruleActionCreate(d Map) (*xdr.RuleAction, error) {
 		forOther = cast.ToBool(b)
 	}
 	return &xdr.RuleAction{
+		Type: xdr.RuleActionTypeCreate,
 		Create: &xdr.RuleActionCreate{
 			ForOther: forOther,
 		},
@@ -352,6 +361,7 @@ func ruleActionUpdate(d Map) (*xdr.RuleAction, error) {
 		forOther = cast.ToBool(b)
 	}
 	return &xdr.RuleAction{
+		Type: xdr.RuleActionTypeUpdate,
 		Update: &xdr.RuleActionUpdate{
 			ForOther: forOther,
 		},
@@ -371,6 +381,7 @@ func ruleActionDestroy(d Map) (*xdr.RuleAction, error) {
 	}
 
 	return &xdr.RuleAction{
+		Type: xdr.RuleActionTypeDestroy,
 		Destroy: &xdr.RuleActionDestroy{
 			ForOther:     forOther,
 			SecurityType: xdr.Uint32(securityType),
@@ -385,6 +396,7 @@ func ruleActionSend(d Map) (*xdr.RuleAction, error) {
 		return nil, errors.Wrap(err, "failed to cast security_type")
 	}
 	return &xdr.RuleAction{
+		Type: xdr.RuleActionTypeSend,
 		Send: &xdr.RuleActionSend{
 			SecurityType: xdr.Uint32(securityType),
 		},
@@ -399,6 +411,7 @@ func ruleActionReceive(d Map) (*xdr.RuleAction, error) {
 	}
 
 	return &xdr.RuleAction{
+		Type: xdr.RuleActionTypeReceive,
 		Receive: &xdr.RuleActionReceive{
 			SecurityType: xdr.Uint32(securityType),
 		},
@@ -413,6 +426,7 @@ func ruleActionReceiveIssuance(d Map) (*xdr.RuleAction, error) {
 	}
 
 	return &xdr.RuleAction{
+		Type: xdr.RuleActionTypeReceiveIssuance,
 		ReceiveIssuance: &xdr.RuleActionReceiveIssuance{
 			SecurityType: xdr.Uint32(securityType),
 		},
@@ -420,7 +434,7 @@ func ruleActionReceiveIssuance(d Map) (*xdr.RuleAction, error) {
 }
 
 func ruleActionInitiateRecovery(d Map) (*xdr.RuleAction, error) {
-	roleIDs := d["action_role_ids"].([]interface{})
+	roleIDs := d["role_ids"].([]interface{})
 	roles := make([]xdr.Uint64, 0, len(roleIDs))
 	for _, r := range roleIDs {
 		roleID, err := WildCardUint64FromRaw(r.(string))
@@ -432,6 +446,7 @@ func ruleActionInitiateRecovery(d Map) (*xdr.RuleAction, error) {
 	}
 
 	return &xdr.RuleAction{
+		Type: xdr.RuleActionTypeInitiateRecovery,
 		InitiateRecovery: &xdr.RuleActionInitiateRecovery{
 			RoleIDs: roles,
 		},
@@ -452,6 +467,7 @@ func ruleActionReview(d Map) (*xdr.RuleAction, error) {
 	}
 
 	return &xdr.RuleAction{
+		Type: xdr.RuleActionTypeReview,
 		Review: &xdr.RuleActionReview{
 			TasksToAdd:    xdr.Uint64(tasksToAdd),
 			TasksToRemove: xdr.Uint64(tasksToRemove),
@@ -464,6 +480,7 @@ func ruleActionCustom(d Map) (*xdr.RuleAction, error) {
 	customPayload := d["custom_payload"].(string)
 
 	return &xdr.RuleAction{
+		Type: xdr.RuleActionTypeCustom,
 		CustomRuleAction: &xdr.CustomRuleAction{
 			ActionType:    xdr.Longstring(customType),
 			ActionPayload: xdr.Longstring(customPayload),

@@ -55,13 +55,13 @@ type txFailureResponse struct {
 }
 
 func (s *Submitter) Submit(ctx context.Context, envelope string, waitIngest bool) (*regources.TransactionResponse, error) {
-	u, _ := url.Parse("/horizon/v3/transactions")
+	u, _ := url.Parse("/horizon/transactions")
 	status, respBB, err := s.connector.Submit(ctx, u, envelope, waitIngest)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to submit tx to horizon")
 	}
 
-	if isStatusCodeSuccessful(status) && err == nil {
+	if isStatusCodeSuccessful(status) {
 		var success regources.TransactionResponse
 		if err := json.Unmarshal(respBB, &success); err != nil {
 			return nil, errors.Wrap(err, "failed to unmarshal transaction response")
@@ -83,7 +83,7 @@ func (s *Submitter) Submit(ctx context.Context, envelope string, waitIngest bool
 	case http.StatusInternalServerError: // internal error
 		return nil, ErrSubmitInternal
 	default:
-		return nil, ErrSubmitUnexpectedStatusCode
+		return nil, errors.Wrap(err, ErrSubmitUnexpectedStatusCode.Error())
 	}
 }
 

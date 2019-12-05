@@ -72,6 +72,7 @@ func resourceRule() *schema.Resource {
 									"role_ids": {
 										Type:     schema.TypeList,
 										Required: true,
+										MinItems: 1,
 										Elem: &schema.Schema{
 											Type: schema.TypeString,
 										},
@@ -87,6 +88,7 @@ func resourceRule() *schema.Resource {
 									"role_ids": {
 										Type:     schema.TypeList,
 										Required: true,
+										MinItems: 1,
 										Elem: &schema.Schema{
 											Type: schema.TypeString,
 										},
@@ -173,6 +175,7 @@ func resourceRule() *schema.Resource {
 														Schema: map[string]*schema.Schema{
 															"role_ids": {
 																Type:     schema.TypeList,
+																MinItems: 1,
 																Required: true,
 																Elem: &schema.Schema{
 																	Type: schema.TypeString,
@@ -189,6 +192,7 @@ func resourceRule() *schema.Resource {
 															"role_ids": {
 																Type:     schema.TypeList,
 																Required: true,
+																MinItems: 1,
 																Elem: &schema.Schema{
 																	Type: schema.TypeString,
 																},
@@ -230,7 +234,9 @@ func resourceRule() *schema.Resource {
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
 												"role_ids": {
-													Type: schema.TypeList,
+													Type:     schema.TypeList,
+													Required: true,
+													MinItems: 1,
 													Elem: &schema.Schema{
 														Type: schema.TypeString,
 													},
@@ -271,7 +277,9 @@ func resourceRule() *schema.Resource {
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"role_ids": {
-							Type: schema.TypeList,
+							Type:     schema.TypeList,
+							Required: true,
+							MinItems: 1,
 							Elem: &schema.Schema{
 								Type: schema.TypeString,
 							},

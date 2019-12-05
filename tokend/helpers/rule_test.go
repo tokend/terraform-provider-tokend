@@ -59,6 +59,7 @@ var ruleschema = map[string]*schema.Schema{
 							"role_ids": {
 								Type:     schema.TypeList,
 								Required: true,
+								MinItems: 1,
 								Elem: &schema.Schema{
 									Type: schema.TypeString,
 								},
@@ -74,6 +75,7 @@ var ruleschema = map[string]*schema.Schema{
 							"role_ids": {
 								Type:     schema.TypeList,
 								Required: true,
+								MinItems: 1,
 								Elem: &schema.Schema{
 									Type: schema.TypeString,
 								},
@@ -161,6 +163,7 @@ var ruleschema = map[string]*schema.Schema{
 													"role_ids": {
 														Type:     schema.TypeList,
 														Required: true,
+														MinItems: 1,
 														Elem: &schema.Schema{
 															Type: schema.TypeString,
 														},
@@ -176,6 +179,7 @@ var ruleschema = map[string]*schema.Schema{
 													"role_ids": {
 														Type:     schema.TypeList,
 														Required: true,
+														MinItems: 1,
 														Elem: &schema.Schema{
 															Type: schema.TypeString,
 														},
@@ -217,7 +221,9 @@ var ruleschema = map[string]*schema.Schema{
 								Elem: &schema.Resource{
 									Schema: map[string]*schema.Schema{
 										"role_ids": {
-											Type: schema.TypeList,
+											Type:     schema.TypeList,
+											Required: true,
+											MinItems: 1,
 											Elem: &schema.Schema{
 												Type: schema.TypeString,
 											},
@@ -262,7 +268,9 @@ var ruleschema = map[string]*schema.Schema{
 		Elem: &schema.Resource{
 			Schema: map[string]*schema.Schema{
 				"role_ids": {
-					Type: schema.TypeList,
+					Type:     schema.TypeList,
+					Required: true,
+					MinItems: 1,
 					Elem: &schema.Schema{
 						Type: schema.TypeString,
 					},
@@ -340,6 +348,7 @@ func TestRules_Balance(t *testing.T) {
 		ResourceType: xdr.RuleResourceTypeLedgerEntry,
 		InternalRuleResource: &xdr.InternalRuleResource{
 			Type: xdr.LedgerEntryTypeBalance,
+			Ext:  &xdr.EmptyExt{},
 		},
 	}
 
