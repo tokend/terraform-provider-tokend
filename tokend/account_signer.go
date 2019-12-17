@@ -2,7 +2,7 @@ package tokend
 
 import (
 	"context"
-	"github.com/tokend/terraform-provider-tokend/tokend/connector"
+	"gitlab.com/tokend/connectors/submit"
 	"gitlab.com/tokend/go/xdr"
 
 	"github.com/hashicorp/terraform/helper/schema"
@@ -96,7 +96,7 @@ func resourceAccountSignerCreate(d *schema.ResourceData, meta interface{}) error
 	}
 	resp, err := m.Submitter.Submit(context.TODO(), env, true)
 	if err != nil {
-		if txErr, ok := err.(connector.TxFailure); ok {
+		if txErr, ok := err.(submit.TxFailure); ok {
 			return errors.Wrapf(err, "failed to submit tx: %s %q", txErr.TransactionResultCode, txErr.OperationResultCodes)
 		}
 		return errors.Wrap(err, "unknown error occurred")

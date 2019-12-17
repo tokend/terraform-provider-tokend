@@ -22,7 +22,7 @@
 
 [[constraint]]
   name = "gitlab.com/distributed_lab/json-api-connector"
-  branch = "refactor/internal-work"
+  branch = "refactor/tryouts"
 
 [prune]
   go-tests = true

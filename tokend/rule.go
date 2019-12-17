@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/spf13/cast"
-	"github.com/tokend/terraform-provider-tokend/tokend/connector"
+	"gitlab.com/tokend/connectors/submit"
 
 	"github.com/tokend/terraform-provider-tokend/tokend/helpers"
 
@@ -333,7 +333,7 @@ func resourceRuleCreate(d *schema.ResourceData, _m interface{}) (err error) {
 	}
 	resp, err := m.Submitter.Submit(context.TODO(), env, true)
 	if err != nil {
-		if txErr, ok := err.(connector.TxFailure); ok {
+		if txErr, ok := err.(submit.TxFailure); ok {
 			return errors.Wrapf(err, "failed to submit tx: %s %q", txErr.TransactionResultCode, txErr.OperationResultCodes)
 		}
 		return errors.Wrap(err, "unknown error occurred")
@@ -378,7 +378,7 @@ func resourceRuleUpdate(d *schema.ResourceData, _m interface{}) (err error) {
 	}
 	_, err = m.Submitter.Submit(context.TODO(), env, true)
 	if err != nil {
-		if txErr, ok := err.(connector.TxFailure); ok {
+		if txErr, ok := err.(submit.TxFailure); ok {
 			return errors.Wrapf(err, "failed to submit tx: %s %q", txErr.TransactionResultCode, txErr.OperationResultCodes)
 		}
 		return errors.Wrap(err, "unknown error occurred")

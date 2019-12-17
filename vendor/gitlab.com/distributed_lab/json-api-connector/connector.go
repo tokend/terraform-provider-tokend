@@ -1,41 +1,284 @@
 package connector
 
 import (
+	"bytes"
 	"context"
+	"encoding/json"
+	"gitlab.com/distributed_lab/json-api-connector/client"
+	internalErrs "gitlab.com/distributed_lab/json-api-connector/cerrors"
+	"gitlab.com/distributed_lab/logan/v3/errors"
+	"io"
+	"io/ioutil"
+	"net/http"
 	"net/url"
-
-	"gitlab.com/distributed_lab/json-api-connector/types"
-	"gitlab.com/tokend/go/xdrbuild"
 )
 
-// Interfaces are here only in purposes of implementing other custom connectors
-
-type Connector interface {
-	One(endpoint string, pathParams types.PathParamer) Singler
-	List(endpoint string) Nexter
-	// Submit *must* submit transaction to specified endpoint and return:
-	// - nil if transaction was successfully submitted
-	// - error if smth went wrong (specify what exactly)
-	Submit(ctx context.Context, endpoint *url.URL, envelope string, waitForIngest bool) (int, []byte, error)
-	// TXBuilder() must return xdr builder for building transactions
-	// or error if cannot get horizon info from `/v3/info` endpoint
-	TXBuilder() (*xdrbuild.Builder, error)
-	// CacheReceivers should be used to tell connector to cache created receivers. By default connector should use cache
-	CacheReceivers(cache bool) Connector
+type Connector struct {
+	client client.Client
 }
 
-type Singler interface {
-	Get(dst interface{}, query ...types.QueryParamer) error
-	// ValidateResponses should be used to tell singler (not) to validate responses against jsonschemas. By default singler should validate responses
-	ValidateResponses(shouldValidate bool) Singler
+func NewConnector(client client.Client) *Connector {
+	return &Connector{client: client}
 }
 
-type Nexter interface {
-	Next(dst interface{}, query ...types.QueryParamer) error
-	// WithPathParams sets additional path params for endpoint where we expect to receive
-	// ResourceListResponse but also need to pass id or other non-query parameter in URL.
-	// E.g. `/accounts/{id}/signers` which returns SignerListResponse and gets AccountID as path parameter
-	WithPathParams(pathParams types.PathParamer) Nexter
-	// ValidateResponses should be used to tell nexter (not) to validate responses against jsonschemas. By default nexter should validate responses
-	ValidateResponses(shouldValidate bool) Nexter
+func (c *Connector) Get(endpoint *url.URL, dst interface{}) (err error) {
+	fullEndpoint, err := c.client.Resolve(endpoint)
+	if err != nil {
+		return err
+	}
+
+	request, err := http.NewRequest("GET", fullEndpoint, nil)
+	if err != nil {
+		return internalErrs.E(
+			"failed to build request",
+			err,
+		)
+	}
+	_, response, err := c.perform(request)
+
+	if response == nil || dst == nil {
+		return nil
+	}
+
+	return json.Unmarshal(response, dst)
+}
+
+func (c *Connector) PostJSON(endpoint *url.URL, req interface{}, ctx context.Context, dst interface{}) (err error) {
+	reqBB, err := json.Marshal(req)
+	if err != nil {
+		return errors.Wrap(err, "Failed to marshal request into JSON bytes")
+	}
+
+	resolvedEndpoint, err := c.client.Resolve(endpoint)
+	if err != nil {
+		return errors.Wrap(err, "Failed to resolve url")
+	}
+
+	request, err := http.NewRequest("POST", resolvedEndpoint, bytes.NewReader(reqBB))
+	if err != nil {
+		return errors.Wrap(err, "Failed to create POST http.Request")
+	}
+
+	_, response, err := c.perform(request.WithContext(ctx))
+
+	if err != nil {
+		return err
+	}
+
+	if response == nil || dst == nil {
+		return nil
+	}
+
+	return json.Unmarshal(response, dst)
+}
+
+func (c *Connector) Post(endpoint *url.URL, body io.Reader, ctx context.Context, dst interface{}) (err error) {
+
+	resolvedEndpoint, err := c.client.Resolve(endpoint)
+	if err != nil {
+		return errors.Wrap(err, "Failed to resolve url")
+	}
+
+	request, err := http.NewRequest("POST", resolvedEndpoint, body)
+	if err != nil {
+		return errors.Wrap(err, "Failed to create POST http.Request")
+	}
+
+	_, response, err := c.perform(request.WithContext(ctx))
+
+	if err != nil {
+		return err
+	}
+
+	if response == nil || dst == nil {
+		return nil
+	}
+
+	return json.Unmarshal(response, dst)
+}
+
+func (c *Connector) Put(endpoint *url.URL, body io.Reader, dst interface{}) (err error) {
+	fullEndpoint, err := c.client.Resolve(endpoint)
+	if err != nil {
+		return err
+	}
+	request, err := http.NewRequest("PUT", fullEndpoint, body)
+	if err != nil {
+		return internalErrs.E(
+			"failed to build request",
+			err,
+		)
+	}
+
+	_, response, err := c.perform(request)
+
+	if err != nil {
+		return err
+	}
+
+	if response == nil || dst == nil {
+		return nil
+	}
+
+	return json.Unmarshal(response, dst)
+}
+
+func (c *Connector) PatchJSON(endpoint *url.URL, req interface{}, ctx context.Context, dst interface{}) (err error) {
+	reqBB, err := json.Marshal(req)
+	if err != nil {
+		return errors.Wrap(err, "Failed to marshal request into JSON bytes")
+	}
+
+	resolvedEndpoint, err := c.client.Resolve(endpoint)
+	if err != nil {
+		return errors.Wrap(err, "Failed to resolve url")
+	}
+
+	request, err := http.NewRequest("PATCH", resolvedEndpoint, bytes.NewReader(reqBB))
+	if err != nil {
+		return errors.Wrap(err, "Failed to create POST http.Request")
+	}
+
+	_, response, err := c.perform(request.WithContext(ctx))
+
+	if err != nil {
+		return err
+	}
+
+	if response == nil || dst == nil {
+		return nil
+	}
+
+	return json.Unmarshal(response, dst)
+
+}
+
+func (c *Connector) Patch(endpoint *url.URL, body io.Reader, ctx context.Context, dst interface{}) (err error) {
+	resolvedEndpoint, err := c.client.Resolve(endpoint)
+	if err != nil {
+		return errors.Wrap(err, "Failed to resolve url")
+	}
+
+	request, err := http.NewRequest("PATCH", resolvedEndpoint, body)
+	if err != nil {
+		return errors.Wrap(err, "Failed to create POST http.Request")
+	}
+
+	_, response, err := c.perform(request.WithContext(ctx))
+
+	if err != nil {
+		return err
+	}
+
+	if response == nil || dst == nil {
+		return nil
+	}
+
+	return json.Unmarshal(response, dst)
+}
+
+func (c *Connector) PutJSON(endpoint *url.URL, body io.Reader, dst interface{}) (err error) {
+	fullEndpoint, err := c.client.Resolve(endpoint)
+	if err != nil {
+		return err
+	}
+	request, err := http.NewRequest("PUT", fullEndpoint, body)
+	if err != nil {
+		return internalErrs.E(
+			"failed to build request",
+			err,
+		)
+	}
+
+	_, response, err := c.perform(request)
+
+	if err != nil {
+		return err
+	}
+
+	if response == nil || dst == nil {
+		return nil
+	}
+
+	return json.Unmarshal(response, dst)
+
+}
+
+func (c *Connector) Delete(endpoint *url.URL, dst interface{}) (err error) {
+	fullEndpoint, err := c.client.Resolve(endpoint)
+	if err != nil {
+		return err
+	}
+
+	request, err := http.NewRequest("DELETE", fullEndpoint, nil)
+	if err != nil {
+		return internalErrs.E(
+			"failed to build request",
+			err,
+		)
+	}
+
+	_, response, err := c.perform(request)
+
+	if err != nil {
+		return err
+	}
+
+	if response == nil || dst == nil {
+		return nil
+	}
+
+	return json.Unmarshal(response, dst)
+}
+
+func (c *Connector) perform(request *http.Request) (statusCode int, response []byte, err error) {
+	resp, err := c.client.Do(request)
+	if err != nil {
+		return 0, nil, internalErrs.E(
+			"failed to perform request",
+			err,
+			internalErrs.Path(request.URL.String()),
+		)
+	}
+	defer resp.Body.Close()
+
+	bodyBB, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return 0, nil, internalErrs.E(
+			"failed to read response body",
+			err,
+			internalErrs.Path(request.URL.String()),
+		)
+	}
+	statusCode = resp.StatusCode
+	switch resp.StatusCode {
+	case http.StatusOK, http.StatusCreated:
+		return statusCode, bodyBB, nil
+	case http.StatusNotFound, http.StatusNoContent, http.StatusAccepted:
+		return statusCode, nil, nil
+	case http.StatusTooManyRequests:
+		panic("not implemented")
+	case http.StatusBadRequest:
+		return statusCode, nil, internalErrs.E(
+			"request was invalid in some way",
+			internalErrs.Response(bodyBB),
+			internalErrs.Status(resp.StatusCode),
+		)
+	case http.StatusUnauthorized:
+		return statusCode, nil, internalErrs.E(
+			"signer is not allowed to access resource",
+			internalErrs.Response(bodyBB),
+			internalErrs.Status(resp.StatusCode),
+			internalErrs.Path(request.URL.String()),
+		)
+	default:
+		return statusCode, nil, internalErrs.E(
+			"something bad happened",
+			internalErrs.Response(bodyBB),
+			internalErrs.Status(resp.StatusCode),
+			internalErrs.Path(request.URL.String()),
+		)
+	}
+
+	return
 }

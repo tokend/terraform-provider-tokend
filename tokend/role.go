@@ -3,7 +3,7 @@ package tokend
 import (
 	"context"
 	"fmt"
-	"github.com/tokend/terraform-provider-tokend/tokend/connector"
+	"gitlab.com/tokend/connectors/submit"
 
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/pkg/errors"
@@ -55,7 +55,7 @@ func resourceRoleCreate(d *schema.ResourceData, _m interface{}) error {
 	}
 	resp, err := m.Submitter.Submit(context.TODO(), env, true)
 	if err != nil {
-		if txErr, ok := err.(connector.TxFailure); ok {
+		if txErr, ok := err.(submit.TxFailure); ok {
 			return errors.Wrapf(err, "failed to submit tx: %s %q", txErr.TransactionResultCode, txErr.OperationResultCodes)
 		}
 		return errors.Wrap(err, "unknown error occurred")
@@ -95,7 +95,7 @@ func resourceRoleUpdate(d *schema.ResourceData, _m interface{}) error {
 	}
 	_, err = m.Submitter.Submit(context.TODO(), env, true)
 	if err != nil {
-		if txErr, ok := err.(connector.TxFailure); ok {
+		if txErr, ok := err.(submit.TxFailure); ok {
 			return errors.Wrapf(err, "failed to submit tx: %s %q", txErr.TransactionResultCode, txErr.OperationResultCodes)
 		}
 		return errors.Wrap(err, "unknown error occurred")
@@ -121,7 +121,7 @@ func resourceRoleDelete(d *schema.ResourceData, _m interface{}) error {
 	}
 	resp, err := m.Submitter.Submit(context.TODO(), env, true)
 	if err != nil {
-		if txErr, ok := err.(connector.TxFailure); ok {
+		if txErr, ok := err.(submit.TxFailure); ok {
 			return errors.Wrapf(err, "failed to submit tx: %s %q", txErr.TransactionResultCode, txErr.OperationResultCodes)
 		}
 		return errors.Wrap(err, "unknown error occurred")
