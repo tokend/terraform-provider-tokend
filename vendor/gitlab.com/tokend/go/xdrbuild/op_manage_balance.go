@@ -8,6 +8,7 @@ import (
 type CreateBalance struct {
 	Destination string
 	AssetCode   string
+	Additional  bool
 }
 
 func (op *CreateBalance) XDR() (*xdr.Operation, error) {
@@ -22,6 +23,7 @@ func (op *CreateBalance) XDR() (*xdr.Operation, error) {
 			CreateBalanceOp: &xdr.CreateBalanceOp{
 				Destination: dest,
 				Asset:       xdr.AssetCode(op.AssetCode),
+				Additional:  op.Additional,
 			},
 		},
 	}, nil

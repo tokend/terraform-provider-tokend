@@ -40,7 +40,7 @@ func (p *InfoPathParams) Path() string {
 
 func (c *Connector) TXBuilder() (*xdrbuild.Builder, error) {
 	var info regources.IngesterStateResponse
-	err := c.One("/horizon/info", &InfoPathParams{}).ValidateResponses(false).Get(&info)
+	err := c.One("/info", &InfoPathParams{}).ValidateResponses(false).Get(&info)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to get info")
 	}

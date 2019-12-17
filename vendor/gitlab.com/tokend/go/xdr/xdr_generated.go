@@ -1,4 +1,4 @@
-// revision: c39f7fa6d18007af2a70028c2aecfd29e1208d7f
+// revision: d5b5a847c3cab3836b5b24b2073b31744a6c5e08
 // branch:   refactor/internal_work
 // Package xdr is generated from:
 //
@@ -5745,6 +5745,8 @@ func NewCreateBalanceOpExt(v LedgerVersion, value interface{}) (result CreateBal
 //        //: Defines an asset code of the balance to which `action` will be applied
 //        AssetCode asset;
 //
+//        bool additional;
+//
 //        union switch (LedgerVersion v)
 //        {
 //        case EMPTY_VERSION:
@@ -5756,6 +5758,7 @@ func NewCreateBalanceOpExt(v LedgerVersion, value interface{}) (result CreateBal
 type CreateBalanceOp struct {
 	Destination AccountId          `json:"destination,omitempty"`
 	Asset       AssetCode          `json:"asset,omitempty"`
+	Additional  bool               `json:"additional,omitempty"`
 	Ext         CreateBalanceOpExt `json:"ext,omitempty"`
 }
 
@@ -5773,7 +5776,8 @@ type CreateBalanceOp struct {
 //        //: Cannot find an asset with a provided asset code
 //        ASSET_NOT_FOUND = -2,
 //        //: Cannot find an account provided by the `destination` AccountID
-//        DESTINATION_NOT_FOUND = -3
+//        DESTINATION_NOT_FOUND = -3,
+//        ALREADY_EXISTS = -4
 //    };
 //
 type CreateBalanceResultCode int32
@@ -5783,6 +5787,7 @@ const (
 	CreateBalanceResultCodeInvalidAsset        CreateBalanceResultCode = -1
 	CreateBalanceResultCodeAssetNotFound       CreateBalanceResultCode = -2
 	CreateBalanceResultCodeDestinationNotFound CreateBalanceResultCode = -3
+	CreateBalanceResultCodeAlreadyExists       CreateBalanceResultCode = -4
 )
 
 var CreateBalanceResultCodeAll = []CreateBalanceResultCode{
@@ -5790,6 +5795,7 @@ var CreateBalanceResultCodeAll = []CreateBalanceResultCode{
 	CreateBalanceResultCodeInvalidAsset,
 	CreateBalanceResultCodeAssetNotFound,
 	CreateBalanceResultCodeDestinationNotFound,
+	CreateBalanceResultCodeAlreadyExists,
 }
 
 var createBalanceResultCodeMap = map[int32]string{
@@ -5797,6 +5803,7 @@ var createBalanceResultCodeMap = map[int32]string{
 	-1: "CreateBalanceResultCodeInvalidAsset",
 	-2: "CreateBalanceResultCodeAssetNotFound",
 	-3: "CreateBalanceResultCodeDestinationNotFound",
+	-4: "CreateBalanceResultCodeAlreadyExists",
 }
 
 var createBalanceResultCodeShortMap = map[int32]string{
@@ -5804,6 +5811,7 @@ var createBalanceResultCodeShortMap = map[int32]string{
 	-1: "invalid_asset",
 	-2: "asset_not_found",
 	-3: "destination_not_found",
+	-4: "already_exists",
 }
 
 var createBalanceResultCodeRevMap = map[string]int32{
@@ -5811,6 +5819,7 @@ var createBalanceResultCodeRevMap = map[string]int32{
 	"CreateBalanceResultCodeInvalidAsset":        -1,
 	"CreateBalanceResultCodeAssetNotFound":       -2,
 	"CreateBalanceResultCodeDestinationNotFound": -3,
+	"CreateBalanceResultCodeAlreadyExists":       -4,
 }
 
 // ValidEnum validates a proposed value for this enum.  Implements
@@ -6232,16 +6241,18 @@ type CreateReviewableRequestOp struct {
 //
 //        INVALID_OPERATION = -1,
 //        TASKS_NOT_FOUND = -2,
-//        TOO_MANY_OPERATIONS = -3
+//        TOO_MANY_OPERATIONS = -3,
+//        SECURITY_TYPE_MISMATCH = -4
 //    };
 //
 type CreateReviewableRequestResultCode int32
 
 const (
-	CreateReviewableRequestResultCodeSuccess           CreateReviewableRequestResultCode = 0
-	CreateReviewableRequestResultCodeInvalidOperation  CreateReviewableRequestResultCode = -1
-	CreateReviewableRequestResultCodeTasksNotFound     CreateReviewableRequestResultCode = -2
-	CreateReviewableRequestResultCodeTooManyOperations CreateReviewableRequestResultCode = -3
+	CreateReviewableRequestResultCodeSuccess              CreateReviewableRequestResultCode = 0
+	CreateReviewableRequestResultCodeInvalidOperation     CreateReviewableRequestResultCode = -1
+	CreateReviewableRequestResultCodeTasksNotFound        CreateReviewableRequestResultCode = -2
+	CreateReviewableRequestResultCodeTooManyOperations    CreateReviewableRequestResultCode = -3
+	CreateReviewableRequestResultCodeSecurityTypeMismatch CreateReviewableRequestResultCode = -4
 )
 
 var CreateReviewableRequestResultCodeAll = []CreateReviewableRequestResultCode{
@@ -6249,6 +6260,7 @@ var CreateReviewableRequestResultCodeAll = []CreateReviewableRequestResultCode{
 	CreateReviewableRequestResultCodeInvalidOperation,
 	CreateReviewableRequestResultCodeTasksNotFound,
 	CreateReviewableRequestResultCodeTooManyOperations,
+	CreateReviewableRequestResultCodeSecurityTypeMismatch,
 }
 
 var createReviewableRequestResultCodeMap = map[int32]string{
@@ -6256,6 +6268,7 @@ var createReviewableRequestResultCodeMap = map[int32]string{
 	-1: "CreateReviewableRequestResultCodeInvalidOperation",
 	-2: "CreateReviewableRequestResultCodeTasksNotFound",
 	-3: "CreateReviewableRequestResultCodeTooManyOperations",
+	-4: "CreateReviewableRequestResultCodeSecurityTypeMismatch",
 }
 
 var createReviewableRequestResultCodeShortMap = map[int32]string{
@@ -6263,13 +6276,15 @@ var createReviewableRequestResultCodeShortMap = map[int32]string{
 	-1: "invalid_operation",
 	-2: "tasks_not_found",
 	-3: "too_many_operations",
+	-4: "security_type_mismatch",
 }
 
 var createReviewableRequestResultCodeRevMap = map[string]int32{
-	"CreateReviewableRequestResultCodeSuccess":           0,
-	"CreateReviewableRequestResultCodeInvalidOperation":  -1,
-	"CreateReviewableRequestResultCodeTasksNotFound":     -2,
-	"CreateReviewableRequestResultCodeTooManyOperations": -3,
+	"CreateReviewableRequestResultCodeSuccess":              0,
+	"CreateReviewableRequestResultCodeInvalidOperation":     -1,
+	"CreateReviewableRequestResultCodeTasksNotFound":        -2,
+	"CreateReviewableRequestResultCodeTooManyOperations":    -3,
+	"CreateReviewableRequestResultCodeSecurityTypeMismatch": -4,
 }
 
 // ValidEnum validates a proposed value for this enum.  Implements
@@ -11853,17 +11868,19 @@ type UpdateReviewableRequestOp struct {
 //        INVALID_OPERATION = -1,
 //        TASKS_NOT_FOUND = -2,
 //        TOO_MANY_OPERATIONS = -3,
-//        NOT_FOUND = -4
+//        NOT_FOUND = -4,
+//        SECURITY_TYPE_MISMATCH = -5
 //    };
 //
 type UpdateReviewableRequestResultCode int32
 
 const (
-	UpdateReviewableRequestResultCodeSuccess           UpdateReviewableRequestResultCode = 0
-	UpdateReviewableRequestResultCodeInvalidOperation  UpdateReviewableRequestResultCode = -1
-	UpdateReviewableRequestResultCodeTasksNotFound     UpdateReviewableRequestResultCode = -2
-	UpdateReviewableRequestResultCodeTooManyOperations UpdateReviewableRequestResultCode = -3
-	UpdateReviewableRequestResultCodeNotFound          UpdateReviewableRequestResultCode = -4
+	UpdateReviewableRequestResultCodeSuccess              UpdateReviewableRequestResultCode = 0
+	UpdateReviewableRequestResultCodeInvalidOperation     UpdateReviewableRequestResultCode = -1
+	UpdateReviewableRequestResultCodeTasksNotFound        UpdateReviewableRequestResultCode = -2
+	UpdateReviewableRequestResultCodeTooManyOperations    UpdateReviewableRequestResultCode = -3
+	UpdateReviewableRequestResultCodeNotFound             UpdateReviewableRequestResultCode = -4
+	UpdateReviewableRequestResultCodeSecurityTypeMismatch UpdateReviewableRequestResultCode = -5
 )
 
 var UpdateReviewableRequestResultCodeAll = []UpdateReviewableRequestResultCode{
@@ -11872,6 +11889,7 @@ var UpdateReviewableRequestResultCodeAll = []UpdateReviewableRequestResultCode{
 	UpdateReviewableRequestResultCodeTasksNotFound,
 	UpdateReviewableRequestResultCodeTooManyOperations,
 	UpdateReviewableRequestResultCodeNotFound,
+	UpdateReviewableRequestResultCodeSecurityTypeMismatch,
 }
 
 var updateReviewableRequestResultCodeMap = map[int32]string{
@@ -11880,6 +11898,7 @@ var updateReviewableRequestResultCodeMap = map[int32]string{
 	-2: "UpdateReviewableRequestResultCodeTasksNotFound",
 	-3: "UpdateReviewableRequestResultCodeTooManyOperations",
 	-4: "UpdateReviewableRequestResultCodeNotFound",
+	-5: "UpdateReviewableRequestResultCodeSecurityTypeMismatch",
 }
 
 var updateReviewableRequestResultCodeShortMap = map[int32]string{
@@ -11888,14 +11907,16 @@ var updateReviewableRequestResultCodeShortMap = map[int32]string{
 	-2: "tasks_not_found",
 	-3: "too_many_operations",
 	-4: "not_found",
+	-5: "security_type_mismatch",
 }
 
 var updateReviewableRequestResultCodeRevMap = map[string]int32{
-	"UpdateReviewableRequestResultCodeSuccess":           0,
-	"UpdateReviewableRequestResultCodeInvalidOperation":  -1,
-	"UpdateReviewableRequestResultCodeTasksNotFound":     -2,
-	"UpdateReviewableRequestResultCodeTooManyOperations": -3,
-	"UpdateReviewableRequestResultCodeNotFound":          -4,
+	"UpdateReviewableRequestResultCodeSuccess":              0,
+	"UpdateReviewableRequestResultCodeInvalidOperation":     -1,
+	"UpdateReviewableRequestResultCodeTasksNotFound":        -2,
+	"UpdateReviewableRequestResultCodeTooManyOperations":    -3,
+	"UpdateReviewableRequestResultCodeNotFound":             -4,
+	"UpdateReviewableRequestResultCodeSecurityTypeMismatch": -5,
 }
 
 // ValidEnum validates a proposed value for this enum.  Implements
@@ -14172,35 +14193,41 @@ type CustomRuleResource struct {
 //
 //   enum RuleResourceType
 //    {
-//        LEDGER_ENTRY = 0,
-//        CUSTOM = 1
+//        ANY = 1,
+//        LEDGER_ENTRY = 2,
+//        CUSTOM = 3
 //    };
 //
 type RuleResourceType int32
 
 const (
-	RuleResourceTypeLedgerEntry RuleResourceType = 0
-	RuleResourceTypeCustom      RuleResourceType = 1
+	RuleResourceTypeAny         RuleResourceType = 1
+	RuleResourceTypeLedgerEntry RuleResourceType = 2
+	RuleResourceTypeCustom      RuleResourceType = 3
 )
 
 var RuleResourceTypeAll = []RuleResourceType{
+	RuleResourceTypeAny,
 	RuleResourceTypeLedgerEntry,
 	RuleResourceTypeCustom,
 }
 
 var ruleResourceTypeMap = map[int32]string{
-	0: "RuleResourceTypeLedgerEntry",
-	1: "RuleResourceTypeCustom",
+	1: "RuleResourceTypeAny",
+	2: "RuleResourceTypeLedgerEntry",
+	3: "RuleResourceTypeCustom",
 }
 
 var ruleResourceTypeShortMap = map[int32]string{
-	0: "ledger_entry",
-	1: "custom",
+	1: "any",
+	2: "ledger_entry",
+	3: "custom",
 }
 
 var ruleResourceTypeRevMap = map[string]int32{
-	"RuleResourceTypeLedgerEntry": 0,
-	"RuleResourceTypeCustom":      1,
+	"RuleResourceTypeAny":         1,
+	"RuleResourceTypeLedgerEntry": 2,
+	"RuleResourceTypeCustom":      3,
 }
 
 // ValidEnum validates a proposed value for this enum.  Implements
@@ -14269,16 +14296,21 @@ func (e *RuleResourceType) UnmarshalJSON(data []byte) error {
 //
 //   union RuleResource switch(RuleResourceType resourceType)
 //    {
+//        case ANY:
+//            void;
 //        case LEDGER_ENTRY:
 //            InternalRuleResource internalRuleResource;
 //        case CUSTOM:
 //            CustomRuleResource customRuleResource;
+//        default:
+//            EmptyExt ext;
 //    };
 //
 type RuleResource struct {
 	ResourceType         RuleResourceType      `json:"resourceType,omitempty"`
 	InternalRuleResource *InternalRuleResource `json:"internalRuleResource,omitempty"`
 	CustomRuleResource   *CustomRuleResource   `json:"customRuleResource,omitempty"`
+	Ext                  *EmptyExt             `json:"ext,omitempty"`
 }
 
 // SwitchFieldName returns the field name in which this union's
@@ -14291,18 +14323,23 @@ func (u RuleResource) SwitchFieldName() string {
 // the value for an instance of RuleResource
 func (u RuleResource) ArmForSwitch(sw int32) (string, bool) {
 	switch RuleResourceType(sw) {
+	case RuleResourceTypeAny:
+		return "", true
 	case RuleResourceTypeLedgerEntry:
 		return "InternalRuleResource", true
 	case RuleResourceTypeCustom:
 		return "CustomRuleResource", true
+	default:
+		return "Ext", true
 	}
-	return "-", false
 }
 
 // NewRuleResource creates a new  RuleResource.
 func NewRuleResource(resourceType RuleResourceType, value interface{}) (result RuleResource, err error) {
 	result.ResourceType = resourceType
 	switch RuleResourceType(resourceType) {
+	case RuleResourceTypeAny:
+		// void
 	case RuleResourceTypeLedgerEntry:
 		tv, ok := value.(InternalRuleResource)
 		if !ok {
@@ -14317,6 +14354,13 @@ func NewRuleResource(resourceType RuleResourceType, value interface{}) (result R
 			return
 		}
 		result.CustomRuleResource = &tv
+	default:
+		tv, ok := value.(EmptyExt)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be EmptyExt")
+			return
+		}
+		result.Ext = &tv
 	}
 	return
 }
@@ -14365,6 +14409,31 @@ func (u RuleResource) GetCustomRuleResource() (result CustomRuleResource, ok boo
 
 	if armName == "CustomRuleResource" {
 		result = *u.CustomRuleResource
+		ok = true
+	}
+
+	return
+}
+
+// MustExt retrieves the Ext value from the union,
+// panicing if the value is not set.
+func (u RuleResource) MustExt() EmptyExt {
+	val, ok := u.GetExt()
+
+	if !ok {
+		panic("arm Ext is not set")
+	}
+
+	return val
+}
+
+// GetExt retrieves the Ext value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u RuleResource) GetExt() (result EmptyExt, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.ResourceType))
+
+	if armName == "Ext" {
+		result = *u.Ext
 		ok = true
 	}
 
@@ -14489,8 +14558,6 @@ type InternalRuleResourceData struct {
 //
 //            EmptyExt ext;
 //        } asset;
-//    case ANY:
-//        void;
 //    case ROLE:
 //        //: Describes properties that are equal to managed signer role entry fields
 //        struct
@@ -14554,8 +14621,6 @@ func (u InternalRuleResource) ArmForSwitch(sw int32) (string, bool) {
 		return "ReviewableRequest", true
 	case LedgerEntryTypeAsset:
 		return "Asset", true
-	case LedgerEntryTypeAny:
-		return "", true
 	case LedgerEntryTypeRole:
 		return "Role", true
 	case LedgerEntryTypeSigner:
@@ -14587,8 +14652,6 @@ func NewInternalRuleResource(aType LedgerEntryType, value interface{}) (result I
 			return
 		}
 		result.Asset = &tv
-	case LedgerEntryTypeAny:
-		// void
 	case LedgerEntryTypeRole:
 		tv, ok := value.(InternalRuleResourceRole)
 		if !ok {
@@ -15132,6 +15195,8 @@ type RuleActionReview struct {
 //
 //   union RuleAction switch (RuleActionType type)
 //    {
+//    case ANY:
+//        void;
 //    case CREATE:
 //        struct {
 //            bool forOther;
@@ -15228,6 +15293,8 @@ func (u RuleAction) SwitchFieldName() string {
 // the value for an instance of RuleAction
 func (u RuleAction) ArmForSwitch(sw int32) (string, bool) {
 	switch RuleActionType(sw) {
+	case RuleActionTypeAny:
+		return "", true
 	case RuleActionTypeCreate:
 		return "Create", true
 	case RuleActionTypeUpdate:
@@ -15259,6 +15326,8 @@ func (u RuleAction) ArmForSwitch(sw int32) (string, bool) {
 func NewRuleAction(aType RuleActionType, value interface{}) (result RuleAction, err error) {
 	result.Type = aType
 	switch RuleActionType(aType) {
+	case RuleActionTypeAny:
+		// void
 	case RuleActionTypeCreate:
 		tv, ok := value.(RuleActionCreate)
 		if !ok {
@@ -19477,42 +19546,36 @@ func (u PublicKey) GetEd25519() (result Uint256, ok bool) {
 //
 //   enum LedgerEntryType
 //    {
-//        TRANSACTION = 0, // is used for account rule resource
-//        ANY = 1, // is used for rules
-//        ACCOUNT = 2,
-//        SIGNER = 3,
-//        BALANCE = 5,
-//        DATA = 6,
-//        ASSET = 7,
-//        REFERENCE_ENTRY = 8,
-//        REVIEWABLE_REQUEST = 15,
-//    	ACCOUNT_KYC = 18,
-//        KEY_VALUE = 20,
-//        RULE = 30,
-//        ROLE = 31
+//        ACCOUNT = 1,
+//        SIGNER = 2,
+//        BALANCE = 3,
+//        DATA = 4,
+//        ASSET = 5,
+//        REFERENCE_ENTRY = 6,
+//        REVIEWABLE_REQUEST = 7,
+//    	ACCOUNT_KYC = 8,
+//        KEY_VALUE = 9,
+//        RULE = 10,
+//        ROLE = 11
 //    };
 //
 type LedgerEntryType int32
 
 const (
-	LedgerEntryTypeTransaction       LedgerEntryType = 0
-	LedgerEntryTypeAny               LedgerEntryType = 1
-	LedgerEntryTypeAccount           LedgerEntryType = 2
-	LedgerEntryTypeSigner            LedgerEntryType = 3
-	LedgerEntryTypeBalance           LedgerEntryType = 5
-	LedgerEntryTypeData              LedgerEntryType = 6
-	LedgerEntryTypeAsset             LedgerEntryType = 7
-	LedgerEntryTypeReferenceEntry    LedgerEntryType = 8
-	LedgerEntryTypeReviewableRequest LedgerEntryType = 15
-	LedgerEntryTypeAccountKyc        LedgerEntryType = 18
-	LedgerEntryTypeKeyValue          LedgerEntryType = 20
-	LedgerEntryTypeRule              LedgerEntryType = 30
-	LedgerEntryTypeRole              LedgerEntryType = 31
+	LedgerEntryTypeAccount           LedgerEntryType = 1
+	LedgerEntryTypeSigner            LedgerEntryType = 2
+	LedgerEntryTypeBalance           LedgerEntryType = 3
+	LedgerEntryTypeData              LedgerEntryType = 4
+	LedgerEntryTypeAsset             LedgerEntryType = 5
+	LedgerEntryTypeReferenceEntry    LedgerEntryType = 6
+	LedgerEntryTypeReviewableRequest LedgerEntryType = 7
+	LedgerEntryTypeAccountKyc        LedgerEntryType = 8
+	LedgerEntryTypeKeyValue          LedgerEntryType = 9
+	LedgerEntryTypeRule              LedgerEntryType = 10
+	LedgerEntryTypeRole              LedgerEntryType = 11
 )
 
 var LedgerEntryTypeAll = []LedgerEntryType{
-	LedgerEntryTypeTransaction,
-	LedgerEntryTypeAny,
 	LedgerEntryTypeAccount,
 	LedgerEntryTypeSigner,
 	LedgerEntryTypeBalance,
@@ -19527,51 +19590,45 @@ var LedgerEntryTypeAll = []LedgerEntryType{
 }
 
 var ledgerEntryTypeMap = map[int32]string{
-	0:  "LedgerEntryTypeTransaction",
-	1:  "LedgerEntryTypeAny",
-	2:  "LedgerEntryTypeAccount",
-	3:  "LedgerEntryTypeSigner",
-	5:  "LedgerEntryTypeBalance",
-	6:  "LedgerEntryTypeData",
-	7:  "LedgerEntryTypeAsset",
-	8:  "LedgerEntryTypeReferenceEntry",
-	15: "LedgerEntryTypeReviewableRequest",
-	18: "LedgerEntryTypeAccountKyc",
-	20: "LedgerEntryTypeKeyValue",
-	30: "LedgerEntryTypeRule",
-	31: "LedgerEntryTypeRole",
+	1:  "LedgerEntryTypeAccount",
+	2:  "LedgerEntryTypeSigner",
+	3:  "LedgerEntryTypeBalance",
+	4:  "LedgerEntryTypeData",
+	5:  "LedgerEntryTypeAsset",
+	6:  "LedgerEntryTypeReferenceEntry",
+	7:  "LedgerEntryTypeReviewableRequest",
+	8:  "LedgerEntryTypeAccountKyc",
+	9:  "LedgerEntryTypeKeyValue",
+	10: "LedgerEntryTypeRule",
+	11: "LedgerEntryTypeRole",
 }
 
 var ledgerEntryTypeShortMap = map[int32]string{
-	0:  "transaction",
-	1:  "any",
-	2:  "account",
-	3:  "signer",
-	5:  "balance",
-	6:  "data",
-	7:  "asset",
-	8:  "reference_entry",
-	15: "reviewable_request",
-	18: "account_kyc",
-	20: "key_value",
-	30: "rule",
-	31: "role",
+	1:  "account",
+	2:  "signer",
+	3:  "balance",
+	4:  "data",
+	5:  "asset",
+	6:  "reference_entry",
+	7:  "reviewable_request",
+	8:  "account_kyc",
+	9:  "key_value",
+	10: "rule",
+	11: "role",
 }
 
 var ledgerEntryTypeRevMap = map[string]int32{
-	"LedgerEntryTypeTransaction":       0,
-	"LedgerEntryTypeAny":               1,
-	"LedgerEntryTypeAccount":           2,
-	"LedgerEntryTypeSigner":            3,
-	"LedgerEntryTypeBalance":           5,
-	"LedgerEntryTypeData":              6,
-	"LedgerEntryTypeAsset":             7,
-	"LedgerEntryTypeReferenceEntry":    8,
-	"LedgerEntryTypeReviewableRequest": 15,
-	"LedgerEntryTypeAccountKyc":        18,
-	"LedgerEntryTypeKeyValue":          20,
-	"LedgerEntryTypeRule":              30,
-	"LedgerEntryTypeRole":              31,
+	"LedgerEntryTypeAccount":           1,
+	"LedgerEntryTypeSigner":            2,
+	"LedgerEntryTypeBalance":           3,
+	"LedgerEntryTypeData":              4,
+	"LedgerEntryTypeAsset":             5,
+	"LedgerEntryTypeReferenceEntry":    6,
+	"LedgerEntryTypeReviewableRequest": 7,
+	"LedgerEntryTypeAccountKyc":        8,
+	"LedgerEntryTypeKeyValue":          9,
+	"LedgerEntryTypeRule":              10,
+	"LedgerEntryTypeRole":              11,
 }
 
 // ValidEnum validates a proposed value for this enum.  Implements
@@ -19932,83 +19989,83 @@ type Fee struct {
 //   enum OperationType
 //    {
 //        CREATE_ACCOUNT = 1,
-//        ISSUANCE = 3,
-//        DESTRUCTION = 7,
+//        PUT_KEY_VALUE = 2,
+//        REMOVE_KEY_VALUE = 3,
+//        CREATE_ASSET = 4,
+//        UPDATE_ASSET = 5,
+//        PAYMENT = 6,
+//        ISSUANCE = 7,
+//        DESTRUCTION = 8,
 //        CREATE_BALANCE = 9,
-//        CREATE_ASSET = 11,
-//        UPDATE_ASSET = 12,
-//        CREATE_DATA = 14,
-//        UPDATE_DATA = 15,
-//        REMOVE_DATA = 16,
-//        REVIEW_REQUEST = 18,
-//    	CHANGE_ACCOUNT_ROLES = 22,
-//        PAYMENT = 23,
-//        PUT_KEY_VALUE = 27,
-//        REMOVE_KEY_VALUE = 28,
-//        CREATE_SIGNER = 30,
-//        UPDATE_SIGNER = 31,
-//        REMOVE_SIGNER = 32,
-//        CREATE_ROLE = 39,
-//        UPDATE_ROLE = 40,
-//        REMOVE_ROLE = 41,
-//        CREATE_RULE = 42,
-//        UPDATE_RULE = 43,
-//        REMOVE_RULE = 44,
-//        CREATE_REVIEWABLE_REQUEST = 45,
-//        UPDATE_REVIEWABLE_REQUEST = 46,
-//        REMOVE_REVIEWABLE_REQUEST = 47,
-//        INITIATE_KYC_RECOVERY = 48,
-//        KYC_RECOVERY = 49
+//        CREATE_DATA = 10,
+//        UPDATE_DATA = 11,
+//        REMOVE_DATA = 12,
+//        REVIEW_REQUEST = 13,
+//    	CHANGE_ACCOUNT_ROLES = 14,
+//        CREATE_SIGNER = 15,
+//        UPDATE_SIGNER = 16,
+//        REMOVE_SIGNER = 17,
+//        CREATE_ROLE = 18,
+//        UPDATE_ROLE = 19,
+//        REMOVE_ROLE = 20,
+//        CREATE_RULE = 21,
+//        UPDATE_RULE = 22,
+//        REMOVE_RULE = 23,
+//        CREATE_REVIEWABLE_REQUEST = 24,
+//        UPDATE_REVIEWABLE_REQUEST = 25,
+//        REMOVE_REVIEWABLE_REQUEST = 26,
+//        INITIATE_KYC_RECOVERY = 27,
+//        KYC_RECOVERY = 28
 //    };
 //
 type OperationType int32
 
 const (
 	OperationTypeCreateAccount           OperationType = 1
-	OperationTypeIssuance                OperationType = 3
-	OperationTypeDestruction             OperationType = 7
+	OperationTypePutKeyValue             OperationType = 2
+	OperationTypeRemoveKeyValue          OperationType = 3
+	OperationTypeCreateAsset             OperationType = 4
+	OperationTypeUpdateAsset             OperationType = 5
+	OperationTypePayment                 OperationType = 6
+	OperationTypeIssuance                OperationType = 7
+	OperationTypeDestruction             OperationType = 8
 	OperationTypeCreateBalance           OperationType = 9
-	OperationTypeCreateAsset             OperationType = 11
-	OperationTypeUpdateAsset             OperationType = 12
-	OperationTypeCreateData              OperationType = 14
-	OperationTypeUpdateData              OperationType = 15
-	OperationTypeRemoveData              OperationType = 16
-	OperationTypeReviewRequest           OperationType = 18
-	OperationTypeChangeAccountRoles      OperationType = 22
-	OperationTypePayment                 OperationType = 23
-	OperationTypePutKeyValue             OperationType = 27
-	OperationTypeRemoveKeyValue          OperationType = 28
-	OperationTypeCreateSigner            OperationType = 30
-	OperationTypeUpdateSigner            OperationType = 31
-	OperationTypeRemoveSigner            OperationType = 32
-	OperationTypeCreateRole              OperationType = 39
-	OperationTypeUpdateRole              OperationType = 40
-	OperationTypeRemoveRole              OperationType = 41
-	OperationTypeCreateRule              OperationType = 42
-	OperationTypeUpdateRule              OperationType = 43
-	OperationTypeRemoveRule              OperationType = 44
-	OperationTypeCreateReviewableRequest OperationType = 45
-	OperationTypeUpdateReviewableRequest OperationType = 46
-	OperationTypeRemoveReviewableRequest OperationType = 47
-	OperationTypeInitiateKycRecovery     OperationType = 48
-	OperationTypeKycRecovery             OperationType = 49
+	OperationTypeCreateData              OperationType = 10
+	OperationTypeUpdateData              OperationType = 11
+	OperationTypeRemoveData              OperationType = 12
+	OperationTypeReviewRequest           OperationType = 13
+	OperationTypeChangeAccountRoles      OperationType = 14
+	OperationTypeCreateSigner            OperationType = 15
+	OperationTypeUpdateSigner            OperationType = 16
+	OperationTypeRemoveSigner            OperationType = 17
+	OperationTypeCreateRole              OperationType = 18
+	OperationTypeUpdateRole              OperationType = 19
+	OperationTypeRemoveRole              OperationType = 20
+	OperationTypeCreateRule              OperationType = 21
+	OperationTypeUpdateRule              OperationType = 22
+	OperationTypeRemoveRule              OperationType = 23
+	OperationTypeCreateReviewableRequest OperationType = 24
+	OperationTypeUpdateReviewableRequest OperationType = 25
+	OperationTypeRemoveReviewableRequest OperationType = 26
+	OperationTypeInitiateKycRecovery     OperationType = 27
+	OperationTypeKycRecovery             OperationType = 28
 )
 
 var OperationTypeAll = []OperationType{
 	OperationTypeCreateAccount,
+	OperationTypePutKeyValue,
+	OperationTypeRemoveKeyValue,
+	OperationTypeCreateAsset,
+	OperationTypeUpdateAsset,
+	OperationTypePayment,
 	OperationTypeIssuance,
 	OperationTypeDestruction,
 	OperationTypeCreateBalance,
-	OperationTypeCreateAsset,
-	OperationTypeUpdateAsset,
 	OperationTypeCreateData,
 	OperationTypeUpdateData,
 	OperationTypeRemoveData,
 	OperationTypeReviewRequest,
 	OperationTypeChangeAccountRoles,
-	OperationTypePayment,
-	OperationTypePutKeyValue,
-	OperationTypeRemoveKeyValue,
 	OperationTypeCreateSigner,
 	OperationTypeUpdateSigner,
 	OperationTypeRemoveSigner,
@@ -20027,95 +20084,95 @@ var OperationTypeAll = []OperationType{
 
 var operationTypeMap = map[int32]string{
 	1:  "OperationTypeCreateAccount",
-	3:  "OperationTypeIssuance",
-	7:  "OperationTypeDestruction",
+	2:  "OperationTypePutKeyValue",
+	3:  "OperationTypeRemoveKeyValue",
+	4:  "OperationTypeCreateAsset",
+	5:  "OperationTypeUpdateAsset",
+	6:  "OperationTypePayment",
+	7:  "OperationTypeIssuance",
+	8:  "OperationTypeDestruction",
 	9:  "OperationTypeCreateBalance",
-	11: "OperationTypeCreateAsset",
-	12: "OperationTypeUpdateAsset",
-	14: "OperationTypeCreateData",
-	15: "OperationTypeUpdateData",
-	16: "OperationTypeRemoveData",
-	18: "OperationTypeReviewRequest",
-	22: "OperationTypeChangeAccountRoles",
-	23: "OperationTypePayment",
-	27: "OperationTypePutKeyValue",
-	28: "OperationTypeRemoveKeyValue",
-	30: "OperationTypeCreateSigner",
-	31: "OperationTypeUpdateSigner",
-	32: "OperationTypeRemoveSigner",
-	39: "OperationTypeCreateRole",
-	40: "OperationTypeUpdateRole",
-	41: "OperationTypeRemoveRole",
-	42: "OperationTypeCreateRule",
-	43: "OperationTypeUpdateRule",
-	44: "OperationTypeRemoveRule",
-	45: "OperationTypeCreateReviewableRequest",
-	46: "OperationTypeUpdateReviewableRequest",
-	47: "OperationTypeRemoveReviewableRequest",
-	48: "OperationTypeInitiateKycRecovery",
-	49: "OperationTypeKycRecovery",
+	10: "OperationTypeCreateData",
+	11: "OperationTypeUpdateData",
+	12: "OperationTypeRemoveData",
+	13: "OperationTypeReviewRequest",
+	14: "OperationTypeChangeAccountRoles",
+	15: "OperationTypeCreateSigner",
+	16: "OperationTypeUpdateSigner",
+	17: "OperationTypeRemoveSigner",
+	18: "OperationTypeCreateRole",
+	19: "OperationTypeUpdateRole",
+	20: "OperationTypeRemoveRole",
+	21: "OperationTypeCreateRule",
+	22: "OperationTypeUpdateRule",
+	23: "OperationTypeRemoveRule",
+	24: "OperationTypeCreateReviewableRequest",
+	25: "OperationTypeUpdateReviewableRequest",
+	26: "OperationTypeRemoveReviewableRequest",
+	27: "OperationTypeInitiateKycRecovery",
+	28: "OperationTypeKycRecovery",
 }
 
 var operationTypeShortMap = map[int32]string{
 	1:  "create_account",
-	3:  "issuance",
-	7:  "destruction",
+	2:  "put_key_value",
+	3:  "remove_key_value",
+	4:  "create_asset",
+	5:  "update_asset",
+	6:  "payment",
+	7:  "issuance",
+	8:  "destruction",
 	9:  "create_balance",
-	11: "create_asset",
-	12: "update_asset",
-	14: "create_data",
-	15: "update_data",
-	16: "remove_data",
-	18: "review_request",
-	22: "change_account_roles",
-	23: "payment",
-	27: "put_key_value",
-	28: "remove_key_value",
-	30: "create_signer",
-	31: "update_signer",
-	32: "remove_signer",
-	39: "create_role",
-	40: "update_role",
-	41: "remove_role",
-	42: "create_rule",
-	43: "update_rule",
-	44: "remove_rule",
-	45: "create_reviewable_request",
-	46: "update_reviewable_request",
-	47: "remove_reviewable_request",
-	48: "initiate_kyc_recovery",
-	49: "kyc_recovery",
+	10: "create_data",
+	11: "update_data",
+	12: "remove_data",
+	13: "review_request",
+	14: "change_account_roles",
+	15: "create_signer",
+	16: "update_signer",
+	17: "remove_signer",
+	18: "create_role",
+	19: "update_role",
+	20: "remove_role",
+	21: "create_rule",
+	22: "update_rule",
+	23: "remove_rule",
+	24: "create_reviewable_request",
+	25: "update_reviewable_request",
+	26: "remove_reviewable_request",
+	27: "initiate_kyc_recovery",
+	28: "kyc_recovery",
 }
 
 var operationTypeRevMap = map[string]int32{
 	"OperationTypeCreateAccount":           1,
-	"OperationTypeIssuance":                3,
-	"OperationTypeDestruction":             7,
+	"OperationTypePutKeyValue":             2,
+	"OperationTypeRemoveKeyValue":          3,
+	"OperationTypeCreateAsset":             4,
+	"OperationTypeUpdateAsset":             5,
+	"OperationTypePayment":                 6,
+	"OperationTypeIssuance":                7,
+	"OperationTypeDestruction":             8,
 	"OperationTypeCreateBalance":           9,
-	"OperationTypeCreateAsset":             11,
-	"OperationTypeUpdateAsset":             12,
-	"OperationTypeCreateData":              14,
-	"OperationTypeUpdateData":              15,
-	"OperationTypeRemoveData":              16,
-	"OperationTypeReviewRequest":           18,
-	"OperationTypeChangeAccountRoles":      22,
-	"OperationTypePayment":                 23,
-	"OperationTypePutKeyValue":             27,
-	"OperationTypeRemoveKeyValue":          28,
-	"OperationTypeCreateSigner":            30,
-	"OperationTypeUpdateSigner":            31,
-	"OperationTypeRemoveSigner":            32,
-	"OperationTypeCreateRole":              39,
-	"OperationTypeUpdateRole":              40,
-	"OperationTypeRemoveRole":              41,
-	"OperationTypeCreateRule":              42,
-	"OperationTypeUpdateRule":              43,
-	"OperationTypeRemoveRule":              44,
-	"OperationTypeCreateReviewableRequest": 45,
-	"OperationTypeUpdateReviewableRequest": 46,
-	"OperationTypeRemoveReviewableRequest": 47,
-	"OperationTypeInitiateKycRecovery":     48,
-	"OperationTypeKycRecovery":             49,
+	"OperationTypeCreateData":              10,
+	"OperationTypeUpdateData":              11,
+	"OperationTypeRemoveData":              12,
+	"OperationTypeReviewRequest":           13,
+	"OperationTypeChangeAccountRoles":      14,
+	"OperationTypeCreateSigner":            15,
+	"OperationTypeUpdateSigner":            16,
+	"OperationTypeRemoveSigner":            17,
+	"OperationTypeCreateRole":              18,
+	"OperationTypeUpdateRole":              19,
+	"OperationTypeRemoveRole":              20,
+	"OperationTypeCreateRule":              21,
+	"OperationTypeUpdateRule":              22,
+	"OperationTypeRemoveRule":              23,
+	"OperationTypeCreateReviewableRequest": 24,
+	"OperationTypeUpdateReviewableRequest": 25,
+	"OperationTypeRemoveReviewableRequest": 26,
+	"OperationTypeInitiateKycRecovery":     27,
+	"OperationTypeKycRecovery":             28,
 }
 
 // ValidEnum validates a proposed value for this enum.  Implements
@@ -20396,4 +20453,4 @@ func (u MovementDestination) GetBalanceId() (result BalanceId, ok bool) {
 }
 
 var fmtTest = fmt.Sprint("this is a dummy usage of fmt")
-var Revision = "c39f7fa6d18007af2a70028c2aecfd29e1208d7f"
+var Revision = "d5b5a847c3cab3836b5b24b2073b31744a6c5e08"

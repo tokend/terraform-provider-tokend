@@ -3,7 +3,7 @@ package xdr
 import "fmt"
 
 // LedgerKey implements the `Keyer` interface
-// Deprecated: LedgerKey is not fully // TODO implementation for all types, used in core
+// Must be implemented for all types
 func (entry *LedgerEntry) LedgerKey() LedgerKey {
 	var body interface{}
 
@@ -56,6 +56,11 @@ func (entry *LedgerEntry) LedgerKey() LedgerKey {
 		body = LedgerKeyBalance{
 			BalanceId: balance.BalanceId,
 			Ext:       LedgerKeyBalanceExt{},
+		}
+	case LedgerEntryTypeAccountKyc:
+		kyc := entry.Data.MustAccountKyc()
+		body = LedgerKeyAccountKyc{
+			AccountId: kyc.AccountId,
 		}
 	default:
 		panic(fmt.Errorf("unknown entry type: %v", entry.Data.Type))

@@ -292,24 +292,6 @@ var ruleschema = map[string]*schema.Schema{
 	},
 }
 
-func TestRules_Transaction(t *testing.T) {
-	c := map[string]interface{}{
-		"entry_type": "transaction",
-	}
-	expected := &xdr.RuleResource{
-		ResourceType: xdr.RuleResourceTypeLedgerEntry,
-		InternalRuleResource: &xdr.InternalRuleResource{
-			Type: xdr.LedgerEntryTypeTransaction,
-		},
-	}
-
-	resource := schema.TestResourceDataRaw(t, ruleschema, c)
-	got, err := RuleEntry(resource)
-
-	assert.NoError(t, err)
-	assert.EqualValues(t, expected, got)
-}
-
 func TestRules_Signer(t *testing.T) {
 	c := map[string]interface{}{
 		"resource_type": "ledger_entry",
@@ -428,6 +410,7 @@ func TestRules_ReviewableRequest(t *testing.T) {
 							ResourceType: xdr.RuleResourceTypeLedgerEntry,
 							InternalRuleResource: &xdr.InternalRuleResource{
 								Type: xdr.LedgerEntryTypeBalance,
+								Ext:  &xdr.EmptyExt{},
 							},
 						},
 						Action: xdr.RuleAction{

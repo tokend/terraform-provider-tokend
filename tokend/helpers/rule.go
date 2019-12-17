@@ -17,7 +17,6 @@ var RuleEntries = map[string]RuleEntryFunc{
 	"reviewable_request": ruleResourceReviewableRequest,
 	"asset":              ruleResourceAsset,
 	"balance":            ruleResourceBalance,
-	"transaction":        ruleResourceTransaction,
 	"role":               ruleResourceRole,
 	"signer":             ruleResourceSigner,
 	"key_value":          ruleResourceKeyValue,
@@ -89,15 +88,6 @@ func customRuleEntry(d Map) (*xdr.RuleResource, error) {
 		CustomRuleResource: &xdr.CustomRuleResource{
 			ResourceType:    xdr.Longstring(resourceType),
 			ResourcePayload: xdr.Longstring(resourcePayload),
-		},
-	}, nil
-}
-
-func ruleResourceTransaction(_ Map) (*xdr.RuleResource, error) {
-	return &xdr.RuleResource{
-		ResourceType: xdr.RuleResourceTypeLedgerEntry,
-		InternalRuleResource: &xdr.InternalRuleResource{
-			Type: xdr.LedgerEntryTypeTransaction,
 		},
 	}, nil
 }

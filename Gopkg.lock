@@ -745,7 +745,7 @@
 
 [[projects]]
   branch = "refactor/internal_work"
-  digest = "1:2f0bf3b8d7c8aa41ffc877cd6dade6b03abd514c8524f0b0f495a4487745768f"
+  digest = "1:10c961b8f40b99e59c50bde03881791a35a5440a6c18d355db5b5ad19f63680c"
   name = "gitlab.com/tokend/go"
   packages = [
     "amount",
@@ -761,7 +761,7 @@
     "xdrbuild/internal",
   ]
   pruneopts = "UT"
-  revision = "efc235130293e28a78b93f30eea2328ce0b40d31"
+  revision = "dca0f302c79d1af0f93c4d5a3bbe9e90552242ca"
 
 [[projects]]
   digest = "1:0cc74bfe93bf9807f21bd164dcdbe6fe8415f00803ac06fd455d8088fdffc0bf"

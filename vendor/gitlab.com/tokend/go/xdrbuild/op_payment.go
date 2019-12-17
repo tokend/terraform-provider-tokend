@@ -45,6 +45,7 @@ func (op *Payment) XDR() (*xdr.Operation, error) {
 }
 
 type CreatePaymentForBalanceOpts struct {
+	SourceAccountID      *string
 	SecurityType         uint32
 	SourceBalanceID      string
 	DestinationBalanceID string
@@ -75,7 +76,8 @@ func CreatePaymentForBalance(opts CreatePaymentForBalanceOpts) (*Payment, error)
 		return nil, errors.Wrap(err, "failed to set source balance id")
 	}
 
-	return &Payment{
+	p := &Payment{
+
 		SecurityType:    opts.SecurityType,
 		SourceBalanceID: sb,
 		Destination: xdr.MovementDestination{
@@ -96,10 +98,17 @@ func CreatePaymentForBalance(opts CreatePaymentForBalanceOpts) (*Payment, error)
 			},
 			SourcePaysForDest: opts.Fee.SourcePaysForDest,
 		},
-	}, nil
+	}
+
+	if opts.SourceAccountID != nil {
+		p.Source = *opts.SourceAccountID
+	}
+
+	return p, nil
 }
 
 type CreatePaymentForAccountOpts struct {
+	SourceAccountID      *string
 	SecurityType         uint32
 	SourceBalanceID      string
 	DestinationAccountID string
@@ -122,7 +131,7 @@ func CreatePaymentForAccount(opts CreatePaymentForAccountOpts) (*Payment, error)
 		return nil, errors.Wrap(err, "failed to get destination account id")
 	}
 
-	return &Payment{
+	p := &Payment{
 		SecurityType:    opts.SecurityType,
 		SourceBalanceID: sb,
 		Destination: xdr.MovementDestination{
@@ -143,5 +152,10 @@ func CreatePaymentForAccount(opts CreatePaymentForAccountOpts) (*Payment, error)
 			},
 			SourcePaysForDest: opts.Fee.SourcePaysForDest,
 		},
-	}, nil
+	}
+	if opts.SourceAccountID != nil {
+		p.Source = *opts.SourceAccountID
+	}
+
+	return p, nil
 }

@@ -54,6 +54,11 @@ func (r *RuleResource) Scan(src interface{}) error {
 	return safeBase64Scan(src, r)
 }
 
+// Scan reads from src into an RuleAction struct
+func (r *RuleAction) Scan(src interface{}) error {
+	return safeBase64Scan(src, r)
+}
+
 // safeBase64Scan scans from src (which should be either a []byte or string)
 // into dest by using `SafeUnmarshalBase64`.
 func safeBase64Scan(src, dest interface{}) error {
