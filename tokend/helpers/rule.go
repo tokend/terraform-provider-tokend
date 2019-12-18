@@ -21,9 +21,11 @@ var RuleEntries = map[string]RuleEntryFunc{
 	"signer":             ruleResourceSigner,
 	"key_value":          ruleResourceKeyValue,
 	"data":               ruleResourceData,
+	"account":            ruleResourceStub(xdr.LedgerEntryTypeAccount),
 }
 
 var reviewableRequestEntries = map[string]RuleEntryFunc{
+	"account":   ruleResourceStub(xdr.LedgerEntryTypeAccount),
 	"asset":     ruleResourceAsset,
 	"balance":   ruleResourceBalance,
 	"role":      ruleResourceRole,
@@ -160,6 +162,19 @@ func ruleResourceAsset(d Map) (*xdr.RuleResource, error) {
 		ResourceType:         xdr.RuleResourceTypeLedgerEntry,
 		InternalRuleResource: &internalResource,
 	}, nil
+}
+
+func ruleResourceStub(entryType xdr.LedgerEntryType) func(Map) (*xdr.RuleResource, error) {
+	return func(m Map) (resource *xdr.RuleResource, err error) {
+		var internalResource xdr.InternalRuleResource
+		internalResource.Type = entryType
+		internalResource.Ext = &xdr.EmptyExt{}
+
+		return &xdr.RuleResource{
+			ResourceType:         xdr.RuleResourceTypeLedgerEntry,
+			InternalRuleResource: &internalResource,
+		}, nil
+	}
 }
 
 func ruleResourceData(d Map) (*xdr.RuleResource, error) {
@@ -330,6 +345,7 @@ var RuleActions = map[string]RuleActionFunc{
 	"initiate_recovery": ruleActionInitiateRecovery,
 	"review":            ruleActionReview,
 	"custom":            ruleActionCustom,
+	"recover":           ruleActionStub(xdr.RuleActionTypeRecover),
 }
 
 func ruleActionCreate(d Map) (*xdr.RuleAction, error) {
@@ -463,6 +479,15 @@ func ruleActionReview(d Map) (*xdr.RuleAction, error) {
 			TasksToRemove: xdr.Uint64(tasksToRemove),
 		},
 	}, nil
+}
+
+func ruleActionStub(actionType xdr.RuleActionType) func(Map) (*xdr.RuleAction, error) {
+	return func(_ Map) (*xdr.RuleAction, error) {
+		return &xdr.RuleAction{
+			Type: actionType,
+			Ext:  &xdr.EmptyExt{},
+		}, nil
+	}
 }
 
 func ruleActionCustom(d Map) (*xdr.RuleAction, error) {

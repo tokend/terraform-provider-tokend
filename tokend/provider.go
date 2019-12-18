@@ -35,12 +35,13 @@ func Provider() terraform.ResourceProvider {
 			},
 		},
 		ResourcesMap: map[string]*schema.Resource{
-			"tokend_account":        resourceAccount(),
-			"tokend_rule":           resourceRule(),
-			"tokend_role":           resourceRole(),
-			"tokend_key_value":      resourceKeyValue(),
-			"tokend_asset":          resourceAsset(),
-			"tokend_account_signer": resourceAccountSigner(),
+			"tokend_account":                       resourceAccount(),
+			"tokend_rule":                          resourceRule(),
+			"tokend_role":                          resourceRole(),
+			"tokend_key_value":                     resourceKeyValue(),
+			"tokend_asset":                         resourceAsset(),
+			"tokend_account_signer":                resourceAccountSigner(),
+			"tokend_reviewable_request_operations": resourceReviewableRequestOperations(),
 		},
 		ConfigureFunc: func(d *schema.ResourceData) (interface{}, error) {
 			endpoint, err := url.Parse(d.Get("endpoint").(string))
