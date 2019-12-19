@@ -614,7 +614,7 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:8cf1c104011cf55f570e9480ab1f21c5ef7298c78ac2efcf069809ab4464b9b6"
+  digest = "1:bcafdce2c59a24762df757b7858e79947aa4985f1593f29663b1c7d1a88ece36"
   name = "gitlab.com/tokend/go"
   packages = [
     "amount",
@@ -631,7 +631,7 @@
     "xdrbuild/internal",
   ]
   pruneopts = "UT"
-  revision = "db6124282137b0e14cec7a3c6c0e3f4551315e61"
+  revision = "3cbc8dcc688d1d45a7264ac81fbb2a6581ce415f"
 
 [[projects]]
   digest = "1:c97dfec4041199ff4fdfd22b2b2aa8ca038af9c7efc1b17620999027f53cce61"
@@ -826,7 +826,6 @@
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
-    "github.com/davecgh/go-spew/spew",
     "github.com/hashicorp/terraform/helper/schema",
     "github.com/hashicorp/terraform/plugin",
     "github.com/hashicorp/terraform/terraform",
@@ -835,7 +834,6 @@
     "github.com/spf13/cast",
     "github.com/stretchr/testify/assert",
     "github.com/stretchr/testify/mock",
-    "gitlab.com/distributed_lab/figure",
     "gitlab.com/distributed_lab/logan/v3",
     "gitlab.com/distributed_lab/logan/v3/errors",
     "gitlab.com/tokend/go/amount",

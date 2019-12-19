@@ -27,6 +27,25 @@ type UpdateAssetPairPolicies struct {
 	Policies                int32
 }
 
+type RemoveAssetPair struct {
+	Base  string
+	Quote string
+}
+
+func (ap RemoveAssetPair) XDR() (*xdr.Operation, error) {
+	op := &xdr.Operation{
+		Body: xdr.OperationBody{
+			Type: xdr.OperationTypeRemoveAssetPair,
+			RemoveAssetPairOp: &xdr.RemoveAssetPairOp{
+				Base:  xdr.AssetCode(ap.Base),
+				Quote: xdr.AssetCode(ap.Quote),
+			},
+		},
+	}
+
+	return op, nil
+}
+
 func (ap CreateAssetPair) XDR() (*xdr.Operation, error) {
 	op := &xdr.Operation{
 		Body: xdr.OperationBody{

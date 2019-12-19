@@ -39,7 +39,9 @@ type Signature struct {
 	Signature     string
 }
 
-func IsSigned(request *http.Request) (*Signature, bool) {
+// IsSignedV1 - checks if v1 authorization headers is presented
+// DEPRECATED
+func IsSignedV1(request *http.Request) (*Signature, bool) {
 	if request == nil {
 		panic(ErrNilRequest)
 	}
@@ -76,13 +78,18 @@ func SignRequest(request *http.Request, kp keypair.KP) error {
 	return nil
 }
 
+// IsSigned - checks if authorization headers is presented
+func IsSigned(request *http.Request) bool {
+	return request.Header.Get("signature") != "" || request.Header.Get("authorization") != ""
+}
+
 func CheckSignature(request *http.Request) (string, error) {
 	// check if it v2 signature
-	if request.Header.Get("signature") != "" || request.Header.Get("authorization") != "" {
+	if IsSigned(request) {
 		return checkV2(request)
 	}
 
-	sig, ok := IsSigned(request)
+	sig, ok := IsSignedV1(request)
 	if !ok {
 		return "", ErrNotSigned
 	}

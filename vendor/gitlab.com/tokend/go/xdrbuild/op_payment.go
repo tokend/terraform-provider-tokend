@@ -6,6 +6,7 @@ import (
 )
 
 type Payment struct {
+	SourceAccountID *xdr.AccountId
 	SourceBalanceID xdr.BalanceId
 	Destination     xdr.PaymentOpDestination
 	FeeData         xdr.PaymentFeeData
@@ -16,6 +17,7 @@ type Payment struct {
 
 func (op *Payment) XDR() (*xdr.Operation, error) {
 	return &xdr.Operation{
+		SourceAccount: op.SourceAccountID,
 		Body: xdr.OperationBody{
 			Type: xdr.OperationTypePayment,
 			PaymentOp: &xdr.PaymentOp{
@@ -31,6 +33,7 @@ func (op *Payment) XDR() (*xdr.Operation, error) {
 }
 
 type CreatePaymentForBalanceOpts struct {
+	SourceAccountID      *string
 	SourceBalanceID      string
 	DestinationBalanceID string
 	Amount               uint64
@@ -60,7 +63,16 @@ func CreatePaymentForBalance(opts CreatePaymentForBalanceOpts) (*Payment, error)
 		return nil, errors.Wrap(err, "failed to set source balance id")
 	}
 
+	var sa *xdr.AccountId = nil
+	if opts.SourceAccountID != nil {
+		sa = &xdr.AccountId{}
+		if err := sa.SetAddress(*opts.SourceAccountID); err != nil {
+			return nil, errors.Wrap(err, "failed to set op source account id")
+		}
+	}
+
 	return &Payment{
+		SourceAccountID: sa,
 		SourceBalanceID: sb,
 		Destination: xdr.PaymentOpDestination{
 			Type:      xdr.PaymentDestinationTypeBalance,
@@ -84,6 +96,7 @@ func CreatePaymentForBalance(opts CreatePaymentForBalanceOpts) (*Payment, error)
 }
 
 type CreatePaymentForAccountOpts struct {
+	SourceAccountID      *string
 	SourceBalanceID      string
 	DestinationAccountID string
 	Amount               uint64
@@ -105,7 +118,16 @@ func CreatePaymentForAccount(opts CreatePaymentForAccountOpts) (*Payment, error)
 		return nil, errors.Wrap(err, "failed to get destination account id")
 	}
 
+	var sa *xdr.AccountId = nil
+	if opts.SourceAccountID != nil {
+		sa = &xdr.AccountId{}
+		if err := sa.SetAddress(*opts.SourceAccountID); err != nil {
+			return nil, errors.Wrap(err, "failed to set op source account id")
+		}
+	}
+
 	return &Payment{
+		SourceAccountID: sa,
 		SourceBalanceID: sb,
 		Destination: xdr.PaymentOpDestination{
 			Type:      xdr.PaymentDestinationTypeAccount,

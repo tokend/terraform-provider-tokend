@@ -1,5 +1,5 @@
-// revision: dcb0962ff5cc056c96c54b6678f34278a66eeddd
-// branch:   feature/swap
+// revision: 5cf21644b65d3e0119a7164d24e81e7f5ceefae3
+// branch:   feature/redemption-rr
 // Package xdr is generated from:
 //
 //  xdr/SCP.x
@@ -54,6 +54,7 @@
 //  xdr/operation-create-manage-offer-request.x
 //  xdr/operation-create-payment-request.x
 //  xdr/operation-create-preissuance-request.x
+//  xdr/operation-create-redemption-request.x
 //  xdr/operation-create-sale-creation-request.x
 //  xdr/operation-create-withdrawal-request.x
 //  xdr/operation-initiate-kyc-recovery.x
@@ -102,6 +103,7 @@
 //  xdr/reviewable-request-limits-update.x
 //  xdr/reviewable-request-manage-offer.x
 //  xdr/reviewable-request-payment.x
+//  xdr/reviewable-request-redemption.x
 //  xdr/reviewable-request-sale.x
 //  xdr/reviewable-request-update-sale-details.x
 //  xdr/reviewable-request-withdrawal.x
@@ -3437,7 +3439,8 @@ type ReferenceEntry struct {
 //    	CREATE_ATOMIC_SWAP_BID = 17,
 //    	KYC_RECOVERY = 18,
 //    	MANAGE_OFFER = 19,
-//    	CREATE_PAYMENT = 20
+//    	CREATE_PAYMENT = 20,
+//    	PERFORM_REDEMPTION = 21
 //    };
 //
 type ReviewableRequestType int32
@@ -3463,6 +3466,7 @@ const (
 	ReviewableRequestTypeKycRecovery         ReviewableRequestType = 18
 	ReviewableRequestTypeManageOffer         ReviewableRequestType = 19
 	ReviewableRequestTypeCreatePayment       ReviewableRequestType = 20
+	ReviewableRequestTypePerformRedemption   ReviewableRequestType = 21
 )
 
 var ReviewableRequestTypeAll = []ReviewableRequestType{
@@ -3486,6 +3490,7 @@ var ReviewableRequestTypeAll = []ReviewableRequestType{
 	ReviewableRequestTypeKycRecovery,
 	ReviewableRequestTypeManageOffer,
 	ReviewableRequestTypeCreatePayment,
+	ReviewableRequestTypePerformRedemption,
 }
 
 var reviewableRequestTypeMap = map[int32]string{
@@ -3509,6 +3514,7 @@ var reviewableRequestTypeMap = map[int32]string{
 	18: "ReviewableRequestTypeKycRecovery",
 	19: "ReviewableRequestTypeManageOffer",
 	20: "ReviewableRequestTypeCreatePayment",
+	21: "ReviewableRequestTypePerformRedemption",
 }
 
 var reviewableRequestTypeShortMap = map[int32]string{
@@ -3532,6 +3538,7 @@ var reviewableRequestTypeShortMap = map[int32]string{
 	18: "kyc_recovery",
 	19: "manage_offer",
 	20: "create_payment",
+	21: "perform_redemption",
 }
 
 var reviewableRequestTypeRevMap = map[string]int32{
@@ -3555,6 +3562,7 @@ var reviewableRequestTypeRevMap = map[string]int32{
 	"ReviewableRequestTypeKycRecovery":         18,
 	"ReviewableRequestTypeManageOffer":         19,
 	"ReviewableRequestTypeCreatePayment":       20,
+	"ReviewableRequestTypePerformRedemption":   21,
 }
 
 // ValidEnum validates a proposed value for this enum.  Implements
@@ -3722,6 +3730,8 @@ type TasksExt struct {
 //    			ManageOfferRequest manageOfferRequest;
 //    		case CREATE_PAYMENT:
 //    			CreatePaymentRequest createPaymentRequest;
+//            case PERFORM_REDEMPTION:
+//                RedemptionRequest redemptionRequest;
 //    	}
 //
 type ReviewableRequestEntryBody struct {
@@ -3744,6 +3754,7 @@ type ReviewableRequestEntryBody struct {
 	KycRecoveryRequest         *KycRecoveryRequest         `json:"kycRecoveryRequest,omitempty"`
 	ManageOfferRequest         *ManageOfferRequest         `json:"manageOfferRequest,omitempty"`
 	CreatePaymentRequest       *CreatePaymentRequest       `json:"createPaymentRequest,omitempty"`
+	RedemptionRequest          *RedemptionRequest          `json:"redemptionRequest,omitempty"`
 }
 
 // SwitchFieldName returns the field name in which this union's
@@ -3792,6 +3803,8 @@ func (u ReviewableRequestEntryBody) ArmForSwitch(sw int32) (string, bool) {
 		return "ManageOfferRequest", true
 	case ReviewableRequestTypeCreatePayment:
 		return "CreatePaymentRequest", true
+	case ReviewableRequestTypePerformRedemption:
+		return "RedemptionRequest", true
 	}
 	return "-", false
 }
@@ -3926,6 +3939,13 @@ func NewReviewableRequestEntryBody(aType ReviewableRequestType, value interface{
 			return
 		}
 		result.CreatePaymentRequest = &tv
+	case ReviewableRequestTypePerformRedemption:
+		tv, ok := value.(RedemptionRequest)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be RedemptionRequest")
+			return
+		}
+		result.RedemptionRequest = &tv
 	}
 	return
 }
@@ -4380,6 +4400,31 @@ func (u ReviewableRequestEntryBody) GetCreatePaymentRequest() (result CreatePaym
 	return
 }
 
+// MustRedemptionRequest retrieves the RedemptionRequest value from the union,
+// panicing if the value is not set.
+func (u ReviewableRequestEntryBody) MustRedemptionRequest() RedemptionRequest {
+	val, ok := u.GetRedemptionRequest()
+
+	if !ok {
+		panic("arm RedemptionRequest is not set")
+	}
+
+	return val
+}
+
+// GetRedemptionRequest retrieves the RedemptionRequest value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u ReviewableRequestEntryBody) GetRedemptionRequest() (result RedemptionRequest, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.Type))
+
+	if armName == "RedemptionRequest" {
+		result = *u.RedemptionRequest
+		ok = true
+	}
+
+	return
+}
+
 // ReviewableRequestEntryExt is an XDR NestedUnion defines as:
 //
 //   union switch (LedgerVersion v)
@@ -4466,6 +4511,8 @@ func NewReviewableRequestEntryExt(v LedgerVersion, value interface{}) (result Re
 //    			ManageOfferRequest manageOfferRequest;
 //    		case CREATE_PAYMENT:
 //    			CreatePaymentRequest createPaymentRequest;
+//            case PERFORM_REDEMPTION:
+//                RedemptionRequest redemptionRequest;
 //    	} body;
 //
 //    	TasksExt tasks;
@@ -13455,8 +13502,9 @@ func (u CheckSaleStateResult) GetSuccess() (result CheckSaleStateSuccess, ok boo
 //
 //   struct CloseSwapOp
 //    {
+//        //: ID of the swap to close
 //        uint64 swapID;
-//
+//        //: (optional) Secret of the swap. Must be provided in order for destination of the swap to receive funds
 //        Hash* secret;
 //
 //        //: reserved for future extension
@@ -13475,11 +13523,13 @@ type CloseSwapOp struct {
 //    {
 //        //: CloseSwap was successful
 //        SUCCESS = 0,
-//
+//        //: Too late to close swap
 //        SWAP_EXPIRED = -1,
+//        //: Provided secret is invalid
 //        INVALID_SECRET = -2,
 //        //: After the swap fulfillment, the destination balance will exceed the limit (total amount on the balance will be greater than UINT64_MAX)
 //        LINE_FULL = -3,
+//        //: Source account is not authorized to close swap
 //        NOT_AUTHORIZED = -4
 //    };
 //
@@ -13593,7 +13643,7 @@ func (e *CloseSwapResultCode) UnmarshalJSON(data []byte) error {
 //    {
 //        //: Swap closed
 //        CLOSED = 0,
-//        //: Swap cancelled updated
+//        //: Swap cancelled
 //        CANCELLED = 1
 //    };
 //
@@ -13690,6 +13740,7 @@ func (e *CloseSwapEffect) UnmarshalJSON(data []byte) error {
 //
 //   //: CloseSwapSuccess is used to pass saved ledger hash and license hash
 //    struct CloseSwapSuccess {
+//        //: Effect of CloseSwap application
 //        CloseSwapEffect effect;
 //
 //        EmptyExt ext;
@@ -17764,6 +17815,394 @@ func (u CreatePreIssuanceRequestResult) GetSuccess() (result CreatePreIssuanceRe
 
 	if armName == "Success" {
 		result = *u.Success
+		ok = true
+	}
+
+	return
+}
+
+// CreateRedemptionRequestOpExt is an XDR NestedUnion defines as:
+//
+//   union switch (LedgerVersion v)
+//        {
+//        case EMPTY_VERSION:
+//            void;
+//        }
+//
+type CreateRedemptionRequestOpExt struct {
+	V LedgerVersion `json:"v,omitempty"`
+}
+
+// SwitchFieldName returns the field name in which this union's
+// discriminant is stored
+func (u CreateRedemptionRequestOpExt) SwitchFieldName() string {
+	return "V"
+}
+
+// ArmForSwitch returns which field name should be used for storing
+// the value for an instance of CreateRedemptionRequestOpExt
+func (u CreateRedemptionRequestOpExt) ArmForSwitch(sw int32) (string, bool) {
+	switch LedgerVersion(sw) {
+	case LedgerVersionEmptyVersion:
+		return "", true
+	}
+	return "-", false
+}
+
+// NewCreateRedemptionRequestOpExt creates a new  CreateRedemptionRequestOpExt.
+func NewCreateRedemptionRequestOpExt(v LedgerVersion, value interface{}) (result CreateRedemptionRequestOpExt, err error) {
+	result.V = v
+	switch LedgerVersion(v) {
+	case LedgerVersionEmptyVersion:
+		// void
+	}
+	return
+}
+
+// CreateRedemptionRequestOp is an XDR Struct defines as:
+//
+//   //: CreateRedemptionRequest operation creates a reviewable request
+//    //: that will transfer the specified amount from current holder's balance to destination balance after the reviewer's approval
+//    struct CreateRedemptionRequestOp
+//    {
+//        //: Reference of RedemptionRequest
+//        string64 reference; // TODO longstring ?
+//        //: Parameters of RedemptionRequest
+//        RedemptionRequest redemptionRequest;
+//        //: (optional) Bit mask whose flags must be cleared in order for RedemptionRequest to be approved, which will be used by key redemption_tasks
+//        //: instead of key-value
+//        uint32* allTasks;
+//
+//        //: Reserved for future use
+//        union switch (LedgerVersion v)
+//        {
+//        case EMPTY_VERSION:
+//            void;
+//        }
+//        ext;
+//
+//    };
+//
+type CreateRedemptionRequestOp struct {
+	Reference         String64                     `json:"reference,omitempty"`
+	RedemptionRequest RedemptionRequest            `json:"redemptionRequest,omitempty"`
+	AllTasks          *Uint32                      `json:"allTasks,omitempty"`
+	Ext               CreateRedemptionRequestOpExt `json:"ext,omitempty"`
+}
+
+// CreateRedemptionRequestResultCode is an XDR Enum defines as:
+//
+//   //: Result codes for CreateRedemption operation
+//    enum CreateRedemptionRequestResultCode
+//    {
+//        // codes considered as "success" for the operation
+//        //: Operation has been successfully performed
+//        SUCCESS = 0,
+//
+//        //codes considered as "failure" for the operation
+//        //: Redemption is invalid
+//        INVALID_REDEMPTION = -1,
+//        //: Tasks for the redemption request were neither provided in the request nor loaded through KeyValue
+//        REDEMPTION_TASKS_NOT_FOUND = -2,
+//        //: Creator details must not be empty
+//        INVALID_CREATOR_DETAILS = -3,
+//        //: Amount must be greater then 0
+//        INVALID_AMOUNT = -4,
+//        //: Reference must not be longer then 64 bytes
+//        INVALID_REFERENCE = -5,
+//        //: Source balance with provided balance ID does not exist
+//        SOURCE_BALANCE_NOT_EXIST = -6, // balance doesn't exist
+//        //: Amount has incorrect precision
+//        INCORRECT_PRECISION = -7,
+//        //: Balance underfunded
+//        UNDERFUNDED = -8,
+//        //: Duplicated references are not allowed
+//        REFERENCE_DUPLICATION = -9,
+//        //: No destination with provided account ID
+//        DST_ACCOUNT_NOT_FOUND = -10,
+//        //: Not allowed to set zero tasks for request
+//        REDEMPTION_ZERO_TASKS_NOT_ALLOWED = -11
+//    };
+//
+type CreateRedemptionRequestResultCode int32
+
+const (
+	CreateRedemptionRequestResultCodeSuccess                       CreateRedemptionRequestResultCode = 0
+	CreateRedemptionRequestResultCodeInvalidRedemption             CreateRedemptionRequestResultCode = -1
+	CreateRedemptionRequestResultCodeRedemptionTasksNotFound       CreateRedemptionRequestResultCode = -2
+	CreateRedemptionRequestResultCodeInvalidCreatorDetails         CreateRedemptionRequestResultCode = -3
+	CreateRedemptionRequestResultCodeInvalidAmount                 CreateRedemptionRequestResultCode = -4
+	CreateRedemptionRequestResultCodeInvalidReference              CreateRedemptionRequestResultCode = -5
+	CreateRedemptionRequestResultCodeSourceBalanceNotExist         CreateRedemptionRequestResultCode = -6
+	CreateRedemptionRequestResultCodeIncorrectPrecision            CreateRedemptionRequestResultCode = -7
+	CreateRedemptionRequestResultCodeUnderfunded                   CreateRedemptionRequestResultCode = -8
+	CreateRedemptionRequestResultCodeReferenceDuplication          CreateRedemptionRequestResultCode = -9
+	CreateRedemptionRequestResultCodeDstAccountNotFound            CreateRedemptionRequestResultCode = -10
+	CreateRedemptionRequestResultCodeRedemptionZeroTasksNotAllowed CreateRedemptionRequestResultCode = -11
+)
+
+var CreateRedemptionRequestResultCodeAll = []CreateRedemptionRequestResultCode{
+	CreateRedemptionRequestResultCodeSuccess,
+	CreateRedemptionRequestResultCodeInvalidRedemption,
+	CreateRedemptionRequestResultCodeRedemptionTasksNotFound,
+	CreateRedemptionRequestResultCodeInvalidCreatorDetails,
+	CreateRedemptionRequestResultCodeInvalidAmount,
+	CreateRedemptionRequestResultCodeInvalidReference,
+	CreateRedemptionRequestResultCodeSourceBalanceNotExist,
+	CreateRedemptionRequestResultCodeIncorrectPrecision,
+	CreateRedemptionRequestResultCodeUnderfunded,
+	CreateRedemptionRequestResultCodeReferenceDuplication,
+	CreateRedemptionRequestResultCodeDstAccountNotFound,
+	CreateRedemptionRequestResultCodeRedemptionZeroTasksNotAllowed,
+}
+
+var createRedemptionRequestResultCodeMap = map[int32]string{
+	0:   "CreateRedemptionRequestResultCodeSuccess",
+	-1:  "CreateRedemptionRequestResultCodeInvalidRedemption",
+	-2:  "CreateRedemptionRequestResultCodeRedemptionTasksNotFound",
+	-3:  "CreateRedemptionRequestResultCodeInvalidCreatorDetails",
+	-4:  "CreateRedemptionRequestResultCodeInvalidAmount",
+	-5:  "CreateRedemptionRequestResultCodeInvalidReference",
+	-6:  "CreateRedemptionRequestResultCodeSourceBalanceNotExist",
+	-7:  "CreateRedemptionRequestResultCodeIncorrectPrecision",
+	-8:  "CreateRedemptionRequestResultCodeUnderfunded",
+	-9:  "CreateRedemptionRequestResultCodeReferenceDuplication",
+	-10: "CreateRedemptionRequestResultCodeDstAccountNotFound",
+	-11: "CreateRedemptionRequestResultCodeRedemptionZeroTasksNotAllowed",
+}
+
+var createRedemptionRequestResultCodeShortMap = map[int32]string{
+	0:   "success",
+	-1:  "invalid_redemption",
+	-2:  "redemption_tasks_not_found",
+	-3:  "invalid_creator_details",
+	-4:  "invalid_amount",
+	-5:  "invalid_reference",
+	-6:  "source_balance_not_exist",
+	-7:  "incorrect_precision",
+	-8:  "underfunded",
+	-9:  "reference_duplication",
+	-10: "dst_account_not_found",
+	-11: "redemption_zero_tasks_not_allowed",
+}
+
+var createRedemptionRequestResultCodeRevMap = map[string]int32{
+	"CreateRedemptionRequestResultCodeSuccess":                       0,
+	"CreateRedemptionRequestResultCodeInvalidRedemption":             -1,
+	"CreateRedemptionRequestResultCodeRedemptionTasksNotFound":       -2,
+	"CreateRedemptionRequestResultCodeInvalidCreatorDetails":         -3,
+	"CreateRedemptionRequestResultCodeInvalidAmount":                 -4,
+	"CreateRedemptionRequestResultCodeInvalidReference":              -5,
+	"CreateRedemptionRequestResultCodeSourceBalanceNotExist":         -6,
+	"CreateRedemptionRequestResultCodeIncorrectPrecision":            -7,
+	"CreateRedemptionRequestResultCodeUnderfunded":                   -8,
+	"CreateRedemptionRequestResultCodeReferenceDuplication":          -9,
+	"CreateRedemptionRequestResultCodeDstAccountNotFound":            -10,
+	"CreateRedemptionRequestResultCodeRedemptionZeroTasksNotAllowed": -11,
+}
+
+// ValidEnum validates a proposed value for this enum.  Implements
+// the Enum interface for CreateRedemptionRequestResultCode
+func (e CreateRedemptionRequestResultCode) ValidEnum(v int32) bool {
+	_, ok := createRedemptionRequestResultCodeMap[v]
+	return ok
+}
+func (e CreateRedemptionRequestResultCode) isFlag() bool {
+	for i := len(CreateRedemptionRequestResultCodeAll) - 1; i >= 0; i-- {
+		expected := CreateRedemptionRequestResultCode(2) << uint64(len(CreateRedemptionRequestResultCodeAll)-1) >> uint64(len(CreateRedemptionRequestResultCodeAll)-i)
+		if expected != CreateRedemptionRequestResultCodeAll[i] {
+			return false
+		}
+	}
+	return true
+}
+
+// String returns the name of `e`
+func (e CreateRedemptionRequestResultCode) String() string {
+	name, _ := createRedemptionRequestResultCodeMap[int32(e)]
+	return name
+}
+
+func (e CreateRedemptionRequestResultCode) ShortString() string {
+	name, _ := createRedemptionRequestResultCodeShortMap[int32(e)]
+	return name
+}
+
+func (e CreateRedemptionRequestResultCode) MarshalJSON() ([]byte, error) {
+	if e.isFlag() {
+		// marshal as mask
+		result := flag{
+			Value: int32(e),
+			Flags: make([]flagValue, 0),
+		}
+		for _, value := range CreateRedemptionRequestResultCodeAll {
+			if (value & e) == value {
+				result.Flags = append(result.Flags, flagValue{
+					Value: int32(value),
+					Name:  value.ShortString(),
+				})
+			}
+		}
+		return json.Marshal(&result)
+	} else {
+		// marshal as enum
+		result := enum{
+			Value:  int32(e),
+			String: e.ShortString(),
+		}
+		return json.Marshal(&result)
+	}
+}
+
+func (e *CreateRedemptionRequestResultCode) UnmarshalJSON(data []byte) error {
+	var t value
+	if err := json.Unmarshal(data, &t); err != nil {
+		return err
+	}
+	*e = CreateRedemptionRequestResultCode(t.Value)
+	return nil
+}
+
+// RedemptionRequestResponseExt is an XDR NestedUnion defines as:
+//
+//   union switch (LedgerVersion v)
+//        {
+//        case EMPTY_VERSION:
+//            void;
+//        }
+//
+type RedemptionRequestResponseExt struct {
+	V LedgerVersion `json:"v,omitempty"`
+}
+
+// SwitchFieldName returns the field name in which this union's
+// discriminant is stored
+func (u RedemptionRequestResponseExt) SwitchFieldName() string {
+	return "V"
+}
+
+// ArmForSwitch returns which field name should be used for storing
+// the value for an instance of RedemptionRequestResponseExt
+func (u RedemptionRequestResponseExt) ArmForSwitch(sw int32) (string, bool) {
+	switch LedgerVersion(sw) {
+	case LedgerVersionEmptyVersion:
+		return "", true
+	}
+	return "-", false
+}
+
+// NewRedemptionRequestResponseExt creates a new  RedemptionRequestResponseExt.
+func NewRedemptionRequestResponseExt(v LedgerVersion, value interface{}) (result RedemptionRequestResponseExt, err error) {
+	result.V = v
+	switch LedgerVersion(v) {
+	case LedgerVersionEmptyVersion:
+		// void
+	}
+	return
+}
+
+// RedemptionRequestResponse is an XDR Struct defines as:
+//
+//   //: Result of successful application of `CreateRedemptionRequest` operation
+//    struct RedemptionRequestResponse {
+//        //: ID of a newly created reviewable request
+//        uint64 requestID;
+//        //: Indicates  whether or not the Redemption request was auto approved and fulfilled
+//        bool fulfilled;
+//
+//        //: ID of destination balance (may be freshly created)
+//        BalanceID destinationBalanceID;
+//        //: Code of an asset used in payment
+//        AssetCode asset;
+//        //: Amount sent by the sender
+//        uint64 sourceSentUniversal;
+//        //: Reserved for future use
+//         union switch (LedgerVersion v)
+//        {
+//        case EMPTY_VERSION:
+//            void;
+//        }
+//        ext;
+//    };
+//
+type RedemptionRequestResponse struct {
+	RequestId            Uint64                       `json:"requestID,omitempty"`
+	Fulfilled            bool                         `json:"fulfilled,omitempty"`
+	DestinationBalanceId BalanceId                    `json:"destinationBalanceID,omitempty"`
+	Asset                AssetCode                    `json:"asset,omitempty"`
+	SourceSentUniversal  Uint64                       `json:"sourceSentUniversal,omitempty"`
+	Ext                  RedemptionRequestResponseExt `json:"ext,omitempty"`
+}
+
+// CreateRedemptionRequestResult is an XDR Union defines as:
+//
+//   //: Result of `CreateRedemptionRequest` operation application along with the result code
+//    union CreateRedemptionRequestResult switch (CreateRedemptionRequestResultCode code)
+//    {
+//        case SUCCESS:
+//            RedemptionRequestResponse redemptionResponse;
+//        default:
+//            void;
+//    };
+//
+type CreateRedemptionRequestResult struct {
+	Code               CreateRedemptionRequestResultCode `json:"code,omitempty"`
+	RedemptionResponse *RedemptionRequestResponse        `json:"redemptionResponse,omitempty"`
+}
+
+// SwitchFieldName returns the field name in which this union's
+// discriminant is stored
+func (u CreateRedemptionRequestResult) SwitchFieldName() string {
+	return "Code"
+}
+
+// ArmForSwitch returns which field name should be used for storing
+// the value for an instance of CreateRedemptionRequestResult
+func (u CreateRedemptionRequestResult) ArmForSwitch(sw int32) (string, bool) {
+	switch CreateRedemptionRequestResultCode(sw) {
+	case CreateRedemptionRequestResultCodeSuccess:
+		return "RedemptionResponse", true
+	default:
+		return "", true
+	}
+}
+
+// NewCreateRedemptionRequestResult creates a new  CreateRedemptionRequestResult.
+func NewCreateRedemptionRequestResult(code CreateRedemptionRequestResultCode, value interface{}) (result CreateRedemptionRequestResult, err error) {
+	result.Code = code
+	switch CreateRedemptionRequestResultCode(code) {
+	case CreateRedemptionRequestResultCodeSuccess:
+		tv, ok := value.(RedemptionRequestResponse)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be RedemptionRequestResponse")
+			return
+		}
+		result.RedemptionResponse = &tv
+	default:
+		// void
+	}
+	return
+}
+
+// MustRedemptionResponse retrieves the RedemptionResponse value from the union,
+// panicing if the value is not set.
+func (u CreateRedemptionRequestResult) MustRedemptionResponse() RedemptionRequestResponse {
+	val, ok := u.GetRedemptionResponse()
+
+	if !ok {
+		panic("arm RedemptionResponse is not set")
+	}
+
+	return val
+}
+
+// GetRedemptionResponse retrieves the RedemptionResponse value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u CreateRedemptionRequestResult) GetRedemptionResponse() (result RedemptionRequestResponse, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.Code))
+
+	if armName == "RedemptionResponse" {
+		result = *u.RedemptionResponse
 		ok = true
 	}
 
@@ -28285,7 +28724,9 @@ type ManageLimitsOp struct {
 //        //: Limits cannot be created for account ID and account role simultaneously
 //        CANNOT_CREATE_FOR_ACC_ID_AND_ACC_TYPE = -4, // FIXME ACC_ROLE ?
 //        //: Limits entry is invalid (e.g. weeklyOut is less than dailyOut)
-//        INVALID_LIMITS = -5
+//        INVALID_LIMITS = -5,
+//        //: Asset with provided asset code does not exist
+//        ASSET_NOT_FOUND = -6
 //    };
 //
 type ManageLimitsResultCode int32
@@ -28297,6 +28738,7 @@ const (
 	ManageLimitsResultCodeRoleNotFound                   ManageLimitsResultCode = -3
 	ManageLimitsResultCodeCannotCreateForAccIdAndAccType ManageLimitsResultCode = -4
 	ManageLimitsResultCodeInvalidLimits                  ManageLimitsResultCode = -5
+	ManageLimitsResultCodeAssetNotFound                  ManageLimitsResultCode = -6
 )
 
 var ManageLimitsResultCodeAll = []ManageLimitsResultCode{
@@ -28306,6 +28748,7 @@ var ManageLimitsResultCodeAll = []ManageLimitsResultCode{
 	ManageLimitsResultCodeRoleNotFound,
 	ManageLimitsResultCodeCannotCreateForAccIdAndAccType,
 	ManageLimitsResultCodeInvalidLimits,
+	ManageLimitsResultCodeAssetNotFound,
 }
 
 var manageLimitsResultCodeMap = map[int32]string{
@@ -28315,6 +28758,7 @@ var manageLimitsResultCodeMap = map[int32]string{
 	-3: "ManageLimitsResultCodeRoleNotFound",
 	-4: "ManageLimitsResultCodeCannotCreateForAccIdAndAccType",
 	-5: "ManageLimitsResultCodeInvalidLimits",
+	-6: "ManageLimitsResultCodeAssetNotFound",
 }
 
 var manageLimitsResultCodeShortMap = map[int32]string{
@@ -28324,6 +28768,7 @@ var manageLimitsResultCodeShortMap = map[int32]string{
 	-3: "role_not_found",
 	-4: "cannot_create_for_acc_id_and_acc_type",
 	-5: "invalid_limits",
+	-6: "asset_not_found",
 }
 
 var manageLimitsResultCodeRevMap = map[string]int32{
@@ -28333,6 +28778,7 @@ var manageLimitsResultCodeRevMap = map[string]int32{
 	"ManageLimitsResultCodeRoleNotFound":                   -3,
 	"ManageLimitsResultCodeCannotCreateForAccIdAndAccType": -4,
 	"ManageLimitsResultCodeInvalidLimits":                  -5,
+	"ManageLimitsResultCodeAssetNotFound":                  -6,
 }
 
 // ValidEnum validates a proposed value for this enum.  Implements
@@ -34017,11 +34463,12 @@ func (u OpenSwapOpDestination) GetBalanceId() (result BalanceId, ok bool) {
 //
 //   struct OpenSwapOp
 //    {
+//        //: Source balance of the swap
 //        BalanceID sourceBalance;
-//
+//        //: Amount to send in swap
 //        uint64 amount;
 //
-//       //: `destination` defines the type of instance that receives the payment based on given PaymentDestinationType
+//       //: `destination` defines the type of instance that receives amount based on given PaymentDestinationType
 //       union switch (PaymentDestinationType type) {
 //           case ACCOUNT:
 //               AccountID accountID;
@@ -34029,12 +34476,14 @@ func (u OpenSwapOpDestination) GetBalanceId() (result BalanceId, ok bool) {
 //               BalanceID balanceID;
 //       } destination;
 //
+//        //: Fee data for the swap
 //        PaymentFeeData feeData;
-//
+//        //: Arbitrary stringified json object provided by swap source
 //        longstring details;
 //
+//        //: Hash of the secret
 //        Hash secretHash;
-//
+//        //: Time till which swapped funds can be received by destination if valid secret is provided
 //        int64 lockTime;
 //
 //        //: reserved for future extension
@@ -34059,6 +34508,7 @@ type OpenSwapOp struct {
 //        //: OpenSwap was successful
 //        SUCCESS = 0,
 //
+//        //: Source and destination balances are the same
 //        MALFORMED = -1,
 //        //: Not enough funds in the source account
 //        UNDERFUNDED = -2,
@@ -34078,8 +34528,11 @@ type OpenSwapOp struct {
 //        //: There is no account found with an ID provided in `destination.accountID`
 //        //: Amount precision and asset precision are mismatched
 //        INCORRECT_AMOUNT_PRECISION = -9,
+//        //: Not allowed to create swap with invalid json details
 //        INVALID_DETAILS = -10,
+//        //: Lock time is in the past
 //        INVALID_LOCK_TIME = -11,
+//        //: Zero amount is not allowed
 //        INVALID_AMOUNT = -12
 //
 //    };
@@ -34724,7 +35177,9 @@ type PaymentOp struct {
 //        //: There is no account found with an ID provided in `destination.accountID`
 //        DESTINATION_ACCOUNT_NOT_FOUND = -14,
 //        //: Amount precision and asset precision are mismatched
-//        INCORRECT_AMOUNT_PRECISION = -15
+//        INCORRECT_AMOUNT_PRECISION = -15,
+//        //: Too much signs in subject
+//        INVALID_SUBJECT = -16
 //    };
 //
 type PaymentResultCode int32
@@ -34746,6 +35201,7 @@ const (
 	PaymentResultCodePaymentAmountIsLessThanDestFee PaymentResultCode = -13
 	PaymentResultCodeDestinationAccountNotFound     PaymentResultCode = -14
 	PaymentResultCodeIncorrectAmountPrecision       PaymentResultCode = -15
+	PaymentResultCodeInvalidSubject                 PaymentResultCode = -16
 )
 
 var PaymentResultCodeAll = []PaymentResultCode{
@@ -34765,6 +35221,7 @@ var PaymentResultCodeAll = []PaymentResultCode{
 	PaymentResultCodePaymentAmountIsLessThanDestFee,
 	PaymentResultCodeDestinationAccountNotFound,
 	PaymentResultCodeIncorrectAmountPrecision,
+	PaymentResultCodeInvalidSubject,
 }
 
 var paymentResultCodeMap = map[int32]string{
@@ -34784,6 +35241,7 @@ var paymentResultCodeMap = map[int32]string{
 	-13: "PaymentResultCodePaymentAmountIsLessThanDestFee",
 	-14: "PaymentResultCodeDestinationAccountNotFound",
 	-15: "PaymentResultCodeIncorrectAmountPrecision",
+	-16: "PaymentResultCodeInvalidSubject",
 }
 
 var paymentResultCodeShortMap = map[int32]string{
@@ -34803,6 +35261,7 @@ var paymentResultCodeShortMap = map[int32]string{
 	-13: "payment_amount_is_less_than_dest_fee",
 	-14: "destination_account_not_found",
 	-15: "incorrect_amount_precision",
+	-16: "invalid_subject",
 }
 
 var paymentResultCodeRevMap = map[string]int32{
@@ -34822,6 +35281,7 @@ var paymentResultCodeRevMap = map[string]int32{
 	"PaymentResultCodePaymentAmountIsLessThanDestFee": -13,
 	"PaymentResultCodeDestinationAccountNotFound":     -14,
 	"PaymentResultCodeIncorrectAmountPrecision":       -15,
+	"PaymentResultCodeInvalidSubject":                 -16,
 }
 
 // ValidEnum validates a proposed value for this enum.  Implements
@@ -35878,18 +36338,29 @@ type RemoveAssetOp struct {
 //        //: Asset can't be deleted as it has active offers
 //        HAS_ACTIVE_OFFERS = -3,
 //        //: Asset can't be deleted as it has active sales
-//        HAS_ACTIVE_SALES = -4
-//
+//        HAS_ACTIVE_SALES = -4,
+//        //: Asset can't be deleted as it has active atomic swaps
+//        HAS_ACTIVE_ATOMIC_SWAPS = -5,
+//        //: Asset can't be deleted as it has active swaps
+//        HAS_ACTIVE_SWAPS = -6,
+//        //: Asset can't be deleted as it is stats quote asset
+//        CANNOT_REMOVE_STATS_QUOTE_ASSET = -7,
+//        //: Cannot delete asset, as some balances in target asset have non-empty locked amount
+//        HAS_PENDING_MOVEMENTS = -8
 //    };
 //
 type RemoveAssetResultCode int32
 
 const (
-	RemoveAssetResultCodeSuccess          RemoveAssetResultCode = 0
-	RemoveAssetResultCodeInvalidAssetCode RemoveAssetResultCode = -1
-	RemoveAssetResultCodeHasPair          RemoveAssetResultCode = -2
-	RemoveAssetResultCodeHasActiveOffers  RemoveAssetResultCode = -3
-	RemoveAssetResultCodeHasActiveSales   RemoveAssetResultCode = -4
+	RemoveAssetResultCodeSuccess                     RemoveAssetResultCode = 0
+	RemoveAssetResultCodeInvalidAssetCode            RemoveAssetResultCode = -1
+	RemoveAssetResultCodeHasPair                     RemoveAssetResultCode = -2
+	RemoveAssetResultCodeHasActiveOffers             RemoveAssetResultCode = -3
+	RemoveAssetResultCodeHasActiveSales              RemoveAssetResultCode = -4
+	RemoveAssetResultCodeHasActiveAtomicSwaps        RemoveAssetResultCode = -5
+	RemoveAssetResultCodeHasActiveSwaps              RemoveAssetResultCode = -6
+	RemoveAssetResultCodeCannotRemoveStatsQuoteAsset RemoveAssetResultCode = -7
+	RemoveAssetResultCodeHasPendingMovements         RemoveAssetResultCode = -8
 )
 
 var RemoveAssetResultCodeAll = []RemoveAssetResultCode{
@@ -35898,6 +36369,10 @@ var RemoveAssetResultCodeAll = []RemoveAssetResultCode{
 	RemoveAssetResultCodeHasPair,
 	RemoveAssetResultCodeHasActiveOffers,
 	RemoveAssetResultCodeHasActiveSales,
+	RemoveAssetResultCodeHasActiveAtomicSwaps,
+	RemoveAssetResultCodeHasActiveSwaps,
+	RemoveAssetResultCodeCannotRemoveStatsQuoteAsset,
+	RemoveAssetResultCodeHasPendingMovements,
 }
 
 var removeAssetResultCodeMap = map[int32]string{
@@ -35906,6 +36381,10 @@ var removeAssetResultCodeMap = map[int32]string{
 	-2: "RemoveAssetResultCodeHasPair",
 	-3: "RemoveAssetResultCodeHasActiveOffers",
 	-4: "RemoveAssetResultCodeHasActiveSales",
+	-5: "RemoveAssetResultCodeHasActiveAtomicSwaps",
+	-6: "RemoveAssetResultCodeHasActiveSwaps",
+	-7: "RemoveAssetResultCodeCannotRemoveStatsQuoteAsset",
+	-8: "RemoveAssetResultCodeHasPendingMovements",
 }
 
 var removeAssetResultCodeShortMap = map[int32]string{
@@ -35914,14 +36393,22 @@ var removeAssetResultCodeShortMap = map[int32]string{
 	-2: "has_pair",
 	-3: "has_active_offers",
 	-4: "has_active_sales",
+	-5: "has_active_atomic_swaps",
+	-6: "has_active_swaps",
+	-7: "cannot_remove_stats_quote_asset",
+	-8: "has_pending_movements",
 }
 
 var removeAssetResultCodeRevMap = map[string]int32{
-	"RemoveAssetResultCodeSuccess":          0,
-	"RemoveAssetResultCodeInvalidAssetCode": -1,
-	"RemoveAssetResultCodeHasPair":          -2,
-	"RemoveAssetResultCodeHasActiveOffers":  -3,
-	"RemoveAssetResultCodeHasActiveSales":   -4,
+	"RemoveAssetResultCodeSuccess":                     0,
+	"RemoveAssetResultCodeInvalidAssetCode":            -1,
+	"RemoveAssetResultCodeHasPair":                     -2,
+	"RemoveAssetResultCodeHasActiveOffers":             -3,
+	"RemoveAssetResultCodeHasActiveSales":              -4,
+	"RemoveAssetResultCodeHasActiveAtomicSwaps":        -5,
+	"RemoveAssetResultCodeHasActiveSwaps":              -6,
+	"RemoveAssetResultCodeCannotRemoveStatsQuoteAsset": -7,
+	"RemoveAssetResultCodeHasPendingMovements":         -8,
 }
 
 // ValidEnum validates a proposed value for this enum.  Implements
@@ -36863,16 +37350,19 @@ type AtomicSwapBidExtended struct {
 //            ManageOfferResult manageOfferResult;
 //        case CREATE_PAYMENT:
 //            PaymentResult paymentResult;
+//        case PERFORM_REDEMPTION:
+//            CreateRedemptionRequestResult createRedemptionResult;
 //        }
 //
 type ExtendedResultTypeExt struct {
-	RequestType           ReviewableRequestType  `json:"requestType,omitempty"`
-	SaleExtended          *SaleExtended          `json:"saleExtended,omitempty"`
-	AtomicSwapBidExtended *AtomicSwapBidExtended `json:"atomicSwapBidExtended,omitempty"`
-	AtomicSwapAskExtended *AtomicSwapAskExtended `json:"atomicSwapAskExtended,omitempty"`
-	CreatePoll            *CreatePollExtended    `json:"createPoll,omitempty"`
-	ManageOfferResult     *ManageOfferResult     `json:"manageOfferResult,omitempty"`
-	PaymentResult         *PaymentResult         `json:"paymentResult,omitempty"`
+	RequestType            ReviewableRequestType          `json:"requestType,omitempty"`
+	SaleExtended           *SaleExtended                  `json:"saleExtended,omitempty"`
+	AtomicSwapBidExtended  *AtomicSwapBidExtended         `json:"atomicSwapBidExtended,omitempty"`
+	AtomicSwapAskExtended  *AtomicSwapAskExtended         `json:"atomicSwapAskExtended,omitempty"`
+	CreatePoll             *CreatePollExtended            `json:"createPoll,omitempty"`
+	ManageOfferResult      *ManageOfferResult             `json:"manageOfferResult,omitempty"`
+	PaymentResult          *PaymentResult                 `json:"paymentResult,omitempty"`
+	CreateRedemptionResult *CreateRedemptionRequestResult `json:"createRedemptionResult,omitempty"`
 }
 
 // SwitchFieldName returns the field name in which this union's
@@ -36899,6 +37389,8 @@ func (u ExtendedResultTypeExt) ArmForSwitch(sw int32) (string, bool) {
 		return "ManageOfferResult", true
 	case ReviewableRequestTypeCreatePayment:
 		return "PaymentResult", true
+	case ReviewableRequestTypePerformRedemption:
+		return "CreateRedemptionResult", true
 	}
 	return "-", false
 }
@@ -36951,6 +37443,13 @@ func NewExtendedResultTypeExt(requestType ReviewableRequestType, value interface
 			return
 		}
 		result.PaymentResult = &tv
+	case ReviewableRequestTypePerformRedemption:
+		tv, ok := value.(CreateRedemptionRequestResult)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be CreateRedemptionRequestResult")
+			return
+		}
+		result.CreateRedemptionResult = &tv
 	}
 	return
 }
@@ -37105,6 +37604,31 @@ func (u ExtendedResultTypeExt) GetPaymentResult() (result PaymentResult, ok bool
 	return
 }
 
+// MustCreateRedemptionResult retrieves the CreateRedemptionResult value from the union,
+// panicing if the value is not set.
+func (u ExtendedResultTypeExt) MustCreateRedemptionResult() CreateRedemptionRequestResult {
+	val, ok := u.GetCreateRedemptionResult()
+
+	if !ok {
+		panic("arm CreateRedemptionResult is not set")
+	}
+
+	return val
+}
+
+// GetCreateRedemptionResult retrieves the CreateRedemptionResult value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u ExtendedResultTypeExt) GetCreateRedemptionResult() (result CreateRedemptionRequestResult, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.RequestType))
+
+	if armName == "CreateRedemptionResult" {
+		result = *u.CreateRedemptionResult
+		ok = true
+	}
+
+	return
+}
+
 // ExtendedResultExt is an XDR NestedUnion defines as:
 //
 //   union switch (LedgerVersion v)
@@ -37165,6 +37689,8 @@ func NewExtendedResultExt(v LedgerVersion, value interface{}) (result ExtendedRe
 //            ManageOfferResult manageOfferResult;
 //        case CREATE_PAYMENT:
 //            PaymentResult paymentResult;
+//        case PERFORM_REDEMPTION:
+//            CreateRedemptionRequestResult createRedemptionResult;
 //        } typeExt;
 //
 //        //: Reserved for future use
@@ -37497,7 +38023,7 @@ type ReviewRequestOp struct {
 //    enum ReviewRequestResultCode
 //    {
 //        //: Codes considered as "success" for an operation
-//        //: Operation is applied successfuly
+//        //: Operation is applied successfully
 //        SUCCESS = 0,
 //
 //        //: Codes considered as "failure" for an operation
@@ -40392,6 +40918,25 @@ type ReviewableRequestResourceCreatePayment struct {
 	Ext       EmptyExt  `json:"ext,omitempty"`
 }
 
+// ReviewableRequestResourcePerformRedemption is an XDR NestedStruct defines as:
+//
+//   struct
+//        {
+//            //: Code of asset in which redemption is being made
+//            AssetCode assetCode;
+//            //: Type of asset in which redemption is being made
+//            uint64 assetType;
+//
+//            //: reserved for future extension
+//            EmptyExt ext;
+//        }
+//
+type ReviewableRequestResourcePerformRedemption struct {
+	AssetCode AssetCode `json:"assetCode,omitempty"`
+	AssetType Uint64    `json:"assetType,omitempty"`
+	Ext       EmptyExt  `json:"ext,omitempty"`
+}
+
 // ReviewableRequestResource is an XDR Union defines as:
 //
 //   //: Describes properties of some reviewable request types that
@@ -40516,6 +41061,17 @@ type ReviewableRequestResourceCreatePayment struct {
 //            //: reserved for future extension
 //            EmptyExt ext;
 //        } createPayment;
+//    case PERFORM_REDEMPTION:
+//        struct
+//        {
+//            //: Code of asset in which redemption is being made
+//            AssetCode assetCode;
+//            //: Type of asset in which redemption is being made
+//            uint64 assetType;
+//
+//            //: reserved for future extension
+//            EmptyExt ext;
+//        } performRedemption;
 //    default:
 //        //: reserved for future extension
 //        EmptyExt ext;
@@ -40531,6 +41087,7 @@ type ReviewableRequestResource struct {
 	CreatePoll             *ReviewableRequestResourceCreatePoll             `json:"createPoll,omitempty"`
 	ManageOffer            *ReviewableRequestResourceManageOffer            `json:"manageOffer,omitempty"`
 	CreatePayment          *ReviewableRequestResourceCreatePayment          `json:"createPayment,omitempty"`
+	PerformRedemption      *ReviewableRequestResourcePerformRedemption      `json:"performRedemption,omitempty"`
 	Ext                    *EmptyExt                                        `json:"ext,omitempty"`
 }
 
@@ -40560,6 +41117,8 @@ func (u ReviewableRequestResource) ArmForSwitch(sw int32) (string, bool) {
 		return "ManageOffer", true
 	case ReviewableRequestTypeCreatePayment:
 		return "CreatePayment", true
+	case ReviewableRequestTypePerformRedemption:
+		return "PerformRedemption", true
 	default:
 		return "Ext", true
 	}
@@ -40625,6 +41184,13 @@ func NewReviewableRequestResource(requestType ReviewableRequestType, value inter
 			return
 		}
 		result.CreatePayment = &tv
+	case ReviewableRequestTypePerformRedemption:
+		tv, ok := value.(ReviewableRequestResourcePerformRedemption)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be ReviewableRequestResourcePerformRedemption")
+			return
+		}
+		result.PerformRedemption = &tv
 	default:
 		tv, ok := value.(EmptyExt)
 		if !ok {
@@ -40830,6 +41396,31 @@ func (u ReviewableRequestResource) GetCreatePayment() (result ReviewableRequestR
 
 	if armName == "CreatePayment" {
 		result = *u.CreatePayment
+		ok = true
+	}
+
+	return
+}
+
+// MustPerformRedemption retrieves the PerformRedemption value from the union,
+// panicing if the value is not set.
+func (u ReviewableRequestResource) MustPerformRedemption() ReviewableRequestResourcePerformRedemption {
+	val, ok := u.GetPerformRedemption()
+
+	if !ok {
+		panic("arm PerformRedemption is not set")
+	}
+
+	return val
+}
+
+// GetPerformRedemption retrieves the PerformRedemption value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u ReviewableRequestResource) GetPerformRedemption() (result ReviewableRequestResourcePerformRedemption, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.RequestType))
+
+	if armName == "PerformRedemption" {
+		result = *u.PerformRedemption
 		ok = true
 	}
 
@@ -41759,7 +42350,8 @@ func (u AccountRuleResource) GetExt() (result EmptyExt, ok bool) {
 //        UPDATE_END_TIME = 18,
 //        CREATE_FOR_OTHER_WITH_TASKS = 19,
 //        REMOVE_FOR_OTHER = 20,
-//        EXCHANGE = 21
+//        EXCHANGE = 21,
+//        RECEIVE_REDEMPTION = 22
 //    };
 //
 type AccountRuleAction int32
@@ -41786,6 +42378,7 @@ const (
 	AccountRuleActionCreateForOtherWithTasks AccountRuleAction = 19
 	AccountRuleActionRemoveForOther          AccountRuleAction = 20
 	AccountRuleActionExchange                AccountRuleAction = 21
+	AccountRuleActionReceiveRedemption       AccountRuleAction = 22
 )
 
 var AccountRuleActionAll = []AccountRuleAction{
@@ -41810,6 +42403,7 @@ var AccountRuleActionAll = []AccountRuleAction{
 	AccountRuleActionCreateForOtherWithTasks,
 	AccountRuleActionRemoveForOther,
 	AccountRuleActionExchange,
+	AccountRuleActionReceiveRedemption,
 }
 
 var accountRuleActionMap = map[int32]string{
@@ -41834,6 +42428,7 @@ var accountRuleActionMap = map[int32]string{
 	19: "AccountRuleActionCreateForOtherWithTasks",
 	20: "AccountRuleActionRemoveForOther",
 	21: "AccountRuleActionExchange",
+	22: "AccountRuleActionReceiveRedemption",
 }
 
 var accountRuleActionShortMap = map[int32]string{
@@ -41858,6 +42453,7 @@ var accountRuleActionShortMap = map[int32]string{
 	19: "create_for_other_with_tasks",
 	20: "remove_for_other",
 	21: "exchange",
+	22: "receive_redemption",
 }
 
 var accountRuleActionRevMap = map[string]int32{
@@ -41882,6 +42478,7 @@ var accountRuleActionRevMap = map[string]int32{
 	"AccountRuleActionCreateForOtherWithTasks": 19,
 	"AccountRuleActionRemoveForOther":          20,
 	"AccountRuleActionExchange":                21,
+	"AccountRuleActionReceiveRedemption":       22,
 }
 
 // ValidEnum validates a proposed value for this enum.  Implements
@@ -44224,6 +44821,76 @@ type CreatePaymentRequest struct {
 	Ext       EmptyExt  `json:"ext,omitempty"`
 }
 
+// RedemptionRequestExt is an XDR NestedUnion defines as:
+//
+//   union switch (LedgerVersion v)
+//        {
+//        case EMPTY_VERSION:
+//            void;
+//        }
+//
+type RedemptionRequestExt struct {
+	V LedgerVersion `json:"v,omitempty"`
+}
+
+// SwitchFieldName returns the field name in which this union's
+// discriminant is stored
+func (u RedemptionRequestExt) SwitchFieldName() string {
+	return "V"
+}
+
+// ArmForSwitch returns which field name should be used for storing
+// the value for an instance of RedemptionRequestExt
+func (u RedemptionRequestExt) ArmForSwitch(sw int32) (string, bool) {
+	switch LedgerVersion(sw) {
+	case LedgerVersionEmptyVersion:
+		return "", true
+	}
+	return "-", false
+}
+
+// NewRedemptionRequestExt creates a new  RedemptionRequestExt.
+func NewRedemptionRequestExt(v LedgerVersion, value interface{}) (result RedemptionRequestExt, err error) {
+	result.V = v
+	switch LedgerVersion(v) {
+	case LedgerVersionEmptyVersion:
+		// void
+	}
+	return
+}
+
+// RedemptionRequest is an XDR Struct defines as:
+//
+//   //: Body of a reviewable RedemptionRequest, contains parameters regarding AML alert
+//    struct RedemptionRequest {
+//        //: Balance to charge assets from. Balance must be in asset owned by requester.
+//        BalanceID sourceBalanceID;
+//        //: Account to transfer funds
+//        AccountID destination;
+//
+//        //: Amount of redemption
+//        uint64 amount;
+//
+//        //: Arbitrary stringified json object that can be used to attach data to be reviewed by an admin
+//        longstring creatorDetails; // details set by requester
+//
+//        //: Reserved for future use
+//        union switch (LedgerVersion v)
+//        {
+//        case EMPTY_VERSION:
+//            void;
+//        }
+//        ext;
+//    };
+//
+type RedemptionRequest struct {
+	SourceBalanceId BalanceId            `json:"sourceBalanceID,omitempty"`
+	Destination     AccountId            `json:"destination,omitempty"`
+	Amount          Uint64               `json:"amount,omitempty"`
+	CreatorDetails  Longstring           `json:"creatorDetails,omitempty"`
+	Ext             RedemptionRequestExt `json:"ext,omitempty"`
+}
+
 // SaleCreationRequestQuoteAssetExt is an XDR NestedUnion defines as:
 //
 //   union switch (LedgerVersion v)
@@ -44718,6 +45385,8 @@ type WithdrawalRequest struct {
 //            OpenSwapOp openSwapOp;
 //        case CLOSE_SWAP:
 //            CloseSwapOp closeSwapOp;
+//        case CREATE_REDEMPTION_REQUEST:
+//            CreateRedemptionRequestOp createRedemptionRequestOp;
 //        }
 //
 type OperationBody struct {
@@ -44771,6 +45440,7 @@ type OperationBody struct {
 	RemoveAssetOp                            *RemoveAssetOp                            `json:"removeAssetOp,omitempty"`
 	OpenSwapOp                               *OpenSwapOp                               `json:"openSwapOp,omitempty"`
 	CloseSwapOp                              *CloseSwapOp                              `json:"closeSwapOp,omitempty"`
+	CreateRedemptionRequestOp                *CreateRedemptionRequestOp                `json:"createRedemptionRequestOp,omitempty"`
 }
 
 // SwitchFieldName returns the field name in which this union's
@@ -44881,6 +45551,8 @@ func (u OperationBody) ArmForSwitch(sw int32) (string, bool) {
 		return "OpenSwapOp", true
 	case OperationTypeCloseSwap:
 		return "CloseSwapOp", true
+	case OperationTypeCreateRedemptionRequest:
+		return "CreateRedemptionRequestOp", true
 	}
 	return "-", false
 }
@@ -45232,6 +45904,13 @@ func NewOperationBody(aType OperationType, value interface{}) (result OperationB
 			return
 		}
 		result.CloseSwapOp = &tv
+	case OperationTypeCreateRedemptionRequest:
+		tv, ok := value.(CreateRedemptionRequestOp)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be CreateRedemptionRequestOp")
+			return
+		}
+		result.CreateRedemptionRequestOp = &tv
 	}
 	return
 }
@@ -46461,6 +47140,31 @@ func (u OperationBody) GetCloseSwapOp() (result CloseSwapOp, ok bool) {
 	return
 }
 
+// MustCreateRedemptionRequestOp retrieves the CreateRedemptionRequestOp value from the union,
+// panicing if the value is not set.
+func (u OperationBody) MustCreateRedemptionRequestOp() CreateRedemptionRequestOp {
+	val, ok := u.GetCreateRedemptionRequestOp()
+
+	if !ok {
+		panic("arm CreateRedemptionRequestOp is not set")
+	}
+
+	return val
+}
+
+// GetCreateRedemptionRequestOp retrieves the CreateRedemptionRequestOp value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u OperationBody) GetCreateRedemptionRequestOp() (result CreateRedemptionRequestOp, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.Type))
+
+	if armName == "CreateRedemptionRequestOp" {
+		result = *u.CreateRedemptionRequestOp
+		ok = true
+	}
+
+	return
+}
+
 // Operation is an XDR Struct defines as:
 //
 //   //: An operation is the lowest unit of work that a transaction does
@@ -46571,6 +47275,8 @@ func (u OperationBody) GetCloseSwapOp() (result CloseSwapOp, ok bool) {
 //            OpenSwapOp openSwapOp;
 //        case CLOSE_SWAP:
 //            CloseSwapOp closeSwapOp;
+//        case CREATE_REDEMPTION_REQUEST:
+//            CreateRedemptionRequestOp createRedemptionRequestOp;
 //        }
 //        body;
 //    };
@@ -47286,6 +47992,8 @@ type AccountRuleRequirement struct {
 //            OpenSwapResult openSwapResult;
 //        case CLOSE_SWAP:
 //            CloseSwapResult closeSwapResult;
+//        case CREATE_REDEMPTION_REQUEST:
+//            CreateRedemptionRequestResult createRedemptionRequestResult;
 //        }
 //
 type OperationResultTr struct {
@@ -47339,6 +48047,7 @@ type OperationResultTr struct {
 	RemoveAssetResult                            *RemoveAssetResult                            `json:"removeAssetResult,omitempty"`
 	OpenSwapResult                               *OpenSwapResult                               `json:"openSwapResult,omitempty"`
 	CloseSwapResult                              *CloseSwapResult                              `json:"closeSwapResult,omitempty"`
+	CreateRedemptionRequestResult                *CreateRedemptionRequestResult                `json:"createRedemptionRequestResult,omitempty"`
 }
 
 // SwitchFieldName returns the field name in which this union's
@@ -47449,6 +48158,8 @@ func (u OperationResultTr) ArmForSwitch(sw int32) (string, bool) {
 		return "OpenSwapResult", true
 	case OperationTypeCloseSwap:
 		return "CloseSwapResult", true
+	case OperationTypeCreateRedemptionRequest:
+		return "CreateRedemptionRequestResult", true
 	}
 	return "-", false
 }
@@ -47800,6 +48511,13 @@ func NewOperationResultTr(aType OperationType, value interface{}) (result Operat
 			return
 		}
 		result.CloseSwapResult = &tv
+	case OperationTypeCreateRedemptionRequest:
+		tv, ok := value.(CreateRedemptionRequestResult)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be CreateRedemptionRequestResult")
+			return
+		}
+		result.CreateRedemptionRequestResult = &tv
 	}
 	return
 }
@@ -49029,6 +49747,31 @@ func (u OperationResultTr) GetCloseSwapResult() (result CloseSwapResult, ok bool
 	return
 }
 
+// MustCreateRedemptionRequestResult retrieves the CreateRedemptionRequestResult value from the union,
+// panicing if the value is not set.
+func (u OperationResultTr) MustCreateRedemptionRequestResult() CreateRedemptionRequestResult {
+	val, ok := u.GetCreateRedemptionRequestResult()
+
+	if !ok {
+		panic("arm CreateRedemptionRequestResult is not set")
+	}
+
+	return val
+}
+
+// GetCreateRedemptionRequestResult retrieves the CreateRedemptionRequestResult value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u OperationResultTr) GetCreateRedemptionRequestResult() (result CreateRedemptionRequestResult, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.Type))
+
+	if armName == "CreateRedemptionRequestResult" {
+		result = *u.CreateRedemptionRequestResult
+		ok = true
+	}
+
+	return
+}
+
 // OperationResult is an XDR Union defines as:
 //
 //   union OperationResult switch (OperationResultCode code)
@@ -49134,6 +49877,8 @@ func (u OperationResultTr) GetCloseSwapResult() (result CloseSwapResult, ok bool
 //            OpenSwapResult openSwapResult;
 //        case CLOSE_SWAP:
 //            CloseSwapResult closeSwapResult;
+//        case CREATE_REDEMPTION_REQUEST:
+//            CreateRedemptionRequestResult createRedemptionRequestResult;
 //        }
 //        tr;
 //    case opNO_ENTRY:
@@ -49738,7 +50483,10 @@ type TransactionResult struct {
 //        FIX_SIGNER_CHANGES_REMOVE = 17,
 //        FIX_DEPOSIT_STATS = 18,
 //        FIX_CREATE_KYC_RECOVERY_PERMISSIONS = 19,
-//        CLEAR_DATABASE_CACHE = 20
+//        CLEAR_DATABASE_CACHE = 20,
+//        FIX_ISSUANCE_REVIEWER = 21,
+//        MARK_ASSET_AS_DELETED = 22,
+//        FIX_MAX_SUBJECT_SIZE = 23
 //    };
 //
 type LedgerVersion int32
@@ -49765,6 +50513,9 @@ const (
 	LedgerVersionFixDepositStats                   LedgerVersion = 18
 	LedgerVersionFixCreateKycRecoveryPermissions   LedgerVersion = 19
 	LedgerVersionClearDatabaseCache                LedgerVersion = 20
+	LedgerVersionFixIssuanceReviewer               LedgerVersion = 21
+	LedgerVersionMarkAssetAsDeleted                LedgerVersion = 22
+	LedgerVersionFixMaxSubjectSize                 LedgerVersion = 23
 )
 
 var LedgerVersionAll = []LedgerVersion{
@@ -49789,6 +50540,9 @@ var LedgerVersionAll = []LedgerVersion{
 	LedgerVersionFixDepositStats,
 	LedgerVersionFixCreateKycRecoveryPermissions,
 	LedgerVersionClearDatabaseCache,
+	LedgerVersionFixIssuanceReviewer,
+	LedgerVersionMarkAssetAsDeleted,
+	LedgerVersionFixMaxSubjectSize,
 }
 
 var ledgerVersionMap = map[int32]string{
@@ -49813,6 +50567,9 @@ var ledgerVersionMap = map[int32]string{
 	18: "LedgerVersionFixDepositStats",
 	19: "LedgerVersionFixCreateKycRecoveryPermissions",
 	20: "LedgerVersionClearDatabaseCache",
+	21: "LedgerVersionFixIssuanceReviewer",
+	22: "LedgerVersionMarkAssetAsDeleted",
+	23: "LedgerVersionFixMaxSubjectSize",
 }
 
 var ledgerVersionShortMap = map[int32]string{
@@ -49837,6 +50594,9 @@ var ledgerVersionShortMap = map[int32]string{
 	18: "fix_deposit_stats",
 	19: "fix_create_kyc_recovery_permissions",
 	20: "clear_database_cache",
+	21: "fix_issuance_reviewer",
+	22: "mark_asset_as_deleted",
+	23: "fix_max_subject_size",
 }
 
 var ledgerVersionRevMap = map[string]int32{
@@ -49861,6 +50621,9 @@ var ledgerVersionRevMap = map[string]int32{
 	"LedgerVersionFixDepositStats":                   18,
 	"LedgerVersionFixCreateKycRecoveryPermissions":   19,
 	"LedgerVersionClearDatabaseCache":                20,
+	"LedgerVersionFixIssuanceReviewer":               21,
+	"LedgerVersionMarkAssetAsDeleted":                22,
+	"LedgerVersionFixMaxSubjectSize":                 23,
 }
 
 // ValidEnum validates a proposed value for this enum.  Implements
@@ -50900,7 +51663,8 @@ type Fee struct {
 //        CREATE_PAYMENT_REQUEST = 52,
 //        REMOVE_ASSET = 53,
 //        OPEN_SWAP = 54,
-//        CLOSE_SWAP = 55
+//        CLOSE_SWAP = 55,
+//        CREATE_REDEMPTION_REQUEST = 56
 //    };
 //
 type OperationType int32
@@ -50955,6 +51719,7 @@ const (
 	OperationTypeRemoveAsset                            OperationType = 53
 	OperationTypeOpenSwap                               OperationType = 54
 	OperationTypeCloseSwap                              OperationType = 55
+	OperationTypeCreateRedemptionRequest                OperationType = 56
 )
 
 var OperationTypeAll = []OperationType{
@@ -51007,6 +51772,7 @@ var OperationTypeAll = []OperationType{
 	OperationTypeRemoveAsset,
 	OperationTypeOpenSwap,
 	OperationTypeCloseSwap,
+	OperationTypeCreateRedemptionRequest,
 }
 
 var operationTypeMap = map[int32]string{
@@ -51059,6 +51825,7 @@ var operationTypeMap = map[int32]string{
 	53: "OperationTypeRemoveAsset",
 	54: "OperationTypeOpenSwap",
 	55: "OperationTypeCloseSwap",
+	56: "OperationTypeCreateRedemptionRequest",
 }
 
 var operationTypeShortMap = map[int32]string{
@@ -51111,6 +51878,7 @@ var operationTypeShortMap = map[int32]string{
 	53: "remove_asset",
 	54: "open_swap",
 	55: "close_swap",
+	56: "create_redemption_request",
 }
 
 var operationTypeRevMap = map[string]int32{
@@ -51163,6 +51931,7 @@ var operationTypeRevMap = map[string]int32{
 	"OperationTypeRemoveAsset":                            53,
 	"OperationTypeOpenSwap":                               54,
 	"OperationTypeCloseSwap":                              55,
+	"OperationTypeCreateRedemptionRequest":                56,
 }
 
 // ValidEnum validates a proposed value for this enum.  Implements
@@ -51241,4 +52010,4 @@ type DecoratedSignature struct {
 }
 
 var fmtTest = fmt.Sprint("this is a dummy usage of fmt")
-var Revision = "dcb0962ff5cc056c96c54b6678f34278a66eeddd"
+var Revision = "5cf21644b65d3e0119a7164d24e81e7f5ceefae3"

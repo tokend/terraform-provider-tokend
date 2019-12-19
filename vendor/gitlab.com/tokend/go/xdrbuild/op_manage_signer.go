@@ -11,6 +11,10 @@ type CreateSigner struct {
 	SignerData
 }
 
+type RemoveSigner struct {
+	PublicKey string
+}
+
 type SignerData struct {
 	PublicKey string
 	RoleID    uint64
@@ -52,6 +56,27 @@ func (op *CreateSigner) XDR() (*xdr.Operation, error) {
 				Data: xdr.ManageSignerOpData{
 					Action:     xdr.ManageSignerActionCreate,
 					CreateData: data,
+				},
+			},
+		},
+	}, nil
+}
+
+func (op *RemoveSigner) XDR() (*xdr.Operation, error) {
+	var publicKey xdr.AccountId
+	if err := publicKey.SetAddress(op.PublicKey); err != nil {
+		return nil, errors.Wrap(err, "failed to set public key")
+	}
+
+	return &xdr.Operation{
+		Body: xdr.OperationBody{
+			Type: xdr.OperationTypeManageSigner,
+			ManageSignerOp: &xdr.ManageSignerOp{
+				Data: xdr.ManageSignerOpData{
+					Action:     xdr.ManageSignerActionRemove,
+					RemoveData: &xdr.RemoveSignerData{
+						PublicKey: xdr.PublicKey(publicKey),
+					},
 				},
 			},
 		},
