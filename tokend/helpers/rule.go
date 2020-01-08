@@ -346,6 +346,8 @@ var RuleActions = map[string]RuleActionFunc{
 	"review":            ruleActionReview,
 	"custom":            ruleActionCustom,
 	"recover":           ruleActionStub(xdr.RuleActionTypeRecover),
+	"remove":            ruleActionStub(xdr.RuleActionTypeRemove),
+	"change_roles":      ruleActionChangeRoles,
 }
 
 func ruleActionCreate(d Map) (*xdr.RuleAction, error) {
@@ -454,6 +456,26 @@ func ruleActionInitiateRecovery(d Map) (*xdr.RuleAction, error) {
 	return &xdr.RuleAction{
 		Type: xdr.RuleActionTypeInitiateRecovery,
 		InitiateRecovery: &xdr.RuleActionInitiateRecovery{
+			RoleIDs: roles,
+		},
+	}, nil
+}
+
+func ruleActionChangeRoles(d Map) (*xdr.RuleAction, error) {
+	roleIDs := d["role_ids"].([]interface{})
+	roles := make([]xdr.Uint64, 0, len(roleIDs))
+	for _, r := range roleIDs {
+		roleID, err := WildCardUint64FromRaw(r.(string))
+		if err != nil {
+			return nil, errors.Wrap(err, "failed to cast roleID to uint64")
+		}
+
+		roles = append(roles, xdr.Uint64(roleID))
+	}
+
+	return &xdr.RuleAction{
+		Type: xdr.RuleActionTypeChangeRoles,
+		ChangeRoles: &xdr.RuleActionChangeRoles{
 			RoleIDs: roles,
 		},
 	}, nil
