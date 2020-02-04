@@ -95,6 +95,11 @@ func signerRuleResourceReviewableRequest(d *schema.ResourceData) (*xdr.SignerRul
 			AssetCode: "*",            // TODO
 			AssetType: math.MaxUint64, // TODO
 		}
+	case xdr.ReviewableRequestTypePerformRedemption:
+		resource.ReviewableRequest.Details.PerformRedemption = &xdr.ReviewableRequestResourcePerformRedemption{
+			AssetCode: "*", //TODO
+			AssetType: math.MaxUint64, //TODO
+		}
 	}
 
 	return &resource, nil
