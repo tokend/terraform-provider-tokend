@@ -2,6 +2,7 @@ package helpers
 
 import (
 	"fmt"
+	"math"
 
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/spf13/cast"
@@ -90,7 +91,7 @@ func accountRuleResourceReviewableRequest(d *schema.ResourceData) (*xdr.AccountR
 			return nil, fmt.Errorf("unknown request type: %s", requestTypeRaw)
 		}
 	}
-	return &xdr.AccountRuleResource{
+	result := &xdr.AccountRuleResource{
 		Type: xdr.LedgerEntryTypeReviewableRequest,
 		ReviewableRequest: &xdr.AccountRuleResourceReviewableRequest{
 			Details: xdr.ReviewableRequestResource{
@@ -98,7 +99,17 @@ func accountRuleResourceReviewableRequest(d *schema.ResourceData) (*xdr.AccountR
 				Ext:         &xdr.EmptyExt{},
 			},
 		},
-	}, nil
+	}
+
+	switch result.ReviewableRequest.Details.RequestType {
+	case xdr.ReviewableRequestTypePerformRedemption:
+		result.ReviewableRequest.Details.PerformRedemption = &xdr.ReviewableRequestResourcePerformRedemption{
+			AssetCode: "*", //TODO
+			AssetType: math.MaxUint64, //TODO
+		}
+	}
+
+	return result, nil
 }
 
 func accountRuleResourceOffer(d *schema.ResourceData) (*xdr.AccountRuleResource, error) {
