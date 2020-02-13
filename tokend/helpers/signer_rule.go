@@ -22,6 +22,7 @@ var SignerRuleEntries = map[string]SignerRuleEntryFunc{
 	"reviewable_request": signerRuleResourceReviewableRequest,
 	"stamp":              signerRuleResourceStamp,
 	"license":            signerRuleResourceLicense,
+	"asset_pair":         signerRuleResourceAssetPair,
 }
 
 func SignerRuleEntry(d *schema.ResourceData) (*xdr.SignerRuleResource, error) {
@@ -97,7 +98,7 @@ func signerRuleResourceReviewableRequest(d *schema.ResourceData) (*xdr.SignerRul
 		}
 	case xdr.ReviewableRequestTypePerformRedemption:
 		resource.ReviewableRequest.Details.PerformRedemption = &xdr.ReviewableRequestResourcePerformRedemption{
-			AssetCode: "*", //TODO
+			AssetCode: "*",            //TODO
 			AssetType: math.MaxUint64, //TODO
 		}
 	}
@@ -172,6 +173,13 @@ func signerRuleResourceStamp(_ *schema.ResourceData) (*xdr.SignerRuleResource, e
 func signerRuleResourceLicense(_ *schema.ResourceData) (*xdr.SignerRuleResource, error) {
 	return &xdr.SignerRuleResource{
 		Type: xdr.LedgerEntryTypeLicense,
+		Ext:  &xdr.EmptyExt{},
+	}, nil
+}
+
+func signerRuleResourceAssetPair(_ *schema.ResourceData) (*xdr.SignerRuleResource, error) {
+	return &xdr.SignerRuleResource{
+		Type: xdr.LedgerEntryTypeAssetPair,
 		Ext:  &xdr.EmptyExt{},
 	}, nil
 }
