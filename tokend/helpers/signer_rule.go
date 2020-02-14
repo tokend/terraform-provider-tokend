@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"math"
 
+	"github.com/spf13/cast"
+
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/pkg/errors"
 	"gitlab.com/tokend/go/xdr"
@@ -80,9 +82,15 @@ func signerRuleResourceReviewableRequest(d *schema.ResourceData) (*xdr.SignerRul
 		}
 	}
 
+	rawTasksToRemove := d.Get("entry.tasks_to_remove")
+	tasksToRemove, err := cast.ToUint64E(rawTasksToRemove)
+	if err != nil {
+		tasksToRemove = uint64(math.MaxUint64)
+	}
+
 	resource.ReviewableRequest = &xdr.SignerRuleResourceReviewableRequest{
 		TasksToAdd:    xdr.Uint64(math.MaxUint64), // TODO
-		TasksToRemove: xdr.Uint64(math.MaxUint64), // TODO
+		TasksToRemove: xdr.Uint64(tasksToRemove),
 		AllTasks:      xdr.Uint64(math.MaxUint64), // TODO
 		Details: xdr.ReviewableRequestResource{
 			RequestType: requestType,
