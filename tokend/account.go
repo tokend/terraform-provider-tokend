@@ -123,7 +123,7 @@ func resourceAccountUpdate(d *schema.ResourceData, meta interface{}) error {
 }
 
 func resourceAccountRead(d *schema.ResourceData, meta interface{}) error {
-	return errors.New("tokend_account read is not implemented")
+	return nil
 }
 
 func resourceAccountDelete(d *schema.ResourceData, meta interface{}) error {
