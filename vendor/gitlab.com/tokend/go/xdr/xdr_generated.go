@@ -1,5 +1,5 @@
-// revision: 5cf21644b65d3e0119a7164d24e81e7f5ceefae3
-// branch:   feature/redemption-rr
+// revision: cb9934f17765fd65f2c5ecaf7b177c8b39408888
+// branch:   feature/movements-rr-details
 // Package xdr is generated from:
 //
 //  xdr/SCP.x
@@ -16945,7 +16945,9 @@ type CreateManageOfferRequestOp struct {
 //        //: Offer is invalid
 //        INVALID_OFFER = -1,
 //        //: Tasks for the manage offer request were neither provided in the request nor loaded through KeyValue
-//        MANAGE_OFFER_TASKS_NOT_FOUND = -2
+//        MANAGE_OFFER_TASKS_NOT_FOUND = -2,
+//        //: Creator details are not in a valid JSON format
+//        INVALID_CREATOR_DETAILS = -3
 //    };
 //
 type CreateManageOfferRequestResultCode int32
@@ -16954,30 +16956,35 @@ const (
 	CreateManageOfferRequestResultCodeSuccess                  CreateManageOfferRequestResultCode = 0
 	CreateManageOfferRequestResultCodeInvalidOffer             CreateManageOfferRequestResultCode = -1
 	CreateManageOfferRequestResultCodeManageOfferTasksNotFound CreateManageOfferRequestResultCode = -2
+	CreateManageOfferRequestResultCodeInvalidCreatorDetails    CreateManageOfferRequestResultCode = -3
 )
 
 var CreateManageOfferRequestResultCodeAll = []CreateManageOfferRequestResultCode{
 	CreateManageOfferRequestResultCodeSuccess,
 	CreateManageOfferRequestResultCodeInvalidOffer,
 	CreateManageOfferRequestResultCodeManageOfferTasksNotFound,
+	CreateManageOfferRequestResultCodeInvalidCreatorDetails,
 }
 
 var createManageOfferRequestResultCodeMap = map[int32]string{
 	0:  "CreateManageOfferRequestResultCodeSuccess",
 	-1: "CreateManageOfferRequestResultCodeInvalidOffer",
 	-2: "CreateManageOfferRequestResultCodeManageOfferTasksNotFound",
+	-3: "CreateManageOfferRequestResultCodeInvalidCreatorDetails",
 }
 
 var createManageOfferRequestResultCodeShortMap = map[int32]string{
 	0:  "success",
 	-1: "invalid_offer",
 	-2: "manage_offer_tasks_not_found",
+	-3: "invalid_creator_details",
 }
 
 var createManageOfferRequestResultCodeRevMap = map[string]int32{
 	"CreateManageOfferRequestResultCodeSuccess":                  0,
 	"CreateManageOfferRequestResultCodeInvalidOffer":             -1,
 	"CreateManageOfferRequestResultCodeManageOfferTasksNotFound": -2,
+	"CreateManageOfferRequestResultCodeInvalidCreatorDetails":    -3,
 }
 
 // ValidEnum validates a proposed value for this enum.  Implements
@@ -17207,39 +17214,46 @@ type CreatePaymentRequestOp struct {
 //        //: Payment is invalid
 //        INVALID_PAYMENT = -1,
 //        //: Tasks for the payment request were neither provided in the request nor loaded through KeyValue
-//        PAYMENT_TASKS_NOT_FOUND = -2
+//        PAYMENT_TASKS_NOT_FOUND = -2,
+//        //: Creator details are not in a valid JSON format
+//        INVALID_CREATOR_DETAILS = -3
 //    };
 //
 type CreatePaymentRequestResultCode int32
 
 const (
-	CreatePaymentRequestResultCodeSuccess              CreatePaymentRequestResultCode = 0
-	CreatePaymentRequestResultCodeInvalidPayment       CreatePaymentRequestResultCode = -1
-	CreatePaymentRequestResultCodePaymentTasksNotFound CreatePaymentRequestResultCode = -2
+	CreatePaymentRequestResultCodeSuccess               CreatePaymentRequestResultCode = 0
+	CreatePaymentRequestResultCodeInvalidPayment        CreatePaymentRequestResultCode = -1
+	CreatePaymentRequestResultCodePaymentTasksNotFound  CreatePaymentRequestResultCode = -2
+	CreatePaymentRequestResultCodeInvalidCreatorDetails CreatePaymentRequestResultCode = -3
 )
 
 var CreatePaymentRequestResultCodeAll = []CreatePaymentRequestResultCode{
 	CreatePaymentRequestResultCodeSuccess,
 	CreatePaymentRequestResultCodeInvalidPayment,
 	CreatePaymentRequestResultCodePaymentTasksNotFound,
+	CreatePaymentRequestResultCodeInvalidCreatorDetails,
 }
 
 var createPaymentRequestResultCodeMap = map[int32]string{
 	0:  "CreatePaymentRequestResultCodeSuccess",
 	-1: "CreatePaymentRequestResultCodeInvalidPayment",
 	-2: "CreatePaymentRequestResultCodePaymentTasksNotFound",
+	-3: "CreatePaymentRequestResultCodeInvalidCreatorDetails",
 }
 
 var createPaymentRequestResultCodeShortMap = map[int32]string{
 	0:  "success",
 	-1: "invalid_payment",
 	-2: "payment_tasks_not_found",
+	-3: "invalid_creator_details",
 }
 
 var createPaymentRequestResultCodeRevMap = map[string]int32{
-	"CreatePaymentRequestResultCodeSuccess":              0,
-	"CreatePaymentRequestResultCodeInvalidPayment":       -1,
-	"CreatePaymentRequestResultCodePaymentTasksNotFound": -2,
+	"CreatePaymentRequestResultCodeSuccess":               0,
+	"CreatePaymentRequestResultCodeInvalidPayment":        -1,
+	"CreatePaymentRequestResultCodePaymentTasksNotFound":  -2,
+	"CreatePaymentRequestResultCodeInvalidCreatorDetails": -3,
 }
 
 // ValidEnum validates a proposed value for this enum.  Implements
@@ -17921,24 +17935,27 @@ type CreateRedemptionRequestOp struct {
 //        //: No destination with provided account ID
 //        DST_ACCOUNT_NOT_FOUND = -10,
 //        //: Not allowed to set zero tasks for request
-//        REDEMPTION_ZERO_TASKS_NOT_ALLOWED = -11
+//        REDEMPTION_ZERO_TASKS_NOT_ALLOWED = -11,
+//        //: Not allowed to redeem non-owned asset
+//        REDEMPTION_NON_OWNED_ASSET_FORBIDDEN = -12
 //    };
 //
 type CreateRedemptionRequestResultCode int32
 
 const (
-	CreateRedemptionRequestResultCodeSuccess                       CreateRedemptionRequestResultCode = 0
-	CreateRedemptionRequestResultCodeInvalidRedemption             CreateRedemptionRequestResultCode = -1
-	CreateRedemptionRequestResultCodeRedemptionTasksNotFound       CreateRedemptionRequestResultCode = -2
-	CreateRedemptionRequestResultCodeInvalidCreatorDetails         CreateRedemptionRequestResultCode = -3
-	CreateRedemptionRequestResultCodeInvalidAmount                 CreateRedemptionRequestResultCode = -4
-	CreateRedemptionRequestResultCodeInvalidReference              CreateRedemptionRequestResultCode = -5
-	CreateRedemptionRequestResultCodeSourceBalanceNotExist         CreateRedemptionRequestResultCode = -6
-	CreateRedemptionRequestResultCodeIncorrectPrecision            CreateRedemptionRequestResultCode = -7
-	CreateRedemptionRequestResultCodeUnderfunded                   CreateRedemptionRequestResultCode = -8
-	CreateRedemptionRequestResultCodeReferenceDuplication          CreateRedemptionRequestResultCode = -9
-	CreateRedemptionRequestResultCodeDstAccountNotFound            CreateRedemptionRequestResultCode = -10
-	CreateRedemptionRequestResultCodeRedemptionZeroTasksNotAllowed CreateRedemptionRequestResultCode = -11
+	CreateRedemptionRequestResultCodeSuccess                          CreateRedemptionRequestResultCode = 0
+	CreateRedemptionRequestResultCodeInvalidRedemption                CreateRedemptionRequestResultCode = -1
+	CreateRedemptionRequestResultCodeRedemptionTasksNotFound          CreateRedemptionRequestResultCode = -2
+	CreateRedemptionRequestResultCodeInvalidCreatorDetails            CreateRedemptionRequestResultCode = -3
+	CreateRedemptionRequestResultCodeInvalidAmount                    CreateRedemptionRequestResultCode = -4
+	CreateRedemptionRequestResultCodeInvalidReference                 CreateRedemptionRequestResultCode = -5
+	CreateRedemptionRequestResultCodeSourceBalanceNotExist            CreateRedemptionRequestResultCode = -6
+	CreateRedemptionRequestResultCodeIncorrectPrecision               CreateRedemptionRequestResultCode = -7
+	CreateRedemptionRequestResultCodeUnderfunded                      CreateRedemptionRequestResultCode = -8
+	CreateRedemptionRequestResultCodeReferenceDuplication             CreateRedemptionRequestResultCode = -9
+	CreateRedemptionRequestResultCodeDstAccountNotFound               CreateRedemptionRequestResultCode = -10
+	CreateRedemptionRequestResultCodeRedemptionZeroTasksNotAllowed    CreateRedemptionRequestResultCode = -11
+	CreateRedemptionRequestResultCodeRedemptionNonOwnedAssetForbidden CreateRedemptionRequestResultCode = -12
 )
 
 var CreateRedemptionRequestResultCodeAll = []CreateRedemptionRequestResultCode{
@@ -17954,6 +17971,7 @@ var CreateRedemptionRequestResultCodeAll = []CreateRedemptionRequestResultCode{
 	CreateRedemptionRequestResultCodeReferenceDuplication,
 	CreateRedemptionRequestResultCodeDstAccountNotFound,
 	CreateRedemptionRequestResultCodeRedemptionZeroTasksNotAllowed,
+	CreateRedemptionRequestResultCodeRedemptionNonOwnedAssetForbidden,
 }
 
 var createRedemptionRequestResultCodeMap = map[int32]string{
@@ -17969,6 +17987,7 @@ var createRedemptionRequestResultCodeMap = map[int32]string{
 	-9:  "CreateRedemptionRequestResultCodeReferenceDuplication",
 	-10: "CreateRedemptionRequestResultCodeDstAccountNotFound",
 	-11: "CreateRedemptionRequestResultCodeRedemptionZeroTasksNotAllowed",
+	-12: "CreateRedemptionRequestResultCodeRedemptionNonOwnedAssetForbidden",
 }
 
 var createRedemptionRequestResultCodeShortMap = map[int32]string{
@@ -17984,21 +18003,23 @@ var createRedemptionRequestResultCodeShortMap = map[int32]string{
 	-9:  "reference_duplication",
 	-10: "dst_account_not_found",
 	-11: "redemption_zero_tasks_not_allowed",
+	-12: "redemption_non_owned_asset_forbidden",
 }
 
 var createRedemptionRequestResultCodeRevMap = map[string]int32{
-	"CreateRedemptionRequestResultCodeSuccess":                       0,
-	"CreateRedemptionRequestResultCodeInvalidRedemption":             -1,
-	"CreateRedemptionRequestResultCodeRedemptionTasksNotFound":       -2,
-	"CreateRedemptionRequestResultCodeInvalidCreatorDetails":         -3,
-	"CreateRedemptionRequestResultCodeInvalidAmount":                 -4,
-	"CreateRedemptionRequestResultCodeInvalidReference":              -5,
-	"CreateRedemptionRequestResultCodeSourceBalanceNotExist":         -6,
-	"CreateRedemptionRequestResultCodeIncorrectPrecision":            -7,
-	"CreateRedemptionRequestResultCodeUnderfunded":                   -8,
-	"CreateRedemptionRequestResultCodeReferenceDuplication":          -9,
-	"CreateRedemptionRequestResultCodeDstAccountNotFound":            -10,
-	"CreateRedemptionRequestResultCodeRedemptionZeroTasksNotAllowed": -11,
+	"CreateRedemptionRequestResultCodeSuccess":                          0,
+	"CreateRedemptionRequestResultCodeInvalidRedemption":                -1,
+	"CreateRedemptionRequestResultCodeRedemptionTasksNotFound":          -2,
+	"CreateRedemptionRequestResultCodeInvalidCreatorDetails":            -3,
+	"CreateRedemptionRequestResultCodeInvalidAmount":                    -4,
+	"CreateRedemptionRequestResultCodeInvalidReference":                 -5,
+	"CreateRedemptionRequestResultCodeSourceBalanceNotExist":            -6,
+	"CreateRedemptionRequestResultCodeIncorrectPrecision":               -7,
+	"CreateRedemptionRequestResultCodeUnderfunded":                      -8,
+	"CreateRedemptionRequestResultCodeReferenceDuplication":             -9,
+	"CreateRedemptionRequestResultCodeDstAccountNotFound":               -10,
+	"CreateRedemptionRequestResultCodeRedemptionZeroTasksNotAllowed":    -11,
+	"CreateRedemptionRequestResultCodeRedemptionNonOwnedAssetForbidden": -12,
 }
 
 // ValidEnum validates a proposed value for this enum.  Implements
@@ -19569,7 +19590,8 @@ type LicenseOp struct {
 //        //: Provided due date is in the past.
 //        INVALID_DUE_DATE = -2,
 //        //: Not enough valid signatures to submit a license (at least one valid signature is required)
-//        INVALID_SIGNATURE = -3
+//        INVALID_SIGNATURE = -3,
+//        EXTRA_SIGNATURES = -4
 //    };
 //
 type LicenseResultCode int32
@@ -19579,6 +19601,7 @@ const (
 	LicenseResultCodeInvalidStamp     LicenseResultCode = -1
 	LicenseResultCodeInvalidDueDate   LicenseResultCode = -2
 	LicenseResultCodeInvalidSignature LicenseResultCode = -3
+	LicenseResultCodeExtraSignatures  LicenseResultCode = -4
 )
 
 var LicenseResultCodeAll = []LicenseResultCode{
@@ -19586,6 +19609,7 @@ var LicenseResultCodeAll = []LicenseResultCode{
 	LicenseResultCodeInvalidStamp,
 	LicenseResultCodeInvalidDueDate,
 	LicenseResultCodeInvalidSignature,
+	LicenseResultCodeExtraSignatures,
 }
 
 var licenseResultCodeMap = map[int32]string{
@@ -19593,6 +19617,7 @@ var licenseResultCodeMap = map[int32]string{
 	-1: "LicenseResultCodeInvalidStamp",
 	-2: "LicenseResultCodeInvalidDueDate",
 	-3: "LicenseResultCodeInvalidSignature",
+	-4: "LicenseResultCodeExtraSignatures",
 }
 
 var licenseResultCodeShortMap = map[int32]string{
@@ -19600,6 +19625,7 @@ var licenseResultCodeShortMap = map[int32]string{
 	-1: "invalid_stamp",
 	-2: "invalid_due_date",
 	-3: "invalid_signature",
+	-4: "extra_signatures",
 }
 
 var licenseResultCodeRevMap = map[string]int32{
@@ -19607,6 +19633,7 @@ var licenseResultCodeRevMap = map[string]int32{
 	"LicenseResultCodeInvalidStamp":     -1,
 	"LicenseResultCodeInvalidDueDate":   -2,
 	"LicenseResultCodeInvalidSignature": -3,
+	"LicenseResultCodeExtraSignatures":  -4,
 }
 
 // ValidEnum validates a proposed value for this enum.  Implements
@@ -36305,7 +36332,7 @@ func NewRemoveAssetOpExt(v LedgerVersion, value interface{}) (result RemoveAsset
 
 // RemoveAssetOp is an XDR Struct defines as:
 //
-//   //: `RemoveAssetOp` removes specified asset pair
+//   //: `RemoveAssetOp` changes the state of specified asset to removed
 //    struct RemoveAssetOp
 //    {
 //        //: Defines an asset
@@ -44793,18 +44820,174 @@ type LimitsUpdateRequest struct {
 	Ext            LimitsUpdateRequestExt `json:"ext,omitempty"`
 }
 
+// ManageOfferRequestExt is an XDR NestedUnion defines as:
+//
+//   union switch (LedgerVersion v)
+//        {
+//        case EMPTY_VERSION:
+//            void;
+//        case MOVEMENT_REQUESTS_DETAILS:
+//            longstring creatorDetails;
+//        }
+//
+type ManageOfferRequestExt struct {
+	V              LedgerVersion `json:"v,omitempty"`
+	CreatorDetails *Longstring   `json:"creatorDetails,omitempty"`
+}
+
+// SwitchFieldName returns the field name in which this union's
+// discriminant is stored
+func (u ManageOfferRequestExt) SwitchFieldName() string {
+	return "V"
+}
+
+// ArmForSwitch returns which field name should be used for storing
+// the value for an instance of ManageOfferRequestExt
+func (u ManageOfferRequestExt) ArmForSwitch(sw int32) (string, bool) {
+	switch LedgerVersion(sw) {
+	case LedgerVersionEmptyVersion:
+		return "", true
+	case LedgerVersionMovementRequestsDetails:
+		return "CreatorDetails", true
+	}
+	return "-", false
+}
+
+// NewManageOfferRequestExt creates a new  ManageOfferRequestExt.
+func NewManageOfferRequestExt(v LedgerVersion, value interface{}) (result ManageOfferRequestExt, err error) {
+	result.V = v
+	switch LedgerVersion(v) {
+	case LedgerVersionEmptyVersion:
+		// void
+	case LedgerVersionMovementRequestsDetails:
+		tv, ok := value.(Longstring)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be Longstring")
+			return
+		}
+		result.CreatorDetails = &tv
+	}
+	return
+}
+
+// MustCreatorDetails retrieves the CreatorDetails value from the union,
+// panicing if the value is not set.
+func (u ManageOfferRequestExt) MustCreatorDetails() Longstring {
+	val, ok := u.GetCreatorDetails()
+
+	if !ok {
+		panic("arm CreatorDetails is not set")
+	}
+
+	return val
+}
+
+// GetCreatorDetails retrieves the CreatorDetails value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u ManageOfferRequestExt) GetCreatorDetails() (result Longstring, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.V))
+
+	if armName == "CreatorDetails" {
+		result = *u.CreatorDetails
+		ok = true
+	}
+
+	return
+}
+
 // ManageOfferRequest is an XDR Struct defines as:
 //
 //   struct ManageOfferRequest
 //    {
 //        ManageOfferOp op;
 //
-//        EmptyExt ext;
+//        union switch (LedgerVersion v)
+//        {
+//        case EMPTY_VERSION:
+//            void;
+//        case MOVEMENT_REQUESTS_DETAILS:
+//            longstring creatorDetails;
+//        } ext;
 //    };
 //
 type ManageOfferRequest struct {
-	Op  ManageOfferOp `json:"op,omitempty"`
-	Ext EmptyExt      `json:"ext,omitempty"`
+	Op  ManageOfferOp         `json:"op,omitempty"`
+	Ext ManageOfferRequestExt `json:"ext,omitempty"`
+}
+
+// CreatePaymentRequestExt is an XDR NestedUnion defines as:
+//
+//   union switch (LedgerVersion v)
+//        {
+//        case EMPTY_VERSION:
+//            void;
+//        case MOVEMENT_REQUESTS_DETAILS:
+//            longstring creatorDetails;
+//        }
+//
+type CreatePaymentRequestExt struct {
+	V              LedgerVersion `json:"v,omitempty"`
+	CreatorDetails *Longstring   `json:"creatorDetails,omitempty"`
+}
+
+// SwitchFieldName returns the field name in which this union's
+// discriminant is stored
+func (u CreatePaymentRequestExt) SwitchFieldName() string {
+	return "V"
+}
+
+// ArmForSwitch returns which field name should be used for storing
+// the value for an instance of CreatePaymentRequestExt
+func (u CreatePaymentRequestExt) ArmForSwitch(sw int32) (string, bool) {
+	switch LedgerVersion(sw) {
+	case LedgerVersionEmptyVersion:
+		return "", true
+	case LedgerVersionMovementRequestsDetails:
+		return "CreatorDetails", true
+	}
+	return "-", false
+}
+
+// NewCreatePaymentRequestExt creates a new  CreatePaymentRequestExt.
+func NewCreatePaymentRequestExt(v LedgerVersion, value interface{}) (result CreatePaymentRequestExt, err error) {
+	result.V = v
+	switch LedgerVersion(v) {
+	case LedgerVersionEmptyVersion:
+		// void
+	case LedgerVersionMovementRequestsDetails:
+		tv, ok := value.(Longstring)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be Longstring")
+			return
+		}
+		result.CreatorDetails = &tv
+	}
+	return
+}
+
+// MustCreatorDetails retrieves the CreatorDetails value from the union,
+// panicing if the value is not set.
+func (u CreatePaymentRequestExt) MustCreatorDetails() Longstring {
+	val, ok := u.GetCreatorDetails()
+
+	if !ok {
+		panic("arm CreatorDetails is not set")
+	}
+
+	return val
+}
+
+// GetCreatorDetails retrieves the CreatorDetails value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u CreatePaymentRequestExt) GetCreatorDetails() (result Longstring, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.V))
+
+	if armName == "CreatorDetails" {
+		result = *u.CreatorDetails
+		ok = true
+	}
+
+	return
 }
 
 // CreatePaymentRequest is an XDR Struct defines as:
@@ -44813,12 +44996,18 @@ type ManageOfferRequest struct {
 //    {
 //        PaymentOp paymentOp;
 //
-//        EmptyExt ext;
+//        union switch (LedgerVersion v)
+//        {
+//        case EMPTY_VERSION:
+//            void;
+//        case MOVEMENT_REQUESTS_DETAILS:
+//            longstring creatorDetails;
+//        } ext;
 //    };
 //
 type CreatePaymentRequest struct {
-	PaymentOp PaymentOp `json:"paymentOp,omitempty"`
-	Ext       EmptyExt  `json:"ext,omitempty"`
+	PaymentOp PaymentOp               `json:"paymentOp,omitempty"`
+	Ext       CreatePaymentRequestExt `json:"ext,omitempty"`
 }
 
 // RedemptionRequestExt is an XDR NestedUnion defines as:
@@ -50486,7 +50675,11 @@ type TransactionResult struct {
 //        CLEAR_DATABASE_CACHE = 20,
 //        FIX_ISSUANCE_REVIEWER = 21,
 //        MARK_ASSET_AS_DELETED = 22,
-//        FIX_MAX_SUBJECT_SIZE = 23
+//        FIX_MAX_SUBJECT_SIZE = 23,
+//        FIX_MOVEMENT_REVIEW = 24,
+//        FIX_SIGNATURE_CHECK = 25,
+//        FIX_AUTOREVIEW = 26,
+//        MOVEMENT_REQUESTS_DETAILS = 27
 //    };
 //
 type LedgerVersion int32
@@ -50516,6 +50709,10 @@ const (
 	LedgerVersionFixIssuanceReviewer               LedgerVersion = 21
 	LedgerVersionMarkAssetAsDeleted                LedgerVersion = 22
 	LedgerVersionFixMaxSubjectSize                 LedgerVersion = 23
+	LedgerVersionFixMovementReview                 LedgerVersion = 24
+	LedgerVersionFixSignatureCheck                 LedgerVersion = 25
+	LedgerVersionFixAutoreview                     LedgerVersion = 26
+	LedgerVersionMovementRequestsDetails           LedgerVersion = 27
 )
 
 var LedgerVersionAll = []LedgerVersion{
@@ -50543,6 +50740,10 @@ var LedgerVersionAll = []LedgerVersion{
 	LedgerVersionFixIssuanceReviewer,
 	LedgerVersionMarkAssetAsDeleted,
 	LedgerVersionFixMaxSubjectSize,
+	LedgerVersionFixMovementReview,
+	LedgerVersionFixSignatureCheck,
+	LedgerVersionFixAutoreview,
+	LedgerVersionMovementRequestsDetails,
 }
 
 var ledgerVersionMap = map[int32]string{
@@ -50570,6 +50771,10 @@ var ledgerVersionMap = map[int32]string{
 	21: "LedgerVersionFixIssuanceReviewer",
 	22: "LedgerVersionMarkAssetAsDeleted",
 	23: "LedgerVersionFixMaxSubjectSize",
+	24: "LedgerVersionFixMovementReview",
+	25: "LedgerVersionFixSignatureCheck",
+	26: "LedgerVersionFixAutoreview",
+	27: "LedgerVersionMovementRequestsDetails",
 }
 
 var ledgerVersionShortMap = map[int32]string{
@@ -50597,6 +50802,10 @@ var ledgerVersionShortMap = map[int32]string{
 	21: "fix_issuance_reviewer",
 	22: "mark_asset_as_deleted",
 	23: "fix_max_subject_size",
+	24: "fix_movement_review",
+	25: "fix_signature_check",
+	26: "fix_autoreview",
+	27: "movement_requests_details",
 }
 
 var ledgerVersionRevMap = map[string]int32{
@@ -50624,6 +50833,10 @@ var ledgerVersionRevMap = map[string]int32{
 	"LedgerVersionFixIssuanceReviewer":               21,
 	"LedgerVersionMarkAssetAsDeleted":                22,
 	"LedgerVersionFixMaxSubjectSize":                 23,
+	"LedgerVersionFixMovementReview":                 24,
+	"LedgerVersionFixSignatureCheck":                 25,
+	"LedgerVersionFixAutoreview":                     26,
+	"LedgerVersionMovementRequestsDetails":           27,
 }
 
 // ValidEnum validates a proposed value for this enum.  Implements
@@ -52010,4 +52223,4 @@ type DecoratedSignature struct {
 }
 
 var fmtTest = fmt.Sprint("this is a dummy usage of fmt")
-var Revision = "5cf21644b65d3e0119a7164d24e81e7f5ceefae3"
+var Revision = "cb9934f17765fd65f2c5ecaf7b177c8b39408888"

@@ -49,6 +49,10 @@ func (bid *BalanceId) MarshalJSON() ([]byte, error) {
 	return []byte("\"" + bid.AsString() + "\""), nil
 }
 
+func (bid *BalanceId) UnmarshalJSON(raw []byte) error {
+	return bid.SetString(string(raw[1 : len(raw)-1]))
+}
+
 // Equals returns true if `other` is equivalent to `aid`
 func (bid *BalanceId) Equals(other BalanceId) bool {
 	if bid.Type != other.Type {

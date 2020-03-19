@@ -6,7 +6,7 @@ import (
 )
 
 type LicenseOp struct {
-	AdminCount      uint64
+	AdminCount      int64
 	DueDate         uint64
 	LedgerHash      xdr.Hash
 	PrevLicenseHash xdr.Hash
@@ -18,11 +18,11 @@ func (op LicenseOp) XDR() (*xdr.Operation, error) {
 		Body: xdr.OperationBody{
 			Type: xdr.OperationTypeLicense,
 			LicenseOp: &xdr.LicenseOp{
-				LedgerHash: op.LedgerHash,
+				LedgerHash:      op.LedgerHash,
 				PrevLicenseHash: op.PrevLicenseHash,
-				DueDate: xdr.Uint64(op.DueDate),
-				AdminCount: xdr.Uint64(op.AdminCount),
-				Signatures: op.Signatures,
+				DueDate:         xdr.Uint64(op.DueDate),
+				AdminCount:      xdr.Uint64(op.AdminCount),
+				Signatures:      op.Signatures,
 			},
 		},
 	}, nil
@@ -30,14 +30,10 @@ func (op LicenseOp) XDR() (*xdr.Operation, error) {
 
 func (op LicenseOp) Validate() error {
 	return ValidateStruct(&op,
-		Field(&op.AdminCount, Required, Min(2)),
+		Field(&op.AdminCount, Required, Min(1)),
 		Field(&op.LedgerHash, Required),
 		Field(&op.DueDate, Required),
 		Field(&op.PrevLicenseHash, Required),
-		Field(&op.Signatures, Required, Length(2, 2)),
-		)
+		Field(&op.Signatures, Required, Length(1, 100)),
+	)
 }
-
-
-
-

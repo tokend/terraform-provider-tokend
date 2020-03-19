@@ -15,7 +15,7 @@ type CreateRedemptionRequest struct {
 	Amount               uint64
 	Reference            string
 	Details              json.Marshaler
-	AllTasks             uint64
+	AllTasks             *uint32
 }
 
 func (op CreateRedemptionRequest) Validate() error {
@@ -24,7 +24,7 @@ func (op CreateRedemptionRequest) Validate() error {
 		validation.Field(&op.DestinationAccountID, validation.Required),
 		validation.Field(&op.Amount, validation.Required),
 		validation.Field(&op.Reference, validation.Required, validation.Length(1, 64)),
-		validation.Field(&op.AllTasks, validation.Required),
+		validation.Field(&op.AllTasks, validation.NilOrNotEmpty),
 	)
 }
 
@@ -39,8 +39,6 @@ func (op CreateRedemptionRequest) XDR() (*xdr.Operation, error) {
 		return nil, errors.Wrap(err, "failed to set destination account")
 	}
 
-	allTasksXDR := xdr.Uint32(op.AllTasks)
-
 	details, err := op.Details.MarshalJSON()
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to marshal details")
@@ -51,7 +49,7 @@ func (op CreateRedemptionRequest) XDR() (*xdr.Operation, error) {
 			Type: xdr.OperationTypeCreateRedemptionRequest,
 			CreateRedemptionRequestOp: &xdr.CreateRedemptionRequestOp{
 				Reference: xdr.String64(op.Reference),
-				AllTasks:  &allTasksXDR,
+				AllTasks:  (*xdr.Uint32)(op.AllTasks),
 				RedemptionRequest: xdr.RedemptionRequest{
 					SourceBalanceId: source,
 					Destination:     destination,

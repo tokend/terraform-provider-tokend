@@ -29,6 +29,10 @@ func (aid *AccountId) MarshalJSON() ([]byte, error) {
 	return []byte("\"" + aid.Address() + "\""), nil
 }
 
+func (aid *AccountId) UnmarshalJSON(raw []byte) error {
+	return aid.SetAddress(string(raw[1 : len(raw)-1]))
+}
+
 // Equals returns true if `other` is equivalent to `aid`
 func (aid *AccountId) Equals(other AccountId) bool {
 	if aid.Type != other.Type {

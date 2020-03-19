@@ -111,3 +111,13 @@ func (d IssuanceDetails) ReviewRequestDetails() xdr.ReviewRequestOpRequestDetail
 		RequestType: xdr.ReviewableRequestTypeCreateIssuance,
 	}
 }
+
+type ReviewableRequestBaseDetails struct {
+	RequestType xdr.ReviewableRequestType
+}
+
+func (d ReviewableRequestBaseDetails) ReviewRequestDetails() xdr.ReviewRequestOpRequestDetails {
+	return xdr.ReviewRequestOpRequestDetails{
+		RequestType: d.RequestType,
+	}
+}
