@@ -2,7 +2,7 @@
   "name": "terraform-provider-tokend",
   "version": "1.0.0",
   "dependencies": {
-    "@tokend/redoc-cli": "^0.8.1",
+    "@tokend/redoc-cli": "^0.9.9",
     "swagger-repo": "^2.0.0-rc.11"
   },
   "private": true,
