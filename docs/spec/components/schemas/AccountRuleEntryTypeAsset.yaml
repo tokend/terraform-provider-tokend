@@ -23,6 +23,7 @@ properties:
       - remove
       - update_end_time
       - create_for_other_with_tasks
+      - receive_redemption
   entry_type:
     type: string
     enum:
