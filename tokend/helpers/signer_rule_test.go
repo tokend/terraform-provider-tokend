@@ -97,6 +97,28 @@ func TestSignerRules_Signer(t *testing.T) {
 	assert.Equal(t, expected, got)
 }
 
+func TestSignerRules_Data(t *testing.T) {
+	c := map[string]interface{}{
+		"entry_type": "data",
+		"entry": map[string]interface{}{
+			"type": "*",
+		},
+	}
+	expected := &xdr.SignerRuleResource{
+		Type: xdr.LedgerEntryTypeData,
+		Data: &xdr.SignerRuleResourceData{
+			Type: math.MaxUint64,
+		},
+		Ext: &xdr.EmptyExt{},
+	}
+
+	resource := schema.TestResourceDataRaw(t, accountRuleSchema, c)
+	got, err := SignerRuleEntry(resource)
+
+	assert.NoError(t, err)
+	assert.Equal(t, expected, got)
+}
+
 func TestSignerRules_Asset(t *testing.T) {
 	t.Run("maxUint64", func(t *testing.T) {
 		c := map[string]interface{}{

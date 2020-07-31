@@ -25,6 +25,7 @@ var AccountEntries = map[string]AccountEntryFunc{
 	"poll":                                  accountRuleResourcePoll,
 	"atomic_swap_ask":                       accountRuleResourceAtomicSwapAsk,
 	"asset_pair":                            accountRuleResourceAssetPair,
+	"data":                                  accountRuleResourceData,
 }
 
 func AccountRuleEntry(d *schema.ResourceData) (*xdr.AccountRuleResource, error) {
@@ -45,6 +46,21 @@ func accountRuleResourceAssetPair(_ *schema.ResourceData) (*xdr.AccountRuleResou
 	return &xdr.AccountRuleResource{
 		Type: xdr.LedgerEntryTypeAssetPair,
 		Ext:  &xdr.EmptyExt{},
+	}, nil
+}
+
+func accountRuleResourceData(d *schema.ResourceData) (*xdr.AccountRuleResource, error) {
+	dataTypeRaw := d.Get("entry.type").(string)
+	dataType, err := WildCardUintFromRaw(dataTypeRaw)
+	if err != nil {
+		return nil, errors.Wrap(err, "failed to cast data type")
+	}
+	return &xdr.AccountRuleResource{
+		Type: xdr.LedgerEntryTypeData,
+		Data: &xdr.AccountRuleResourceData{
+			Type: xdr.Uint64(dataType),
+		},
+		Ext: &xdr.EmptyExt{},
 	}, nil
 }
 
@@ -104,7 +120,7 @@ func accountRuleResourceReviewableRequest(d *schema.ResourceData) (*xdr.AccountR
 	switch result.ReviewableRequest.Details.RequestType {
 	case xdr.ReviewableRequestTypePerformRedemption:
 		result.ReviewableRequest.Details.PerformRedemption = &xdr.ReviewableRequestResourcePerformRedemption{
-			AssetCode: "*", //TODO
+			AssetCode: "*",            //TODO
 			AssetType: math.MaxUint64, //TODO
 		}
 	}
