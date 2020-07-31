@@ -24,6 +24,7 @@ var SignerRuleEntries = map[string]SignerRuleEntryFunc{
 	"reviewable_request": signerRuleResourceReviewableRequest,
 	"stamp":              signerRuleResourceStamp,
 	"license":            signerRuleResourceLicense,
+	"data":               signerRuleResourceData,
 	"asset_pair":         signerRuleResourceAssetPair,
 }
 
@@ -182,6 +183,22 @@ func signerRuleResourceLicense(_ *schema.ResourceData) (*xdr.SignerRuleResource,
 	return &xdr.SignerRuleResource{
 		Type: xdr.LedgerEntryTypeLicense,
 		Ext:  &xdr.EmptyExt{},
+	}, nil
+}
+
+
+func signerRuleResourceData(d *schema.ResourceData) (*xdr.SignerRuleResource, error) {
+	dataTypeRaw := d.Get("entry.type").(string)
+	dataType, err := WildCardUintFromRaw(dataTypeRaw)
+	if err != nil {
+		return nil, errors.Wrap(err, "failed to cast data type")
+	}
+	return &xdr.SignerRuleResource{
+		Type: xdr.LedgerEntryTypeData,
+		Data: &xdr.SignerRuleResourceData{
+			Type: xdr.Uint64(dataType),
+		},
+		Ext: &xdr.EmptyExt{},
 	}, nil
 }
 

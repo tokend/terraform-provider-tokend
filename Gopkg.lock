@@ -614,7 +614,7 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:410a7914e37e4c0775a2fbae2f2d10da92616a4d75c9f15c60af1513be66da6f"
+  digest = "1:5a834bc801fc9043a50baf1ff4bbc3d9dcaa32e86dd090ba463c0781c1d8ba20"
   name = "gitlab.com/tokend/go"
   packages = [
     "amount",
@@ -631,7 +631,7 @@
     "xdrbuild/internal",
   ]
   pruneopts = "UT"
-  revision = "6414d721e13ad07d938bc217ba2d94580eac1975"
+  revision = "8ac07c8af8c5032b9981e0f2e1071476fbca335e"
 
 [[projects]]
   digest = "1:c97dfec4041199ff4fdfd22b2b2aa8ca038af9c7efc1b17620999027f53cce61"

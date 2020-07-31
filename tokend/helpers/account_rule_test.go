@@ -264,3 +264,27 @@ func TestAccountRules_Vote(t *testing.T) {
 		assert.Equal(t, expected, got)
 	})
 }
+
+func TestAccountRules_Data(t *testing.T) {
+	t.Run("maxUint64", func(t *testing.T) {
+		c := map[string]interface{}{
+			"entry_type": "data",
+			"entry": map[string]interface{}{
+				"type": "*",
+			},
+		}
+		expected := &xdr.AccountRuleResource{
+			Type: xdr.LedgerEntryTypeData,
+			Data: &xdr.AccountRuleResourceData{
+				Type: math.MaxUint64,
+			},
+			Ext: &xdr.EmptyExt{},
+		}
+
+		resource := schema.TestResourceDataRaw(t, accountRuleSchema, c)
+		got, err := AccountRuleEntry(resource)
+
+		assert.NoError(t, err)
+		assert.Equal(t, expected, got)
+	})
+}
