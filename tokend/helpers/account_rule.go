@@ -42,10 +42,19 @@ func AccountRuleEntry(d *schema.ResourceData) (*xdr.AccountRuleResource, error) 
 	return resource, nil
 }
 
-func accountRuleResourceData(_ *schema.ResourceData) (*xdr.AccountRuleResource, error) {
+func accountRuleResourceData(d *schema.ResourceData) (*xdr.AccountRuleResource, error) {
+	entry := d.Get("entry").(map[string]interface{})
+	permissionTypeRaw := entry["type"].(string)
+	permissionType, err := WildCardUintFromRaw(permissionTypeRaw)
+	if err != nil {
+		return nil, errors.Wrap(err, "failed to cast data type")
+	}
+
 	return &xdr.AccountRuleResource{
 		Type: xdr.LedgerEntryTypeData,
-		Ext:  &xdr.EmptyExt{},
+		Data: &xdr.AccountRuleResourceData{
+			Type: xdr.Uint64(permissionType),
+		},
 	}, nil
 }
 
