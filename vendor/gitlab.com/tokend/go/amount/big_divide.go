@@ -14,7 +14,7 @@ const (
 
 // calculates A*B/C when A*B overflows 64bits
 // panics if one of the arguments is negative or C = 0
-// returns false, if overflow
+// returns true, if overflow
 func BigDivide(rawA, rawB, rawC int64, rounding Rounding, minimalAmount int64) (int64, bool) {
 	if rawA < 0 || rawB < 0 || rawC <= 0 || minimalAmount <= 0 {
 		panic("one of the arguments is negative or C = 0 or minimalAmount = 0")

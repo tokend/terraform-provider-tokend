@@ -25,6 +25,7 @@ var AccountEntries = map[string]AccountEntryFunc{
 	"poll":                                  accountRuleResourcePoll,
 	"atomic_swap_ask":                       accountRuleResourceAtomicSwapAsk,
 	"asset_pair":                            accountRuleResourceAssetPair,
+	"data":                                  accountRuleResourceData,
 }
 
 func AccountRuleEntry(d *schema.ResourceData) (*xdr.AccountRuleResource, error) {
@@ -39,6 +40,13 @@ func AccountRuleEntry(d *schema.ResourceData) (*xdr.AccountRuleResource, error) 
 	}
 
 	return resource, nil
+}
+
+func accountRuleResourceData(_ *schema.ResourceData) (*xdr.AccountRuleResource, error) {
+	return &xdr.AccountRuleResource{
+		Type: xdr.LedgerEntryTypeData,
+		Ext:  &xdr.EmptyExt{},
+	}, nil
 }
 
 func accountRuleResourceAssetPair(_ *schema.ResourceData) (*xdr.AccountRuleResource, error) {
@@ -104,7 +112,7 @@ func accountRuleResourceReviewableRequest(d *schema.ResourceData) (*xdr.AccountR
 	switch result.ReviewableRequest.Details.RequestType {
 	case xdr.ReviewableRequestTypePerformRedemption:
 		result.ReviewableRequest.Details.PerformRedemption = &xdr.ReviewableRequestResourcePerformRedemption{
-			AssetCode: "*", //TODO
+			AssetCode: "*",            //TODO
 			AssetType: math.MaxUint64, //TODO
 		}
 	}
