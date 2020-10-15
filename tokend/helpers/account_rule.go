@@ -124,6 +124,38 @@ func accountRuleResourceReviewableRequest(d *schema.ResourceData) (*xdr.AccountR
 			AssetCode: "*",            //TODO
 			AssetType: math.MaxUint64, //TODO
 		}
+	case xdr.ReviewableRequestTypeDataCreation:
+		dataTypeRaw := d.Get("entry.type").(string)
+		dataType, err := WildCardUintFromRaw(dataTypeRaw)
+		if err != nil {
+			return nil, errors.Wrap(err, "failed to cast data_type")
+		}
+
+		result.ReviewableRequest.Details.DataCreation = &xdr.ReviewableRequestResourceDataCreation{
+			Type: xdr.Uint64(dataType),
+		}
+
+	case xdr.ReviewableRequestTypeDataUpdate:
+		dataTypeRaw := d.Get("entry.type").(string)
+		dataType, err := WildCardUintFromRaw(dataTypeRaw)
+		if err != nil {
+			return nil, errors.Wrap(err, "failed to cast data_type")
+		}
+
+		result.ReviewableRequest.Details.DataUpdate = &xdr.ReviewableRequestResourceDataUpdate{
+			Type: xdr.Uint64(dataType),
+		}
+
+	case xdr.ReviewableRequestTypeDataRemove:
+		dataTypeRaw := d.Get("entry.type").(string)
+		dataType, err := WildCardUintFromRaw(dataTypeRaw)
+		if err != nil {
+			return nil, errors.Wrap(err, "failed to cast data_type")
+		}
+
+		result.ReviewableRequest.Details.DataRemove = &xdr.ReviewableRequestResourceDataRemove{
+			Type: xdr.Uint64(dataType),
+		}
 	}
 
 	return result, nil

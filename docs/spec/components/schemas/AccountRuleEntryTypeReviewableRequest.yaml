@@ -50,3 +50,6 @@ properties:
           - create_atomic_swap_ask
           - create_atomic_swap_bid
           - kyc_recovery
+          - data_creation
+          - data_update
+          - data_remove
