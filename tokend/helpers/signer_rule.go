@@ -25,6 +25,7 @@ var SignerRuleEntries = map[string]SignerRuleEntryFunc{
 	"stamp":              signerRuleResourceStamp,
 	"license":            signerRuleResourceLicense,
 	"asset_pair":         signerRuleResourceAssetPair,
+	"data":               signerRuleResourceData,
 }
 
 func SignerRuleEntry(d *schema.ResourceData) (*xdr.SignerRuleResource, error) {
@@ -109,6 +110,38 @@ func signerRuleResourceReviewableRequest(d *schema.ResourceData) (*xdr.SignerRul
 			AssetCode: "*",            //TODO
 			AssetType: math.MaxUint64, //TODO
 		}
+	case xdr.ReviewableRequestTypeDataCreation:
+		dataTypeRaw := d.Get("entry.type").(string)
+		dataType, err := WildCardUintFromRaw(dataTypeRaw)
+		if err != nil {
+			return nil, errors.Wrap(err, "failed to cast data_type")
+		}
+
+		resource.ReviewableRequest.Details.DataCreation = &xdr.ReviewableRequestResourceDataCreation{
+			Type: xdr.Uint64(dataType),
+		}
+
+	case xdr.ReviewableRequestTypeDataUpdate:
+		dataTypeRaw := d.Get("entry.type").(string)
+		dataType, err := WildCardUintFromRaw(dataTypeRaw)
+		if err != nil {
+			return nil, errors.Wrap(err, "failed to cast data_type")
+		}
+
+		resource.ReviewableRequest.Details.DataUpdate = &xdr.ReviewableRequestResourceDataUpdate{
+			Type: xdr.Uint64(dataType),
+		}
+
+	case xdr.ReviewableRequestTypeDataRemove:
+		dataTypeRaw := d.Get("entry.type").(string)
+		dataType, err := WildCardUintFromRaw(dataTypeRaw)
+		if err != nil {
+			return nil, errors.Wrap(err, "failed to cast data_type")
+		}
+
+		resource.ReviewableRequest.Details.DataRemove = &xdr.ReviewableRequestResourceDataRemove{
+			Type: xdr.Uint64(dataType),
+		}
 	}
 
 	return &resource, nil
@@ -190,4 +223,23 @@ func signerRuleResourceAssetPair(_ *schema.ResourceData) (*xdr.SignerRuleResourc
 		Type: xdr.LedgerEntryTypeAssetPair,
 		Ext:  &xdr.EmptyExt{},
 	}, nil
+}
+
+func signerRuleResourceData(d *schema.ResourceData) (*xdr.SignerRuleResource, error) {
+	var resource xdr.SignerRuleResource
+	resource.Type = xdr.LedgerEntryTypeData
+	entry := d.Get("entry").(map[string]interface{})
+	permissionTypeRaw := entry["type"].(string)
+	permissionType, err := WildCardUintFromRaw(permissionTypeRaw)
+	if err != nil {
+		return nil, errors.Wrap(err, "failed to cast data_type")
+	}
+
+	resource.Data = &xdr.SignerRuleResourceData{
+		Type: xdr.Uint64(permissionType),
+	}
+
+	resource.Ext = &xdr.EmptyExt{}
+
+	return &resource, nil
 }
