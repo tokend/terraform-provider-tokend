@@ -1,0 +1,25 @@
+get:
+  x-item-type: resource
+  tags:
+    - Data
+  summary: Data
+  x-code-samples:
+    - lang: "tf"
+      source: |
+        resource tokend_data "test" {
+          type = 1
+          value = {
+            test = "test"
+          }
+        }
+
+  operationId: data
+  parameters:
+    - name: Data
+      in: query
+      required: false
+      style: form
+      explode: true
+      schema:
+        type: object
+        $ref: '#/components/schemas/DataResource'
