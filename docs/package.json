@@ -10,7 +10,7 @@
     "start": "swagger-repo serve",
     "build": "swagger-repo build -o web_deploy",
     "test": "swagger-repo validate",
-    "release-build": "npm run build && redoc-cli bundle ./web_deploy/openapi.yaml  -o ../public/index.html -t ./web/index.hbs --options.theme.typography.links.color=#695de4 --options.item-types-instead-of-operations=true --options.root-param-name-as-group-header=true --options.hide-download-button=true --options.hide-response-samples=true --options.hide-path=true --options.flatten-response-view=true --options.code-samples-instead-of-request-samples=true",
+    "release-build": "npm run build && redoc-cli bundle ./web_deploy/openapi.yaml  -o ./index.html -t ./web/index.hbs --options.theme.typography.links.color=#695de4 --options.item-types-instead-of-operations=true --options.root-param-name-as-group-header=true --options.hide-download-button=true --options.hide-response-samples=true --options.hide-path=true --options.flatten-response-view=true --options.code-samples-instead-of-request-samples=true",
     "gh-pages": "swagger-repo gh-pages"
   }
 }
