@@ -132,15 +132,20 @@ func accountRuleResourceReviewableRequest(d *schema.ResourceData) (*xdr.AccountR
 func accountRuleResourceOffer(d *schema.ResourceData) (*xdr.AccountRuleResource, error) {
 	var resource xdr.AccountRuleResource
 	isBuyRaw := d.Get("entry.is_buy")
+	baseTypeRow := d.Get("entry.base_asset_type").(string)
+	quoteTypeRaw := d.Get("entry.quote_asset_type").(string)
+
 	isBuy, err := cast.ToBoolE(isBuyRaw)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed cast is_buy")
 	}
-	baseType, err := cast.ToUint64E(d.Get("entry.base_asset_type"))
+
+	baseType, err := WildCardUintFromRaw(baseTypeRow)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to cast base_asset_type")
 	}
-	quoteType, err := cast.ToUint64E(d.Get("entry.quote_asset_type"))
+
+	quoteType, err := WildCardUintFromRaw(quoteTypeRaw)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to cast quote_asset_type")
 	}
