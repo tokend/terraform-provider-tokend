@@ -1,0 +1,10 @@
+type: object
+properties:
+  request_type:
+    type: string
+    enum:
+      - data_creation
+      - data_update
+      - data_remove
+  data_type:
+    type: integer

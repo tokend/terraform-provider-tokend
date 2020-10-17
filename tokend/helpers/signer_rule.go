@@ -111,7 +111,7 @@ func signerRuleResourceReviewableRequest(d *schema.ResourceData) (*xdr.SignerRul
 			AssetType: math.MaxUint64, //TODO
 		}
 	case xdr.ReviewableRequestTypeDataCreation:
-		dataTypeRaw := d.Get("entry.type").(string)
+		dataTypeRaw := d.Get("entry.data_type").(string)
 		dataType, err := WildCardUintFromRaw(dataTypeRaw)
 		if err != nil {
 			return nil, errors.Wrap(err, "failed to cast data_type")
@@ -122,7 +122,7 @@ func signerRuleResourceReviewableRequest(d *schema.ResourceData) (*xdr.SignerRul
 		}
 
 	case xdr.ReviewableRequestTypeDataUpdate:
-		dataTypeRaw := d.Get("entry.type").(string)
+		dataTypeRaw := d.Get("entry.data_type").(string)
 		dataType, err := WildCardUintFromRaw(dataTypeRaw)
 		if err != nil {
 			return nil, errors.Wrap(err, "failed to cast data_type")
@@ -133,7 +133,7 @@ func signerRuleResourceReviewableRequest(d *schema.ResourceData) (*xdr.SignerRul
 		}
 
 	case xdr.ReviewableRequestTypeDataRemove:
-		dataTypeRaw := d.Get("entry.type").(string)
+		dataTypeRaw := d.Get("entry.data_type").(string)
 		dataType, err := WildCardUintFromRaw(dataTypeRaw)
 		if err != nil {
 			return nil, errors.Wrap(err, "failed to cast data_type")

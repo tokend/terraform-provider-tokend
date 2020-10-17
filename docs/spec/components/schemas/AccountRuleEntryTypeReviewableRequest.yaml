@@ -29,6 +29,8 @@ properties:
       - reviewable_request
   entry:
     type: object
+    oneOf:
+      - $ref: '#/components/schemas/AccountRuleEntryTypeReviewableRequestRequestTypeData'
     properties:
       request_type:
         type: string
