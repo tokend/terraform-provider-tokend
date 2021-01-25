@@ -33,6 +33,10 @@ func Provider() terraform.ResourceProvider {
 				Required:     true,
 				ValidateFunc: validation.ValidateSigner,
 			},
+			"api_endpoint": {
+				Type:     schema.TypeString,
+				Required: true,
+			},
 		},
 		ResourcesMap: map[string]*schema.Resource{
 			"tokend_account":                    resourceAccount(),
@@ -46,27 +50,40 @@ func Provider() terraform.ResourceProvider {
 			"tokend_account_signer":             resourceAccountSigner(),
 			"tokend_external_system_pool_entry": resourceExternalSystemPoolEntry(),
 			"tokend_data":                       resourceData(),
+			"tokend_initial_admin":              resourceInitialAdmin(),
 		},
 		ConfigureFunc: func(d *schema.ResourceData) (interface{}, error) {
 			endpoint, err := url.Parse(d.Get("endpoint").(string))
 			if err != nil {
 				return nil, errors.Wrap(err, "failed to parse endpoint")
 			}
+
 			signer, err := keypair.ParseSeed(d.Get("signer").(string))
 			if err != nil {
 				return nil, errors.Wrap(err, "failed to parse signer")
 			}
+
 			source, err := keypair.ParseAddress(d.Get("account").(string))
 			if err != nil {
 				return nil, errors.Wrap(err, "failed to parse source")
 			}
+
+			apiEndpoint, err := url.Parse(d.Get("api_endpoint").(string))
+			if err != nil {
+				return nil, errors.Wrap(err, "failed to parse api endpoint")
+			}
+
 			hrz := horizon.NewConnector(endpoint).WithSigner(signer)
 			builder, err := hrz.TXBuilder()
 			if err != nil {
 				return nil, errors.Wrap(err, "failed to init builder")
 			}
+
+			api := horizon.NewConnector(apiEndpoint).WithSigner(signer)
+
 			return Meta{
 				Horizon:   hrz,
+				Api:       api,
 				Connector: connector.NewConnector(hrz.Client()),
 				Builder:   *builder,
 				Source:    source,
@@ -78,6 +95,7 @@ func Provider() terraform.ResourceProvider {
 
 type Meta struct {
 	Horizon   *horizon.Connector
+	Api       *horizon.Connector
 	Connector data.Connector
 	Signer    keypair.Full
 	Source    keypair.Address

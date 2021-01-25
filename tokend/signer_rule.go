@@ -6,9 +6,9 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/pkg/errors"
+	"github.com/tokend/terraform-provider-tokend/tokend/helpers"
 	"gitlab.com/tokend/go/xdr"
 	"gitlab.com/tokend/go/xdrbuild"
-	"github.com/tokend/terraform-provider-tokend/tokend/helpers"
 )
 
 func resourceSignerRule() *schema.Resource {
