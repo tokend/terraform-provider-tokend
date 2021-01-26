@@ -8,20 +8,20 @@
 
 [[constraint]]
   name = "gitlab.com/distributed_lab/logan"
-  version = "3"
+  version = "3.5.0"
 
-[[constraint]]
-  version = "3"
+[[override]]
+  version = "2"
   name = "gitlab.com/tokend/go"
 
 [[constraint]]
   branch = "master"
   name = "gitlab.com/tokend/keypair"
 
-[[constraint]]
-  version = "4"
-  name = "gitlab.com/tokend/regources"
-
 [prune]
   go-tests = true
   unused-packages = true
+
+[[constraint]]
+  branch = "master"
+  name = "gitlab.com/tokend/regources"

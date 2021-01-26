@@ -1,0 +1,20 @@
+name: EffectMatched
+key: effects-matched
+base: effects
+
+attributes:
+  -
+    name: offer_id
+    type: Int64
+  -
+    name: order_book_id
+    type: Int64
+  -
+    name: price
+    type: Amount
+  -
+    name: charged
+    type: ParticularBalanceChange
+  -
+    name: funded
+    type: ParticularBalanceChange

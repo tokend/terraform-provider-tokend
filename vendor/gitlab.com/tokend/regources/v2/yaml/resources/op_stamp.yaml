@@ -1,0 +1,11 @@
+name: OpStamlDetails
+key: operations-stamp
+base: operation-details
+attributes:
+  -
+    name: ledger_hash
+    type: String
+  -
+    name: license_hash
+    type: String
+    

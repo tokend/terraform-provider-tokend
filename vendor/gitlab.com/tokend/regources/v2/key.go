@@ -8,7 +8,7 @@ const (
 	TypeAccounts           ResourceType = "accounts"
 	TypeBalances                        = "balances"
 	TypeAssets                          = "assets"
-	TypeAswapBid                        = "aswap-bid"
+	TypeAtomicSwapBids                  = "atomic-swap-bids"
 	TypeAssetPairs                      = "asset-pairs"
 	TypeBalancesState                   = "balances-state"
 	TypeExternalSystemID                = "external-system-ids"

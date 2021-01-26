@@ -1,0 +1,8 @@
+name: Fee
+attributes:
+  -
+    name: fixed
+    type: Amount
+  -
+    name: calculated_percent
+    type: Amount

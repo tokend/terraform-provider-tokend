@@ -1,0 +1,26 @@
+name: OpManageAssetDetails
+key: operations-manage-asset
+base: operation-details
+attributes:
+  -
+    name: asset_code
+    type: String
+  -
+    name: action
+    type: XdrEnumValue
+  -
+    name: policies
+    type: XdrEnumBitmask
+    optional: true
+  -
+    name: creator_details
+    type: Object
+  -
+    name: preissuance_signer
+    type: String
+  -
+    name: max_issuance_amount
+    type: Amount
+  -
+    name: type
+    type: UInt64

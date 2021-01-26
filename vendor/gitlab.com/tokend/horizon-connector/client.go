@@ -3,23 +3,20 @@ package horizon
 import (
 	"net/http"
 	"net/url"
-	"path"
-	"strings"
 	"time"
 
 	"io/ioutil"
 
 	"io"
 
-	"bytes"
-	"encoding/json"
-
-	"gitlab.com/distributed_lab/logan/v3"
-	"gitlab.com/distributed_lab/logan/v3/errors"
 	depkeypair "gitlab.com/tokend/go/keypair"
 	"gitlab.com/tokend/go/signcontrol"
 	internalErrs "gitlab.com/tokend/horizon-connector/internal/errors"
 	"gitlab.com/tokend/keypair"
+	"gitlab.com/distributed_lab/logan/v3"
+	"gitlab.com/distributed_lab/logan/v3/errors"
+	"encoding/json"
+	"bytes"
 )
 
 func throttle() chan time.Time {
@@ -47,12 +44,14 @@ type Client struct {
 	signer   keypair.Full
 	throttle chan time.Time
 	// Client must only be called from Client.Do() methods only
-	client *http.Client
+	client   *http.Client
+
+	accountID keypair.Address
 }
 
-func NewClient(client *http.Client, base *url.URL) *Client {
+func NewClient(client *http.Client, base *url.URL, accountID keypair.Address) *Client {
 	return &Client{
-		base, nil, throttle(), client,
+		base, nil, throttle(), client, accountID,
 	}
 }
 
@@ -164,6 +163,7 @@ func (c *Client) WithSigner(kp keypair.Full) *Client {
 		kp,
 		c.throttle,
 		http.DefaultClient,
+		c.accountID,
 	}
 }
 
@@ -178,6 +178,8 @@ func (c *Client) do(request *http.Request) (int, []byte, error) {
 
 	// ensure content-type just in case
 	request.Header.Set("content-type", "application/json")
+	request.Header.Set("Account-Id", c.accountID.Address())
+
 
 	if c.signer != nil {
 		// TODO move to proper keypair
@@ -225,6 +227,8 @@ func (c *Client) Do(request *http.Request) ([]byte, error) {
 
 	// ensure content-type just in case
 	request.Header.Set("content-type", "application/json")
+	request.Header.Set("Account-Id", c.accountID.Address())
+
 
 	if c.signer != nil {
 		// TODO move to proper keypair
@@ -290,17 +294,14 @@ func (c *Client) Do(request *http.Request) ([]byte, error) {
 // DEPRECATED
 // Use resolveURL, it doesn't use deprecated errors, like this method does.
 func (c *Client) prepareURL(endpoint string) (string, error) {
-	if !strings.HasPrefix(endpoint, "/") {
-		return "", errors.New("endpoint should start with /")
-	}
-
-	cpy, _ := url.Parse(c.base.String())
-	cpy.Path = path.Join(c.base.Path, endpoint)
-
-	// FIXME skipped client test
-	result, err := url.PathUnescape(cpy.String())
+	u, err := url.Parse(endpoint)
 	if err != nil {
-		return "", errors.Wrap(err, "failed to unescape query")
+		return "", internalErrs.E(
+			"failed to parse endpoint",
+			err,
+			internalErrs.Runtime,
+		)
 	}
-	return result, nil
+
+	return c.base.ResolveReference(u).String(), nil
 }

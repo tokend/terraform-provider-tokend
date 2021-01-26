@@ -1,0 +1,20 @@
+name: IssuanceRequestDetails
+key: request-details-issuance
+base: request-details
+attributes:
+  -
+    name: amount
+    type: Amount
+  -
+    name: creator_details
+    type: Object
+
+relations:
+  -
+    name: asset
+    is_collection: false
+    resource: assets
+  -
+    name: receiver
+    is_collection: false
+    resource: balances

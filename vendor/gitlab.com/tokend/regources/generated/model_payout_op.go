@@ -4,6 +4,8 @@
 
 package regources
 
+import "encoding/json"
+
 type PayoutOp struct {
 	Key
 	Attributes    PayoutOpAttributes    `json:"attributes"`
@@ -14,10 +16,20 @@ type PayoutOpResponse struct {
 	Included Included `json:"included"`
 }
 
-type PayoutOpsResponse struct {
-	Data     []PayoutOp `json:"data"`
-	Included Included   `json:"included"`
-	Links    *Links     `json:"links"`
+type PayoutOpListResponse struct {
+	Data     []PayoutOp      `json:"data"`
+	Included Included        `json:"included"`
+	Links    *Links          `json:"links"`
+	Meta     json.RawMessage `json:"meta,omitempty"`
+}
+
+func (r *PayoutOpListResponse) PutMeta(v interface{}) (err error) {
+	r.Meta, err = json.Marshal(v)
+	return err
+}
+
+func (r *PayoutOpListResponse) GetMeta(out interface{}) error {
+	return json.Unmarshal(r.Meta, out)
 }
 
 // MustPayoutOp - returns PayoutOp from include collection.

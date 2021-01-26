@@ -73,13 +73,13 @@ func Provider() terraform.ResourceProvider {
 				return nil, errors.Wrap(err, "failed to parse api endpoint")
 			}
 
-			hrz := horizon.NewConnector(endpoint).WithSigner(signer)
+			hrz := horizon.NewConnector(endpoint, source).WithSigner(signer)
 			builder, err := hrz.TXBuilder()
 			if err != nil {
 				return nil, errors.Wrap(err, "failed to init builder")
 			}
 
-			api := horizon.NewConnector(apiEndpoint).WithSigner(signer)
+			api := horizon.NewConnector(apiEndpoint, source).WithSigner(signer)
 
 			return Meta{
 				Horizon:   hrz,

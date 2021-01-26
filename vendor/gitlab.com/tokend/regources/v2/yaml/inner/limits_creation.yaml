@@ -1,0 +1,30 @@
+name: LimitsCreation
+attributes:
+  -
+    name: account_role
+    type: UInt64
+    optional: true
+  -
+    name: account_address
+    type: String
+  -
+    name: stats_op_type
+    type: XdrEnumValue
+  -
+    name: asset_code
+    type: String
+  -
+    name: is_convert_needed
+    type: Bool
+  -
+    name: daily_out
+    type: Amount
+  -
+    name: weekly_out
+    type: Amount
+  -
+    name: monthly_out
+    type: Amount
+  -
+    name: annual_out
+    type: Amount

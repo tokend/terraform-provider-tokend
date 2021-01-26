@@ -1,0 +1,23 @@
+name: OpCreateAtomicSwapBidRequestDetails
+key: operations-create-atomic-swap-bid-request
+base: operation-details
+attributes:
+  -
+    name: base_amount
+    type: Amount
+  -
+    name: creator_details
+    type: Object
+relations:
+  -
+    name: request
+    is_collection: false
+    resource: requests
+  -
+    name: ask
+    is_collection: false
+    resource: atomic-swap-ask
+  -
+    name: quote_asset
+    is_collection: false
+    resource: assets

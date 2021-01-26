@@ -1,0 +1,45 @@
+name: Offer
+key: offers
+attributes:
+  -
+    name: is_buy
+    type: Bool
+  -
+    name: order_book_id
+    type: String
+  -
+    name: created_at
+    type: String
+  -
+    name: base_amount
+    type: Amount
+  -
+    name: quote_amount
+    type: Amount
+  -
+    name: price
+    type: Amount
+  -
+    name: fee
+    type: Fee
+relations:
+  -
+    name: owner
+    is_collection: false
+    resource: accounts
+  -
+    name: base_asset
+    is_collection: false
+    resource: assets
+  -
+    name: base_balance
+    is_collection: false
+    resource: balances
+  -
+    name: quote_asset
+    is_collection: false
+    resource: assets
+  -
+    name: quote_balance
+    is_collection: false
+    resource: balances

@@ -4,6 +4,8 @@
 
 package regources
 
+import "encoding/json"
+
 type CheckSaleStateOp struct {
 	Key
 	Attributes    CheckSaleStateOpAttributes    `json:"attributes"`
@@ -14,10 +16,20 @@ type CheckSaleStateOpResponse struct {
 	Included Included         `json:"included"`
 }
 
-type CheckSaleStateOpsResponse struct {
+type CheckSaleStateOpListResponse struct {
 	Data     []CheckSaleStateOp `json:"data"`
 	Included Included           `json:"included"`
 	Links    *Links             `json:"links"`
+	Meta     json.RawMessage    `json:"meta,omitempty"`
+}
+
+func (r *CheckSaleStateOpListResponse) PutMeta(v interface{}) (err error) {
+	r.Meta, err = json.Marshal(v)
+	return err
+}
+
+func (r *CheckSaleStateOpListResponse) GetMeta(out interface{}) error {
+	return json.Unmarshal(r.Meta, out)
 }
 
 // MustCheckSaleStateOp - returns CheckSaleStateOp from include collection.

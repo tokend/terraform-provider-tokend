@@ -1,0 +1,35 @@
+name: OpManageOfferDetails
+key: operations-manage-offer
+base: operation-details
+attributes:
+  -
+    name: offer_id
+    type: Int64
+    optional: true
+  -
+    name: order_book_id
+    type: Int64
+  -
+    name: base_amount
+    type: Amount
+  -
+    name: price
+    type: Amount
+  -
+    name: is_buy
+    type: Bool
+  -
+    name: fee
+    type: Fee
+  -
+    name: is_deleted
+    type: Bool
+relations:
+  -
+    name: base_asset
+    is_collection: false
+    resource: assets
+  -
+    name: quote_asset
+    is_collection: false
+    resource: assets

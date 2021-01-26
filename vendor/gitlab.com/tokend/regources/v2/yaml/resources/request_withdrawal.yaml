@@ -1,0 +1,19 @@
+name: WithdrawalRequestDetails
+key: request-details-withdrawal
+base: request-details
+attributes:
+  -
+    name: fee
+    type: Fee
+  -
+    name: amount
+    type: Amount
+  -
+    name: creator_details
+    type: Object
+
+relations:
+  -
+    name: balance
+    is_collection: false
+    resource: balances

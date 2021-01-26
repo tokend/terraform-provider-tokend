@@ -1,0 +1,12 @@
+name: OpCreateManageLimitsRequestDetails
+key: operations-create-manage-limits-request
+base: operation-details
+attributes:
+  -
+    name: creator_details
+    type: Object
+relations:
+  -
+    name: request
+    is_collection: false
+    resource: requests

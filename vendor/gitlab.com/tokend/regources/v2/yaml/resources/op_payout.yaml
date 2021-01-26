@@ -1,0 +1,36 @@
+name: OpPayoutDetails
+key: operations-payout
+base: operation-details
+attributes:
+  -
+    name: max_payout_amount
+    type: Amount
+  -
+    name: min_asset_holder_amount
+    type: Amount
+  -
+    name: min_payout_amount
+    type: Amount
+  -
+    name: expected_fee
+    type: Fee
+  -
+    name: actual_fee
+    type: Fee
+  -
+    name: actual_payout_amount
+    type: Amount
+
+relations:
+  -
+    name: source_account
+    is_collection: false
+    resource: accounts
+  -
+    name: source_balance
+    is_collection: false
+    resource: balances
+  -
+    name: asset
+    is_collection: false
+    resource: assets

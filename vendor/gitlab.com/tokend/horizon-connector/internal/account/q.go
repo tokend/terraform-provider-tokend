@@ -3,6 +3,7 @@ package account
 import (
 	"encoding/json"
 	"fmt"
+
 	"gitlab.com/tokend/horizon-connector/internal/resources/operations"
 	"gitlab.com/tokend/horizon-connector/types"
 

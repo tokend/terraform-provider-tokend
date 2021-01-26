@@ -1,0 +1,7 @@
+name: LimitsUpdateRequestDetails
+key: request-details-limits-update
+base: request-details
+attributes:
+  -
+    name: creator_details
+    type: Object

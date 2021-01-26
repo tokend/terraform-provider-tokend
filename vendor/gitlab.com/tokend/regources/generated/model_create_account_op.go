@@ -4,6 +4,8 @@
 
 package regources
 
+import "encoding/json"
+
 type CreateAccountOp struct {
 	Key
 	Relationships CreateAccountOpRelationships `json:"relationships"`
@@ -13,10 +15,20 @@ type CreateAccountOpResponse struct {
 	Included Included        `json:"included"`
 }
 
-type CreateAccountOpsResponse struct {
+type CreateAccountOpListResponse struct {
 	Data     []CreateAccountOp `json:"data"`
 	Included Included          `json:"included"`
 	Links    *Links            `json:"links"`
+	Meta     json.RawMessage   `json:"meta,omitempty"`
+}
+
+func (r *CreateAccountOpListResponse) PutMeta(v interface{}) (err error) {
+	r.Meta, err = json.Marshal(v)
+	return err
+}
+
+func (r *CreateAccountOpListResponse) GetMeta(out interface{}) error {
+	return json.Unmarshal(r.Meta, out)
 }
 
 // MustCreateAccountOp - returns CreateAccountOp from include collection.

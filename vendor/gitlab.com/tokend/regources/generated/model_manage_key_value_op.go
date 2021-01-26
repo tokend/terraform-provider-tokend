@@ -4,6 +4,8 @@
 
 package regources
 
+import "encoding/json"
+
 type ManageKeyValueOp struct {
 	Key
 	Attributes ManageKeyValueOpAttributes `json:"attributes"`
@@ -13,10 +15,20 @@ type ManageKeyValueOpResponse struct {
 	Included Included         `json:"included"`
 }
 
-type ManageKeyValueOpsResponse struct {
+type ManageKeyValueOpListResponse struct {
 	Data     []ManageKeyValueOp `json:"data"`
 	Included Included           `json:"included"`
 	Links    *Links             `json:"links"`
+	Meta     json.RawMessage    `json:"meta,omitempty"`
+}
+
+func (r *ManageKeyValueOpListResponse) PutMeta(v interface{}) (err error) {
+	r.Meta, err = json.Marshal(v)
+	return err
+}
+
+func (r *ManageKeyValueOpListResponse) GetMeta(out interface{}) error {
+	return json.Unmarshal(r.Meta, out)
 }
 
 // MustManageKeyValueOp - returns ManageKeyValueOp from include collection.

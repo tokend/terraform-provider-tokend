@@ -1,0 +1,9 @@
+name: BalanceState
+key: balances-state
+attributes:
+  -
+    name: available
+    type: Amount
+  -
+    name: locked
+    type: Amount

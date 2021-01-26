@@ -1,0 +1,54 @@
+name: Swap
+key: swaps
+
+attributes:
+-
+  name: created_at
+  type: Date
+-
+  name: lock_time
+  type: Date
+-
+  name: state
+  type: XdrEnumValue
+-
+  name: secret_hash
+  type: String
+-
+  name: amount
+  type: Amount
+-
+  name: source_fee
+  type: Fee
+-
+  name: destination_fee
+  type: Fee
+-
+  name: details
+  type: Object
+-
+  name: secret
+  type: String
+  optional: true
+
+relations:
+- 
+  name: source
+  is_collection: false
+  resource: accounts
+- 
+  name: destination
+  is_collection: false
+  resource: accounts
+- 
+  name: source_balance
+  is_collection: false
+  resource: balances
+- 
+  name: destination_balance
+  is_collection: false
+  resource: balances
+-
+  name: asset
+  is_collection: false
+  resource: assets

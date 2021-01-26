@@ -1,0 +1,22 @@
+name: PreIssuanceRequestDetails
+key: request-details-pre-issuance
+base: request-details
+attributes:
+  -
+    name: amount
+    type: Amount
+  -
+    name: signature
+    type: String
+  -
+    name: reference
+    type: String
+  -
+    name: creator_details
+    type: Object
+
+relations:
+  -
+    name: asset
+    is_collection: false
+    resource: assets

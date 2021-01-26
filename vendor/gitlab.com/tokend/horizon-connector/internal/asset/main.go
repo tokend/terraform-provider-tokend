@@ -5,10 +5,9 @@ import (
 
 	"encoding/json"
 
+	"github.com/pkg/errors"
 	"gitlab.com/tokend/horizon-connector/internal"
 	"gitlab.com/tokend/regources"
-	"gitlab.com/distributed_lab/logan/v3"
-	"gitlab.com/distributed_lab/logan/v3/errors"
 )
 
 type Q struct {
@@ -34,9 +33,7 @@ func (q Q) ByCode(code string) (*regources.Asset, error) {
 
 	var asset regources.Asset
 	if err := json.Unmarshal(response, &asset); err != nil {
-		return nil, errors.Wrap(err, "failed to unmarshal response", logan.F{
-			"raw_response": string(response),
-		})
+		return nil, errors.Wrap(err, "failed to unmarshal")
 	}
 	return &asset, nil
 }
@@ -54,9 +51,7 @@ func (q Q) Index() ([]regources.Asset, error) {
 
 	var assets []regources.Asset
 	if err := json.Unmarshal(response, &assets); err != nil {
-		return nil, errors.Wrap(err, "failed to unmarshal response", logan.F{
-			"raw_response": string(response),
-		})
+		return nil, errors.Wrap(err, "failed to unmarshal")
 	}
 	return assets, nil
 }
@@ -74,9 +69,7 @@ func (q Q) Pairs() ([]regources.AssetPair, error) {
 
 	var assetPairs []regources.AssetPair
 	if err := json.Unmarshal(response, &assetPairs); err != nil {
-		return nil, errors.Wrap(err, "failed to unmarshal response", logan.F{
-			"raw_response": string(response),
-		})
+		return nil, errors.Wrap(err, "failed to unmarshal")
 	}
 	return assetPairs, nil
 }

@@ -15,7 +15,6 @@ import (
 	"gitlab.com/tokend/horizon-connector/internal/keyvalue"
 	"gitlab.com/tokend/horizon-connector/internal/listener"
 	"gitlab.com/tokend/horizon-connector/internal/operation"
-	"gitlab.com/tokend/horizon-connector/internal/orders"
 	"gitlab.com/tokend/horizon-connector/internal/sale"
 	"gitlab.com/tokend/horizon-connector/internal/system"
 	"gitlab.com/tokend/horizon-connector/internal/templates"
@@ -30,15 +29,11 @@ type Connector struct {
 	client *Client
 }
 
-func NewConnector(base *url.URL) *Connector {
-	client := NewClient(http.DefaultClient, base)
+func NewConnector(base *url.URL, accountID keypair.Address) *Connector {
+	client := NewClient(http.DefaultClient, base, accountID)
 	return &Connector{
 		client,
 	}
-}
-
-func (c *Connector) Base() *url.URL {
-	return c.client.base
 }
 
 func (c *Connector) WithSigner(kp keypair.Full) *Connector {
@@ -90,10 +85,6 @@ func (c *Connector) Assets() *asset.Q {
 	return asset.NewQ(c.client)
 }
 
-func (c *Connector) Orders() *orders.Q {
-	return orders.NewQ(c.client)
-}
-
 func (c *Connector) Accounts() *account.Q {
 	return account.NewQ(c.client)
 }
@@ -132,8 +123,8 @@ func (c *Connector) Blobs() *blob.Q {
 	return blob.NewQ(c.client)
 }
 
-func (c *Connector) Documents() *document.Q {
-	return document.NewQ(c.client)
+func (c *Connector) Documents() *documnet.Q {
+	return documnet.NewQ(c.client)
 }
 
 func (c *Connector) Templates() *templates.Q {

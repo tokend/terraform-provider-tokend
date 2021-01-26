@@ -1,0 +1,15 @@
+name: SignerRole
+key: signer-roles
+attributes:
+  -
+    name: details
+    type: Object
+relations:
+  -
+    name: rules
+    is_collection: true
+    resource: signer-rules
+  -
+    name: owner
+    is_collection: false
+    resource: accounts

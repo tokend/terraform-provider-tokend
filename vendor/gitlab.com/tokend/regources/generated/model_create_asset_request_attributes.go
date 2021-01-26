@@ -16,6 +16,8 @@ type CreateAssetRequestAttributes struct {
 	Policies int32 `json:"policies"`
 	// Address of an account that performs pre issuance
 	PreIssuanceAssetSigner string `json:"pre_issuance_asset_signer"`
+	// Number of digits after point (comma)
+	TrailingDigitsCount uint32 `json:"trailing_digits_count"`
 	// Numeric type of asset
 	Type uint64 `json:"type"`
 }

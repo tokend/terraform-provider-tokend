@@ -1,0 +1,14 @@
+name: ExternalSystemPoolCreation
+attributes:
+  -
+    name: pool_id
+    type: UInt64
+  -
+    name: data
+    type: String
+  -
+    name: parent
+    type: UInt64
+  -
+    name: external_system_type
+    type: Int32

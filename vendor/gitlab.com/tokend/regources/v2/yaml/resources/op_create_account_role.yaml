@@ -1,0 +1,3 @@
+name: OpCreateAccountRoleDetails
+key: operations-create-account-role
+base: operations-manage-account-role

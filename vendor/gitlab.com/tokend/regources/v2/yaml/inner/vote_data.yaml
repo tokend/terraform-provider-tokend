@@ -1,0 +1,9 @@
+name: VoteData
+attributes:
+  -
+    name: poll_type
+    type: XdrEnumValue
+  -
+    name: single_choice
+    type: UInt64
+    optional: true

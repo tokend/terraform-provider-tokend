@@ -4,6 +4,8 @@
 
 package regources
 
+import "encoding/json"
+
 type UpdateLimitsRequest struct {
 	Key
 	Attributes UpdateLimitsRequestAttributes `json:"attributes"`
@@ -13,10 +15,20 @@ type UpdateLimitsRequestResponse struct {
 	Included Included            `json:"included"`
 }
 
-type UpdateLimitsRequestsResponse struct {
+type UpdateLimitsRequestListResponse struct {
 	Data     []UpdateLimitsRequest `json:"data"`
 	Included Included              `json:"included"`
 	Links    *Links                `json:"links"`
+	Meta     json.RawMessage       `json:"meta,omitempty"`
+}
+
+func (r *UpdateLimitsRequestListResponse) PutMeta(v interface{}) (err error) {
+	r.Meta, err = json.Marshal(v)
+	return err
+}
+
+func (r *UpdateLimitsRequestListResponse) GetMeta(out interface{}) error {
+	return json.Unmarshal(r.Meta, out)
 }
 
 // MustUpdateLimitsRequest - returns UpdateLimitsRequest from include collection.

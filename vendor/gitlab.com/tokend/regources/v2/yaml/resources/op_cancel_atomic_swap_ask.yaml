@@ -1,0 +1,8 @@
+name: OpCancelAtomicSwapBidDetails
+key: operations-cancel-atomic-swap-ask
+base: operation-details
+relations:
+  -
+    name: ask
+    is_collection: false
+    resource: atomic-swap-ask

@@ -4,6 +4,8 @@
 
 package regources
 
+import "encoding/json"
+
 type Signer struct {
 	Key
 	Attributes    SignerAttributes    `json:"attributes"`
@@ -14,10 +16,20 @@ type SignerResponse struct {
 	Included Included `json:"included"`
 }
 
-type SignersResponse struct {
-	Data     []Signer `json:"data"`
-	Included Included `json:"included"`
-	Links    *Links   `json:"links"`
+type SignerListResponse struct {
+	Data     []Signer        `json:"data"`
+	Included Included        `json:"included"`
+	Links    *Links          `json:"links"`
+	Meta     json.RawMessage `json:"meta,omitempty"`
+}
+
+func (r *SignerListResponse) PutMeta(v interface{}) (err error) {
+	r.Meta, err = json.Marshal(v)
+	return err
+}
+
+func (r *SignerListResponse) GetMeta(out interface{}) error {
+	return json.Unmarshal(r.Meta, out)
 }
 
 // MustSigner - returns Signer from include collection.

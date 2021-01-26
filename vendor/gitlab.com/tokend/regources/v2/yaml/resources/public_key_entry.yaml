@@ -1,0 +1,8 @@
+name: PublicKeyEntry
+key: public-key-entries
+
+relations:
+  -
+    name: accounts
+    is_collection: true
+    resource: accounts

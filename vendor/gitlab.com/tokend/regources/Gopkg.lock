@@ -66,7 +66,8 @@
   version = "v3.7"
 
 [[projects]]
-  digest = "1:c3649a842a047345579611715e38d6c81c1f5fdb224a1a2e9a4497897228fd5b"
+  branch = "feature/payment-optional-src-account"
+  digest = "1:8e29b0188e567138b8e24deffbdaeb93b83ba731e1b6d8e700c9f5771706faa1"
   name = "gitlab.com/tokend/go"
   packages = [
     "amount",
@@ -75,8 +76,7 @@
     "xdr",
   ]
   pruneopts = "UT"
-  revision = "552e3872c05ee4e0621377daf9c46a699d9bb0c5"
-  version = "v3.2.0"
+  revision = "9fea83b5ff9653156cf399cddbd9ce17d5f0fff0"
 
 [[projects]]
   digest = "1:a5cc901b8e54c4b73a62f97dc7c8f6c46e347c148a7a38e09b2e942c2587ba03"

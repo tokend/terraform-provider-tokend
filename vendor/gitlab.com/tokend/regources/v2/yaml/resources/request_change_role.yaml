@@ -1,0 +1,13 @@
+name: ChangeRoleRequestDetails
+key: request-details-change-role
+base: request-details
+attributes:
+  -
+    name: account_role_to_set
+    type: UInt64
+  -
+    name: sequence_number
+    type: UInt32
+  -
+    name: creator_details
+    type: Object

@@ -4,6 +4,8 @@
 
 package regources
 
+import "encoding/json"
+
 type CreateIssuanceRequest struct {
 	Key
 	Attributes    CreateIssuanceRequestAttributes    `json:"attributes"`
@@ -14,10 +16,20 @@ type CreateIssuanceRequestResponse struct {
 	Included Included              `json:"included"`
 }
 
-type CreateIssuanceRequestsResponse struct {
+type CreateIssuanceRequestListResponse struct {
 	Data     []CreateIssuanceRequest `json:"data"`
 	Included Included                `json:"included"`
 	Links    *Links                  `json:"links"`
+	Meta     json.RawMessage         `json:"meta,omitempty"`
+}
+
+func (r *CreateIssuanceRequestListResponse) PutMeta(v interface{}) (err error) {
+	r.Meta, err = json.Marshal(v)
+	return err
+}
+
+func (r *CreateIssuanceRequestListResponse) GetMeta(out interface{}) error {
+	return json.Unmarshal(r.Meta, out)
 }
 
 // MustCreateIssuanceRequest - returns CreateIssuanceRequest from include collection.

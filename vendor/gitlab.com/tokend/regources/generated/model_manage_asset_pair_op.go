@@ -4,6 +4,8 @@
 
 package regources
 
+import "encoding/json"
+
 type ManageAssetPairOp struct {
 	Key
 	Attributes    ManageAssetPairOpAttributes    `json:"attributes"`
@@ -14,10 +16,20 @@ type ManageAssetPairOpResponse struct {
 	Included Included          `json:"included"`
 }
 
-type ManageAssetPairOpsResponse struct {
+type ManageAssetPairOpListResponse struct {
 	Data     []ManageAssetPairOp `json:"data"`
 	Included Included            `json:"included"`
 	Links    *Links              `json:"links"`
+	Meta     json.RawMessage     `json:"meta,omitempty"`
+}
+
+func (r *ManageAssetPairOpListResponse) PutMeta(v interface{}) (err error) {
+	r.Meta, err = json.Marshal(v)
+	return err
+}
+
+func (r *ManageAssetPairOpListResponse) GetMeta(out interface{}) error {
+	return json.Unmarshal(r.Meta, out)
 }
 
 // MustManageAssetPairOp - returns ManageAssetPairOp from include collection.

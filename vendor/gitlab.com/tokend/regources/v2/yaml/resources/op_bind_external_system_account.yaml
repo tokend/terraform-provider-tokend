@@ -1,0 +1,7 @@
+name: OpBindExternalSystemAccountDetails
+key: operations-bind-external-system-account-id
+base: operation-details
+attributes:
+  -
+    name: external_system_type
+    type: Int32

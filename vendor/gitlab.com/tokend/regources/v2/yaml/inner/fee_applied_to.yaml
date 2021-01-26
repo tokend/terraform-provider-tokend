@@ -1,0 +1,20 @@
+name: FeeAppliedTo
+attributes:
+  -
+    name: asset
+    type: String
+  -
+    name: subtype
+    type: Int64
+  -
+    name: fee_type
+    type: Int32
+  -
+    name: fee_type_extended
+    type: XdrEnumValue
+  -
+    name: lower_bound
+    type: Amount
+  -
+    name: upper_bound
+    type: Amount

@@ -1,0 +1,8 @@
+name: PollParticipation
+key: poll-outcome
+
+relations:
+  -
+    name: votes
+    is_collection: true
+    resource: votes

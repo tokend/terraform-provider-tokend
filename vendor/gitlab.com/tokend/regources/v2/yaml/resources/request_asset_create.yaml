@@ -1,0 +1,25 @@
+name: AssetCreateRequestDetails
+key: request-details-asset-create
+base: request-details
+attributes:
+  -
+    name: asset
+    type: String
+  -
+    name: policies
+    type: Int32
+  -
+    name: pre_issuance_asset_signer
+    type: String
+  -
+    name: max_issuance_amount
+    type: Amount
+  -
+    name: initial_preissued_amount
+    type: Amount
+  -
+    name: creator_details
+    type: Object
+  -
+    name: type
+    type: UInt64

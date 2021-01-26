@@ -1,0 +1,20 @@
+name: AtomicSwapAskRequestDetails
+key: request-details-atomic-swap-ask
+base: request-details
+attributes:
+  -
+    name: base_amount
+    type: Amount
+  -
+    name: creator_details
+    type: Object
+
+relations:
+  -
+    name: base_balance
+    is_collection: false
+    resource: balances
+  -
+    name: quote_assets
+    is_collection: true
+    resource: atomic-swap-quote-assets

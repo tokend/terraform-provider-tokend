@@ -1,0 +1,10 @@
+name: AtomicSwapQuoteAsset
+key: atomic-swap-quote-assets
+
+attributes:
+  -
+    name: price
+    type: Amount
+  -
+    name: quote_asset
+    type: String

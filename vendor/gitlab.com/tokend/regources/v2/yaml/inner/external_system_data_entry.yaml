@@ -1,0 +1,9 @@
+name: ExternalSystemDataEntry
+attributes:
+  -
+    name: address
+    type: String
+  -
+    name: payload
+    type: String
+    optional: true

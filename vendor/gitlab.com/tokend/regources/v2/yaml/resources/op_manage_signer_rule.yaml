@@ -1,0 +1,27 @@
+name: OpManageSignerRuleDetails
+key: operations-manage-signer-rule
+base: operation-details
+attributes:
+  -
+    name: resource
+    type: Object
+  -
+    name: action
+    type: Object
+  -
+    name: forbids
+    type: Bool
+  -
+    name: is_default
+    type: Bool
+  -
+    name: is_read_only
+    type: Bool
+  -
+    name: details
+    type: Object
+relations:
+  -
+    name: rule
+    is_collection: false
+    resource: signer-rules

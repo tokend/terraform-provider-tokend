@@ -1,0 +1,27 @@
+name: SignerRule
+key: signer-rules
+attributes:
+  -
+    name: resource
+    type: Object
+  -
+    name: action
+    type: XdrEnumValue
+  -
+    name: forbids
+    type: Bool
+  -
+    name: is_default
+    type: Bool
+  -
+    name: details
+    type: Object
+relations:
+  -
+    name: rules
+    is_collection: true
+    resource: signer-rules
+  -
+    name: owner
+    is_collection: false
+    resource: accounts

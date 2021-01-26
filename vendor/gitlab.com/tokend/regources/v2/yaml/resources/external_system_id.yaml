@@ -1,0 +1,23 @@
+name: ExternalSystemId
+key: external-system-ids
+attributes:
+  -
+    name: external_system_type
+    type: Int32
+  -
+    name: data
+    type: ExternalSystemData
+  -
+    name: is_deleted
+    type: Bool
+  -
+    name: expires_at
+    type: Date
+  -
+    name: binded_at
+    type: Date
+relations:
+  -
+    name: account
+    is_collection: false
+    resource: accounts

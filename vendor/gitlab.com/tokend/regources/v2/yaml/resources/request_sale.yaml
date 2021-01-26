@@ -1,0 +1,33 @@
+name: SaleRequestDetails
+key: request-details-sale
+base: request-details
+attributes:
+  -
+    name: base_asset_for_hard_cap
+    type: String
+  -
+    name: start_time
+    type: Date
+  -
+    name: end_time
+    type: Date
+  -
+    name: sale_type
+    type: XdrEnumValue
+  -
+    name: creator_details
+    type: Object
+
+relations:
+  -
+    name: base_asset
+    is_collection: false
+    resource: assets
+  -
+    name: quote_assets
+    is_collection: true
+    resource: sale-quote-assets
+  -
+    name: default_quote_asset
+    is_collection: false
+    resource: sale-quote-assets

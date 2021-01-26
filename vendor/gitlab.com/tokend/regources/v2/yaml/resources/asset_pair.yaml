@@ -1,0 +1,26 @@
+name: AssetPair
+key: asset-pairs
+
+attributes:
+  -
+    name: price
+    type: Amount
+  -
+    name: policies
+    type: XdrEnumBitmask
+  -
+    name: max_price_step
+    type: Amount
+  -
+    name: physical_price_correction
+    type: Amount
+
+relations:
+  -
+    name: base_asset
+    is_collection: false
+    resource: assets
+  -
+    name: quote_asset
+    is_collection: false
+    resource: assets

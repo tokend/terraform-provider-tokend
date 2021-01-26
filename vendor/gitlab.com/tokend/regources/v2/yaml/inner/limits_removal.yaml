@@ -1,0 +1,5 @@
+name: LimitsRemoval
+attributes:
+  -
+    name: limtis_id
+    type: Int64

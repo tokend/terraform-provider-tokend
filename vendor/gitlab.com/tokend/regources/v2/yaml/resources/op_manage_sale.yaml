@@ -1,0 +1,10 @@
+name: OpManageSaleDetails
+key: operations-manage-sale
+base: operation-details
+attributes:
+  -
+    name: sale_id
+    type: UInt64
+  -
+    name: action
+    type: XdrEnumValue

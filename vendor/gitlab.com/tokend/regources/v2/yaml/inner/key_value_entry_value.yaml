@@ -1,0 +1,17 @@
+name: KeyValueEntryValue
+attributes:
+  -
+    name: type
+    type: XdrEnumValue
+  -
+    name: u32
+    type: UInt32
+    optional: true
+  -
+    name: u64
+    type: UInt64
+    optional: true
+  -
+    name: str
+    type: String
+    optional: true

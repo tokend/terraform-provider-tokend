@@ -1,0 +1,19 @@
+name: OpManageSignerRoleDetails
+key: operations-manage-signer-role
+base: operation-details
+attributes:
+  -
+    name: is_read_only
+    type: Bool
+  -
+    name: details
+    type: Object
+relations:
+  -
+    name: role
+    is_collection: false
+    resource: signer-roles
+  -
+    name: rules
+    is_collection: true
+    resource: signer-rules

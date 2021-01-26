@@ -1,0 +1,12 @@
+# Base resource for balance change effect
+name: EffectBalanceChange
+key: effects-balance-change
+base: effects
+
+attributes:
+  -
+    name: amount
+    type: Amount
+  -
+    name: fee
+    type: Fee

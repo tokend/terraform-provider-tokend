@@ -1,0 +1,51 @@
+name: ReviewableRequest
+key: requests
+attributes:
+  -
+    name: reference
+    type: String
+    optional: true
+  -
+    name: reject_reason
+    type: String
+  -
+    name: hash
+    type: String
+  -
+    name: all_tasks
+    type: UInt32
+  -
+    name: pending_tasks
+    type: UInt32
+  -
+    name: external_details
+    type: Object
+    optional: true
+  -
+    name: created_at
+    type: Date
+  -
+    name: updated_at
+    type: Date
+  -
+    name: state
+    type: String
+  -
+    name: state_i
+    type: Int32
+  -
+    name: xdr_type
+    type: XdrEnumValue
+relations:
+  -
+    name: requestor
+    is_collection: false
+    resource: accounts
+  -
+    name: reviewer
+    is_collection: false
+    resource: accounts
+  -
+    name: request_details
+    is_collection: false
+    resource: request-details

@@ -1,0 +1,21 @@
+name: Operation
+key: operations
+
+attributes:
+  -
+    name: applied_at
+    type: Date
+
+relations:
+  -
+    name: tx
+    is_collection: false
+    resource: transactions
+  -
+    name: details
+    is_collection: false
+    resource: operation-details
+  -
+    name: source
+    is_collection: false
+    resource: accounts

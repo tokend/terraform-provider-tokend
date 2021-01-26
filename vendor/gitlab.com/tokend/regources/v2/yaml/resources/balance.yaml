@@ -1,0 +1,11 @@
+name: Balance
+key: balances
+relations:
+  -
+    name: asset
+    is_collection: false
+    resource: assets
+  -
+    name: state
+    is_collection: false
+    resource: balances-state

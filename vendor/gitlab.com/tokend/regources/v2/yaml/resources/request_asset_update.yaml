@@ -1,0 +1,16 @@
+name: AssetUpdateREquestDetails
+key: request-details-asset-update
+base: request-details
+attributes:
+  -
+    name: policies
+    type: Int32
+  -
+    name: creator_details
+    type: Object
+
+relations:
+  -
+    name: asset
+    is_collection: false
+    resource: assets

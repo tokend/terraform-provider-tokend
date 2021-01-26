@@ -1,0 +1,15 @@
+name: OpCreateAMLAlertRequestDetails
+key: operations-create-aml-alert
+base: operation-details
+attributes:
+  -
+    name: amount
+    type: Amount
+  -
+    name: creator_details
+    type: Object
+relations:
+  -
+    name: balance
+    is_collection: false
+    resource: balances

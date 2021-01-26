@@ -18,7 +18,7 @@
 
 [[constraint]]
   name = "gitlab.com/tokend/horizon-connector"
-  version = "4"
+  branch = "project/dms-terraform"
 
 [prune]
   go-tests = true

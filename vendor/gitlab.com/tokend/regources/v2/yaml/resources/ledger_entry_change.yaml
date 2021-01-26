@@ -1,0 +1,12 @@
+name: LedgerEntryChange
+key: ledger-entry-changes
+attributes:
+  -
+    name: change_type
+    type: XdrEnumValue
+  -
+    name: entry_type
+    type: XdrEnumValue
+  -
+    name: payload
+    type: String

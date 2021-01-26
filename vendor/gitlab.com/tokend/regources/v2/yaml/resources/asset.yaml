@@ -1,0 +1,36 @@
+name: Asset
+key: assets
+attributes:
+- 
+  name: pre_issuance_asset_signer
+  type: String
+-
+  name: details
+  type: Object
+-
+  name: max_issuance_amount
+  type: Amount
+-
+  name: available_for_issuance
+  type: Amount
+-
+  name: issued
+  type: Amount
+-
+  name: pending_issuance
+  type: Amount
+-
+  name: policies
+  type: XdrEnumBitmask
+-
+  name: trailing_digits
+  type: UInt32
+
+- name: type
+  type: UInt64
+
+relations:
+- 
+  name: owner
+  is_collection: false
+  resource: accounts

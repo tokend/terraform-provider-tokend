@@ -1,6 +1,8 @@
 package regources
 
-import "encoding/json"
+import (
+	"encoding/json"
+)
 
 // Represents Reviewable request
 type ReviewableRequest struct {
@@ -235,6 +237,11 @@ type AtomicSwapBidCreation struct {
 	BaseAmount  Amount                 `json:"base_amount"`
 	Details     map[string]interface{} `json:"details"`
 	QuoteAssets []AssetPrice           `json:"quote_assets"`
+}
+
+type AssetPrice struct {
+	Asset string `json:"asset"`
+	Price Amount `json:"price"`
 }
 
 type AtomicSwap struct {

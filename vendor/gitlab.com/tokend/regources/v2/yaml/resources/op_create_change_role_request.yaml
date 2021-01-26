@@ -1,0 +1,24 @@
+name: OpCreateChangeRoleRequestDetails
+key: operations-create-change-role-request
+base: operation-details
+attributes:
+  -
+    name: creator_details
+    type: Object
+  -
+    name: all_tasks
+    type: UInt32
+    optional: true
+relations:
+  -
+    name: account_to_update_role
+    is_collection: false
+    resource: accounts
+  -
+    name: request
+    is_collection: false
+    resource: requests
+  -
+    name: role_to_set
+    is_collection: false
+    resource: account-roles

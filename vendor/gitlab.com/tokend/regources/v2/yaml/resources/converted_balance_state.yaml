@@ -1,0 +1,20 @@
+name: ConvertedBalanceState
+key: converted-balance-states
+attributes:
+  -
+    name: price
+    type: Amount
+  -
+    name: initial_amounts
+    type: BalanceStateAmounts
+  -
+    name: converted_amounts
+    type: BalanceStateAmounts
+  -
+    name: is_converted
+    type: Bool
+relations:
+  -
+    name: balance
+    is_collection: false
+    resource: balances

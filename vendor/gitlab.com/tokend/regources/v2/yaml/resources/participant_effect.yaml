@@ -1,0 +1,24 @@
+name: ParticipantEffect
+key: participant-effects
+
+relations:
+  -
+    name: account
+    is_collection: false
+    resource: accounts
+  -
+    name: balance
+    is_collection: false
+    resource: balances
+  -
+    name: asset
+    is_collection: false
+    resource: assets
+  -
+    name: operation
+    is_collection: false
+    resource: operations
+  -
+    name: effect
+    is_collection: false
+    resource: effects

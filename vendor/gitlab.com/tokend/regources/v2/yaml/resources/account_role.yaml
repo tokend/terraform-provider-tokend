@@ -1,0 +1,11 @@
+name: AccountRole
+key: account-roles
+attributes:
+  -
+    name: details
+    type: Object
+relations:
+  -
+    name: rules
+    resource: account-rules
+    is_collection: true

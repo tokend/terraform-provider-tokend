@@ -1,0 +1,3 @@
+name: EffectChargedFromLocked
+key: effects-charged-from-locked
+base: effects-balance-change

@@ -1,0 +1,29 @@
+name: OpReviewRequestDetails
+key: operations-review-request
+base: operation-details
+attributes:
+  -
+    name: action
+    type: XdrEnumValue
+  -
+    name: reason
+    type: String
+  -
+    name: request_hash
+    type: String
+  -
+    name: request_id
+    type: Int64
+  -
+    name: is_fulfilled
+    type: Bool
+  -
+    name: added_tasks
+    type: UInt32
+  -
+    name: removed_tasks
+    type: UInt32
+  -
+    name: external_details
+    type: Object
+# TODO: Add review request details as relation

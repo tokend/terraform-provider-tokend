@@ -1,0 +1,12 @@
+name: OpCreateAccountDetails
+key: operations-create-account
+base: operation-details
+relations:
+  -
+    name: account
+    resource: accounts
+    is_collection: false
+  -
+    name: role
+    resource: account-roles
+    is_collection: false

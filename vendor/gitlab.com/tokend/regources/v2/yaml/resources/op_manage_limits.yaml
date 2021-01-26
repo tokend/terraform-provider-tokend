@@ -1,0 +1,15 @@
+name: OpManageLimitsDetails
+key: operations-manage-limits
+base: operation-details
+attributes:
+  -
+    name: action
+    type: XdrEnumValue
+  -
+    name: create
+    type: LimitsCreation
+    optional: true
+  -
+    name: remove
+    type: LimitsRemoval
+    optional: true

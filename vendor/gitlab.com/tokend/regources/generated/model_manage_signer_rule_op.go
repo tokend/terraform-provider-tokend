@@ -4,6 +4,8 @@
 
 package regources
 
+import "encoding/json"
+
 type ManageSignerRuleOp struct {
 	Key
 	Attributes    *ManageSignerRuleOpAttributes    `json:"attributes,omitempty"`
@@ -14,10 +16,20 @@ type ManageSignerRuleOpResponse struct {
 	Included Included           `json:"included"`
 }
 
-type ManageSignerRuleOpsResponse struct {
+type ManageSignerRuleOpListResponse struct {
 	Data     []ManageSignerRuleOp `json:"data"`
 	Included Included             `json:"included"`
 	Links    *Links               `json:"links"`
+	Meta     json.RawMessage      `json:"meta,omitempty"`
+}
+
+func (r *ManageSignerRuleOpListResponse) PutMeta(v interface{}) (err error) {
+	r.Meta, err = json.Marshal(v)
+	return err
+}
+
+func (r *ManageSignerRuleOpListResponse) GetMeta(out interface{}) error {
+	return json.Unmarshal(r.Meta, out)
 }
 
 // MustManageSignerRuleOp - returns ManageSignerRuleOp from include collection.

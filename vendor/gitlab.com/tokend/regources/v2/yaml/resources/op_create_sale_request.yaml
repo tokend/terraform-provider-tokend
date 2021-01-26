@@ -1,0 +1,36 @@
+name: OpCreateSaleRequestDetails
+key: operations-create-sale-request
+base: operation-details
+attributes:
+  -
+    name: start_time
+    type: Date
+  -
+    name: end_time
+    type: Date
+  -
+    name: soft_cap
+    type: Amount
+  -
+    name: hard_cap
+    type: Amount
+  -
+    name: creator_details
+    type: Object
+relations:
+  -
+    name: request
+    is_collection: false
+    resource: requests
+  -
+    name: quote_assets
+    is_collection: true
+    resource: assets
+  -
+    name: base_asset
+    is_collection: false
+    resource: assets
+  -
+    name: default_quote_asset
+    is_collection: false
+    resource: assets

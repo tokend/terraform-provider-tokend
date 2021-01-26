@@ -1,0 +1,25 @@
+name: OpManageAssetPairDetails
+key: operations-manage-asset-pair
+base: operation-details
+attributes:
+  -
+    name: physical_price
+    type: Amount
+  -
+    name: physical_price_correction
+    type: Amount
+  -
+    name: max_price_step
+    type: Amount
+  -
+    name: policies
+    type: XdrEnumBitmask
+relations:
+-
+   name: base_asset
+   is_collection: false
+   resource: assets
+-
+   name: quote_asset
+   is_collection: false
+   resource: assets

@@ -1,0 +1,23 @@
+name: Signer
+key: signers
+
+attributes:
+  -
+    name: weight
+    type: UInt32
+  -
+    name: identity
+    type: UInt32
+  -
+    name: details
+    type: Object
+
+relations:
+  -
+    name: account
+    is_collection: false
+    resource: accounts
+  -
+    name: role
+    is_collection: false
+    resource: signer-roles

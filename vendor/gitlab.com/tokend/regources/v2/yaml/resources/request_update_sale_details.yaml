@@ -1,0 +1,13 @@
+name: UpdateSaleDetailsRequestDetails
+key: request-details-update-sale-details
+base: request-details
+attributes:
+  -
+    name: creator_details
+    type: Object
+
+relations:
+  -
+    name: sale
+    is_collection: false
+    resource: sales

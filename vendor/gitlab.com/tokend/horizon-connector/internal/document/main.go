@@ -1,13 +1,12 @@
-package document
+package documnet
 
 import (
-	"encoding/json"
-	"fmt"
-
-	"gitlab.com/distributed_lab/logan/v3"
-	"gitlab.com/distributed_lab/logan/v3/errors"
 	"gitlab.com/tokend/horizon-connector/internal"
+	"fmt"
+	"encoding/json"
+	"gitlab.com/distributed_lab/logan/v3/errors"
 	"gitlab.com/tokend/horizon-connector/internal/resources"
+	"gitlab.com/distributed_lab/logan/v3"
 )
 
 type Q struct {

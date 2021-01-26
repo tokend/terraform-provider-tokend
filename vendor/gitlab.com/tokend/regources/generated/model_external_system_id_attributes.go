@@ -10,9 +10,8 @@ import (
 
 type ExternalSystemIdAttributes struct {
 	// the time when the external system ID was binded
-	BindedAt time.Time `json:"binded_at"`
-	// identifier of an account in the external system.
-	Data string `json:"data"`
+	BindedAt time.Time          `json:"binded_at"`
+	Data     ExternalSystemData `json:"data"`
 	// this ID can be binded to another account in the system after the expiration time
 	ExpiresAt time.Time `json:"expires_at"`
 	// type of the external system

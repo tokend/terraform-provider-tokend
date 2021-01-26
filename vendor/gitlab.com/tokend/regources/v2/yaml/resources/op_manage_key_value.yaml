@@ -1,0 +1,14 @@
+name: OpManageKeyValueDetails
+key: operations-manage-key-value
+base: operation-details
+attributes:
+  -
+    name: key
+    type: String
+  -
+    name: action
+    type: XdrEnumValue
+  -
+    name: value
+    type: KeyValueEntryValue
+    optional: true

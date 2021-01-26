@@ -1,0 +1,25 @@
+name: SaleQuoteAsset
+key: sale-quote-assets
+
+attributes:
+  -
+    name: price
+    type: Amount
+  -
+    name: current_cap
+    type: Amount
+  -
+    name: hard_cap
+    type: Amount
+  -
+    name: soft_cap
+    type: Amount
+  -
+    name: total_current_cap
+    type: Amount
+
+relations:
+  -
+    name: asset
+    resource: assets
+    is_collection: false

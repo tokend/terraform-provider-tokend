@@ -1,0 +1,16 @@
+name: OpManageAccountRoleDetails
+key: operations-manage-account-role
+base: operation-details
+attributes:
+  -
+    name: details
+    type: Object
+relations:
+  -
+    name: role
+    is_collection: false
+    resource: account-roles
+  -
+    name: rules
+    is_collection: true
+    resource: account-rules

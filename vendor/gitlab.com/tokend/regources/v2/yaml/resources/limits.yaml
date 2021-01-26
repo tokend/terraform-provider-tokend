@@ -1,0 +1,35 @@
+name: Limit
+key: limits
+attributes:
+  -
+    name: daily_out
+    type: Amount
+  -
+    name: weekly_out
+    type: Amount
+  -
+    name: monthly_out
+    type: Amount
+  -
+    name: annual_out
+    type: Amount
+  - 
+    name: is_convert_needed
+    type: Bool
+  -
+    name: stats_op_type
+    type: Int32
+
+relations:
+  -
+    name: account
+    is_collection: false
+    resource: accounts
+  -
+    name: account_role
+    is_collection: false
+    resource: account-roles
+  -
+    name: asset
+    is_collection: false
+    resource: assets

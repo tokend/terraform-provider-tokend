@@ -1,0 +1,17 @@
+name: Vote
+key: votes
+
+attributes:
+  -
+    name: vote_data
+    type: VoteData
+
+relations:
+  -
+    name: poll
+    is_collection: false
+    resource: polls
+  -
+    name: voter
+    is_collection: false
+    resource: accounts

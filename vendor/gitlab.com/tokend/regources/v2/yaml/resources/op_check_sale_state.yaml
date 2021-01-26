@@ -1,0 +1,12 @@
+name: OpCheckSaleStateDetails
+key: operations-check-sale-state
+base: operation-details
+attributes:
+  -
+    name: effect
+    type: XdrEnumValue
+relations:
+  -
+    name: sale
+    is_collection: false
+    resource: sales

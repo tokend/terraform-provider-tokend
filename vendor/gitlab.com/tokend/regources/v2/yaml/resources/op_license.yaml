@@ -1,0 +1,20 @@
+name: OpLicenseDetails
+key: operations-license
+base: operation-details
+attributes:
+  -
+    name: due_date
+    type: Date
+  -
+    name: admin_count
+    type: UInt64
+  -
+    name: ledger_hash
+    type: String
+  -
+    name: prev_license_hash
+    type: String
+  -
+    name: signatures
+    type: String
+    is_collection: true

@@ -1,0 +1,37 @@
+name: OpCreateIssuanceRequestDetails
+key: operations-create-issuance-request
+base: operation-details
+attributes:
+  -
+    name: fee
+    type: Fee
+  -
+    name: amount
+    type: Amount
+  -
+    name: reference
+    type: String
+  -
+    name: all_tasks
+    type: Int64
+    optional: true
+  -
+    name: creator_details
+    type: Object
+relations:
+  -
+    name: asset
+    is_collection: false
+    resource: assets
+  -
+    name: request
+    is_collection: false
+    resource: requests
+  -
+    name: receiver_account
+    is_collection: false
+    resource: accounts
+  -
+    name: receiver_balance
+    is_collection: false
+    resource: balances

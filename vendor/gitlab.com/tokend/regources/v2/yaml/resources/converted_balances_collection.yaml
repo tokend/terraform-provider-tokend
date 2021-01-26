@@ -1,0 +1,11 @@
+name: ConvertedBalancesCollection
+key: converted-balances-collections
+relations:
+  -
+    name: asset
+    is_collection: false
+    resource: assets
+  -
+    name: states
+    is_collection: true
+    resource: converted-balance-states

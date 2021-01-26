@@ -1,0 +1,14 @@
+name: ParticularBalanceChange
+attributes:
+  -
+    name: amount
+    type: Amount
+  -
+    name: fee
+    type: Fee
+  -
+    name: balance_address
+    type: String
+  -
+    name: asset_code
+    type: String

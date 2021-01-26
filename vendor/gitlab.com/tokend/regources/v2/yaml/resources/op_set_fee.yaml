@@ -1,0 +1,36 @@
+name: OpSetFeeDetails
+key: operations-set-fees
+base: operation-details
+attributes:
+  -
+    name: asset_code
+    type: String
+  -
+    name: fixed_fee
+    type: Amount
+  -
+    name: percent_fee
+    type: Amount
+  -
+    name: fee_type
+    type: XdrEnumValue
+  -
+    name: account_address
+    type: String
+    optional: true
+  -
+    name: account_role
+    type: UInt64
+    optional: true
+  -
+    name: subtype
+    type: Int64
+  -
+    name: lower_bound
+    type: Amount
+  -
+    name: upper_bound
+    type: Amount
+  -
+    name: is_delete
+    type: Bool

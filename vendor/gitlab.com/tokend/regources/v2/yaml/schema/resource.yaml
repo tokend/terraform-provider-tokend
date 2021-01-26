@@ -1,0 +1,192 @@
+definitions:
+
+  resourcetype:
+    type: string
+    description: Resource type identifier.
+    enum:
+      - accounts
+      - balances
+      - assets
+      - aswap-bid
+      - asset-pairs
+      - balances-state
+      - converted-balances-collections
+      - converted-balance-states
+      - offers
+      - fee-rules
+      - key-value-entries
+      - order-books
+      - order-book-entries
+      - account-roles
+      - account-rules
+      - sales
+      - signers
+      - signer-roles
+      - signer-rules
+      - participant-effects
+      - public-key-entries
+      - operations
+      - quote-assets
+      - sale-quote-assets
+      - atomic-swap-quote-assets
+      - transactions
+      - effects
+      - effects-balance-change
+      - effects-funded
+      - effects-issued
+      - effects-charged
+      - effects-withdrawn
+      - effects-locked
+      - effects-unlocked
+      - effects-charged-from-locked
+      - effects-matched
+      - external-system-ids
+      - limits
+      - operation-details
+      - operations-create-account
+      - operations-payment
+      - operations-set-options
+      - operations-create-issuance-request
+      - operations-set-fees
+      - operations-manage-account
+      - operations-create-withdrawal-request
+      - operations-manage-balance
+      - operations-manage-asset
+      - operations-create-preissuance-request
+      - operations-manage-limits
+      - operations-direct-debit
+      - operations-manage-asset-pair
+      - operations-manage-offer
+      - operations-manage-invoice-request
+      - operations-review-request
+      - operations-create-sale-request
+      - operations-check-sale-state
+      - operations-create-aml-alert
+      - operations-create-kyc-request
+      - operations-payment-v2
+      - operations-manage-external-system-account-id-pool-entry
+      - operations-bind-external-system-account-id
+      - operations-manage-sale
+      - operations-manage-key-value
+      - operations-create-manage-limits-request
+      - operations-manage-contract-request
+      - operations-manage-contract
+      - operations-cancel-sale-request
+      - operations-payout
+      - operations-manage-account-role
+      - operations-create-account-role
+      - operations-remove-account-role
+      - operations-update-account-role
+      - operations-manage-account-rule
+      - operations-create-account-rule
+      - operations-update-account-rule
+      - operations-remove-account-rule
+      - operations-manage-signer
+      - operations-create-signer
+      - operations-update-signer
+      - operations-remove-signer
+      - operations-manage-signer-role
+      - operations-create-signer-role
+      - operations-remove-signer-role
+      - operations-update-signer-role
+      - operations-manage-signer-rule
+      - operations-create-signer-rule
+      - operations-update-signer-rule
+      - operations-remove-signer-rule
+      - operations-manage-account-role-permission
+      - operations-create-aswap-bid-request
+      - operations-cancel-aswap-bid
+      - operations-create-aswap-request
+      - operations-create-change-role-request
+      - operations-stamp
+      - operations-license
+      - requests
+      - request-details
+      - request-details-aml-alert
+      - request-details-asset-create
+      - request-details-asset-update
+      - request-details-issuance
+      - request-details-limits-update
+      - request-details-pre-issuance
+      - request-details-sale
+      - request-details-update-kyc
+      - request-details-update-sale-details
+      - request-details-update-sale-end-time
+      - request-details-withdrawal
+      - request-details-change-role
+      - fees
+      - calculated-fee
+      - polls
+      - votes
+      - poll-outcome
+      - atomic-swap-ask
+      - request-details-atomic-swap-ask
+      - request-details-atomic-swap-bid
+      - operations-create-atomic-swap-bid-request
+      - operations-cancel-atomic-swap-ask
+      - ledger-entry-changes
+      - operations-create-atomic-swap-ask-request
+      - swaps
+
+  attribute:
+    type: object
+    description: Resource attribute.
+    properties:
+      type: {type: string}
+      name: {type: string}
+      optional: {type: boolean, default: false}
+      is_collection: {type: boolean, default: false}
+    required:
+      - type
+      - name
+
+  relation:
+    type: object
+    description: Link to the other resource.
+    properties:
+      name: {type: string}
+      resource: {$ref: '#/definitions/resourcetype'}
+      is_collection: {type: boolean}
+    required:
+      - name
+      - resource
+      - is_collection
+
+  tag:
+    type: string
+    description: Collection of values to tag anything.
+    enum:
+      - balance
+
+description: TokenD JSONAPI resource
+type: object
+properties:
+  key:
+    $ref: '#/definitions/resourcetype'
+    description: Resource key i.e. 'assets', 'balances', etc.
+  name:
+    type: string
+    pattern: '^[A-Z].*'
+    description: Human-readable resource name i.e. 'Asset', 'Balance', etc.
+  base:
+    $ref: '#/definitions/resourcetype'
+    description: Optional key of a base resource.
+  tags:
+    type: array
+    description: Array of tags.
+    items:
+      $ref: '#/definitions/tag'
+  attributes:
+    type: array
+    description: Array of resource attributes.
+    items:
+      $ref: '#/definitions/attribute'
+  relations:
+    type: array
+    description: Array of resource relations.
+    items:
+      $ref: '#/definitions/relation'
+required:
+  - key
+  - name
+additionalProperties: false

@@ -1,0 +1,21 @@
+name: OpManageAccountRuleDetails
+key: operations-manage-account-rule
+base: operation-details
+attributes:
+  -
+    name: resource
+    type: Object
+  -
+    name: action
+    type: Object
+  -
+    name: forbids
+    type: Bool
+  -
+    name: details
+    type: Object
+relations:
+  -
+    name: rule
+    is_collection: false
+    resource: account-rules

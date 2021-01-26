@@ -4,6 +4,8 @@
 
 package regources
 
+import "encoding/json"
+
 type CreatePollRequest struct {
 	Key
 	Attributes    CreatePollRequestAttributes    `json:"attributes"`
@@ -14,10 +16,20 @@ type CreatePollRequestResponse struct {
 	Included Included          `json:"included"`
 }
 
-type CreatePollRequestsResponse struct {
+type CreatePollRequestListResponse struct {
 	Data     []CreatePollRequest `json:"data"`
 	Included Included            `json:"included"`
 	Links    *Links              `json:"links"`
+	Meta     json.RawMessage     `json:"meta,omitempty"`
+}
+
+func (r *CreatePollRequestListResponse) PutMeta(v interface{}) (err error) {
+	r.Meta, err = json.Marshal(v)
+	return err
+}
+
+func (r *CreatePollRequestListResponse) GetMeta(out interface{}) error {
+	return json.Unmarshal(r.Meta, out)
 }
 
 // MustCreatePollRequest - returns CreatePollRequest from include collection.

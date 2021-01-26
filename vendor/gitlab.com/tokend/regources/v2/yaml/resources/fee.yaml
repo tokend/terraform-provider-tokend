@@ -1,0 +1,26 @@
+name: Fee
+key: fees
+attributes:
+  -
+    name: fixed
+    type: Amount
+  -
+    name: percent
+    type: Amount
+  -
+    name: applied_to
+    type: FeeAppliedTo
+
+relations:
+  -
+    name: account
+    is_collection: false
+    resource: accounts
+  -
+    name: account_role
+    is_collection: false
+    resource: account-roles
+  -
+    name: asset
+    is_collection: false
+    resource: assets

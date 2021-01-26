@@ -1,0 +1,19 @@
+name: OpCreatePreIssuanceRequestDetails
+key: operations-create-preissuance-request
+base: operation-details
+attributes:
+  -
+    name: amount
+    type: Amount
+  -
+    name: creator_details
+    type: Object
+relations:
+  -
+    name: asset
+    is_collection: false
+    resource: assets
+  -
+    name: request
+    is_collection: false
+    resource: requests

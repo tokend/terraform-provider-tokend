@@ -1,0 +1,42 @@
+name: Poll
+key: polls
+
+attributes:
+  -
+    name: creator_details
+    type: Object
+  -
+    name: end_time
+    type: Date
+  -
+    name: number_of_choices
+    type: UInt32
+  -
+    name: permission_type
+    type: UInt32
+  -
+    name: poll_data
+    type: PollData
+  -
+    name: poll_state
+    type: XdrEnumValue
+  -
+    name: start_time
+    type: Date
+  -
+    name: vote_confirmation_required
+    type: Bool
+
+relations:
+  -
+    name: owner
+    is_collection: false
+    resource: accounts
+  -
+    name: result_provider
+    is_collection: false
+    resource: accounts
+  -
+    name: participation
+    is_collection: false
+    resource: poll-outcome

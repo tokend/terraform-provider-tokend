@@ -21,10 +21,20 @@ type PollResponse struct {
 	Included Included `json:"included"`
 }
 
-type PollsResponse struct {
-	Data     []Poll   `json:"data"`
-	Included Included `json:"included"`
-	Links    *Links   `json:"links"`
+type PollListResponse struct {
+	Data     []Poll          `json:"data"`
+	Included Included        `json:"included"`
+	Links    *Links          `json:"links"`
+	Meta     json.RawMessage `json:"meta,omitempty"`
+}
+
+func (r *PollListResponse) PutMeta(v interface{}) (err error) {
+	r.Meta, err = json.Marshal(v)
+	return err
+}
+
+func (r *PollListResponse) GetMeta(out interface{}) error {
+	return json.Unmarshal(r.Meta, out)
 }
 
 // MustPoll - returns Poll from include collection.
@@ -42,7 +52,7 @@ func (c *Included) MustPoll(key Key) *Poll {
 func (r Poll) Value() (driver.Value, error) {
 	result, err := json.Marshal(r)
 	if err != nil {
-		return nil, errors.Wrap(err, "failed to marshal vote data")
+		return nil, errors.Wrap(err, "failed to marshal Poll data")
 	}
 
 	return result, nil
@@ -62,7 +72,7 @@ func (r *Poll) Scan(src interface{}) error {
 
 	err := json.Unmarshal(data, r)
 	if err != nil {
-		return errors.Wrap(err, "failed to unmarshal vote data")
+		return errors.Wrap(err, "failed to unmarshal Poll data")
 	}
 
 	return nil

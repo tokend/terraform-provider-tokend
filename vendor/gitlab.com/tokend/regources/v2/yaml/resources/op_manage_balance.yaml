@@ -1,0 +1,19 @@
+name: OpManageBalanceDetails
+key: operations-manage-balance
+base: operation-details
+attributes:
+  -
+    name: action
+    type: XdrEnumValue
+  -
+    name: balance_address
+    type: String
+relations:
+  -
+    name: destination_account
+    is_collection: false
+    resource: accounts
+  -
+    name: asset
+    is_collection: false
+    resource: assets

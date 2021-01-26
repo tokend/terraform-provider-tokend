@@ -1,0 +1,22 @@
+name: OpManageSignerDetails
+key: operations-manage-signer
+base: operation-details
+attributes:
+  -
+    name: weight
+    type: UInt32
+  -
+    name: identity
+    type: UInt32
+  -
+    name: details
+    type: Object
+relations:
+  -
+    name: role
+    is_collection: false
+    resource: account-roles
+  -
+    name: signer
+    is_collection: false
+    resource: signers

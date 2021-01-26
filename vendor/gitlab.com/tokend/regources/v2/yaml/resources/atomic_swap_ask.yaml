@@ -1,0 +1,36 @@
+name: AtomicSwapAsk
+key: atomic-swap-ask
+attributes:
+-
+  name: details
+  type: Object
+-
+  name: available_amount
+  type: Amount
+-
+  name: locked_amount
+  type: Amount
+-
+  name: created_at
+  type: Date
+-
+  name: is_canceled
+  type: Bool
+
+relations:
+- 
+  name: owner
+  is_collection: false
+  resource: accounts
+-
+  name: base_balance
+  is_collection: false
+  resource: balances
+-
+  name: base_asset
+  is_collection: false
+  resource: assets
+-
+  name: quote_assets
+  is_collection: true
+  resource: atomic-swap-quote-assets

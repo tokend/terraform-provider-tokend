@@ -1,0 +1,19 @@
+name: OrderBook
+key: order-books
+relations:
+  -
+    name: base_asset
+    is_collection: false
+    resource: assets
+  -
+    name: quote_asset
+    is_collection: false
+    resource: assets
+  -
+    name: buy_entries
+    is_collection: true
+    resource: order-book-entries
+  -
+    name: sell_entries
+    is_collection: true
+    resource: order-book-entries

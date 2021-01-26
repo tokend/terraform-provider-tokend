@@ -21,10 +21,20 @@ type VoteResponse struct {
 	Included Included `json:"included"`
 }
 
-type VotesResponse struct {
-	Data     []Vote   `json:"data"`
-	Included Included `json:"included"`
-	Links    *Links   `json:"links"`
+type VoteListResponse struct {
+	Data     []Vote          `json:"data"`
+	Included Included        `json:"included"`
+	Links    *Links          `json:"links"`
+	Meta     json.RawMessage `json:"meta,omitempty"`
+}
+
+func (r *VoteListResponse) PutMeta(v interface{}) (err error) {
+	r.Meta, err = json.Marshal(v)
+	return err
+}
+
+func (r *VoteListResponse) GetMeta(out interface{}) error {
+	return json.Unmarshal(r.Meta, out)
 }
 
 // MustVote - returns Vote from include collection.
@@ -42,7 +52,7 @@ func (c *Included) MustVote(key Key) *Vote {
 func (r Vote) Value() (driver.Value, error) {
 	result, err := json.Marshal(r)
 	if err != nil {
-		return nil, errors.Wrap(err, "failed to marshal vote data")
+		return nil, errors.Wrap(err, "failed to marshal Vote data")
 	}
 
 	return result, nil
@@ -62,7 +72,7 @@ func (r *Vote) Scan(src interface{}) error {
 
 	err := json.Unmarshal(data, r)
 	if err != nil {
-		return errors.Wrap(err, "failed to unmarshal vote data")
+		return errors.Wrap(err, "failed to unmarshal Vote data")
 	}
 
 	return nil

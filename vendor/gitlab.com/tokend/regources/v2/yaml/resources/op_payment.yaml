@@ -1,0 +1,44 @@
+name: OpPaymentDetails
+key: operations-payment
+base: operation-details
+attributes:
+  -
+    name: amount
+    type: Amount
+  -
+    name: source_fee
+    type: Fee
+  -
+    name: destination_fee
+    type: Fee
+  -
+    name: source_pay_for_destination
+    type: Bool
+  -
+    name: subject
+    type: String
+  -
+    name: reference
+    type: String
+
+relations:
+  -
+    name: account_from
+    is_collection: false
+    resource: accounts
+  -
+    name: account_to
+    is_collection: false
+    resource: accounts
+  -
+    name: balance_from
+    is_collection: false
+    resource: balances
+  -
+    name: balance_to
+    is_collection: false
+    resource: balances
+  -
+    name: asset
+    is_collection: false
+    resource: assets

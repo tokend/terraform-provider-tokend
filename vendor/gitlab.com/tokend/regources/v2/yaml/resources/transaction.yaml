@@ -1,0 +1,35 @@
+name: Transaction
+key: transactions
+attributes:
+  -
+    name: created_at
+    type: Date
+  -
+    name: envelope_xdr
+    type: String
+  -
+    name: hash
+    type: String
+  -
+    name: ledger_sequence
+    type: Int32
+  -
+    name: result_meta_xdr
+    type: String
+  -
+    name: result_xdr
+    type: String
+
+relations:
+  -
+    name: ledger_entry_changes
+    is_collection: true
+    resource: ledger-entry-changes
+  -
+    name: operations
+    is_collection: true
+    resource: operations
+  -
+    name: source
+    is_collection: false
+    resource: accounts
