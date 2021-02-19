@@ -33,10 +33,6 @@ func Provider() terraform.ResourceProvider {
 				Required:     true,
 				ValidateFunc: validation.ValidateSigner,
 			},
-			"api_endpoint": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
 		},
 		ResourcesMap: map[string]*schema.Resource{
 			"tokend_account":                    resourceAccount(),
@@ -68,18 +64,13 @@ func Provider() terraform.ResourceProvider {
 				return nil, errors.Wrap(err, "failed to parse source")
 			}
 
-			apiEndpoint, err := url.Parse(d.Get("api_endpoint").(string))
-			if err != nil {
-				return nil, errors.Wrap(err, "failed to parse api endpoint")
-			}
-
 			hrz := horizon.NewConnector(endpoint, source).WithSigner(signer)
 			builder, err := hrz.TXBuilder()
 			if err != nil {
 				return nil, errors.Wrap(err, "failed to init builder")
 			}
 
-			api := horizon.NewConnector(apiEndpoint, source).WithSigner(signer)
+			api := horizon.NewConnector(endpoint, source).WithSigner(signer)
 
 			return Meta{
 				Horizon:   hrz,
