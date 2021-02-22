@@ -4,6 +4,8 @@
 
 package regources
 
+import "encoding/json"
+
 type PublicKeyEntry struct {
 	Key
 	Relationships PublicKeyEntryRelationships `json:"relationships"`
@@ -13,10 +15,20 @@ type PublicKeyEntryResponse struct {
 	Included Included       `json:"included"`
 }
 
-type PublicKeyEntrysResponse struct {
+type PublicKeyEntryListResponse struct {
 	Data     []PublicKeyEntry `json:"data"`
 	Included Included         `json:"included"`
 	Links    *Links           `json:"links"`
+	Meta     json.RawMessage  `json:"meta,omitempty"`
+}
+
+func (r *PublicKeyEntryListResponse) PutMeta(v interface{}) (err error) {
+	r.Meta, err = json.Marshal(v)
+	return err
+}
+
+func (r *PublicKeyEntryListResponse) GetMeta(out interface{}) error {
+	return json.Unmarshal(r.Meta, out)
 }
 
 // MustPublicKeyEntry - returns PublicKeyEntry from include collection.

@@ -30,6 +30,9 @@ func (e *Entry) WithError(err error) *Entry {
 		errorFields = fields.Merge(errorFields, fieldsProvider.GetLoganFields())
 	}
 
+	// pp: I have no idea what's going on here, but I want my panic stacks
+	e = e.WithStack(err)
+
 	return &Entry{
 		entry: e.WithFields(errorFields).entry.WithError(err),
 	}

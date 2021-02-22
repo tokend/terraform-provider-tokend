@@ -4,6 +4,8 @@
 
 package regources
 
+import "encoding/json"
+
 type SetFeeOp struct {
 	Key
 	Attributes SetFeeOpAttributes `json:"attributes"`
@@ -13,10 +15,20 @@ type SetFeeOpResponse struct {
 	Included Included `json:"included"`
 }
 
-type SetFeeOpsResponse struct {
-	Data     []SetFeeOp `json:"data"`
-	Included Included   `json:"included"`
-	Links    *Links     `json:"links"`
+type SetFeeOpListResponse struct {
+	Data     []SetFeeOp      `json:"data"`
+	Included Included        `json:"included"`
+	Links    *Links          `json:"links"`
+	Meta     json.RawMessage `json:"meta,omitempty"`
+}
+
+func (r *SetFeeOpListResponse) PutMeta(v interface{}) (err error) {
+	r.Meta, err = json.Marshal(v)
+	return err
+}
+
+func (r *SetFeeOpListResponse) GetMeta(out interface{}) error {
+	return json.Unmarshal(r.Meta, out)
 }
 
 // MustSetFeeOp - returns SetFeeOp from include collection.

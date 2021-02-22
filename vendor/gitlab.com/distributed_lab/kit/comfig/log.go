@@ -1,12 +1,9 @@
 package comfig
 
 import (
-	"sync"
-	"time"
-
-	"github.com/evalphobia/logrus_sentry"
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
+	sentryhook "github.com/xr9kayu/logrus/sentry"
 	"gitlab.com/distributed_lab/figure"
 	"gitlab.com/distributed_lab/kit/kv"
 	"gitlab.com/distributed_lab/logan/v3"
@@ -18,10 +15,8 @@ type Logger interface {
 
 type logger struct {
 	getter  kv.Getter
-	once    sync.Once
-	value   *logan.Entry
+	once    Once
 	options LoggerOpts
-	err     error
 }
 
 type LoggerOpts struct {
@@ -36,47 +31,58 @@ func NewLogger(getter kv.Getter, options LoggerOpts) Logger {
 }
 
 func (l *logger) Log() *logan.Entry {
-	l.once.Do(func() {
-		var config = struct {
-			Level         logan.Level `fig:"level"`
-			DisableSentry bool        `fig:"disable_sentry"`
-		}{
-			Level: logan.ErrorLevel,
-		}
-
-		err := figure.
-			Out(&config).
-			From(kv.MustGetStringMap(l.getter, "log")).
-			Please()
+	return l.once.Do(func() interface{} {
+		config, err := parseLogConfig(kv.MustGetStringMap(l.getter, "log"))
 		if err != nil {
-			l.err = errors.Wrap(err, "failed to figure out")
-			return
+			panic(errors.Wrap(err, "failed to figure out logger"))
 		}
 
 		entry := logan.New().Level(config.Level)
 
 		if !config.DisableSentry {
-			sentry := NewSentrier(l.getter, SentryOpts{Release: l.options.Release}).Sentry()
+			sentrier := NewSentrier(l.getter, SentryOpts{Release: l.options.Release})
+			sentry := sentrier.Sentry()
+			sentryConfig := sentrier.SentryConfig()
 
-			// TODO set sentry level?
-			levels := []logrus.Level{
-				logrus.ErrorLevel,
-				logrus.FatalLevel,
-				logrus.PanicLevel,
+			var selectedLevel logrus.Level
+			if sentryConfig.Level != nil {
+				selectedLevel = logrus.Level(*sentryConfig.Level)
+			} else {
+				selectedLevel = logrus.Level(config.Level)
 			}
-
-			hook, err := logrus_sentry.NewWithClientSentryHook(sentry, levels)
+			levels := make([]logrus.Level, 0)
+			for level := logrus.PanicLevel; level <= selectedLevel; level++ {
+				levels = append(levels, level)
+			}
+			hook, err := sentryhook.NewHook(sentry, levels...)
 			if err != nil {
-				l.err = errors.Wrap(err, "failed to init sentry hook")
-				return
+				panic(errors.Wrap(err, "failed to init sentry hook"))
 			}
-			hook.Timeout = 1 * time.Second
+
 			entry.AddLogrusHook(hook)
 		}
-		l.value = entry
-	})
-	if l.err != nil {
-		panic(l.err)
+
+		return entry
+	}).(*logan.Entry)
+}
+
+type loggerConfig struct {
+	Level         logan.Level `fig:"level"`
+	DisableSentry bool        `fig:"disable_sentry"`
+}
+
+func parseLogConfig(raw map[string]interface{}) (*loggerConfig, error) {
+	config := loggerConfig{
+		Level: logan.ErrorLevel,
 	}
-	return l.value
+
+	err := figure.
+		Out(&config).
+		From(raw).
+		Please()
+	if err != nil {
+		return nil, errors.Wrap(err, "failed to figure out")
+	}
+
+	return &config, nil
 }

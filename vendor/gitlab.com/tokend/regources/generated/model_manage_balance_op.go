@@ -4,6 +4,8 @@
 
 package regources
 
+import "encoding/json"
+
 type ManageBalanceOp struct {
 	Key
 	Attributes    ManageBalanceOpAttributes    `json:"attributes"`
@@ -14,10 +16,20 @@ type ManageBalanceOpResponse struct {
 	Included Included        `json:"included"`
 }
 
-type ManageBalanceOpsResponse struct {
+type ManageBalanceOpListResponse struct {
 	Data     []ManageBalanceOp `json:"data"`
 	Included Included          `json:"included"`
 	Links    *Links            `json:"links"`
+	Meta     json.RawMessage   `json:"meta,omitempty"`
+}
+
+func (r *ManageBalanceOpListResponse) PutMeta(v interface{}) (err error) {
+	r.Meta, err = json.Marshal(v)
+	return err
+}
+
+func (r *ManageBalanceOpListResponse) GetMeta(out interface{}) error {
+	return json.Unmarshal(r.Meta, out)
 }
 
 // MustManageBalanceOp - returns ManageBalanceOp from include collection.

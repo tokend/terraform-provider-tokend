@@ -2,6 +2,7 @@ package horizon
 
 import (
 	"encoding/json"
+	"gitlab.com/tokend/horizon-connector/internal/poll"
 	"net/http"
 	"net/url"
 
@@ -34,6 +35,12 @@ func NewConnector(base *url.URL) *Connector {
 	client := NewClient(http.DefaultClient, base)
 	return &Connector{
 		client,
+	}
+}
+
+func (c *Connector) Clone() *Connector {
+	return &Connector{
+		client: c.client.clone(),
 	}
 }
 
@@ -108,6 +115,10 @@ func (c *Connector) TransactionsV2() *transactionv2.Q {
 
 func (c *Connector) Sales() *sale.Q {
 	return sale.NewQ(c.client)
+}
+
+func (c *Connector) Polls() *poll.Q {
+	return poll.NewQ(c.client)
 }
 
 func (c *Connector) Users() *user.Q {

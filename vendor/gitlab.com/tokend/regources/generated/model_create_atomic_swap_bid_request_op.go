@@ -4,6 +4,8 @@
 
 package regources
 
+import "encoding/json"
+
 type CreateAtomicSwapBidRequestOp struct {
 	Key
 	Attributes    CreateAtomicSwapBidRequestOpAttributes    `json:"attributes"`
@@ -14,10 +16,20 @@ type CreateAtomicSwapBidRequestOpResponse struct {
 	Included Included                     `json:"included"`
 }
 
-type CreateAtomicSwapBidRequestOpsResponse struct {
+type CreateAtomicSwapBidRequestOpListResponse struct {
 	Data     []CreateAtomicSwapBidRequestOp `json:"data"`
 	Included Included                       `json:"included"`
 	Links    *Links                         `json:"links"`
+	Meta     json.RawMessage                `json:"meta,omitempty"`
+}
+
+func (r *CreateAtomicSwapBidRequestOpListResponse) PutMeta(v interface{}) (err error) {
+	r.Meta, err = json.Marshal(v)
+	return err
+}
+
+func (r *CreateAtomicSwapBidRequestOpListResponse) GetMeta(out interface{}) error {
+	return json.Unmarshal(r.Meta, out)
 }
 
 // MustCreateAtomicSwapBidRequestOp - returns CreateAtomicSwapBidRequestOp from include collection.

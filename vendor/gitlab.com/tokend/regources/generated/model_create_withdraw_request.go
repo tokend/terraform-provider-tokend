@@ -4,6 +4,8 @@
 
 package regources
 
+import "encoding/json"
+
 type CreateWithdrawRequest struct {
 	Key
 	Attributes    CreateWithdrawRequestAttributes    `json:"attributes"`
@@ -14,10 +16,20 @@ type CreateWithdrawRequestResponse struct {
 	Included Included              `json:"included"`
 }
 
-type CreateWithdrawRequestsResponse struct {
+type CreateWithdrawRequestListResponse struct {
 	Data     []CreateWithdrawRequest `json:"data"`
 	Included Included                `json:"included"`
 	Links    *Links                  `json:"links"`
+	Meta     json.RawMessage         `json:"meta,omitempty"`
+}
+
+func (r *CreateWithdrawRequestListResponse) PutMeta(v interface{}) (err error) {
+	r.Meta, err = json.Marshal(v)
+	return err
+}
+
+func (r *CreateWithdrawRequestListResponse) GetMeta(out interface{}) error {
+	return json.Unmarshal(r.Meta, out)
 }
 
 // MustCreateWithdrawRequest - returns CreateWithdrawRequest from include collection.

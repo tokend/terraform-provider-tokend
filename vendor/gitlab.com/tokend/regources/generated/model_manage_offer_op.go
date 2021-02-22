@@ -4,6 +4,8 @@
 
 package regources
 
+import "encoding/json"
+
 type ManageOfferOp struct {
 	Key
 	Attributes    ManageOfferOpAttributes    `json:"attributes"`
@@ -14,10 +16,20 @@ type ManageOfferOpResponse struct {
 	Included Included      `json:"included"`
 }
 
-type ManageOfferOpsResponse struct {
+type ManageOfferOpListResponse struct {
 	Data     []ManageOfferOp `json:"data"`
 	Included Included        `json:"included"`
 	Links    *Links          `json:"links"`
+	Meta     json.RawMessage `json:"meta,omitempty"`
+}
+
+func (r *ManageOfferOpListResponse) PutMeta(v interface{}) (err error) {
+	r.Meta, err = json.Marshal(v)
+	return err
+}
+
+func (r *ManageOfferOpListResponse) GetMeta(out interface{}) error {
+	return json.Unmarshal(r.Meta, out)
 }
 
 // MustManageOfferOp - returns ManageOfferOp from include collection.

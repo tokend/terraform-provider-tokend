@@ -1,6 +1,7 @@
 package horizon
 
 import (
+	"context"
 	"net/http"
 	"net/url"
 	"path"
@@ -56,6 +57,20 @@ func NewClient(client *http.Client, base *url.URL) *Client {
 	}
 }
 
+func (c *Client) clone() *Client {
+	client := Client{
+		base:     c.base,
+		throttle: throttle(),
+		client:   c.client,
+	}
+
+	if c.signer != nil {
+		client.signer = c.signer
+	}
+
+	return &client
+}
+
 func (c *Client) Get(endpoint string) ([]byte, error) {
 	endpoint, err := c.prepareURL(endpoint)
 	if err != nil {
@@ -74,7 +89,15 @@ func (c *Client) Get(endpoint string) ([]byte, error) {
 	return c.Do(request)
 }
 
+// PostJSON sends post request, encodes req parameters as JSON
 func (c *Client) PostJSON(endpoint string, req interface{}) (statusCode int, response []byte, err error) {
+	return c.PostJSONWithContext(endpoint, req, context.TODO())
+}
+
+// PostJSONWithContext is PostJSON analogue with ability to set request timeout by providing context
+func (c *Client) PostJSONWithContext(endpoint string, req interface{}, ctx context.Context) (statusCode int,
+	response []byte, err error) {
+
 	reqBB, err := json.Marshal(req)
 	if err != nil {
 		return 0, nil, errors.Wrap(err, "Failed to marshal request into JSON bytes")
@@ -94,7 +117,7 @@ func (c *Client) PostJSON(endpoint string, req interface{}) (statusCode int, res
 		return 0, nil, errors.Wrap(err, "Failed to create POST http.Request", fields)
 	}
 
-	statusCode, responseBB, err := c.do(request)
+	statusCode, responseBB, err := c.do(request.WithContext(ctx))
 	if err != nil {
 		return 0, nil, errors.Wrap(err, "Failed to do the request", fields)
 	}

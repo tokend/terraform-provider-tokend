@@ -1,7 +1,6 @@
 package horizon
 
 import (
-	"bytes"
 	"context"
 	"encoding/json"
 	"net/http"
@@ -13,6 +12,7 @@ import (
 )
 
 var (
+	ErrRequestClosed              = errors.New("request closed")
 	ErrSubmitTimeout              = errors.New("submit timed out")
 	ErrSubmitInternal             = errors.New("internal submit error")
 	ErrSubmitRejected             = errors.New("transaction rejected")
@@ -44,15 +44,9 @@ func (r SubmitResult) GetLoganFields() map[string]interface{} {
 }
 
 func (s *Submitter) Submit(ctx context.Context, envelope string) SubmitResult {
-	var buf bytes.Buffer
-	err := json.NewEncoder(&buf).Encode(&resources.TransactionSubmit{
+	_, response, err := s.client.PostJSONWithContext("transactions", &resources.TransactionSubmit{
 		Transaction: envelope,
-	})
-	if err != nil {
-		panic(errors.Wrap(err, "failed to marshal request"))
-	}
-
-	response, err := s.client.Post("/transactions", &buf)
+	}, ctx)
 	if err == nil {
 		var success responses.TransactionSuccess
 		if err := json.Unmarshal(response, &success); err != nil {
@@ -64,6 +58,12 @@ func (s *Submitter) Submit(ctx context.Context, envelope string) SubmitResult {
 		return SubmitResult{
 			RawResponse: response,
 			ResultXDR:   success.Result,
+		}
+	}
+
+	if isContextCanceled(ctx) {
+		return SubmitResult{
+			Err: ErrRequestClosed,
 		}
 	}
 
@@ -182,4 +182,13 @@ func (s *Submitter) SubmitE(txEnvelope string) (SubmitResponseDetails, error) {
 	}
 
 	return details, nil
+}
+
+func isContextCanceled(ctx context.Context) bool {
+	select {
+	case <-ctx.Done():
+		return true
+	default:
+		return false
+	}
 }

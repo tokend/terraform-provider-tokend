@@ -19,6 +19,8 @@ type AssetAttributes struct {
 	Policies        xdr.AssetPolicy `json:"policies"`
 	// address of the signer responsible for pre-issuance. [Details↪](https://tokend.gitbook.io/knowledge-base/technical-details/key-entities/asset#pre-issued-asset-signer)
 	PreIssuanceAssetSigner string `json:"pre_issuance_asset_signer"`
+	// Asset state * 0 - active * 1 - deleted
+	State AssetState `json:"state"`
 	// Number of significant digits after the point
 	TrailingDigits uint32 `json:"trailing_digits"`
 	// Numeric type of asset

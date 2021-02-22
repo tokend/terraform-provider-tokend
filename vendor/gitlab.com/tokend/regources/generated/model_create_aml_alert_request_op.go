@@ -4,6 +4,8 @@
 
 package regources
 
+import "encoding/json"
+
 type CreateAmlAlertRequestOp struct {
 	Key
 	Attributes    CreateAmlAlertRequestOpAttributes    `json:"attributes"`
@@ -14,10 +16,20 @@ type CreateAmlAlertRequestOpResponse struct {
 	Included Included                `json:"included"`
 }
 
-type CreateAmlAlertRequestOpsResponse struct {
+type CreateAmlAlertRequestOpListResponse struct {
 	Data     []CreateAmlAlertRequestOp `json:"data"`
 	Included Included                  `json:"included"`
 	Links    *Links                    `json:"links"`
+	Meta     json.RawMessage           `json:"meta,omitempty"`
+}
+
+func (r *CreateAmlAlertRequestOpListResponse) PutMeta(v interface{}) (err error) {
+	r.Meta, err = json.Marshal(v)
+	return err
+}
+
+func (r *CreateAmlAlertRequestOpListResponse) GetMeta(out interface{}) error {
+	return json.Unmarshal(r.Meta, out)
 }
 
 // MustCreateAmlAlertRequestOp - returns CreateAmlAlertRequestOp from include collection.

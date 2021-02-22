@@ -4,6 +4,8 @@
 
 package regources
 
+import "encoding/json"
+
 type AccountRole struct {
 	Key
 	Attributes    AccountRoleAttributes    `json:"attributes"`
@@ -14,10 +16,20 @@ type AccountRoleResponse struct {
 	Included Included    `json:"included"`
 }
 
-type AccountRolesResponse struct {
-	Data     []AccountRole `json:"data"`
-	Included Included      `json:"included"`
-	Links    *Links        `json:"links"`
+type AccountRoleListResponse struct {
+	Data     []AccountRole   `json:"data"`
+	Included Included        `json:"included"`
+	Links    *Links          `json:"links"`
+	Meta     json.RawMessage `json:"meta,omitempty"`
+}
+
+func (r *AccountRoleListResponse) PutMeta(v interface{}) (err error) {
+	r.Meta, err = json.Marshal(v)
+	return err
+}
+
+func (r *AccountRoleListResponse) GetMeta(out interface{}) error {
+	return json.Unmarshal(r.Meta, out)
 }
 
 // MustAccountRole - returns AccountRole from include collection.

@@ -4,6 +4,8 @@
 
 package regources
 
+import "encoding/json"
+
 type CreateManageLimitsRequestOp struct {
 	Key
 	Attributes    CreateManageLimitsRequestOpAttributes    `json:"attributes"`
@@ -14,10 +16,20 @@ type CreateManageLimitsRequestOpResponse struct {
 	Included Included                    `json:"included"`
 }
 
-type CreateManageLimitsRequestOpsResponse struct {
+type CreateManageLimitsRequestOpListResponse struct {
 	Data     []CreateManageLimitsRequestOp `json:"data"`
 	Included Included                      `json:"included"`
 	Links    *Links                        `json:"links"`
+	Meta     json.RawMessage               `json:"meta,omitempty"`
+}
+
+func (r *CreateManageLimitsRequestOpListResponse) PutMeta(v interface{}) (err error) {
+	r.Meta, err = json.Marshal(v)
+	return err
+}
+
+func (r *CreateManageLimitsRequestOpListResponse) GetMeta(out interface{}) error {
+	return json.Unmarshal(r.Meta, out)
 }
 
 // MustCreateManageLimitsRequestOp - returns CreateManageLimitsRequestOp from include collection.

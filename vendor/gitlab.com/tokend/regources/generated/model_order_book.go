@@ -4,6 +4,8 @@
 
 package regources
 
+import "encoding/json"
+
 type OrderBook struct {
 	Key
 	Relationships OrderBookRelationships `json:"relationships"`
@@ -13,10 +15,20 @@ type OrderBookResponse struct {
 	Included Included  `json:"included"`
 }
 
-type OrderBooksResponse struct {
-	Data     []OrderBook `json:"data"`
-	Included Included    `json:"included"`
-	Links    *Links      `json:"links"`
+type OrderBookListResponse struct {
+	Data     []OrderBook     `json:"data"`
+	Included Included        `json:"included"`
+	Links    *Links          `json:"links"`
+	Meta     json.RawMessage `json:"meta,omitempty"`
+}
+
+func (r *OrderBookListResponse) PutMeta(v interface{}) (err error) {
+	r.Meta, err = json.Marshal(v)
+	return err
+}
+
+func (r *OrderBookListResponse) GetMeta(out interface{}) error {
+	return json.Unmarshal(r.Meta, out)
 }
 
 // MustOrderBook - returns OrderBook from include collection.

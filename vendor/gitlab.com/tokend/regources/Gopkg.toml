@@ -30,8 +30,8 @@
   version = "0.8.0"
 
 [[constraint]]
+  branch = "feature/payment-optional-src-account"
   name = "gitlab.com/tokend/go"
-  version = "3.2"
 
 [prune]
   go-tests = true

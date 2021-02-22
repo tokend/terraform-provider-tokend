@@ -7,6 +7,7 @@ import (
 	"gitlab.com/tokend/horizon-connector/internal/resources"
 	"gitlab.com/tokend/horizon-connector/internal/resources/operations"
 	"gitlab.com/tokend/regources"
+	generated "gitlab.com/tokend/regources/generated"
 )
 
 // don't blame me, just make sure all exported types are really exported
@@ -50,6 +51,9 @@ type PaymentV2Op = operations.PaymentV2
 type PaymentV2OpResponse = listener.PaymentOpV2Response
 type ReviewRequestOp = operations.ReviewRequest
 type ReviewRequestOpResponse = listener.ReviewRequestOpResponse
+type Poll = generated.Poll
+type Included = generated.Included
+type PollResponse = generated.PollResponse
 
 // DEPRECATED: use regources directly
 //type RequestKYCDetails = regources.UpdateKYCRequest

@@ -4,6 +4,8 @@
 
 package regources
 
+import "encoding/json"
+
 type Sale struct {
 	Key
 	Attributes    SaleAttributes    `json:"attributes"`
@@ -14,10 +16,20 @@ type SaleResponse struct {
 	Included Included `json:"included"`
 }
 
-type SalesResponse struct {
-	Data     []Sale   `json:"data"`
-	Included Included `json:"included"`
-	Links    *Links   `json:"links"`
+type SaleListResponse struct {
+	Data     []Sale          `json:"data"`
+	Included Included        `json:"included"`
+	Links    *Links          `json:"links"`
+	Meta     json.RawMessage `json:"meta,omitempty"`
+}
+
+func (r *SaleListResponse) PutMeta(v interface{}) (err error) {
+	r.Meta, err = json.Marshal(v)
+	return err
+}
+
+func (r *SaleListResponse) GetMeta(out interface{}) error {
+	return json.Unmarshal(r.Meta, out)
 }
 
 // MustSale - returns Sale from include collection.

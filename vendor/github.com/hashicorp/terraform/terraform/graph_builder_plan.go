@@ -3,8 +3,11 @@ package terraform
 import (
 	"sync"
 
-	"github.com/hashicorp/terraform/config/module"
+	"github.com/hashicorp/terraform/addrs"
+	"github.com/hashicorp/terraform/configs"
 	"github.com/hashicorp/terraform/dag"
+	"github.com/hashicorp/terraform/states"
+	"github.com/hashicorp/terraform/tfdiags"
 )
 
 // PlanGraphBuilder implements GraphBuilder and is responsible for building
@@ -19,26 +22,28 @@ import (
 //     create-before-destroy can be completely ignored.
 //
 type PlanGraphBuilder struct {
-	// Module is the root module for the graph to build.
-	Module *module.Tree
+	// Config is the configuration tree to build a plan from.
+	Config *configs.Config
 
 	// State is the current state
-	State *State
+	State *states.State
 
-	// Providers is the list of providers supported.
-	Providers []string
+	// Components is a factory for the plug-in components (providers and
+	// provisioners) available for use.
+	Components contextComponentFactory
 
-	// Provisioners is the list of provisioners supported.
-	Provisioners []string
+	// Schemas is the repository of schemas we will draw from to analyse
+	// the configuration.
+	Schemas *Schemas
 
 	// Targets are resources to target
-	Targets []string
-
-	// DisableReduce, if true, will not reduce the graph. Great for testing.
-	DisableReduce bool
+	Targets []addrs.Targetable
 
 	// Validate will do structural validation of the graph.
 	Validate bool
+
+	// skipRefresh indicates that we should skip refreshing managed resources
+	skipRefresh bool
 
 	// CustomConcrete can be set to customize the node types created
 	// for various parts of the plan. This is useful in order to customize
@@ -46,13 +51,14 @@ type PlanGraphBuilder struct {
 	CustomConcrete         bool
 	ConcreteProvider       ConcreteProviderNodeFunc
 	ConcreteResource       ConcreteResourceNodeFunc
-	ConcreteResourceOrphan ConcreteResourceNodeFunc
+	ConcreteResourceOrphan ConcreteResourceInstanceNodeFunc
+	ConcreteModule         ConcreteModuleNodeFunc
 
 	once sync.Once
 }
 
 // See GraphBuilder
-func (b *PlanGraphBuilder) Build(path []string) (*Graph, error) {
+func (b *PlanGraphBuilder) Build(path addrs.ModuleInstance) (*Graph, tfdiags.Diagnostics) {
 	return (&BasicGraphBuilder{
 		Steps:    b.Steps(),
 		Validate: b.Validate,
@@ -64,90 +70,100 @@ func (b *PlanGraphBuilder) Build(path []string) (*Graph, error) {
 func (b *PlanGraphBuilder) Steps() []GraphTransformer {
 	b.once.Do(b.init)
 
+	concreteResourceInstanceDeposed := func(a *NodeAbstractResourceInstance, key states.DeposedKey) dag.Vertex {
+		return &NodePlanDeposedResourceInstanceObject{
+			NodeAbstractResourceInstance: a,
+			DeposedKey:                   key,
+		}
+	}
+
 	steps := []GraphTransformer{
 		// Creates all the resources represented in the config
 		&ConfigTransformer{
 			Concrete: b.ConcreteResource,
-			Module:   b.Module,
+			Config:   b.Config,
 		},
 
-		// Add the local values
-		&LocalTransformer{Module: b.Module},
-
-		// Add the outputs
-		&OutputTransformer{Module: b.Module},
+		// Add dynamic values
+		&RootVariableTransformer{Config: b.Config},
+		&ModuleVariableTransformer{Config: b.Config},
+		&LocalTransformer{Config: b.Config},
+		&OutputTransformer{Config: b.Config},
 
 		// Add orphan resources
-		&OrphanResourceTransformer{
+		&OrphanResourceInstanceTransformer{
 			Concrete: b.ConcreteResourceOrphan,
 			State:    b.State,
-			Module:   b.Module,
+			Config:   b.Config,
 		},
 
-		// Create orphan output nodes
-		&OrphanOutputTransformer{
-			Module: b.Module,
-			State:  b.State,
+		// We also need nodes for any deposed instance objects present in the
+		// state, so we can plan to destroy them. (This intentionally
+		// skips creating nodes for _current_ objects, since ConfigTransformer
+		// created nodes that will do that during DynamicExpand.)
+		&StateTransformer{
+			ConcreteDeposed: concreteResourceInstanceDeposed,
+			State:           b.State,
 		},
-
-		// Attach the configuration to any resources
-		&AttachResourceConfigTransformer{Module: b.Module},
 
 		// Attach the state
 		&AttachStateTransformer{State: b.State},
 
-		// Add root variables
-		&RootVariableTransformer{Module: b.Module},
+		// Create orphan output nodes
+		&OrphanOutputTransformer{Config: b.Config, State: b.State},
 
-		TransformProviders(b.Providers, b.ConcreteProvider, b.Module),
+		// Attach the configuration to any resources
+		&AttachResourceConfigTransformer{Config: b.Config},
 
-		// Provisioner-related transformations. Only add these if requested.
-		GraphTransformIf(
-			func() bool { return b.Provisioners != nil },
-			GraphTransformMulti(
-				&MissingProvisionerTransformer{Provisioners: b.Provisioners},
-				&ProvisionerTransformer{},
-			),
-		),
+		// Provisioner-related transformations
+		&MissingProvisionerTransformer{Provisioners: b.Components.ResourceProvisioners()},
+		&ProvisionerTransformer{},
 
-		// Add module variables
-		&ModuleVariableTransformer{
-			Module: b.Module,
-		},
+		// add providers
+		TransformProviders(b.Components.ResourceProviders(), b.ConcreteProvider, b.Config),
 
 		// Remove modules no longer present in the config
-		&RemovedModuleTransformer{Module: b.Module, State: b.State},
+		&RemovedModuleTransformer{Config: b.Config, State: b.State},
+
+		// Must attach schemas before ReferenceTransformer so that we can
+		// analyze the configuration to find references.
+		&AttachSchemaTransformer{Schemas: b.Schemas, Config: b.Config},
+
+		// Create expansion nodes for all of the module calls. This must
+		// come after all other transformers that create nodes representing
+		// objects that can belong to modules.
+		&ModuleExpansionTransformer{Concrete: b.ConcreteModule, Config: b.Config},
 
 		// Connect so that the references are ready for targeting. We'll
 		// have to connect again later for providers and so on.
 		&ReferenceTransformer{},
+		&AttachDependenciesTransformer{},
 
-		// Add the node to fix the state count boundaries
-		&CountBoundaryTransformer{},
+		// Make sure data sources are aware of any depends_on from the
+		// configuration
+		&attachDataResourceDependenciesTransformer{},
 
 		// Target
-		&TargetsTransformer{
-			Targets: b.Targets,
+		&TargetsTransformer{Targets: b.Targets},
 
-			// Resource nodes from config have not yet been expanded for
-			// "count", so we must apply targeting without indices. Exact
-			// targeting will be dealt with later when these resources
-			// DynamicExpand.
-			IgnoreIndices: true,
+		// Detect when create_before_destroy must be forced on for a particular
+		// node due to dependency edges, to avoid graph cycles during apply.
+		&ForcedCBDTransformer{},
+
+		// Add the node to fix the state count boundaries
+		&CountBoundaryTransformer{
+			Config: b.Config,
 		},
 
 		// Close opened plugin connections
 		&CloseProviderTransformer{},
-		&CloseProvisionerTransformer{},
 
-		// Single root
-		&RootTransformer{},
-	}
+		// Close the root module
+		&CloseRootModuleTransformer{},
 
-	if !b.DisableReduce {
 		// Perform the transitive reduction to make our graph a bit
 		// more sane if possible (it usually is possible).
-		steps = append(steps, &TransitiveReductionTransformer{})
+		&TransitiveReductionTransformer{},
 	}
 
 	return steps
@@ -166,16 +182,16 @@ func (b *PlanGraphBuilder) init() {
 	}
 
 	b.ConcreteResource = func(a *NodeAbstractResource) dag.Vertex {
-		return &NodePlannableResource{
-			NodeAbstractCountResource: &NodeAbstractCountResource{
-				NodeAbstractResource: a,
-			},
+		return &nodeExpandPlannableResource{
+			NodeAbstractResource: a,
+			skipRefresh:          b.skipRefresh,
 		}
 	}
 
-	b.ConcreteResourceOrphan = func(a *NodeAbstractResource) dag.Vertex {
-		return &NodePlannableResourceOrphan{
-			NodeAbstractResource: a,
+	b.ConcreteResourceOrphan = func(a *NodeAbstractResourceInstance) dag.Vertex {
+		return &NodePlannableResourceInstanceOrphan{
+			NodeAbstractResourceInstance: a,
+			skipRefresh:                  b.skipRefresh,
 		}
 	}
 }

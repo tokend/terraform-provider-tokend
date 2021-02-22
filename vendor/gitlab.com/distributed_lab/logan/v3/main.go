@@ -2,6 +2,7 @@ package logan
 
 import (
 	"os"
+	"time"
 
 	"github.com/sirupsen/logrus"
 	"io"
@@ -12,6 +13,11 @@ func New() *Entry {
 
 	logger := logrus.New()
 	logger.Level = logrus.Level(lastLogLevel)
+
+	// need default formatter, but with nano seconds for time
+	formatter := new(logrus.TextFormatter)
+	formatter.TimestampFormat = time.RFC3339Nano
+	logger.Formatter = formatter
 
 	return &Entry{
 		logrus.NewEntry(logger).WithField("pid", os.Getpid()),

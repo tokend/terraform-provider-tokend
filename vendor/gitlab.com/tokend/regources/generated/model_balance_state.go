@@ -4,6 +4,8 @@
 
 package regources
 
+import "encoding/json"
+
 type BalanceState struct {
 	Key
 	Attributes *BalanceStateAttributes `json:"attributes,omitempty"`
@@ -13,10 +15,20 @@ type BalanceStateResponse struct {
 	Included Included     `json:"included"`
 }
 
-type BalanceStatesResponse struct {
-	Data     []BalanceState `json:"data"`
-	Included Included       `json:"included"`
-	Links    *Links         `json:"links"`
+type BalanceStateListResponse struct {
+	Data     []BalanceState  `json:"data"`
+	Included Included        `json:"included"`
+	Links    *Links          `json:"links"`
+	Meta     json.RawMessage `json:"meta,omitempty"`
+}
+
+func (r *BalanceStateListResponse) PutMeta(v interface{}) (err error) {
+	r.Meta, err = json.Marshal(v)
+	return err
+}
+
+func (r *BalanceStateListResponse) GetMeta(out interface{}) error {
+	return json.Unmarshal(r.Meta, out)
 }
 
 // MustBalanceState - returns BalanceState from include collection.
