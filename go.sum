@@ -572,6 +572,8 @@ gitlab.com/distributed_lab/logan v3.8.0+incompatible h1:VWyOcS4b+1yQc55yT6p2kYkT
 gitlab.com/distributed_lab/logan v3.8.0+incompatible/go.mod h1:25oL/FPFXmyYzWeA6vahMvnFJV8P7mOx0jZhRP7nhlc=
 gitlab.com/distributed_lab/running v0.0.0-20200706131153-4af0e83eb96c/go.mod h1:4TnADX84dQjQMRHKIMPCVL0L97rD/Jxv0xDbrN6aKzk=
 gitlab.com/tokend/go v1.0.0 h1:1YI6WZKxhq/MfiK6VERUJi2K35lIuUHdlPSVh2guHD8=
+gitlab.com/tokend/go v3.13.1-0.20210208140809-32435c60def0+incompatible h1:y3/UWyZHmWn32gIEcF0jKUkombnBkPmxtxxS5nN5QhM=
+gitlab.com/tokend/go v3.13.1-0.20210208140809-32435c60def0+incompatible/go.mod h1:qz38YBc7VL29H2gnXbpRzcEVw2d1NUZ5SVDzIehqDCA=
 gitlab.com/tokend/go v3.13.1+incompatible h1:zhcaJzHe40wlbEOiJ0G5qQ2XQd0S878tdmiU1OCU/b0=
 gitlab.com/tokend/go v3.13.1+incompatible/go.mod h1:qz38YBc7VL29H2gnXbpRzcEVw2d1NUZ5SVDzIehqDCA=
 gitlab.com/tokend/horizon-connector v4.3.0+incompatible h1:CuW3yFYYbt7XI/ybmrtnkIaaxvhb44LKzjOOQ9ahFlo=

@@ -194,7 +194,7 @@ gitlab.com/distributed_lab/kit/kv
 gitlab.com/distributed_lab/logan/v3
 gitlab.com/distributed_lab/logan/v3/errors
 gitlab.com/distributed_lab/logan/v3/fields
-# gitlab.com/tokend/go v3.13.1+incompatible
+# gitlab.com/tokend/go v3.13.1-0.20210208140809-32435c60def0+incompatible
 ## explicit
 gitlab.com/tokend/go/amount
 gitlab.com/tokend/go/crc16
