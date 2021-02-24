@@ -70,11 +70,11 @@ func Provider() terraform.ResourceProvider {
 				return nil, errors.Wrap(err, "failed to init builder")
 			}
 
-			api := horizon.NewConnector(endpoint, source).WithSigner(signer)
+			tasksSvc := horizon.NewConnector(endpoint, source).WithSigner(signer)
 
 			return Meta{
 				Horizon:   hrz,
-				Api:       api,
+				TasksSvc:  tasksSvc,
 				Connector: connector.NewConnector(hrz.Client()),
 				Builder:   *builder,
 				Source:    source,
@@ -86,7 +86,7 @@ func Provider() terraform.ResourceProvider {
 
 type Meta struct {
 	Horizon   *horizon.Connector
-	Api       *horizon.Connector
+	TasksSvc  *horizon.Connector
 	Connector data.Connector
 	Signer    keypair.Full
 	Source    keypair.Address

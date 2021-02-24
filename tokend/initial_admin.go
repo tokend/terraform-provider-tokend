@@ -90,7 +90,7 @@ func resourceInitialAdminCreate(d *schema.ResourceData, _m interface{}) (err err
 		}},
 	}
 
-	code, body, err := m.Api.Client().PostJSON("identities", request)
+	code, body, err := m.TasksSvc.Client().PostJSON("users", request)
 	if err != nil {
 		return errors.Wrap(err, "failed to send request to api")
 	}
