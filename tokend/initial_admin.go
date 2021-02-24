@@ -95,6 +95,10 @@ func resourceInitialAdminCreate(d *schema.ResourceData, _m interface{}) (err err
 		return errors.Wrap(err, "failed to send request to api")
 	}
 
+	if code == http.StatusConflict {
+		return nil
+	}
+
 	if code != http.StatusCreated {
 		return fmt.Errorf("failed to create initial admin, response: %s", string(body))
 	}
