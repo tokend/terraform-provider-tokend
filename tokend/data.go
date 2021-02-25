@@ -34,6 +34,7 @@ func resourceData() *schema.Resource {
 
 func resourceDataCreate(d *schema.ResourceData, _m interface{}) (err error) {
 	m := _m.(Meta)
+
 	dataType, err := amount.ParseU(d.Get("type").(string))
 	if err != nil {
 		return errors.Wrap(err, "failed to parse max_issuance_amount")
@@ -52,22 +53,28 @@ func resourceDataCreate(d *schema.ResourceData, _m interface{}) (err error) {
 	if err != nil {
 		return errors.Wrap(err, "failed to marshal tx")
 	}
+
 	result := m.Horizon.Submitter().Submit(context.TODO(), env)
 	if result.Err != nil {
 		return errors.Wrapf(result.Err, "failed to submit tx: %s %q", result.TXCode, result.OpCodes)
 	}
+
 	var txResult xdr.TransactionResult
 	if err := xdr.SafeUnmarshalBase64(result.ResultXDR, &txResult); err != nil {
 		return errors.Wrap(err, "failed to decode result")
 	}
+
 	txCodes := *(txResult.Result.Results)
 	id := txCodes[0].Tr.ManageAccountRoleResult.Success.RoleId
+
 	d.SetId(fmt.Sprintf("%d", id))
+
 	return nil
 }
 
 func resourceDataUpdate(d *schema.ResourceData, _m interface{}) error {
 	m := _m.(Meta)
+
 	id, err := cast.ToUint64E(d.Id())
 	if err != nil {
 		return errors.Wrap(err, "failed to cast account role id")
@@ -83,10 +90,20 @@ func resourceDataUpdate(d *schema.ResourceData, _m interface{}) error {
 		ID:    id,
 		Value: value,
 	}).Sign(m.Signer).Marshal()
+	if err != nil {
+		return errors.Wrap(err, "failed to marshal tx")
+	}
+
 	result := m.Horizon.Submitter().Submit(context.TODO(), env)
 	if result.Err != nil {
 		return errors.Wrapf(result.Err, "failed to submit tx: %s %q", result.TXCode, result.OpCodes)
 	}
+
+	var txResult xdr.TransactionResult
+	if err := xdr.SafeUnmarshalBase64(result.ResultXDR, &txResult); err != nil {
+		return errors.Wrap(err, "failed to decode result")
+	}
+
 	return nil
 }
 
@@ -96,6 +113,7 @@ func resourceDataRead(d *schema.ResourceData, meta interface{}) error {
 
 func resourceDataDelete(d *schema.ResourceData, _m interface{}) error {
 	m := _m.(Meta)
+
 	id, err := cast.ToUint64E(d.Id())
 	if err != nil {
 		return errors.Wrap(err, "failed to cast account role id")
@@ -104,9 +122,19 @@ func resourceDataDelete(d *schema.ResourceData, _m interface{}) error {
 	env, err := m.Builder.Transaction(m.Source).Op(&xdrbuild.RemoveData{
 		ID: id,
 	}).Sign(m.Signer).Marshal()
+	if err != nil {
+		return errors.Wrap(err, "failed to marshal tx")
+	}
+
 	result := m.Horizon.Submitter().Submit(context.TODO(), env)
 	if result.Err != nil {
 		return errors.Wrapf(result.Err, "failed to submit tx: %s %q", result.TXCode, result.OpCodes)
 	}
+
+	var txResult xdr.TransactionResult
+	if err := xdr.SafeUnmarshalBase64(result.ResultXDR, &txResult); err != nil {
+		return errors.Wrap(err, "failed to decode result")
+	}
+
 	return nil
 }

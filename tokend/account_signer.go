@@ -2,6 +2,7 @@ package tokend
 
 import (
 	"context"
+	"gitlab.com/tokend/go/xdr"
 
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/pkg/errors"
@@ -47,11 +48,13 @@ func resourceAccountSignerCreate(d *schema.ResourceData, meta interface{}) error
 	m := meta.(Meta)
 
 	publicKey := d.Get("public_key").(string)
+
 	rawWeight := d.Get("weight")
 	weight, err := cast.ToUint32E(rawWeight)
 	if err != nil {
 		return errors.Wrap(err, "failed to cast weight to uint32")
 	}
+
 	rawIdentity := d.Get("identity")
 	identity, err := cast.ToUint32E(rawIdentity)
 	if err != nil {
@@ -82,12 +85,19 @@ func resourceAccountSignerCreate(d *schema.ResourceData, meta interface{}) error
 	if err != nil {
 		return errors.Wrap(err, "failed to marshal tx")
 	}
+
 	result := m.Horizon.Submitter().Submit(context.TODO(), env)
 	if result.Err != nil {
 		return errors.Wrapf(result.Err, "failed to submit tx: %s %q", result.TXCode, result.OpCodes)
 	}
 
+	var txResult xdr.TransactionResult
+	if err := xdr.SafeUnmarshalBase64(result.ResultXDR, &txResult); err != nil {
+		return errors.Wrap(err, "failed to decode result")
+	}
+
 	d.SetId(publicKey)
+
 	return nil
 }
 

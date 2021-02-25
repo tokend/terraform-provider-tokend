@@ -63,10 +63,12 @@ func resourceAsset() *schema.Resource {
 
 func resourceAssetCreate(d *schema.ResourceData, _m interface{}) (err error) {
 	m := _m.(Meta)
+
 	maxIssuanceAmount, err := amount.ParseU(d.Get("max_issuance_amount").(string))
 	if err != nil {
 		return errors.Wrap(err, "failed to parse max_issuance_amount")
 	}
+
 	preIssuanceAmount, err := amount.ParseU(d.Get("initial_pre_issuance_amount").(string))
 	if err != nil {
 		return errors.Wrap(err, "failed to parse initial_pre_issuance_amount")
@@ -111,11 +113,19 @@ func resourceAssetCreate(d *schema.ResourceData, _m interface{}) (err error) {
 	if err != nil {
 		return errors.Wrap(err, "failed to marshal tx")
 	}
+
 	result := m.Horizon.Submitter().Submit(context.TODO(), env)
 	if result.Err != nil {
 		return errors.Wrapf(result.Err, "failed to submit tx: %s %q", result.TXCode, result.OpCodes)
 	}
+
+	var txResult xdr.TransactionResult
+	if err := xdr.SafeUnmarshalBase64(result.ResultXDR, &txResult); err != nil {
+		return errors.Wrap(err, "failed to decode result")
+	}
+
 	d.SetId(d.Get("code").(string))
+
 	return nil
 }
 
@@ -129,26 +139,32 @@ func resourceAssetRead(d *schema.ResourceData, meta interface{}) error {
 
 func resourceAssetDelete(d *schema.ResourceData, _m interface{}) error {
 	m := _m.(Meta)
+
 	assetCode, err := cast.ToStringE(d.Id())
 	if err != nil {
 		return errors.Wrap(err, "failed to cast asset code")
 	}
+
 	env, err := m.Builder.Transaction(m.Source).Op(&xdrbuild.RemoveAsset{
 		Code: assetCode,
 	}).Sign(m.Signer).Marshal()
 	if err != nil {
 		return errors.Wrap(err, "failed to marshal tx")
 	}
+
 	result := m.Horizon.Submitter().Submit(context.TODO(), env)
 	if result.Err != nil {
 		return errors.Wrapf(result.Err, "failed to submit tx: %s %q", result.TXCode, result.OpCodes)
 	}
+
 	var txResult xdr.TransactionResult
 	if err := xdr.SafeUnmarshalBase64(result.ResultXDR, &txResult); err != nil {
 		return errors.Wrap(err, "failed to decode result")
 	}
+
 	txCodes := *(txResult.Result.Results)
 	code := txCodes[0].Tr.RemoveAssetResult.Code
+
 	d.SetId(fmt.Sprintf("%d", code))
 
 	return nil

@@ -3,6 +3,7 @@ package tokend
 import (
 	"context"
 	"fmt"
+	"gitlab.com/tokend/go/xdr"
 
 	"github.com/tokend/terraform-provider-tokend/tokend/helpers"
 
@@ -45,6 +46,7 @@ func resourceExternalSystemPoolEntryCreate(d *schema.ResourceData, _m interface{
 	if err != nil {
 		return errors.Wrap(err, "failed to get stellar external system type")
 	}
+
 	if stellarExternalSystemType == nil {
 		return errors.New("stellar external system type key value not set")
 	}
@@ -66,12 +68,19 @@ func resourceExternalSystemPoolEntryCreate(d *schema.ResourceData, _m interface{
 	if len(envelopes) == 0 {
 		return errors.New("empty transaction envelopes")
 	}
+
 	for _, envelope := range envelopes {
 		result := m.Horizon.Submitter().Submit(context.TODO(), envelope)
 		if result.Err != nil {
 			return errors.Wrapf(result.Err, "failed to submit tx: %s %q", result.TXCode, result.OpCodes)
 		}
+
+		var txResult xdr.TransactionResult
+		if err := xdr.SafeUnmarshalBase64(result.ResultXDR, &txResult); err != nil {
+			return errors.Wrap(err, "failed to decode result")
+		}
 	}
+
 	return nil
 }
 

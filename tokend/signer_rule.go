@@ -6,9 +6,9 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/pkg/errors"
+	"github.com/tokend/terraform-provider-tokend/tokend/helpers"
 	"gitlab.com/tokend/go/xdr"
 	"gitlab.com/tokend/go/xdrbuild"
-	"github.com/tokend/terraform-provider-tokend/tokend/helpers"
 )
 
 func resourceSignerRule() *schema.Resource {
@@ -45,11 +45,14 @@ func resourceSignerRule() *schema.Resource {
 
 func resourceSignerRuleCreate(d *schema.ResourceData, _m interface{}) (err error) {
 	m := _m.(Meta)
+
 	resource, err := helpers.SignerRuleEntry(d)
 	if err != nil {
 		return errors.Wrap(err, "failed to cast entry")
 	}
+
 	actionRaw := d.Get("action").(string)
+
 	var action xdr.SignerRuleAction
 	if actionRaw == "*" {
 		action = xdr.SignerRuleActionAny
@@ -74,17 +77,22 @@ func resourceSignerRuleCreate(d *schema.ResourceData, _m interface{}) (err error
 	if err != nil {
 		return errors.Wrap(err, "failed to marshal tx")
 	}
+
 	result := m.Horizon.Submitter().Submit(context.TODO(), env)
 	if result.Err != nil {
 		return errors.Wrapf(result.Err, "failed to submit tx: %s %q", result.TXCode, result.OpCodes)
 	}
+
 	var txResult xdr.TransactionResult
 	if err := xdr.SafeUnmarshalBase64(result.ResultXDR, &txResult); err != nil {
 		return errors.Wrap(err, "failed to decode result")
 	}
+
 	txCodes := *(txResult.Result.Results)
 	ruleID := txCodes[0].Tr.ManageSignerRuleResult.Success.RuleId
+
 	d.SetId(fmt.Sprintf("%d", ruleID))
+
 	return nil
 }
 

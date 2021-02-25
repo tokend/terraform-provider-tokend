@@ -2,7 +2,6 @@ package tokend
 
 import (
 	"context"
-
 	"github.com/tokend/terraform-provider-tokend/tokend/helpers"
 
 	"github.com/tokend/terraform-provider-tokend/tokend/helpers/validation"
@@ -109,12 +108,14 @@ func resourceAccountCreate(d *schema.ResourceData, _m interface{}) error {
 			"op_codes": result.OpCodes,
 		})
 	}
+
 	var txResult xdr.TransactionResult
 	if err := xdr.SafeUnmarshalBase64(result.ResultXDR, &txResult); err != nil {
 		return errors.Wrap(err, "failed to decode result")
 	}
 
 	d.SetId(destination)
+
 	return nil
 }
 
@@ -137,11 +138,13 @@ func getSigner(rawSigner interface{}) (*xdrbuild.SignerData, error) {
 	}
 
 	publicKey := d["public_key"].(string)
+
 	rawWeight := d["weight"]
 	weight, err := cast.ToUint32E(rawWeight)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to cast weight to uint32")
 	}
+
 	rawIdentity := d["identity"]
 	identity, err := cast.ToUint32E(rawIdentity)
 	if err != nil {

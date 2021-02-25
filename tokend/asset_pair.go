@@ -58,11 +58,14 @@ func resourceAssetPairCreate(d *schema.ResourceData, _m interface{}) (err error)
 	if err != nil {
 		return errors.Wrap(err, "failed to marshal tx")
 	}
+
 	result := m.Horizon.Submitter().Submit(context.TODO(), env)
 	if result.Err != nil {
 		return errors.Wrapf(result.Err, "failed to submit tx: %s %q", result.TXCode, result.OpCodes)
 	}
+
 	d.SetId(buildId(base, quote))
+
 	return nil
 }
 
@@ -76,6 +79,7 @@ func resourceAssetPairRead(d *schema.ResourceData, meta interface{}) error {
 
 func resourceAssetPairDelete(d *schema.ResourceData, _m interface{}) error {
 	m := _m.(Meta)
+
 	base := d.Get("base").(string)
 	quote := d.Get("quote").(string)
 
@@ -86,15 +90,19 @@ func resourceAssetPairDelete(d *schema.ResourceData, _m interface{}) error {
 	if err != nil {
 		return errors.Wrap(err, "failed to marshal tx")
 	}
+
 	result := m.Horizon.Submitter().Submit(context.TODO(), env)
 	if result.Err != nil {
 		return errors.Wrapf(result.Err, "failed to submit tx: %s %q", result.TXCode, result.OpCodes)
 	}
+
 	var txResult xdr.TransactionResult
 	if err := xdr.SafeUnmarshalBase64(result.ResultXDR, &txResult); err != nil {
 		return errors.Wrap(err, "failed to decode result")
 	}
+
 	d.SetId(buildId(base, quote))
+
 	return nil
 }
 
