@@ -154,6 +154,16 @@ func accountRuleResourceReviewableRequest(d *schema.ResourceData) (*xdr.AccountR
 		result.ReviewableRequest.Details.DataRemove = &xdr.ReviewableRequestResourceDataRemove{
 			Type: xdr.Uint64(dataType),
 		}
+	case xdr.ReviewableRequestTypeCreateDeferredPayment:
+		result.ReviewableRequest.Details.CreateDeferredPayment = &xdr.ReviewableRequestResourceCreateDeferredPayment{
+			AssetCode: "*",            //TODO
+			AssetType: math.MaxUint64, //TODO
+		}
+	case xdr.ReviewableRequestTypeCloseDeferredPayment:
+		result.ReviewableRequest.Details.CloseDeferredPayment = &xdr.ReviewableRequestResourceCloseDeferredPayment{
+			AssetCode: "*",            //TODO
+			AssetType: math.MaxUint64, //TODO
+		}
 	}
 
 	return result, nil

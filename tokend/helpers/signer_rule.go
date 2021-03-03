@@ -142,6 +142,16 @@ func signerRuleResourceReviewableRequest(d *schema.ResourceData) (*xdr.SignerRul
 		resource.ReviewableRequest.Details.DataRemove = &xdr.ReviewableRequestResourceDataRemove{
 			Type: xdr.Uint64(dataType),
 		}
+	case xdr.ReviewableRequestTypeCreateDeferredPayment:
+		resource.ReviewableRequest.Details.CreateDeferredPayment = &xdr.ReviewableRequestResourceCreateDeferredPayment{
+			AssetCode: "*",            //TODO
+			AssetType: math.MaxUint64, //TODO
+		}
+	case xdr.ReviewableRequestTypeCloseDeferredPayment:
+		resource.ReviewableRequest.Details.CloseDeferredPayment = &xdr.ReviewableRequestResourceCloseDeferredPayment{
+			AssetCode: "*",            //TODO
+			AssetType: math.MaxUint64, //TODO
+		}
 	}
 
 	return &resource, nil
