@@ -52,19 +52,24 @@ func Provider() terraform.ResourceProvider {
 			if err != nil {
 				return nil, errors.Wrap(err, "failed to parse endpoint")
 			}
+
 			signer, err := keypair.ParseSeed(d.Get("signer").(string))
 			if err != nil {
 				return nil, errors.Wrap(err, "failed to parse signer")
 			}
+
 			source, err := keypair.ParseAddress(d.Get("account").(string))
 			if err != nil {
 				return nil, errors.Wrap(err, "failed to parse source")
 			}
+
 			hrz := horizon.NewConnector(endpoint).WithSigner(signer)
+
 			builder, err := hrz.TXBuilder()
 			if err != nil {
 				return nil, errors.Wrap(err, "failed to init builder")
 			}
+
 			return Meta{
 				Horizon:   hrz,
 				Connector: connector.NewConnector(hrz.Client()),

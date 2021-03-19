@@ -35,13 +35,16 @@ func resourceAccountRole() *schema.Resource {
 
 func resourceAccountRoleCreate(d *schema.ResourceData, _m interface{}) error {
 	m := _m.(Meta)
+
 	var rules []uint64
+
 	rawRules := d.Get("rules").([]interface{})
 	for _, rawRule := range rawRules {
 		rule, err := cast.ToUint64E(rawRule)
 		if err != nil {
 			return errors.Wrap(err, "failed to cast raw rule")
 		}
+
 		rules = append(rules, rule)
 	}
 
@@ -52,35 +55,45 @@ func resourceAccountRoleCreate(d *schema.ResourceData, _m interface{}) error {
 	if err != nil {
 		return errors.Wrap(err, "failed to marshal tx")
 	}
+
 	result := m.Horizon.Submitter().Submit(context.TODO(), env)
 	if result.Err != nil {
 		return errors.Wrapf(result.Err, "failed to submit tx: %s %q", result.TXCode, result.OpCodes)
 	}
+
 	var txResult xdr.TransactionResult
 	if err := xdr.SafeUnmarshalBase64(result.ResultXDR, &txResult); err != nil {
 		return errors.Wrap(err, "failed to decode result")
 	}
+
 	txCodes := *(txResult.Result.Results)
 	roleID := txCodes[0].Tr.ManageAccountRoleResult.Success.RoleId
+
 	d.SetId(fmt.Sprintf("%d", roleID))
+
 	return nil
 }
 
 func resourceAccountRoleUpdate(d *schema.ResourceData, _m interface{}) error {
 	m := _m.(Meta)
+
 	id, err := cast.ToUint64E(d.Id())
 	if err != nil {
 		return errors.Wrap(err, "failed to cast account role id")
 	}
+
 	var rules []uint64
+
 	rawRules := d.Get("rules").([]interface{})
 	for _, rawRule := range rawRules {
 		rule, err := cast.ToUint64E(rawRule)
 		if err != nil {
 			return errors.Wrap(err, "failed to cast raw rule")
 		}
+
 		rules = append(rules, rule)
 	}
+
 	env, err := m.Builder.Transaction(m.Source).Op(&xdrbuild.UpdateAccountRole{
 		ID:      id,
 		Details: VoidDetails{},
@@ -89,10 +102,17 @@ func resourceAccountRoleUpdate(d *schema.ResourceData, _m interface{}) error {
 	if err != nil {
 		return errors.Wrap(err, "failed to marshal tx")
 	}
+
 	result := m.Horizon.Submitter().Submit(context.TODO(), env)
 	if result.Err != nil {
 		return errors.Wrapf(result.Err, "failed to submit tx: %s %q", result.TXCode, result.OpCodes)
 	}
+
+	var txResult xdr.TransactionResult
+	if err := xdr.SafeUnmarshalBase64(result.ResultXDR, &txResult); err != nil {
+		return errors.Wrap(err, "failed to decode result")
+	}
+
 	return nil
 }
 
@@ -102,26 +122,33 @@ func resourceAccountRoleRead(d *schema.ResourceData, _m interface{}) error {
 
 func resourceAccountRoleDelete(d *schema.ResourceData, _m interface{}) error {
 	m := _m.(Meta)
+
 	id, err := cast.ToUint64E(d.Id())
 	if err != nil {
 		return errors.Wrap(err, "failed to cast account role id")
 	}
+
 	env, err := m.Builder.Transaction(m.Source).Op(&xdrbuild.RemoveAccountRole{
 		ID: id,
 	}).Sign(m.Signer).Marshal()
 	if err != nil {
 		return errors.Wrap(err, "failed to marshal tx")
 	}
+
 	result := m.Horizon.Submitter().Submit(context.TODO(), env)
 	if result.Err != nil {
 		return errors.Wrapf(result.Err, "failed to submit tx: %s %q", result.TXCode, result.OpCodes)
 	}
+
 	var txResult xdr.TransactionResult
 	if err := xdr.SafeUnmarshalBase64(result.ResultXDR, &txResult); err != nil {
 		return errors.Wrap(err, "failed to decode result")
 	}
+
 	txCodes := *(txResult.Result.Results)
 	roleID := txCodes[0].Tr.ManageAccountRoleResult.Success.RoleId
+
 	d.SetId(fmt.Sprintf("%d", roleID))
+
 	return nil
 }

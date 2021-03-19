@@ -61,6 +61,7 @@ func resourceAccountRuleCreate(d *schema.ResourceData, _m interface{}) (err erro
 	}
 
 	actionRaw := d.Get("action").(string)
+
 	var action xdr.AccountRuleAction
 	if actionRaw == "*" {
 		action = xdr.AccountRuleActionAny
@@ -85,17 +86,22 @@ func resourceAccountRuleCreate(d *schema.ResourceData, _m interface{}) (err erro
 	if err != nil {
 		return errors.Wrap(err, "failed to marshal tx")
 	}
+
 	result := m.Horizon.Submitter().Submit(context.TODO(), env)
 	if result.Err != nil {
 		return errors.Wrapf(result.Err, "failed to submit tx: %s %q", result.TXCode, result.OpCodes)
 	}
+
 	var txResult xdr.TransactionResult
 	if err := xdr.SafeUnmarshalBase64(result.ResultXDR, &txResult); err != nil {
 		return errors.Wrap(err, "failed to decode result")
 	}
+
 	txCodes := *(txResult.Result.Results)
 	ruleID := txCodes[0].Tr.ManageAccountRuleResult.Success.RuleId
+
 	d.SetId(fmt.Sprintf("%d", ruleID))
+
 	return nil
 }
 
@@ -132,10 +138,17 @@ func resourceAccountRuleUpdate(d *schema.ResourceData, _m interface{}) (err erro
 	if err != nil {
 		return errors.Wrap(err, "failed to marshal tx")
 	}
+
 	result := m.Horizon.Submitter().Submit(context.TODO(), env)
 	if result.Err != nil {
 		return errors.Wrapf(result.Err, "failed to submit tx: %s %q", result.TXCode, result.OpCodes)
 	}
+
+	var txResult xdr.TransactionResult
+	if err := xdr.SafeUnmarshalBase64(result.ResultXDR, &txResult); err != nil {
+		return errors.Wrap(err, "failed to decode result")
+	}
+
 	return nil
 }
 

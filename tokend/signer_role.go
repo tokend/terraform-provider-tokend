@@ -53,6 +53,7 @@ func resourceSignerRoleCreate(d *schema.ResourceData, _m interface{}) (err error
 		if err != nil {
 			return errors.Wrap(err, "failed to cast raw rule")
 		}
+
 		rules = append(rules, rule)
 	}
 
@@ -63,17 +64,22 @@ func resourceSignerRoleCreate(d *schema.ResourceData, _m interface{}) (err error
 	if err != nil {
 		return errors.Wrap(err, "failed to marshal tx")
 	}
+
 	result := m.Horizon.Submitter().Submit(context.TODO(), env)
 	if result.Err != nil {
 		return errors.Wrapf(result.Err, "failed to submit tx: %s %q", result.TXCode, result.OpCodes)
 	}
+
 	var txResult xdr.TransactionResult
 	if err := xdr.SafeUnmarshalBase64(result.ResultXDR, &txResult); err != nil {
 		return errors.Wrap(err, "failed to decode result")
 	}
+
 	txCodes := *(txResult.Result.Results)
 	roleID := txCodes[0].Tr.ManageSignerRoleResult.Success.RoleId
+
 	d.SetId(fmt.Sprintf("%d", roleID))
+
 	return nil
 }
 
@@ -109,10 +115,17 @@ func resourceSignerRoleUpdate(d *schema.ResourceData, _m interface{}) error {
 	if err != nil {
 		return errors.Wrap(err, "failed to marshal tx")
 	}
+
 	result := m.Horizon.Submitter().Submit(context.TODO(), env)
 	if result.Err != nil {
 		return errors.Wrapf(result.Err, "failed to submit tx: %s %q", result.TXCode, result.OpCodes)
 	}
+
+	var txResult xdr.TransactionResult
+	if err := xdr.SafeUnmarshalBase64(result.ResultXDR, &txResult); err != nil {
+		return errors.Wrap(err, "failed to decode result")
+	}
+
 	return nil
 }
 
@@ -134,9 +147,16 @@ func resourceSignerRoleDelete(d *schema.ResourceData, meta interface{}) error {
 	if err != nil {
 		return errors.Wrap(err, "failed to marshal tx")
 	}
+
 	result := m.Horizon.Submitter().Submit(context.TODO(), env)
 	if result.Err != nil {
 		return errors.Wrapf(result.Err, "failed to submit tx: %s %q", result.TXCode, result.OpCodes)
 	}
+
+	var txResult xdr.TransactionResult
+	if err := xdr.SafeUnmarshalBase64(result.ResultXDR, &txResult); err != nil {
+		return errors.Wrap(err, "failed to decode result")
+	}
+
 	return nil
 }
