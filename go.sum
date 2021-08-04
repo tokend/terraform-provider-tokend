@@ -574,6 +574,8 @@ gitlab.com/distributed_lab/running v0.0.0-20200706131153-4af0e83eb96c/go.mod h1:
 gitlab.com/tokend/go v1.0.0 h1:1YI6WZKxhq/MfiK6VERUJi2K35lIuUHdlPSVh2guHD8=
 gitlab.com/tokend/go v3.13.1+incompatible h1:zhcaJzHe40wlbEOiJ0G5qQ2XQd0S878tdmiU1OCU/b0=
 gitlab.com/tokend/go v3.13.1+incompatible/go.mod h1:qz38YBc7VL29H2gnXbpRzcEVw2d1NUZ5SVDzIehqDCA=
+gitlab.com/tokend/go v3.15.0+incompatible h1:+FLJP11ppj5ttU3KNcvvummU3uE6hpju1CY4mwxuIr0=
+gitlab.com/tokend/go v3.15.0+incompatible/go.mod h1:qz38YBc7VL29H2gnXbpRzcEVw2d1NUZ5SVDzIehqDCA=
 gitlab.com/tokend/horizon-connector v4.3.0+incompatible h1:CuW3yFYYbt7XI/ybmrtnkIaaxvhb44LKzjOOQ9ahFlo=
 gitlab.com/tokend/horizon-connector v4.3.0+incompatible/go.mod h1:UXDzJjct79UojKnyPWzO2JUGdMfn3uWWLhW9BlGFRMg=
 gitlab.com/tokend/keypair v0.0.0-20190412110653-b9d7e0c8b312 h1:u8pxrNw8QKIsrmClG71uuTPy22fkePAXBkHgxrXkMU8=

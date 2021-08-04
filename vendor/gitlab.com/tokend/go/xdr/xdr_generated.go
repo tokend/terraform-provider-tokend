@@ -1,5 +1,5 @@
-// revision: e874e2dbfd3bed84017331fa2cd6ee10907ff53c
-// branch:   master
+// revision: 066600aac9f4c93f1d4c37e1bb7c559beafb2b6c
+// branch:   (HEAD
 // Package xdr is generated from:
 //
 //  xdr/SCP.x
@@ -15,6 +15,7 @@
 //  xdr/ledger-entries-balance.x
 //  xdr/ledger-entries-contract.x
 //  xdr/ledger-entries-data.x
+//  xdr/ledger-entries-deferred-payment.x
 //  xdr/ledger-entries-external-system-id-pool-entry.x
 //  xdr/ledger-entries-external-system-id.x
 //  xdr/ledger-entries-fee.x
@@ -41,9 +42,11 @@
 //  xdr/operation-bind-external-system-id.x
 //  xdr/operation-cancel-atomic-swap-ask.x
 //  xdr/operation-cancel-change-role-request.x
+//  xdr/operation-cancel-close-deferred-payment-request.x
 //  xdr/operation-cancel-data-creation-request.x
 //  xdr/operation-cancel-data-remove-request.x
 //  xdr/operation-cancel-data-update-request.x
+//  xdr/operation-cancel-deferred-payment-creation-request.x
 //  xdr/operation-cancel-sale-creation-request.x
 //  xdr/operation-check-sale-state.x
 //  xdr/operation-close-swap.x
@@ -52,10 +55,12 @@
 //  xdr/operation-create-atomic-swap-ask-request.x
 //  xdr/operation-create-atomic-swap-bid-request.x
 //  xdr/operation-create-change-role-request.x
+//  xdr/operation-create-close-deferred-payment-request.x
 //  xdr/operation-create-data-creation-request.x
 //  xdr/operation-create-data-remove-request.x
 //  xdr/operation-create-data-update-request.x
 //  xdr/operation-create-data.x
+//  xdr/operation-create-deferred-payment-creation-request.x
 //  xdr/operation-create-issuance-request.x
 //  xdr/operation-create-kyc-recovery-request.x
 //  xdr/operation-create-manage-limits-request.x
@@ -105,8 +110,10 @@
 //  xdr/reviewable-request-atomic-swap-ask.x
 //  xdr/reviewable-request-atomic-swap-bid.x
 //  xdr/reviewable-request-change-role.x
+//  xdr/reviewable-request-close-deferred-payment.x
 //  xdr/reviewable-request-contract.x
 //  xdr/reviewable-request-create-data.x
+//  xdr/reviewable-request-create-deferred-payment.x
 //  xdr/reviewable-request-create-poll.x
 //  xdr/reviewable-request-invoice.x
 //  xdr/reviewable-request-issuance.x
@@ -1883,6 +1890,37 @@ type DataEntry struct {
 	Ext   EmptyExt   `json:"ext,omitempty"`
 }
 
+// DeferredPaymentEntry is an XDR Struct defines as:
+//
+//   struct DeferredPaymentEntry
+//    {
+//        //: ID of the deferred payment entry
+//        uint64 id;
+//
+//        uint64 amount;
+//
+//        longstring details;
+//
+//        //: Creator of the entry
+//        AccountID source;
+//        BalanceID sourceBalance;
+//
+//        AccountID destination;
+//
+//        //: Reserved for future extension
+//        EmptyExt ext;
+//    };
+//
+type DeferredPaymentEntry struct {
+	Id            Uint64     `json:"id,omitempty"`
+	Amount        Uint64     `json:"amount,omitempty"`
+	Details       Longstring `json:"details,omitempty"`
+	Source        AccountId  `json:"source,omitempty"`
+	SourceBalance BalanceId  `json:"sourceBalance,omitempty"`
+	Destination   AccountId  `json:"destination,omitempty"`
+	Ext           EmptyExt   `json:"ext,omitempty"`
+}
+
 // ExternalSystemAccountIdPoolEntryExt is an XDR NestedUnion defines as:
 //
 //   union switch (LedgerVersion v)
@@ -3481,36 +3519,40 @@ type ReferenceEntry struct {
 //    	PERFORM_REDEMPTION = 21,
 //    	DATA_CREATION = 22,
 //    	DATA_UPDATE = 23,
-//    	DATA_REMOVE = 24
+//    	DATA_REMOVE = 24,
+//    	CREATE_DEFERRED_PAYMENT = 25,
+//        CLOSE_DEFERRED_PAYMENT = 26
 //    };
 //
 type ReviewableRequestType int32
 
 const (
-	ReviewableRequestTypeNone                ReviewableRequestType = 0
-	ReviewableRequestTypeAny                 ReviewableRequestType = 1
-	ReviewableRequestTypeCreatePreIssuance   ReviewableRequestType = 2
-	ReviewableRequestTypeCreateIssuance      ReviewableRequestType = 3
-	ReviewableRequestTypeCreateWithdraw      ReviewableRequestType = 4
-	ReviewableRequestTypeCreateSale          ReviewableRequestType = 5
-	ReviewableRequestTypeUpdateLimits        ReviewableRequestType = 6
-	ReviewableRequestTypeCreateAmlAlert      ReviewableRequestType = 7
-	ReviewableRequestTypeChangeRole          ReviewableRequestType = 8
-	ReviewableRequestTypeUpdateSaleDetails   ReviewableRequestType = 9
-	ReviewableRequestTypeCreateAsset         ReviewableRequestType = 10
-	ReviewableRequestTypeCreateInvoice       ReviewableRequestType = 11
-	ReviewableRequestTypeManageContract      ReviewableRequestType = 12
-	ReviewableRequestTypeUpdateAsset         ReviewableRequestType = 13
-	ReviewableRequestTypeCreatePoll          ReviewableRequestType = 14
-	ReviewableRequestTypeCreateAtomicSwapAsk ReviewableRequestType = 16
-	ReviewableRequestTypeCreateAtomicSwapBid ReviewableRequestType = 17
-	ReviewableRequestTypeKycRecovery         ReviewableRequestType = 18
-	ReviewableRequestTypeManageOffer         ReviewableRequestType = 19
-	ReviewableRequestTypeCreatePayment       ReviewableRequestType = 20
-	ReviewableRequestTypePerformRedemption   ReviewableRequestType = 21
-	ReviewableRequestTypeDataCreation        ReviewableRequestType = 22
-	ReviewableRequestTypeDataUpdate          ReviewableRequestType = 23
-	ReviewableRequestTypeDataRemove          ReviewableRequestType = 24
+	ReviewableRequestTypeNone                  ReviewableRequestType = 0
+	ReviewableRequestTypeAny                   ReviewableRequestType = 1
+	ReviewableRequestTypeCreatePreIssuance     ReviewableRequestType = 2
+	ReviewableRequestTypeCreateIssuance        ReviewableRequestType = 3
+	ReviewableRequestTypeCreateWithdraw        ReviewableRequestType = 4
+	ReviewableRequestTypeCreateSale            ReviewableRequestType = 5
+	ReviewableRequestTypeUpdateLimits          ReviewableRequestType = 6
+	ReviewableRequestTypeCreateAmlAlert        ReviewableRequestType = 7
+	ReviewableRequestTypeChangeRole            ReviewableRequestType = 8
+	ReviewableRequestTypeUpdateSaleDetails     ReviewableRequestType = 9
+	ReviewableRequestTypeCreateAsset           ReviewableRequestType = 10
+	ReviewableRequestTypeCreateInvoice         ReviewableRequestType = 11
+	ReviewableRequestTypeManageContract        ReviewableRequestType = 12
+	ReviewableRequestTypeUpdateAsset           ReviewableRequestType = 13
+	ReviewableRequestTypeCreatePoll            ReviewableRequestType = 14
+	ReviewableRequestTypeCreateAtomicSwapAsk   ReviewableRequestType = 16
+	ReviewableRequestTypeCreateAtomicSwapBid   ReviewableRequestType = 17
+	ReviewableRequestTypeKycRecovery           ReviewableRequestType = 18
+	ReviewableRequestTypeManageOffer           ReviewableRequestType = 19
+	ReviewableRequestTypeCreatePayment         ReviewableRequestType = 20
+	ReviewableRequestTypePerformRedemption     ReviewableRequestType = 21
+	ReviewableRequestTypeDataCreation          ReviewableRequestType = 22
+	ReviewableRequestTypeDataUpdate            ReviewableRequestType = 23
+	ReviewableRequestTypeDataRemove            ReviewableRequestType = 24
+	ReviewableRequestTypeCreateDeferredPayment ReviewableRequestType = 25
+	ReviewableRequestTypeCloseDeferredPayment  ReviewableRequestType = 26
 )
 
 var ReviewableRequestTypeAll = []ReviewableRequestType{
@@ -3538,6 +3580,8 @@ var ReviewableRequestTypeAll = []ReviewableRequestType{
 	ReviewableRequestTypeDataCreation,
 	ReviewableRequestTypeDataUpdate,
 	ReviewableRequestTypeDataRemove,
+	ReviewableRequestTypeCreateDeferredPayment,
+	ReviewableRequestTypeCloseDeferredPayment,
 }
 
 var reviewableRequestTypeMap = map[int32]string{
@@ -3565,6 +3609,8 @@ var reviewableRequestTypeMap = map[int32]string{
 	22: "ReviewableRequestTypeDataCreation",
 	23: "ReviewableRequestTypeDataUpdate",
 	24: "ReviewableRequestTypeDataRemove",
+	25: "ReviewableRequestTypeCreateDeferredPayment",
+	26: "ReviewableRequestTypeCloseDeferredPayment",
 }
 
 var reviewableRequestTypeShortMap = map[int32]string{
@@ -3592,33 +3638,37 @@ var reviewableRequestTypeShortMap = map[int32]string{
 	22: "data_creation",
 	23: "data_update",
 	24: "data_remove",
+	25: "create_deferred_payment",
+	26: "close_deferred_payment",
 }
 
 var reviewableRequestTypeRevMap = map[string]int32{
-	"ReviewableRequestTypeNone":                0,
-	"ReviewableRequestTypeAny":                 1,
-	"ReviewableRequestTypeCreatePreIssuance":   2,
-	"ReviewableRequestTypeCreateIssuance":      3,
-	"ReviewableRequestTypeCreateWithdraw":      4,
-	"ReviewableRequestTypeCreateSale":          5,
-	"ReviewableRequestTypeUpdateLimits":        6,
-	"ReviewableRequestTypeCreateAmlAlert":      7,
-	"ReviewableRequestTypeChangeRole":          8,
-	"ReviewableRequestTypeUpdateSaleDetails":   9,
-	"ReviewableRequestTypeCreateAsset":         10,
-	"ReviewableRequestTypeCreateInvoice":       11,
-	"ReviewableRequestTypeManageContract":      12,
-	"ReviewableRequestTypeUpdateAsset":         13,
-	"ReviewableRequestTypeCreatePoll":          14,
-	"ReviewableRequestTypeCreateAtomicSwapAsk": 16,
-	"ReviewableRequestTypeCreateAtomicSwapBid": 17,
-	"ReviewableRequestTypeKycRecovery":         18,
-	"ReviewableRequestTypeManageOffer":         19,
-	"ReviewableRequestTypeCreatePayment":       20,
-	"ReviewableRequestTypePerformRedemption":   21,
-	"ReviewableRequestTypeDataCreation":        22,
-	"ReviewableRequestTypeDataUpdate":          23,
-	"ReviewableRequestTypeDataRemove":          24,
+	"ReviewableRequestTypeNone":                  0,
+	"ReviewableRequestTypeAny":                   1,
+	"ReviewableRequestTypeCreatePreIssuance":     2,
+	"ReviewableRequestTypeCreateIssuance":        3,
+	"ReviewableRequestTypeCreateWithdraw":        4,
+	"ReviewableRequestTypeCreateSale":            5,
+	"ReviewableRequestTypeUpdateLimits":          6,
+	"ReviewableRequestTypeCreateAmlAlert":        7,
+	"ReviewableRequestTypeChangeRole":            8,
+	"ReviewableRequestTypeUpdateSaleDetails":     9,
+	"ReviewableRequestTypeCreateAsset":           10,
+	"ReviewableRequestTypeCreateInvoice":         11,
+	"ReviewableRequestTypeManageContract":        12,
+	"ReviewableRequestTypeUpdateAsset":           13,
+	"ReviewableRequestTypeCreatePoll":            14,
+	"ReviewableRequestTypeCreateAtomicSwapAsk":   16,
+	"ReviewableRequestTypeCreateAtomicSwapBid":   17,
+	"ReviewableRequestTypeKycRecovery":           18,
+	"ReviewableRequestTypeManageOffer":           19,
+	"ReviewableRequestTypeCreatePayment":         20,
+	"ReviewableRequestTypePerformRedemption":     21,
+	"ReviewableRequestTypeDataCreation":          22,
+	"ReviewableRequestTypeDataUpdate":            23,
+	"ReviewableRequestTypeDataRemove":            24,
+	"ReviewableRequestTypeCreateDeferredPayment": 25,
+	"ReviewableRequestTypeCloseDeferredPayment":  26,
 }
 
 // ValidEnum validates a proposed value for this enum.  Implements
@@ -3794,33 +3844,39 @@ type TasksExt struct {
 //                DataUpdateRequest dataUpdateRequest;
 //            case DATA_REMOVE:
 //                DataRemoveRequest dataRemoveRequest;
+//            case CREATE_DEFERRED_PAYMENT:
+//                CreateDeferredPaymentRequest createDeferredPaymentRequest;
+//            case CLOSE_DEFERRED_PAYMENT:
+//                CloseDeferredPaymentRequest closeDeferredPaymentRequest;
 //
 //    	}
 //
 type ReviewableRequestEntryBody struct {
-	Type                       ReviewableRequestType       `json:"type,omitempty"`
-	AssetCreationRequest       *AssetCreationRequest       `json:"assetCreationRequest,omitempty"`
-	AssetUpdateRequest         *AssetUpdateRequest         `json:"assetUpdateRequest,omitempty"`
-	PreIssuanceRequest         *PreIssuanceRequest         `json:"preIssuanceRequest,omitempty"`
-	IssuanceRequest            *IssuanceRequest            `json:"issuanceRequest,omitempty"`
-	WithdrawalRequest          *WithdrawalRequest          `json:"withdrawalRequest,omitempty"`
-	SaleCreationRequest        *SaleCreationRequest        `json:"saleCreationRequest,omitempty"`
-	LimitsUpdateRequest        *LimitsUpdateRequest        `json:"limitsUpdateRequest,omitempty"`
-	AmlAlertRequest            *AmlAlertRequest            `json:"amlAlertRequest,omitempty"`
-	ChangeRoleRequest          *ChangeRoleRequest          `json:"changeRoleRequest,omitempty"`
-	UpdateSaleDetailsRequest   *UpdateSaleDetailsRequest   `json:"updateSaleDetailsRequest,omitempty"`
-	InvoiceRequest             *InvoiceRequest             `json:"invoiceRequest,omitempty"`
-	ContractRequest            *ContractRequest            `json:"contractRequest,omitempty"`
-	CreateAtomicSwapAskRequest *CreateAtomicSwapAskRequest `json:"createAtomicSwapAskRequest,omitempty"`
-	CreateAtomicSwapBidRequest *CreateAtomicSwapBidRequest `json:"createAtomicSwapBidRequest,omitempty"`
-	CreatePollRequest          *CreatePollRequest          `json:"createPollRequest,omitempty"`
-	KycRecoveryRequest         *KycRecoveryRequest         `json:"kycRecoveryRequest,omitempty"`
-	ManageOfferRequest         *ManageOfferRequest         `json:"manageOfferRequest,omitempty"`
-	CreatePaymentRequest       *CreatePaymentRequest       `json:"createPaymentRequest,omitempty"`
-	RedemptionRequest          *RedemptionRequest          `json:"redemptionRequest,omitempty"`
-	DataCreationRequest        *DataCreationRequest        `json:"dataCreationRequest,omitempty"`
-	DataUpdateRequest          *DataUpdateRequest          `json:"dataUpdateRequest,omitempty"`
-	DataRemoveRequest          *DataRemoveRequest          `json:"dataRemoveRequest,omitempty"`
+	Type                         ReviewableRequestType         `json:"type,omitempty"`
+	AssetCreationRequest         *AssetCreationRequest         `json:"assetCreationRequest,omitempty"`
+	AssetUpdateRequest           *AssetUpdateRequest           `json:"assetUpdateRequest,omitempty"`
+	PreIssuanceRequest           *PreIssuanceRequest           `json:"preIssuanceRequest,omitempty"`
+	IssuanceRequest              *IssuanceRequest              `json:"issuanceRequest,omitempty"`
+	WithdrawalRequest            *WithdrawalRequest            `json:"withdrawalRequest,omitempty"`
+	SaleCreationRequest          *SaleCreationRequest          `json:"saleCreationRequest,omitempty"`
+	LimitsUpdateRequest          *LimitsUpdateRequest          `json:"limitsUpdateRequest,omitempty"`
+	AmlAlertRequest              *AmlAlertRequest              `json:"amlAlertRequest,omitempty"`
+	ChangeRoleRequest            *ChangeRoleRequest            `json:"changeRoleRequest,omitempty"`
+	UpdateSaleDetailsRequest     *UpdateSaleDetailsRequest     `json:"updateSaleDetailsRequest,omitempty"`
+	InvoiceRequest               *InvoiceRequest               `json:"invoiceRequest,omitempty"`
+	ContractRequest              *ContractRequest              `json:"contractRequest,omitempty"`
+	CreateAtomicSwapAskRequest   *CreateAtomicSwapAskRequest   `json:"createAtomicSwapAskRequest,omitempty"`
+	CreateAtomicSwapBidRequest   *CreateAtomicSwapBidRequest   `json:"createAtomicSwapBidRequest,omitempty"`
+	CreatePollRequest            *CreatePollRequest            `json:"createPollRequest,omitempty"`
+	KycRecoveryRequest           *KycRecoveryRequest           `json:"kycRecoveryRequest,omitempty"`
+	ManageOfferRequest           *ManageOfferRequest           `json:"manageOfferRequest,omitempty"`
+	CreatePaymentRequest         *CreatePaymentRequest         `json:"createPaymentRequest,omitempty"`
+	RedemptionRequest            *RedemptionRequest            `json:"redemptionRequest,omitempty"`
+	DataCreationRequest          *DataCreationRequest          `json:"dataCreationRequest,omitempty"`
+	DataUpdateRequest            *DataUpdateRequest            `json:"dataUpdateRequest,omitempty"`
+	DataRemoveRequest            *DataRemoveRequest            `json:"dataRemoveRequest,omitempty"`
+	CreateDeferredPaymentRequest *CreateDeferredPaymentRequest `json:"createDeferredPaymentRequest,omitempty"`
+	CloseDeferredPaymentRequest  *CloseDeferredPaymentRequest  `json:"closeDeferredPaymentRequest,omitempty"`
 }
 
 // SwitchFieldName returns the field name in which this union's
@@ -3877,6 +3933,10 @@ func (u ReviewableRequestEntryBody) ArmForSwitch(sw int32) (string, bool) {
 		return "DataUpdateRequest", true
 	case ReviewableRequestTypeDataRemove:
 		return "DataRemoveRequest", true
+	case ReviewableRequestTypeCreateDeferredPayment:
+		return "CreateDeferredPaymentRequest", true
+	case ReviewableRequestTypeCloseDeferredPayment:
+		return "CloseDeferredPaymentRequest", true
 	}
 	return "-", false
 }
@@ -4039,6 +4099,20 @@ func NewReviewableRequestEntryBody(aType ReviewableRequestType, value interface{
 			return
 		}
 		result.DataRemoveRequest = &tv
+	case ReviewableRequestTypeCreateDeferredPayment:
+		tv, ok := value.(CreateDeferredPaymentRequest)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be CreateDeferredPaymentRequest")
+			return
+		}
+		result.CreateDeferredPaymentRequest = &tv
+	case ReviewableRequestTypeCloseDeferredPayment:
+		tv, ok := value.(CloseDeferredPaymentRequest)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be CloseDeferredPaymentRequest")
+			return
+		}
+		result.CloseDeferredPaymentRequest = &tv
 	}
 	return
 }
@@ -4593,6 +4667,56 @@ func (u ReviewableRequestEntryBody) GetDataRemoveRequest() (result DataRemoveReq
 	return
 }
 
+// MustCreateDeferredPaymentRequest retrieves the CreateDeferredPaymentRequest value from the union,
+// panicing if the value is not set.
+func (u ReviewableRequestEntryBody) MustCreateDeferredPaymentRequest() CreateDeferredPaymentRequest {
+	val, ok := u.GetCreateDeferredPaymentRequest()
+
+	if !ok {
+		panic("arm CreateDeferredPaymentRequest is not set")
+	}
+
+	return val
+}
+
+// GetCreateDeferredPaymentRequest retrieves the CreateDeferredPaymentRequest value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u ReviewableRequestEntryBody) GetCreateDeferredPaymentRequest() (result CreateDeferredPaymentRequest, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.Type))
+
+	if armName == "CreateDeferredPaymentRequest" {
+		result = *u.CreateDeferredPaymentRequest
+		ok = true
+	}
+
+	return
+}
+
+// MustCloseDeferredPaymentRequest retrieves the CloseDeferredPaymentRequest value from the union,
+// panicing if the value is not set.
+func (u ReviewableRequestEntryBody) MustCloseDeferredPaymentRequest() CloseDeferredPaymentRequest {
+	val, ok := u.GetCloseDeferredPaymentRequest()
+
+	if !ok {
+		panic("arm CloseDeferredPaymentRequest is not set")
+	}
+
+	return val
+}
+
+// GetCloseDeferredPaymentRequest retrieves the CloseDeferredPaymentRequest value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u ReviewableRequestEntryBody) GetCloseDeferredPaymentRequest() (result CloseDeferredPaymentRequest, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.Type))
+
+	if armName == "CloseDeferredPaymentRequest" {
+		result = *u.CloseDeferredPaymentRequest
+		ok = true
+	}
+
+	return
+}
+
 // ReviewableRequestEntryExt is an XDR NestedUnion defines as:
 //
 //   union switch (LedgerVersion v)
@@ -4687,6 +4811,10 @@ func NewReviewableRequestEntryExt(v LedgerVersion, value interface{}) (result Re
 //                DataUpdateRequest dataUpdateRequest;
 //            case DATA_REMOVE:
 //                DataRemoveRequest dataRemoveRequest;
+//            case CREATE_DEFERRED_PAYMENT:
+//                CreateDeferredPaymentRequest createDeferredPaymentRequest;
+//            case CLOSE_DEFERRED_PAYMENT:
+//                CloseDeferredPaymentRequest closeDeferredPaymentRequest;
 //
 //    	} body;
 //
@@ -6067,6 +6195,8 @@ func (e *ThresholdIndexes) UnmarshalJSON(data []byte) error {
 //            SwapEntry swap;
 //        case DATA:
 //            DataEntry data;
+//        case DEFERRED_PAYMENT:
+//            DeferredPaymentEntry deferredPayment;
 //        }
 //
 type LedgerEntryData struct {
@@ -6103,6 +6233,7 @@ type LedgerEntryData struct {
 	AccountSpecificRule              *AccountSpecificRuleEntry         `json:"accountSpecificRule,omitempty"`
 	Swap                             *SwapEntry                        `json:"swap,omitempty"`
 	Data                             *DataEntry                        `json:"data,omitempty"`
+	DeferredPayment                  *DeferredPaymentEntry             `json:"deferredPayment,omitempty"`
 }
 
 // SwitchFieldName returns the field name in which this union's
@@ -6179,6 +6310,8 @@ func (u LedgerEntryData) ArmForSwitch(sw int32) (string, bool) {
 		return "Swap", true
 	case LedgerEntryTypeData:
 		return "Data", true
+	case LedgerEntryTypeDeferredPayment:
+		return "DeferredPayment", true
 	}
 	return "-", false
 }
@@ -6411,6 +6544,13 @@ func NewLedgerEntryData(aType LedgerEntryType, value interface{}) (result Ledger
 			return
 		}
 		result.Data = &tv
+	case LedgerEntryTypeDeferredPayment:
+		tv, ok := value.(DeferredPaymentEntry)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be DeferredPaymentEntry")
+			return
+		}
+		result.DeferredPayment = &tv
 	}
 	return
 }
@@ -7215,6 +7355,31 @@ func (u LedgerEntryData) GetData() (result DataEntry, ok bool) {
 	return
 }
 
+// MustDeferredPayment retrieves the DeferredPayment value from the union,
+// panicing if the value is not set.
+func (u LedgerEntryData) MustDeferredPayment() DeferredPaymentEntry {
+	val, ok := u.GetDeferredPayment()
+
+	if !ok {
+		panic("arm DeferredPayment is not set")
+	}
+
+	return val
+}
+
+// GetDeferredPayment retrieves the DeferredPayment value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u LedgerEntryData) GetDeferredPayment() (result DeferredPaymentEntry, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.Type))
+
+	if armName == "DeferredPayment" {
+		result = *u.DeferredPayment
+		ok = true
+	}
+
+	return
+}
+
 // LedgerEntryExt is an XDR NestedUnion defines as:
 //
 //   union switch (LedgerVersion v)
@@ -7325,6 +7490,8 @@ func NewLedgerEntryExt(v LedgerVersion, value interface{}) (result LedgerEntryEx
 //            SwapEntry swap;
 //        case DATA:
 //            DataEntry data;
+//        case DEFERRED_PAYMENT:
+//            DeferredPaymentEntry deferredPayment;
 //        }
 //        data;
 //
@@ -8976,6 +9143,19 @@ type LedgerKeyData struct {
 	Ext EmptyExt `json:"ext,omitempty"`
 }
 
+// LedgerKeyDeferredPayment is an XDR NestedStruct defines as:
+//
+//   struct {
+//            uint64 id;
+//
+//            EmptyExt ext;
+//        }
+//
+type LedgerKeyDeferredPayment struct {
+	Id  Uint64   `json:"id,omitempty"`
+	Ext EmptyExt `json:"ext,omitempty"`
+}
+
 // LedgerKey is an XDR Union defines as:
 //
 //   union LedgerKey switch (LedgerEntryType type)
@@ -9289,6 +9469,12 @@ type LedgerKeyData struct {
 //
 //            EmptyExt ext;
 //        } data;
+//    case DEFERRED_PAYMENT:
+//        struct {
+//            uint64 id;
+//
+//            EmptyExt ext;
+//        } deferredPayment;
 //    };
 //
 type LedgerKey struct {
@@ -9325,6 +9511,7 @@ type LedgerKey struct {
 	AccountSpecificRule              *LedgerKeyAccountSpecificRule              `json:"accountSpecificRule,omitempty"`
 	Swap                             *LedgerKeySwap                             `json:"swap,omitempty"`
 	Data                             *LedgerKeyData                             `json:"data,omitempty"`
+	DeferredPayment                  *LedgerKeyDeferredPayment                  `json:"deferredPayment,omitempty"`
 }
 
 // SwitchFieldName returns the field name in which this union's
@@ -9401,6 +9588,8 @@ func (u LedgerKey) ArmForSwitch(sw int32) (string, bool) {
 		return "Swap", true
 	case LedgerEntryTypeData:
 		return "Data", true
+	case LedgerEntryTypeDeferredPayment:
+		return "DeferredPayment", true
 	}
 	return "-", false
 }
@@ -9633,6 +9822,13 @@ func NewLedgerKey(aType LedgerEntryType, value interface{}) (result LedgerKey, e
 			return
 		}
 		result.Data = &tv
+	case LedgerEntryTypeDeferredPayment:
+		tv, ok := value.(LedgerKeyDeferredPayment)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be LedgerKeyDeferredPayment")
+			return
+		}
+		result.DeferredPayment = &tv
 	}
 	return
 }
@@ -10431,6 +10627,31 @@ func (u LedgerKey) GetData() (result LedgerKeyData, ok bool) {
 
 	if armName == "Data" {
 		result = *u.Data
+		ok = true
+	}
+
+	return
+}
+
+// MustDeferredPayment retrieves the DeferredPayment value from the union,
+// panicing if the value is not set.
+func (u LedgerKey) MustDeferredPayment() LedgerKeyDeferredPayment {
+	val, ok := u.GetDeferredPayment()
+
+	if !ok {
+		panic("arm DeferredPayment is not set")
+	}
+
+	return val
+}
+
+// GetDeferredPayment retrieves the DeferredPayment value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u LedgerKey) GetDeferredPayment() (result LedgerKeyDeferredPayment, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.Type))
+
+	if armName == "DeferredPayment" {
+		result = *u.DeferredPayment
 		ok = true
 	}
 
@@ -12663,6 +12884,297 @@ func (u CancelChangeRoleRequestResult) GetSuccess() (result CancelChangeRoleSucc
 	return
 }
 
+// CancelCloseDeferredPaymentRequestOpExt is an XDR NestedUnion defines as:
+//
+//   union switch (LedgerVersion v)
+//        {
+//        case EMPTY_VERSION:
+//            void;
+//        }
+//
+type CancelCloseDeferredPaymentRequestOpExt struct {
+	V LedgerVersion `json:"v,omitempty"`
+}
+
+// SwitchFieldName returns the field name in which this union's
+// discriminant is stored
+func (u CancelCloseDeferredPaymentRequestOpExt) SwitchFieldName() string {
+	return "V"
+}
+
+// ArmForSwitch returns which field name should be used for storing
+// the value for an instance of CancelCloseDeferredPaymentRequestOpExt
+func (u CancelCloseDeferredPaymentRequestOpExt) ArmForSwitch(sw int32) (string, bool) {
+	switch LedgerVersion(sw) {
+	case LedgerVersionEmptyVersion:
+		return "", true
+	}
+	return "-", false
+}
+
+// NewCancelCloseDeferredPaymentRequestOpExt creates a new  CancelCloseDeferredPaymentRequestOpExt.
+func NewCancelCloseDeferredPaymentRequestOpExt(v LedgerVersion, value interface{}) (result CancelCloseDeferredPaymentRequestOpExt, err error) {
+	result.V = v
+	switch LedgerVersion(v) {
+	case LedgerVersionEmptyVersion:
+		// void
+	}
+	return
+}
+
+// CancelCloseDeferredPaymentRequestOp is an XDR Struct defines as:
+//
+//   //: CancelCloseDeferredPaymentRequestOp is used to cancel existing deferred payment creation request
+//    struct CancelCloseDeferredPaymentRequestOp
+//    {
+//        //: id of existing request
+//        uint64 requestID;
+//
+//        //: reserved for future use
+//        union switch (LedgerVersion v)
+//        {
+//        case EMPTY_VERSION:
+//            void;
+//        } ext;
+//    };
+//
+type CancelCloseDeferredPaymentRequestOp struct {
+	RequestId Uint64                                 `json:"requestID,omitempty"`
+	Ext       CancelCloseDeferredPaymentRequestOpExt `json:"ext,omitempty"`
+}
+
+// CancelCloseDeferredPaymentRequestResultCode is an XDR Enum defines as:
+//
+//   //: Result codes of CancelCloseDeferredPaymentRequestOp
+//    enum CancelCloseDeferredPaymentRequestResultCode
+//    {
+//        //: Atomic swap ask was successfully removed or marked as canceled
+//        SUCCESS = 0,
+//
+//        // codes considered as "failure" for the operation
+//        NOT_FOUND = -1
+//    };
+//
+type CancelCloseDeferredPaymentRequestResultCode int32
+
+const (
+	CancelCloseDeferredPaymentRequestResultCodeSuccess  CancelCloseDeferredPaymentRequestResultCode = 0
+	CancelCloseDeferredPaymentRequestResultCodeNotFound CancelCloseDeferredPaymentRequestResultCode = -1
+)
+
+var CancelCloseDeferredPaymentRequestResultCodeAll = []CancelCloseDeferredPaymentRequestResultCode{
+	CancelCloseDeferredPaymentRequestResultCodeSuccess,
+	CancelCloseDeferredPaymentRequestResultCodeNotFound,
+}
+
+var cancelCloseDeferredPaymentRequestResultCodeMap = map[int32]string{
+	0:  "CancelCloseDeferredPaymentRequestResultCodeSuccess",
+	-1: "CancelCloseDeferredPaymentRequestResultCodeNotFound",
+}
+
+var cancelCloseDeferredPaymentRequestResultCodeShortMap = map[int32]string{
+	0:  "success",
+	-1: "not_found",
+}
+
+var cancelCloseDeferredPaymentRequestResultCodeRevMap = map[string]int32{
+	"CancelCloseDeferredPaymentRequestResultCodeSuccess":  0,
+	"CancelCloseDeferredPaymentRequestResultCodeNotFound": -1,
+}
+
+// ValidEnum validates a proposed value for this enum.  Implements
+// the Enum interface for CancelCloseDeferredPaymentRequestResultCode
+func (e CancelCloseDeferredPaymentRequestResultCode) ValidEnum(v int32) bool {
+	_, ok := cancelCloseDeferredPaymentRequestResultCodeMap[v]
+	return ok
+}
+func (e CancelCloseDeferredPaymentRequestResultCode) isFlag() bool {
+	for i := len(CancelCloseDeferredPaymentRequestResultCodeAll) - 1; i >= 0; i-- {
+		expected := CancelCloseDeferredPaymentRequestResultCode(2) << uint64(len(CancelCloseDeferredPaymentRequestResultCodeAll)-1) >> uint64(len(CancelCloseDeferredPaymentRequestResultCodeAll)-i)
+		if expected != CancelCloseDeferredPaymentRequestResultCodeAll[i] {
+			return false
+		}
+	}
+	return true
+}
+
+// String returns the name of `e`
+func (e CancelCloseDeferredPaymentRequestResultCode) String() string {
+	name, _ := cancelCloseDeferredPaymentRequestResultCodeMap[int32(e)]
+	return name
+}
+
+func (e CancelCloseDeferredPaymentRequestResultCode) ShortString() string {
+	name, _ := cancelCloseDeferredPaymentRequestResultCodeShortMap[int32(e)]
+	return name
+}
+
+func (e CancelCloseDeferredPaymentRequestResultCode) MarshalJSON() ([]byte, error) {
+	if e.isFlag() {
+		// marshal as mask
+		result := flag{
+			Value: int32(e),
+			Flags: make([]flagValue, 0),
+		}
+		for _, value := range CancelCloseDeferredPaymentRequestResultCodeAll {
+			if (value & e) == value {
+				result.Flags = append(result.Flags, flagValue{
+					Value: int32(value),
+					Name:  value.ShortString(),
+				})
+			}
+		}
+		return json.Marshal(&result)
+	} else {
+		// marshal as enum
+		result := enum{
+			Value:  int32(e),
+			String: e.ShortString(),
+		}
+		return json.Marshal(&result)
+	}
+}
+
+func (e *CancelCloseDeferredPaymentRequestResultCode) UnmarshalJSON(data []byte) error {
+	var t value
+	if err := json.Unmarshal(data, &t); err != nil {
+		return err
+	}
+	*e = CancelCloseDeferredPaymentRequestResultCode(t.Value)
+	return nil
+}
+
+// CancelCloseDeferredPaymentRequestResultSuccessExt is an XDR NestedUnion defines as:
+//
+//   union switch (LedgerVersion v)
+//        {
+//        case EMPTY_VERSION:
+//            void;
+//        }
+//
+type CancelCloseDeferredPaymentRequestResultSuccessExt struct {
+	V LedgerVersion `json:"v,omitempty"`
+}
+
+// SwitchFieldName returns the field name in which this union's
+// discriminant is stored
+func (u CancelCloseDeferredPaymentRequestResultSuccessExt) SwitchFieldName() string {
+	return "V"
+}
+
+// ArmForSwitch returns which field name should be used for storing
+// the value for an instance of CancelCloseDeferredPaymentRequestResultSuccessExt
+func (u CancelCloseDeferredPaymentRequestResultSuccessExt) ArmForSwitch(sw int32) (string, bool) {
+	switch LedgerVersion(sw) {
+	case LedgerVersionEmptyVersion:
+		return "", true
+	}
+	return "-", false
+}
+
+// NewCancelCloseDeferredPaymentRequestResultSuccessExt creates a new  CancelCloseDeferredPaymentRequestResultSuccessExt.
+func NewCancelCloseDeferredPaymentRequestResultSuccessExt(v LedgerVersion, value interface{}) (result CancelCloseDeferredPaymentRequestResultSuccessExt, err error) {
+	result.V = v
+	switch LedgerVersion(v) {
+	case LedgerVersionEmptyVersion:
+		// void
+	}
+	return
+}
+
+// CancelCloseDeferredPaymentRequestResultSuccess is an XDR Struct defines as:
+//
+//   //: Success result of CancelCloseDeferredPaymentRequestOp application
+//    struct CancelCloseDeferredPaymentRequestResultSuccess
+//    {
+//        //: reserved for the future use
+//        union switch (LedgerVersion v)
+//        {
+//        case EMPTY_VERSION:
+//            void;
+//        } ext;
+//    };
+//
+type CancelCloseDeferredPaymentRequestResultSuccess struct {
+	Ext CancelCloseDeferredPaymentRequestResultSuccessExt `json:"ext,omitempty"`
+}
+
+// CancelCloseDeferredPaymentRequestResult is an XDR Union defines as:
+//
+//   //: Result of CancelCloseDeferredPaymentRequestOp application
+//    union CancelCloseDeferredPaymentRequestResult switch (CancelCloseDeferredPaymentRequestResultCode code)
+//    {
+//    case SUCCESS:
+//        //: is used to pass useful fields after successful operation applying
+//        CancelCloseDeferredPaymentRequestResultSuccess success;
+//    default:
+//        void;
+//    };
+//
+type CancelCloseDeferredPaymentRequestResult struct {
+	Code    CancelCloseDeferredPaymentRequestResultCode     `json:"code,omitempty"`
+	Success *CancelCloseDeferredPaymentRequestResultSuccess `json:"success,omitempty"`
+}
+
+// SwitchFieldName returns the field name in which this union's
+// discriminant is stored
+func (u CancelCloseDeferredPaymentRequestResult) SwitchFieldName() string {
+	return "Code"
+}
+
+// ArmForSwitch returns which field name should be used for storing
+// the value for an instance of CancelCloseDeferredPaymentRequestResult
+func (u CancelCloseDeferredPaymentRequestResult) ArmForSwitch(sw int32) (string, bool) {
+	switch CancelCloseDeferredPaymentRequestResultCode(sw) {
+	case CancelCloseDeferredPaymentRequestResultCodeSuccess:
+		return "Success", true
+	default:
+		return "", true
+	}
+}
+
+// NewCancelCloseDeferredPaymentRequestResult creates a new  CancelCloseDeferredPaymentRequestResult.
+func NewCancelCloseDeferredPaymentRequestResult(code CancelCloseDeferredPaymentRequestResultCode, value interface{}) (result CancelCloseDeferredPaymentRequestResult, err error) {
+	result.Code = code
+	switch CancelCloseDeferredPaymentRequestResultCode(code) {
+	case CancelCloseDeferredPaymentRequestResultCodeSuccess:
+		tv, ok := value.(CancelCloseDeferredPaymentRequestResultSuccess)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be CancelCloseDeferredPaymentRequestResultSuccess")
+			return
+		}
+		result.Success = &tv
+	default:
+		// void
+	}
+	return
+}
+
+// MustSuccess retrieves the Success value from the union,
+// panicing if the value is not set.
+func (u CancelCloseDeferredPaymentRequestResult) MustSuccess() CancelCloseDeferredPaymentRequestResultSuccess {
+	val, ok := u.GetSuccess()
+
+	if !ok {
+		panic("arm Success is not set")
+	}
+
+	return val
+}
+
+// GetSuccess retrieves the Success value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u CancelCloseDeferredPaymentRequestResult) GetSuccess() (result CancelCloseDeferredPaymentRequestResultSuccess, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.Code))
+
+	if armName == "Success" {
+		result = *u.Success
+		ok = true
+	}
+
+	return
+}
+
 // CancelDataCreationRequestOpExt is an XDR NestedUnion defines as:
 //
 //   union switch (LedgerVersion v)
@@ -13562,6 +14074,310 @@ func (u CancelDataUpdateRequestResult) MustSuccess() CancelDataUpdateSuccess {
 // GetSuccess retrieves the Success value from the union,
 // returning ok if the union's switch indicated the value is valid.
 func (u CancelDataUpdateRequestResult) GetSuccess() (result CancelDataUpdateSuccess, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.Code))
+
+	if armName == "Success" {
+		result = *u.Success
+		ok = true
+	}
+
+	return
+}
+
+// CancelDeferredPaymentCreationRequestOpExt is an XDR NestedUnion defines as:
+//
+//   union switch (LedgerVersion v)
+//        {
+//        case EMPTY_VERSION:
+//            void;
+//        }
+//
+type CancelDeferredPaymentCreationRequestOpExt struct {
+	V LedgerVersion `json:"v,omitempty"`
+}
+
+// SwitchFieldName returns the field name in which this union's
+// discriminant is stored
+func (u CancelDeferredPaymentCreationRequestOpExt) SwitchFieldName() string {
+	return "V"
+}
+
+// ArmForSwitch returns which field name should be used for storing
+// the value for an instance of CancelDeferredPaymentCreationRequestOpExt
+func (u CancelDeferredPaymentCreationRequestOpExt) ArmForSwitch(sw int32) (string, bool) {
+	switch LedgerVersion(sw) {
+	case LedgerVersionEmptyVersion:
+		return "", true
+	}
+	return "-", false
+}
+
+// NewCancelDeferredPaymentCreationRequestOpExt creates a new  CancelDeferredPaymentCreationRequestOpExt.
+func NewCancelDeferredPaymentCreationRequestOpExt(v LedgerVersion, value interface{}) (result CancelDeferredPaymentCreationRequestOpExt, err error) {
+	result.V = v
+	switch LedgerVersion(v) {
+	case LedgerVersionEmptyVersion:
+		// void
+	}
+	return
+}
+
+// CancelDeferredPaymentCreationRequestOp is an XDR Struct defines as:
+//
+//   //: CancelDeferredPaymentCreationRequestOp is used to cancel existing deferred payment creation request
+//    struct CancelDeferredPaymentCreationRequestOp
+//    {
+//        //: id of existing request
+//        uint64 requestID;
+//
+//        //: reserved for future use
+//        union switch (LedgerVersion v)
+//        {
+//        case EMPTY_VERSION:
+//            void;
+//        } ext;
+//    };
+//
+type CancelDeferredPaymentCreationRequestOp struct {
+	RequestId Uint64                                    `json:"requestID,omitempty"`
+	Ext       CancelDeferredPaymentCreationRequestOpExt `json:"ext,omitempty"`
+}
+
+// CancelDeferredPaymentCreationRequestResultCode is an XDR Enum defines as:
+//
+//   //: Result codes of CancelDeferredPaymentCreationRequestOp
+//    enum CancelDeferredPaymentCreationRequestResultCode
+//    {
+//        //: Atomic swap ask was successfully removed or marked as canceled
+//        SUCCESS = 0,
+//
+//        // codes considered as "failure" for the operation
+//        //: There is no atomic swap ask with such id
+//        NOT_FOUND = -1, // request does not exist
+//        REQUEST_ID_INVALID = -2,
+//        LINE_FULL = -3
+//    };
+//
+type CancelDeferredPaymentCreationRequestResultCode int32
+
+const (
+	CancelDeferredPaymentCreationRequestResultCodeSuccess          CancelDeferredPaymentCreationRequestResultCode = 0
+	CancelDeferredPaymentCreationRequestResultCodeNotFound         CancelDeferredPaymentCreationRequestResultCode = -1
+	CancelDeferredPaymentCreationRequestResultCodeRequestIdInvalid CancelDeferredPaymentCreationRequestResultCode = -2
+	CancelDeferredPaymentCreationRequestResultCodeLineFull         CancelDeferredPaymentCreationRequestResultCode = -3
+)
+
+var CancelDeferredPaymentCreationRequestResultCodeAll = []CancelDeferredPaymentCreationRequestResultCode{
+	CancelDeferredPaymentCreationRequestResultCodeSuccess,
+	CancelDeferredPaymentCreationRequestResultCodeNotFound,
+	CancelDeferredPaymentCreationRequestResultCodeRequestIdInvalid,
+	CancelDeferredPaymentCreationRequestResultCodeLineFull,
+}
+
+var cancelDeferredPaymentCreationRequestResultCodeMap = map[int32]string{
+	0:  "CancelDeferredPaymentCreationRequestResultCodeSuccess",
+	-1: "CancelDeferredPaymentCreationRequestResultCodeNotFound",
+	-2: "CancelDeferredPaymentCreationRequestResultCodeRequestIdInvalid",
+	-3: "CancelDeferredPaymentCreationRequestResultCodeLineFull",
+}
+
+var cancelDeferredPaymentCreationRequestResultCodeShortMap = map[int32]string{
+	0:  "success",
+	-1: "not_found",
+	-2: "request_id_invalid",
+	-3: "line_full",
+}
+
+var cancelDeferredPaymentCreationRequestResultCodeRevMap = map[string]int32{
+	"CancelDeferredPaymentCreationRequestResultCodeSuccess":          0,
+	"CancelDeferredPaymentCreationRequestResultCodeNotFound":         -1,
+	"CancelDeferredPaymentCreationRequestResultCodeRequestIdInvalid": -2,
+	"CancelDeferredPaymentCreationRequestResultCodeLineFull":         -3,
+}
+
+// ValidEnum validates a proposed value for this enum.  Implements
+// the Enum interface for CancelDeferredPaymentCreationRequestResultCode
+func (e CancelDeferredPaymentCreationRequestResultCode) ValidEnum(v int32) bool {
+	_, ok := cancelDeferredPaymentCreationRequestResultCodeMap[v]
+	return ok
+}
+func (e CancelDeferredPaymentCreationRequestResultCode) isFlag() bool {
+	for i := len(CancelDeferredPaymentCreationRequestResultCodeAll) - 1; i >= 0; i-- {
+		expected := CancelDeferredPaymentCreationRequestResultCode(2) << uint64(len(CancelDeferredPaymentCreationRequestResultCodeAll)-1) >> uint64(len(CancelDeferredPaymentCreationRequestResultCodeAll)-i)
+		if expected != CancelDeferredPaymentCreationRequestResultCodeAll[i] {
+			return false
+		}
+	}
+	return true
+}
+
+// String returns the name of `e`
+func (e CancelDeferredPaymentCreationRequestResultCode) String() string {
+	name, _ := cancelDeferredPaymentCreationRequestResultCodeMap[int32(e)]
+	return name
+}
+
+func (e CancelDeferredPaymentCreationRequestResultCode) ShortString() string {
+	name, _ := cancelDeferredPaymentCreationRequestResultCodeShortMap[int32(e)]
+	return name
+}
+
+func (e CancelDeferredPaymentCreationRequestResultCode) MarshalJSON() ([]byte, error) {
+	if e.isFlag() {
+		// marshal as mask
+		result := flag{
+			Value: int32(e),
+			Flags: make([]flagValue, 0),
+		}
+		for _, value := range CancelDeferredPaymentCreationRequestResultCodeAll {
+			if (value & e) == value {
+				result.Flags = append(result.Flags, flagValue{
+					Value: int32(value),
+					Name:  value.ShortString(),
+				})
+			}
+		}
+		return json.Marshal(&result)
+	} else {
+		// marshal as enum
+		result := enum{
+			Value:  int32(e),
+			String: e.ShortString(),
+		}
+		return json.Marshal(&result)
+	}
+}
+
+func (e *CancelDeferredPaymentCreationRequestResultCode) UnmarshalJSON(data []byte) error {
+	var t value
+	if err := json.Unmarshal(data, &t); err != nil {
+		return err
+	}
+	*e = CancelDeferredPaymentCreationRequestResultCode(t.Value)
+	return nil
+}
+
+// CancelDeferredPaymentCreationRequestResultSuccessExt is an XDR NestedUnion defines as:
+//
+//   union switch (LedgerVersion v)
+//        {
+//        case EMPTY_VERSION:
+//            void;
+//        }
+//
+type CancelDeferredPaymentCreationRequestResultSuccessExt struct {
+	V LedgerVersion `json:"v,omitempty"`
+}
+
+// SwitchFieldName returns the field name in which this union's
+// discriminant is stored
+func (u CancelDeferredPaymentCreationRequestResultSuccessExt) SwitchFieldName() string {
+	return "V"
+}
+
+// ArmForSwitch returns which field name should be used for storing
+// the value for an instance of CancelDeferredPaymentCreationRequestResultSuccessExt
+func (u CancelDeferredPaymentCreationRequestResultSuccessExt) ArmForSwitch(sw int32) (string, bool) {
+	switch LedgerVersion(sw) {
+	case LedgerVersionEmptyVersion:
+		return "", true
+	}
+	return "-", false
+}
+
+// NewCancelDeferredPaymentCreationRequestResultSuccessExt creates a new  CancelDeferredPaymentCreationRequestResultSuccessExt.
+func NewCancelDeferredPaymentCreationRequestResultSuccessExt(v LedgerVersion, value interface{}) (result CancelDeferredPaymentCreationRequestResultSuccessExt, err error) {
+	result.V = v
+	switch LedgerVersion(v) {
+	case LedgerVersionEmptyVersion:
+		// void
+	}
+	return
+}
+
+// CancelDeferredPaymentCreationRequestResultSuccess is an XDR Struct defines as:
+//
+//   //: Success result of CancelDeferredPaymentCreationRequestOp application
+//    struct CancelDeferredPaymentCreationRequestResultSuccess
+//    {
+//        //: reserved for the future use
+//        union switch (LedgerVersion v)
+//        {
+//        case EMPTY_VERSION:
+//            void;
+//        } ext;
+//    };
+//
+type CancelDeferredPaymentCreationRequestResultSuccess struct {
+	Ext CancelDeferredPaymentCreationRequestResultSuccessExt `json:"ext,omitempty"`
+}
+
+// CancelDeferredPaymentCreationRequestResult is an XDR Union defines as:
+//
+//   //: Result of CancelDeferredPaymentCreationRequestOp application
+//    union CancelDeferredPaymentCreationRequestResult switch (CancelDeferredPaymentCreationRequestResultCode code)
+//    {
+//    case SUCCESS:
+//        //: is used to pass useful fields after successful operation applying
+//        CancelDeferredPaymentCreationRequestResultSuccess success;
+//    default:
+//        void;
+//    };
+//
+type CancelDeferredPaymentCreationRequestResult struct {
+	Code    CancelDeferredPaymentCreationRequestResultCode     `json:"code,omitempty"`
+	Success *CancelDeferredPaymentCreationRequestResultSuccess `json:"success,omitempty"`
+}
+
+// SwitchFieldName returns the field name in which this union's
+// discriminant is stored
+func (u CancelDeferredPaymentCreationRequestResult) SwitchFieldName() string {
+	return "Code"
+}
+
+// ArmForSwitch returns which field name should be used for storing
+// the value for an instance of CancelDeferredPaymentCreationRequestResult
+func (u CancelDeferredPaymentCreationRequestResult) ArmForSwitch(sw int32) (string, bool) {
+	switch CancelDeferredPaymentCreationRequestResultCode(sw) {
+	case CancelDeferredPaymentCreationRequestResultCodeSuccess:
+		return "Success", true
+	default:
+		return "", true
+	}
+}
+
+// NewCancelDeferredPaymentCreationRequestResult creates a new  CancelDeferredPaymentCreationRequestResult.
+func NewCancelDeferredPaymentCreationRequestResult(code CancelDeferredPaymentCreationRequestResultCode, value interface{}) (result CancelDeferredPaymentCreationRequestResult, err error) {
+	result.Code = code
+	switch CancelDeferredPaymentCreationRequestResultCode(code) {
+	case CancelDeferredPaymentCreationRequestResultCodeSuccess:
+		tv, ok := value.(CancelDeferredPaymentCreationRequestResultSuccess)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be CancelDeferredPaymentCreationRequestResultSuccess")
+			return
+		}
+		result.Success = &tv
+	default:
+		// void
+	}
+	return
+}
+
+// MustSuccess retrieves the Success value from the union,
+// panicing if the value is not set.
+func (u CancelDeferredPaymentCreationRequestResult) MustSuccess() CancelDeferredPaymentCreationRequestResultSuccess {
+	val, ok := u.GetSuccess()
+
+	if !ok {
+		panic("arm Success is not set")
+	}
+
+	return val
+}
+
+// GetSuccess retrieves the Success value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u CancelDeferredPaymentCreationRequestResult) GetSuccess() (result CancelDeferredPaymentCreationRequestResultSuccess, ok bool) {
 	armName, _ := u.ArmForSwitch(int32(u.Code))
 
 	if armName == "Success" {
@@ -16924,6 +17740,493 @@ func (u CreateChangeRoleRequestResult) GetSuccess() (result CreateChangeRoleRequ
 	return
 }
 
+// CreateCloseDeferredPaymentRequestOpExt is an XDR NestedUnion defines as:
+//
+//   union switch (LedgerVersion v)
+//        {
+//        case EMPTY_VERSION:
+//            void;
+//        }
+//
+type CreateCloseDeferredPaymentRequestOpExt struct {
+	V LedgerVersion `json:"v,omitempty"`
+}
+
+// SwitchFieldName returns the field name in which this union's
+// discriminant is stored
+func (u CreateCloseDeferredPaymentRequestOpExt) SwitchFieldName() string {
+	return "V"
+}
+
+// ArmForSwitch returns which field name should be used for storing
+// the value for an instance of CreateCloseDeferredPaymentRequestOpExt
+func (u CreateCloseDeferredPaymentRequestOpExt) ArmForSwitch(sw int32) (string, bool) {
+	switch LedgerVersion(sw) {
+	case LedgerVersionEmptyVersion:
+		return "", true
+	}
+	return "-", false
+}
+
+// NewCreateCloseDeferredPaymentRequestOpExt creates a new  CreateCloseDeferredPaymentRequestOpExt.
+func NewCreateCloseDeferredPaymentRequestOpExt(v LedgerVersion, value interface{}) (result CreateCloseDeferredPaymentRequestOpExt, err error) {
+	result.V = v
+	switch LedgerVersion(v) {
+	case LedgerVersionEmptyVersion:
+		// void
+	}
+	return
+}
+
+// CreateCloseDeferredPaymentRequestOp is an XDR Struct defines as:
+//
+//   //: CreateCloseDeferredPaymentRequestOp is used to create `CLOSE_DEFERRED_PAYMENT` request
+//    struct CreateCloseDeferredPaymentRequestOp
+//    {
+//
+//        uint64 requestID;
+//
+//        //: Body of request which will be created
+//        CloseDeferredPaymentRequest request;
+//
+//        uint32* allTasks;
+//        //: reserved for the future use
+//        union switch (LedgerVersion v)
+//        {
+//        case EMPTY_VERSION:
+//            void;
+//        }
+//        ext;
+//    };
+//
+type CreateCloseDeferredPaymentRequestOp struct {
+	RequestId Uint64                                 `json:"requestID,omitempty"`
+	Request   CloseDeferredPaymentRequest            `json:"request,omitempty"`
+	AllTasks  *Uint32                                `json:"allTasks,omitempty"`
+	Ext       CreateCloseDeferredPaymentRequestOpExt `json:"ext,omitempty"`
+}
+
+// CreateCloseDeferredPaymentRequestResultCode is an XDR Enum defines as:
+//
+//   //: Result codes of CreateAtomicSwapBidRequestOp
+//    enum CreateCloseDeferredPaymentRequestResultCode
+//    {
+//        //: `CLOSE_DEFERRED_PAYMENT` request has either been successfully created
+//        //: or auto approved
+//        SUCCESS = 0,
+//
+//        UNDERFUNDED = -1,
+//        INVALID_CREATOR_DETAILS = -2,
+//        NOT_AUTHORIZED = -3,
+//        DESTINATION_ACCOUNT_NOT_FOUND = -4,
+//        INCORRECT_PRECISION = -5,
+//        ASSET_MISMATCH = -6,
+//        LINE_FULL = -7,
+//        TASKS_NOT_FOUND = -8,
+//        INVALID_AMOUNT = -9,
+//        DESTINATION_BALANCE_NOT_FOUND = -10,
+//        REQUEST_NOT_FOUND = -11
+//    };
+//
+type CreateCloseDeferredPaymentRequestResultCode int32
+
+const (
+	CreateCloseDeferredPaymentRequestResultCodeSuccess                    CreateCloseDeferredPaymentRequestResultCode = 0
+	CreateCloseDeferredPaymentRequestResultCodeUnderfunded                CreateCloseDeferredPaymentRequestResultCode = -1
+	CreateCloseDeferredPaymentRequestResultCodeInvalidCreatorDetails      CreateCloseDeferredPaymentRequestResultCode = -2
+	CreateCloseDeferredPaymentRequestResultCodeNotAuthorized              CreateCloseDeferredPaymentRequestResultCode = -3
+	CreateCloseDeferredPaymentRequestResultCodeDestinationAccountNotFound CreateCloseDeferredPaymentRequestResultCode = -4
+	CreateCloseDeferredPaymentRequestResultCodeIncorrectPrecision         CreateCloseDeferredPaymentRequestResultCode = -5
+	CreateCloseDeferredPaymentRequestResultCodeAssetMismatch              CreateCloseDeferredPaymentRequestResultCode = -6
+	CreateCloseDeferredPaymentRequestResultCodeLineFull                   CreateCloseDeferredPaymentRequestResultCode = -7
+	CreateCloseDeferredPaymentRequestResultCodeTasksNotFound              CreateCloseDeferredPaymentRequestResultCode = -8
+	CreateCloseDeferredPaymentRequestResultCodeInvalidAmount              CreateCloseDeferredPaymentRequestResultCode = -9
+	CreateCloseDeferredPaymentRequestResultCodeDestinationBalanceNotFound CreateCloseDeferredPaymentRequestResultCode = -10
+	CreateCloseDeferredPaymentRequestResultCodeRequestNotFound            CreateCloseDeferredPaymentRequestResultCode = -11
+)
+
+var CreateCloseDeferredPaymentRequestResultCodeAll = []CreateCloseDeferredPaymentRequestResultCode{
+	CreateCloseDeferredPaymentRequestResultCodeSuccess,
+	CreateCloseDeferredPaymentRequestResultCodeUnderfunded,
+	CreateCloseDeferredPaymentRequestResultCodeInvalidCreatorDetails,
+	CreateCloseDeferredPaymentRequestResultCodeNotAuthorized,
+	CreateCloseDeferredPaymentRequestResultCodeDestinationAccountNotFound,
+	CreateCloseDeferredPaymentRequestResultCodeIncorrectPrecision,
+	CreateCloseDeferredPaymentRequestResultCodeAssetMismatch,
+	CreateCloseDeferredPaymentRequestResultCodeLineFull,
+	CreateCloseDeferredPaymentRequestResultCodeTasksNotFound,
+	CreateCloseDeferredPaymentRequestResultCodeInvalidAmount,
+	CreateCloseDeferredPaymentRequestResultCodeDestinationBalanceNotFound,
+	CreateCloseDeferredPaymentRequestResultCodeRequestNotFound,
+}
+
+var createCloseDeferredPaymentRequestResultCodeMap = map[int32]string{
+	0:   "CreateCloseDeferredPaymentRequestResultCodeSuccess",
+	-1:  "CreateCloseDeferredPaymentRequestResultCodeUnderfunded",
+	-2:  "CreateCloseDeferredPaymentRequestResultCodeInvalidCreatorDetails",
+	-3:  "CreateCloseDeferredPaymentRequestResultCodeNotAuthorized",
+	-4:  "CreateCloseDeferredPaymentRequestResultCodeDestinationAccountNotFound",
+	-5:  "CreateCloseDeferredPaymentRequestResultCodeIncorrectPrecision",
+	-6:  "CreateCloseDeferredPaymentRequestResultCodeAssetMismatch",
+	-7:  "CreateCloseDeferredPaymentRequestResultCodeLineFull",
+	-8:  "CreateCloseDeferredPaymentRequestResultCodeTasksNotFound",
+	-9:  "CreateCloseDeferredPaymentRequestResultCodeInvalidAmount",
+	-10: "CreateCloseDeferredPaymentRequestResultCodeDestinationBalanceNotFound",
+	-11: "CreateCloseDeferredPaymentRequestResultCodeRequestNotFound",
+}
+
+var createCloseDeferredPaymentRequestResultCodeShortMap = map[int32]string{
+	0:   "success",
+	-1:  "underfunded",
+	-2:  "invalid_creator_details",
+	-3:  "not_authorized",
+	-4:  "destination_account_not_found",
+	-5:  "incorrect_precision",
+	-6:  "asset_mismatch",
+	-7:  "line_full",
+	-8:  "tasks_not_found",
+	-9:  "invalid_amount",
+	-10: "destination_balance_not_found",
+	-11: "request_not_found",
+}
+
+var createCloseDeferredPaymentRequestResultCodeRevMap = map[string]int32{
+	"CreateCloseDeferredPaymentRequestResultCodeSuccess":                    0,
+	"CreateCloseDeferredPaymentRequestResultCodeUnderfunded":                -1,
+	"CreateCloseDeferredPaymentRequestResultCodeInvalidCreatorDetails":      -2,
+	"CreateCloseDeferredPaymentRequestResultCodeNotAuthorized":              -3,
+	"CreateCloseDeferredPaymentRequestResultCodeDestinationAccountNotFound": -4,
+	"CreateCloseDeferredPaymentRequestResultCodeIncorrectPrecision":         -5,
+	"CreateCloseDeferredPaymentRequestResultCodeAssetMismatch":              -6,
+	"CreateCloseDeferredPaymentRequestResultCodeLineFull":                   -7,
+	"CreateCloseDeferredPaymentRequestResultCodeTasksNotFound":              -8,
+	"CreateCloseDeferredPaymentRequestResultCodeInvalidAmount":              -9,
+	"CreateCloseDeferredPaymentRequestResultCodeDestinationBalanceNotFound": -10,
+	"CreateCloseDeferredPaymentRequestResultCodeRequestNotFound":            -11,
+}
+
+// ValidEnum validates a proposed value for this enum.  Implements
+// the Enum interface for CreateCloseDeferredPaymentRequestResultCode
+func (e CreateCloseDeferredPaymentRequestResultCode) ValidEnum(v int32) bool {
+	_, ok := createCloseDeferredPaymentRequestResultCodeMap[v]
+	return ok
+}
+func (e CreateCloseDeferredPaymentRequestResultCode) isFlag() bool {
+	for i := len(CreateCloseDeferredPaymentRequestResultCodeAll) - 1; i >= 0; i-- {
+		expected := CreateCloseDeferredPaymentRequestResultCode(2) << uint64(len(CreateCloseDeferredPaymentRequestResultCodeAll)-1) >> uint64(len(CreateCloseDeferredPaymentRequestResultCodeAll)-i)
+		if expected != CreateCloseDeferredPaymentRequestResultCodeAll[i] {
+			return false
+		}
+	}
+	return true
+}
+
+// String returns the name of `e`
+func (e CreateCloseDeferredPaymentRequestResultCode) String() string {
+	name, _ := createCloseDeferredPaymentRequestResultCodeMap[int32(e)]
+	return name
+}
+
+func (e CreateCloseDeferredPaymentRequestResultCode) ShortString() string {
+	name, _ := createCloseDeferredPaymentRequestResultCodeShortMap[int32(e)]
+	return name
+}
+
+func (e CreateCloseDeferredPaymentRequestResultCode) MarshalJSON() ([]byte, error) {
+	if e.isFlag() {
+		// marshal as mask
+		result := flag{
+			Value: int32(e),
+			Flags: make([]flagValue, 0),
+		}
+		for _, value := range CreateCloseDeferredPaymentRequestResultCodeAll {
+			if (value & e) == value {
+				result.Flags = append(result.Flags, flagValue{
+					Value: int32(value),
+					Name:  value.ShortString(),
+				})
+			}
+		}
+		return json.Marshal(&result)
+	} else {
+		// marshal as enum
+		result := enum{
+			Value:  int32(e),
+			String: e.ShortString(),
+		}
+		return json.Marshal(&result)
+	}
+}
+
+func (e *CreateCloseDeferredPaymentRequestResultCode) UnmarshalJSON(data []byte) error {
+	var t value
+	if err := json.Unmarshal(data, &t); err != nil {
+		return err
+	}
+	*e = CreateCloseDeferredPaymentRequestResultCode(t.Value)
+	return nil
+}
+
+// CloseDeferredPaymentEffect is an XDR Enum defines as:
+//
+//   enum CloseDeferredPaymentEffect
+//    {
+//        CHARGED = 0,
+//        DELETED = 1
+//    };
+//
+type CloseDeferredPaymentEffect int32
+
+const (
+	CloseDeferredPaymentEffectCharged CloseDeferredPaymentEffect = 0
+	CloseDeferredPaymentEffectDeleted CloseDeferredPaymentEffect = 1
+)
+
+var CloseDeferredPaymentEffectAll = []CloseDeferredPaymentEffect{
+	CloseDeferredPaymentEffectCharged,
+	CloseDeferredPaymentEffectDeleted,
+}
+
+var closeDeferredPaymentEffectMap = map[int32]string{
+	0: "CloseDeferredPaymentEffectCharged",
+	1: "CloseDeferredPaymentEffectDeleted",
+}
+
+var closeDeferredPaymentEffectShortMap = map[int32]string{
+	0: "charged",
+	1: "deleted",
+}
+
+var closeDeferredPaymentEffectRevMap = map[string]int32{
+	"CloseDeferredPaymentEffectCharged": 0,
+	"CloseDeferredPaymentEffectDeleted": 1,
+}
+
+// ValidEnum validates a proposed value for this enum.  Implements
+// the Enum interface for CloseDeferredPaymentEffect
+func (e CloseDeferredPaymentEffect) ValidEnum(v int32) bool {
+	_, ok := closeDeferredPaymentEffectMap[v]
+	return ok
+}
+func (e CloseDeferredPaymentEffect) isFlag() bool {
+	for i := len(CloseDeferredPaymentEffectAll) - 1; i >= 0; i-- {
+		expected := CloseDeferredPaymentEffect(2) << uint64(len(CloseDeferredPaymentEffectAll)-1) >> uint64(len(CloseDeferredPaymentEffectAll)-i)
+		if expected != CloseDeferredPaymentEffectAll[i] {
+			return false
+		}
+	}
+	return true
+}
+
+// String returns the name of `e`
+func (e CloseDeferredPaymentEffect) String() string {
+	name, _ := closeDeferredPaymentEffectMap[int32(e)]
+	return name
+}
+
+func (e CloseDeferredPaymentEffect) ShortString() string {
+	name, _ := closeDeferredPaymentEffectShortMap[int32(e)]
+	return name
+}
+
+func (e CloseDeferredPaymentEffect) MarshalJSON() ([]byte, error) {
+	if e.isFlag() {
+		// marshal as mask
+		result := flag{
+			Value: int32(e),
+			Flags: make([]flagValue, 0),
+		}
+		for _, value := range CloseDeferredPaymentEffectAll {
+			if (value & e) == value {
+				result.Flags = append(result.Flags, flagValue{
+					Value: int32(value),
+					Name:  value.ShortString(),
+				})
+			}
+		}
+		return json.Marshal(&result)
+	} else {
+		// marshal as enum
+		result := enum{
+			Value:  int32(e),
+			String: e.ShortString(),
+		}
+		return json.Marshal(&result)
+	}
+}
+
+func (e *CloseDeferredPaymentEffect) UnmarshalJSON(data []byte) error {
+	var t value
+	if err := json.Unmarshal(data, &t); err != nil {
+		return err
+	}
+	*e = CloseDeferredPaymentEffect(t.Value)
+	return nil
+}
+
+// CloseDeferredPaymentResult is an XDR Struct defines as:
+//
+//   struct CloseDeferredPaymentResult
+//    {
+//        uint64 deferredPaymentID;
+//
+//        AccountID destination;
+//        BalanceID destinationBalance;
+//
+//        CloseDeferredPaymentEffect effect;
+//
+//        EmptyExt ext;
+//    };
+//
+type CloseDeferredPaymentResult struct {
+	DeferredPaymentId  Uint64                     `json:"deferredPaymentID,omitempty"`
+	Destination        AccountId                  `json:"destination,omitempty"`
+	DestinationBalance BalanceId                  `json:"destinationBalance,omitempty"`
+	Effect             CloseDeferredPaymentEffect `json:"effect,omitempty"`
+	Ext                EmptyExt                   `json:"ext,omitempty"`
+}
+
+// CreateCloseDeferredPaymentRequestSuccessExt is an XDR NestedUnion defines as:
+//
+//   union switch (LedgerVersion v)
+//        {
+//        case EMPTY_VERSION:
+//            void;
+//        }
+//
+type CreateCloseDeferredPaymentRequestSuccessExt struct {
+	V LedgerVersion `json:"v,omitempty"`
+}
+
+// SwitchFieldName returns the field name in which this union's
+// discriminant is stored
+func (u CreateCloseDeferredPaymentRequestSuccessExt) SwitchFieldName() string {
+	return "V"
+}
+
+// ArmForSwitch returns which field name should be used for storing
+// the value for an instance of CreateCloseDeferredPaymentRequestSuccessExt
+func (u CreateCloseDeferredPaymentRequestSuccessExt) ArmForSwitch(sw int32) (string, bool) {
+	switch LedgerVersion(sw) {
+	case LedgerVersionEmptyVersion:
+		return "", true
+	}
+	return "-", false
+}
+
+// NewCreateCloseDeferredPaymentRequestSuccessExt creates a new  CreateCloseDeferredPaymentRequestSuccessExt.
+func NewCreateCloseDeferredPaymentRequestSuccessExt(v LedgerVersion, value interface{}) (result CreateCloseDeferredPaymentRequestSuccessExt, err error) {
+	result.V = v
+	switch LedgerVersion(v) {
+	case LedgerVersionEmptyVersion:
+		// void
+	}
+	return
+}
+
+// CreateCloseDeferredPaymentRequestSuccess is an XDR Struct defines as:
+//
+//   //: Success result of CreateASwapAskCreationRequestOp application
+//    struct CreateCloseDeferredPaymentRequestSuccess
+//    {
+//        uint64 requestID;
+//        bool fulfilled;
+//        uint64 deferredPaymentID;
+//
+//        CloseDeferredPaymentResult* extendedResult;
+//
+//        //: reserved for the future use
+//        union switch (LedgerVersion v)
+//        {
+//        case EMPTY_VERSION:
+//            void;
+//        } ext;
+//    };
+//
+type CreateCloseDeferredPaymentRequestSuccess struct {
+	RequestId         Uint64                                      `json:"requestID,omitempty"`
+	Fulfilled         bool                                        `json:"fulfilled,omitempty"`
+	DeferredPaymentId Uint64                                      `json:"deferredPaymentID,omitempty"`
+	ExtendedResult    *CloseDeferredPaymentResult                 `json:"extendedResult,omitempty"`
+	Ext               CreateCloseDeferredPaymentRequestSuccessExt `json:"ext,omitempty"`
+}
+
+// CreateCloseDeferredPaymentRequestResult is an XDR Union defines as:
+//
+//   //: Result of CreateCloseDeferredPaymentRequestOp application
+//    union CreateCloseDeferredPaymentRequestResult switch (CreateCloseDeferredPaymentRequestResultCode code)
+//    {
+//    case SUCCESS:
+//        //: is used to pass useful fields after successful operation applying
+//        CreateCloseDeferredPaymentRequestSuccess success;
+//    default:
+//        void;
+//    };
+//
+type CreateCloseDeferredPaymentRequestResult struct {
+	Code    CreateCloseDeferredPaymentRequestResultCode `json:"code,omitempty"`
+	Success *CreateCloseDeferredPaymentRequestSuccess   `json:"success,omitempty"`
+}
+
+// SwitchFieldName returns the field name in which this union's
+// discriminant is stored
+func (u CreateCloseDeferredPaymentRequestResult) SwitchFieldName() string {
+	return "Code"
+}
+
+// ArmForSwitch returns which field name should be used for storing
+// the value for an instance of CreateCloseDeferredPaymentRequestResult
+func (u CreateCloseDeferredPaymentRequestResult) ArmForSwitch(sw int32) (string, bool) {
+	switch CreateCloseDeferredPaymentRequestResultCode(sw) {
+	case CreateCloseDeferredPaymentRequestResultCodeSuccess:
+		return "Success", true
+	default:
+		return "", true
+	}
+}
+
+// NewCreateCloseDeferredPaymentRequestResult creates a new  CreateCloseDeferredPaymentRequestResult.
+func NewCreateCloseDeferredPaymentRequestResult(code CreateCloseDeferredPaymentRequestResultCode, value interface{}) (result CreateCloseDeferredPaymentRequestResult, err error) {
+	result.Code = code
+	switch CreateCloseDeferredPaymentRequestResultCode(code) {
+	case CreateCloseDeferredPaymentRequestResultCodeSuccess:
+		tv, ok := value.(CreateCloseDeferredPaymentRequestSuccess)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be CreateCloseDeferredPaymentRequestSuccess")
+			return
+		}
+		result.Success = &tv
+	default:
+		// void
+	}
+	return
+}
+
+// MustSuccess retrieves the Success value from the union,
+// panicing if the value is not set.
+func (u CreateCloseDeferredPaymentRequestResult) MustSuccess() CreateCloseDeferredPaymentRequestSuccess {
+	val, ok := u.GetSuccess()
+
+	if !ok {
+		panic("arm Success is not set")
+	}
+
+	return val
+}
+
+// GetSuccess retrieves the Success value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u CreateCloseDeferredPaymentRequestResult) GetSuccess() (result CreateCloseDeferredPaymentRequestSuccess, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.Code))
+
+	if armName == "Success" {
+		result = *u.Success
+		ok = true
+	}
+
+	return
+}
+
 // CreateDataCreationRequestOp is an XDR Struct defines as:
 //
 //   struct CreateDataCreationRequestOp
@@ -17947,6 +19250,357 @@ func (u CreateDataResult) MustSuccess() CreateDataSuccess {
 // GetSuccess retrieves the Success value from the union,
 // returning ok if the union's switch indicated the value is valid.
 func (u CreateDataResult) GetSuccess() (result CreateDataSuccess, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.Code))
+
+	if armName == "Success" {
+		result = *u.Success
+		ok = true
+	}
+
+	return
+}
+
+// CreateDeferredPaymentCreationRequestOpExt is an XDR NestedUnion defines as:
+//
+//   union switch (LedgerVersion v)
+//        {
+//        case EMPTY_VERSION:
+//            void;
+//        }
+//
+type CreateDeferredPaymentCreationRequestOpExt struct {
+	V LedgerVersion `json:"v,omitempty"`
+}
+
+// SwitchFieldName returns the field name in which this union's
+// discriminant is stored
+func (u CreateDeferredPaymentCreationRequestOpExt) SwitchFieldName() string {
+	return "V"
+}
+
+// ArmForSwitch returns which field name should be used for storing
+// the value for an instance of CreateDeferredPaymentCreationRequestOpExt
+func (u CreateDeferredPaymentCreationRequestOpExt) ArmForSwitch(sw int32) (string, bool) {
+	switch LedgerVersion(sw) {
+	case LedgerVersionEmptyVersion:
+		return "", true
+	}
+	return "-", false
+}
+
+// NewCreateDeferredPaymentCreationRequestOpExt creates a new  CreateDeferredPaymentCreationRequestOpExt.
+func NewCreateDeferredPaymentCreationRequestOpExt(v LedgerVersion, value interface{}) (result CreateDeferredPaymentCreationRequestOpExt, err error) {
+	result.V = v
+	switch LedgerVersion(v) {
+	case LedgerVersionEmptyVersion:
+		// void
+	}
+	return
+}
+
+// CreateDeferredPaymentCreationRequestOp is an XDR Struct defines as:
+//
+//   //: CreateDeferredPaymentCreationRequestOp is used to create `CREATE_DEFERRED_PAYMENT` request
+//    struct CreateDeferredPaymentCreationRequestOp
+//    {
+//
+//        uint64 requestID;
+//        //: Body of request which will be created
+//        CreateDeferredPaymentRequest request;
+//
+//        //: (optional) Bit mask whose flags must be cleared in order for `CREATE_ATOMIC_SWAP_BID` request to be approved,
+//        //: which will be used instead of key-value by `create_deferred_payment_creation_request_tasks` key
+//        uint32* allTasks;
+//        //: reserved for the future use
+//        union switch (LedgerVersion v)
+//        {
+//        case EMPTY_VERSION:
+//            void;
+//        }
+//        ext;
+//    };
+//
+type CreateDeferredPaymentCreationRequestOp struct {
+	RequestId Uint64                                    `json:"requestID,omitempty"`
+	Request   CreateDeferredPaymentRequest              `json:"request,omitempty"`
+	AllTasks  *Uint32                                   `json:"allTasks,omitempty"`
+	Ext       CreateDeferredPaymentCreationRequestOpExt `json:"ext,omitempty"`
+}
+
+// CreateDeferredPaymentCreationRequestResultCode is an XDR Enum defines as:
+//
+//   //: Result codes of CreateAtomicSwapBidRequestOp
+//    enum CreateDeferredPaymentCreationRequestResultCode
+//    {
+//        //: `CREATE_DEFERRED_PAYMENT` request has either been successfully created
+//        //: or auto approved
+//        SUCCESS = 0,
+//
+//        SOURCE_BALANCE_NOT_FOUND = -1,
+//        DESTINATION_ACCOUNT_NOT_FOUND = -2,
+//        INCORRECT_PRECISION = -3,
+//        UNDERFUNDED = -4,
+//        TASKS_NOT_FOUND = -5,
+//        INVALID_CREATOR_DETAILS = -6,
+//        INVALID_AMOUNT = -7,
+//        REQUEST_NOT_FOUND = -8
+//    };
+//
+type CreateDeferredPaymentCreationRequestResultCode int32
+
+const (
+	CreateDeferredPaymentCreationRequestResultCodeSuccess                    CreateDeferredPaymentCreationRequestResultCode = 0
+	CreateDeferredPaymentCreationRequestResultCodeSourceBalanceNotFound      CreateDeferredPaymentCreationRequestResultCode = -1
+	CreateDeferredPaymentCreationRequestResultCodeDestinationAccountNotFound CreateDeferredPaymentCreationRequestResultCode = -2
+	CreateDeferredPaymentCreationRequestResultCodeIncorrectPrecision         CreateDeferredPaymentCreationRequestResultCode = -3
+	CreateDeferredPaymentCreationRequestResultCodeUnderfunded                CreateDeferredPaymentCreationRequestResultCode = -4
+	CreateDeferredPaymentCreationRequestResultCodeTasksNotFound              CreateDeferredPaymentCreationRequestResultCode = -5
+	CreateDeferredPaymentCreationRequestResultCodeInvalidCreatorDetails      CreateDeferredPaymentCreationRequestResultCode = -6
+	CreateDeferredPaymentCreationRequestResultCodeInvalidAmount              CreateDeferredPaymentCreationRequestResultCode = -7
+	CreateDeferredPaymentCreationRequestResultCodeRequestNotFound            CreateDeferredPaymentCreationRequestResultCode = -8
+)
+
+var CreateDeferredPaymentCreationRequestResultCodeAll = []CreateDeferredPaymentCreationRequestResultCode{
+	CreateDeferredPaymentCreationRequestResultCodeSuccess,
+	CreateDeferredPaymentCreationRequestResultCodeSourceBalanceNotFound,
+	CreateDeferredPaymentCreationRequestResultCodeDestinationAccountNotFound,
+	CreateDeferredPaymentCreationRequestResultCodeIncorrectPrecision,
+	CreateDeferredPaymentCreationRequestResultCodeUnderfunded,
+	CreateDeferredPaymentCreationRequestResultCodeTasksNotFound,
+	CreateDeferredPaymentCreationRequestResultCodeInvalidCreatorDetails,
+	CreateDeferredPaymentCreationRequestResultCodeInvalidAmount,
+	CreateDeferredPaymentCreationRequestResultCodeRequestNotFound,
+}
+
+var createDeferredPaymentCreationRequestResultCodeMap = map[int32]string{
+	0:  "CreateDeferredPaymentCreationRequestResultCodeSuccess",
+	-1: "CreateDeferredPaymentCreationRequestResultCodeSourceBalanceNotFound",
+	-2: "CreateDeferredPaymentCreationRequestResultCodeDestinationAccountNotFound",
+	-3: "CreateDeferredPaymentCreationRequestResultCodeIncorrectPrecision",
+	-4: "CreateDeferredPaymentCreationRequestResultCodeUnderfunded",
+	-5: "CreateDeferredPaymentCreationRequestResultCodeTasksNotFound",
+	-6: "CreateDeferredPaymentCreationRequestResultCodeInvalidCreatorDetails",
+	-7: "CreateDeferredPaymentCreationRequestResultCodeInvalidAmount",
+	-8: "CreateDeferredPaymentCreationRequestResultCodeRequestNotFound",
+}
+
+var createDeferredPaymentCreationRequestResultCodeShortMap = map[int32]string{
+	0:  "success",
+	-1: "source_balance_not_found",
+	-2: "destination_account_not_found",
+	-3: "incorrect_precision",
+	-4: "underfunded",
+	-5: "tasks_not_found",
+	-6: "invalid_creator_details",
+	-7: "invalid_amount",
+	-8: "request_not_found",
+}
+
+var createDeferredPaymentCreationRequestResultCodeRevMap = map[string]int32{
+	"CreateDeferredPaymentCreationRequestResultCodeSuccess":                    0,
+	"CreateDeferredPaymentCreationRequestResultCodeSourceBalanceNotFound":      -1,
+	"CreateDeferredPaymentCreationRequestResultCodeDestinationAccountNotFound": -2,
+	"CreateDeferredPaymentCreationRequestResultCodeIncorrectPrecision":         -3,
+	"CreateDeferredPaymentCreationRequestResultCodeUnderfunded":                -4,
+	"CreateDeferredPaymentCreationRequestResultCodeTasksNotFound":              -5,
+	"CreateDeferredPaymentCreationRequestResultCodeInvalidCreatorDetails":      -6,
+	"CreateDeferredPaymentCreationRequestResultCodeInvalidAmount":              -7,
+	"CreateDeferredPaymentCreationRequestResultCodeRequestNotFound":            -8,
+}
+
+// ValidEnum validates a proposed value for this enum.  Implements
+// the Enum interface for CreateDeferredPaymentCreationRequestResultCode
+func (e CreateDeferredPaymentCreationRequestResultCode) ValidEnum(v int32) bool {
+	_, ok := createDeferredPaymentCreationRequestResultCodeMap[v]
+	return ok
+}
+func (e CreateDeferredPaymentCreationRequestResultCode) isFlag() bool {
+	for i := len(CreateDeferredPaymentCreationRequestResultCodeAll) - 1; i >= 0; i-- {
+		expected := CreateDeferredPaymentCreationRequestResultCode(2) << uint64(len(CreateDeferredPaymentCreationRequestResultCodeAll)-1) >> uint64(len(CreateDeferredPaymentCreationRequestResultCodeAll)-i)
+		if expected != CreateDeferredPaymentCreationRequestResultCodeAll[i] {
+			return false
+		}
+	}
+	return true
+}
+
+// String returns the name of `e`
+func (e CreateDeferredPaymentCreationRequestResultCode) String() string {
+	name, _ := createDeferredPaymentCreationRequestResultCodeMap[int32(e)]
+	return name
+}
+
+func (e CreateDeferredPaymentCreationRequestResultCode) ShortString() string {
+	name, _ := createDeferredPaymentCreationRequestResultCodeShortMap[int32(e)]
+	return name
+}
+
+func (e CreateDeferredPaymentCreationRequestResultCode) MarshalJSON() ([]byte, error) {
+	if e.isFlag() {
+		// marshal as mask
+		result := flag{
+			Value: int32(e),
+			Flags: make([]flagValue, 0),
+		}
+		for _, value := range CreateDeferredPaymentCreationRequestResultCodeAll {
+			if (value & e) == value {
+				result.Flags = append(result.Flags, flagValue{
+					Value: int32(value),
+					Name:  value.ShortString(),
+				})
+			}
+		}
+		return json.Marshal(&result)
+	} else {
+		// marshal as enum
+		result := enum{
+			Value:  int32(e),
+			String: e.ShortString(),
+		}
+		return json.Marshal(&result)
+	}
+}
+
+func (e *CreateDeferredPaymentCreationRequestResultCode) UnmarshalJSON(data []byte) error {
+	var t value
+	if err := json.Unmarshal(data, &t); err != nil {
+		return err
+	}
+	*e = CreateDeferredPaymentCreationRequestResultCode(t.Value)
+	return nil
+}
+
+// CreateDeferredPaymentCreationRequestSuccessExt is an XDR NestedUnion defines as:
+//
+//   union switch (LedgerVersion v)
+//        {
+//        case EMPTY_VERSION:
+//            void;
+//        }
+//
+type CreateDeferredPaymentCreationRequestSuccessExt struct {
+	V LedgerVersion `json:"v,omitempty"`
+}
+
+// SwitchFieldName returns the field name in which this union's
+// discriminant is stored
+func (u CreateDeferredPaymentCreationRequestSuccessExt) SwitchFieldName() string {
+	return "V"
+}
+
+// ArmForSwitch returns which field name should be used for storing
+// the value for an instance of CreateDeferredPaymentCreationRequestSuccessExt
+func (u CreateDeferredPaymentCreationRequestSuccessExt) ArmForSwitch(sw int32) (string, bool) {
+	switch LedgerVersion(sw) {
+	case LedgerVersionEmptyVersion:
+		return "", true
+	}
+	return "-", false
+}
+
+// NewCreateDeferredPaymentCreationRequestSuccessExt creates a new  CreateDeferredPaymentCreationRequestSuccessExt.
+func NewCreateDeferredPaymentCreationRequestSuccessExt(v LedgerVersion, value interface{}) (result CreateDeferredPaymentCreationRequestSuccessExt, err error) {
+	result.V = v
+	switch LedgerVersion(v) {
+	case LedgerVersionEmptyVersion:
+		// void
+	}
+	return
+}
+
+// CreateDeferredPaymentCreationRequestSuccess is an XDR Struct defines as:
+//
+//   //: Success result of CreateASwapAskCreationRequestOp application
+//    struct CreateDeferredPaymentCreationRequestSuccess
+//    {
+//        //: id of created request
+//        uint64 requestID;
+//        //: Indicates whether or not the `CREATE_ATOMIC_SWAP_ASK` request was auto approved and fulfilled
+//        bool fulfilled;
+//        //: ID of a newly created ask (if the ask  creation request has been auto approved)
+//        uint64 deferredPaymentID;
+//
+//        //: reserved for the future use
+//        union switch (LedgerVersion v)
+//        {
+//        case EMPTY_VERSION:
+//            void;
+//        } ext;
+//    };
+//
+type CreateDeferredPaymentCreationRequestSuccess struct {
+	RequestId         Uint64                                         `json:"requestID,omitempty"`
+	Fulfilled         bool                                           `json:"fulfilled,omitempty"`
+	DeferredPaymentId Uint64                                         `json:"deferredPaymentID,omitempty"`
+	Ext               CreateDeferredPaymentCreationRequestSuccessExt `json:"ext,omitempty"`
+}
+
+// CreateDeferredPaymentCreationRequestResult is an XDR Union defines as:
+//
+//   //: Result of CreateDeferredPaymentCreationRequestOp application
+//    union CreateDeferredPaymentCreationRequestResult switch (CreateDeferredPaymentCreationRequestResultCode code)
+//    {
+//    case SUCCESS:
+//        //: is used to pass useful fields after successful operation applying
+//        CreateDeferredPaymentCreationRequestSuccess success;
+//    default:
+//        void;
+//    };
+//
+type CreateDeferredPaymentCreationRequestResult struct {
+	Code    CreateDeferredPaymentCreationRequestResultCode `json:"code,omitempty"`
+	Success *CreateDeferredPaymentCreationRequestSuccess   `json:"success,omitempty"`
+}
+
+// SwitchFieldName returns the field name in which this union's
+// discriminant is stored
+func (u CreateDeferredPaymentCreationRequestResult) SwitchFieldName() string {
+	return "Code"
+}
+
+// ArmForSwitch returns which field name should be used for storing
+// the value for an instance of CreateDeferredPaymentCreationRequestResult
+func (u CreateDeferredPaymentCreationRequestResult) ArmForSwitch(sw int32) (string, bool) {
+	switch CreateDeferredPaymentCreationRequestResultCode(sw) {
+	case CreateDeferredPaymentCreationRequestResultCodeSuccess:
+		return "Success", true
+	default:
+		return "", true
+	}
+}
+
+// NewCreateDeferredPaymentCreationRequestResult creates a new  CreateDeferredPaymentCreationRequestResult.
+func NewCreateDeferredPaymentCreationRequestResult(code CreateDeferredPaymentCreationRequestResultCode, value interface{}) (result CreateDeferredPaymentCreationRequestResult, err error) {
+	result.Code = code
+	switch CreateDeferredPaymentCreationRequestResultCode(code) {
+	case CreateDeferredPaymentCreationRequestResultCodeSuccess:
+		tv, ok := value.(CreateDeferredPaymentCreationRequestSuccess)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be CreateDeferredPaymentCreationRequestSuccess")
+			return
+		}
+		result.Success = &tv
+	default:
+		// void
+	}
+	return
+}
+
+// MustSuccess retrieves the Success value from the union,
+// panicing if the value is not set.
+func (u CreateDeferredPaymentCreationRequestResult) MustSuccess() CreateDeferredPaymentCreationRequestSuccess {
+	val, ok := u.GetSuccess()
+
+	if !ok {
+		panic("arm Success is not set")
+	}
+
+	return val
+}
+
+// GetSuccess retrieves the Success value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u CreateDeferredPaymentCreationRequestResult) GetSuccess() (result CreateDeferredPaymentCreationRequestSuccess, ok bool) {
 	armName, _ := u.ArmForSwitch(int32(u.Code))
 
 	if armName == "Success" {
@@ -39788,6 +41442,24 @@ type AtomicSwapBidExtended struct {
 	Ext                   AtomicSwapBidExtendedExt `json:"ext,omitempty"`
 }
 
+// CreateDeferredPaymentResult is an XDR Struct defines as:
+//
+//   struct CreateDeferredPaymentResult
+//    {
+//        uint64 deferredPaymentID;
+//        AccountID destination;
+//        AccountID source;
+//
+//        EmptyExt ext;
+//    };
+//
+type CreateDeferredPaymentResult struct {
+	DeferredPaymentId Uint64    `json:"deferredPaymentID,omitempty"`
+	Destination       AccountId `json:"destination,omitempty"`
+	Source            AccountId `json:"source,omitempty"`
+	Ext               EmptyExt  `json:"ext,omitempty"`
+}
+
 // DataCreationExtended is an XDR Struct defines as:
 //
 //   struct DataCreationExtended {
@@ -39826,18 +41498,25 @@ type DataCreationExtended struct {
 //            CreateRedemptionRequestResult createRedemptionResult;
 //        case DATA_CREATION:
 //            DataCreationExtended dataCreationExtended;
+//        case CREATE_DEFERRED_PAYMENT:
+//            CreateDeferredPaymentResult createDeferredPaymentResult;
+//        case CLOSE_DEFERRED_PAYMENT:
+//             CloseDeferredPaymentResult closeDeferredPaymentResult;
+//
 //        }
 //
 type ExtendedResultTypeExt struct {
-	RequestType            ReviewableRequestType          `json:"requestType,omitempty"`
-	SaleExtended           *SaleExtended                  `json:"saleExtended,omitempty"`
-	AtomicSwapBidExtended  *AtomicSwapBidExtended         `json:"atomicSwapBidExtended,omitempty"`
-	AtomicSwapAskExtended  *AtomicSwapAskExtended         `json:"atomicSwapAskExtended,omitempty"`
-	CreatePoll             *CreatePollExtended            `json:"createPoll,omitempty"`
-	ManageOfferResult      *ManageOfferResult             `json:"manageOfferResult,omitempty"`
-	PaymentResult          *PaymentResult                 `json:"paymentResult,omitempty"`
-	CreateRedemptionResult *CreateRedemptionRequestResult `json:"createRedemptionResult,omitempty"`
-	DataCreationExtended   *DataCreationExtended          `json:"dataCreationExtended,omitempty"`
+	RequestType                 ReviewableRequestType          `json:"requestType,omitempty"`
+	SaleExtended                *SaleExtended                  `json:"saleExtended,omitempty"`
+	AtomicSwapBidExtended       *AtomicSwapBidExtended         `json:"atomicSwapBidExtended,omitempty"`
+	AtomicSwapAskExtended       *AtomicSwapAskExtended         `json:"atomicSwapAskExtended,omitempty"`
+	CreatePoll                  *CreatePollExtended            `json:"createPoll,omitempty"`
+	ManageOfferResult           *ManageOfferResult             `json:"manageOfferResult,omitempty"`
+	PaymentResult               *PaymentResult                 `json:"paymentResult,omitempty"`
+	CreateRedemptionResult      *CreateRedemptionRequestResult `json:"createRedemptionResult,omitempty"`
+	DataCreationExtended        *DataCreationExtended          `json:"dataCreationExtended,omitempty"`
+	CreateDeferredPaymentResult *CreateDeferredPaymentResult   `json:"createDeferredPaymentResult,omitempty"`
+	CloseDeferredPaymentResult  *CloseDeferredPaymentResult    `json:"closeDeferredPaymentResult,omitempty"`
 }
 
 // SwitchFieldName returns the field name in which this union's
@@ -39868,6 +41547,10 @@ func (u ExtendedResultTypeExt) ArmForSwitch(sw int32) (string, bool) {
 		return "CreateRedemptionResult", true
 	case ReviewableRequestTypeDataCreation:
 		return "DataCreationExtended", true
+	case ReviewableRequestTypeCreateDeferredPayment:
+		return "CreateDeferredPaymentResult", true
+	case ReviewableRequestTypeCloseDeferredPayment:
+		return "CloseDeferredPaymentResult", true
 	}
 	return "-", false
 }
@@ -39934,6 +41617,20 @@ func NewExtendedResultTypeExt(requestType ReviewableRequestType, value interface
 			return
 		}
 		result.DataCreationExtended = &tv
+	case ReviewableRequestTypeCreateDeferredPayment:
+		tv, ok := value.(CreateDeferredPaymentResult)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be CreateDeferredPaymentResult")
+			return
+		}
+		result.CreateDeferredPaymentResult = &tv
+	case ReviewableRequestTypeCloseDeferredPayment:
+		tv, ok := value.(CloseDeferredPaymentResult)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be CloseDeferredPaymentResult")
+			return
+		}
+		result.CloseDeferredPaymentResult = &tv
 	}
 	return
 }
@@ -40138,6 +41835,56 @@ func (u ExtendedResultTypeExt) GetDataCreationExtended() (result DataCreationExt
 	return
 }
 
+// MustCreateDeferredPaymentResult retrieves the CreateDeferredPaymentResult value from the union,
+// panicing if the value is not set.
+func (u ExtendedResultTypeExt) MustCreateDeferredPaymentResult() CreateDeferredPaymentResult {
+	val, ok := u.GetCreateDeferredPaymentResult()
+
+	if !ok {
+		panic("arm CreateDeferredPaymentResult is not set")
+	}
+
+	return val
+}
+
+// GetCreateDeferredPaymentResult retrieves the CreateDeferredPaymentResult value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u ExtendedResultTypeExt) GetCreateDeferredPaymentResult() (result CreateDeferredPaymentResult, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.RequestType))
+
+	if armName == "CreateDeferredPaymentResult" {
+		result = *u.CreateDeferredPaymentResult
+		ok = true
+	}
+
+	return
+}
+
+// MustCloseDeferredPaymentResult retrieves the CloseDeferredPaymentResult value from the union,
+// panicing if the value is not set.
+func (u ExtendedResultTypeExt) MustCloseDeferredPaymentResult() CloseDeferredPaymentResult {
+	val, ok := u.GetCloseDeferredPaymentResult()
+
+	if !ok {
+		panic("arm CloseDeferredPaymentResult is not set")
+	}
+
+	return val
+}
+
+// GetCloseDeferredPaymentResult retrieves the CloseDeferredPaymentResult value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u ExtendedResultTypeExt) GetCloseDeferredPaymentResult() (result CloseDeferredPaymentResult, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.RequestType))
+
+	if armName == "CloseDeferredPaymentResult" {
+		result = *u.CloseDeferredPaymentResult
+		ok = true
+	}
+
+	return
+}
+
 // ExtendedResultExt is an XDR NestedUnion defines as:
 //
 //   union switch (LedgerVersion v)
@@ -40202,6 +41949,11 @@ func NewExtendedResultExt(v LedgerVersion, value interface{}) (result ExtendedRe
 //            CreateRedemptionRequestResult createRedemptionResult;
 //        case DATA_CREATION:
 //            DataCreationExtended dataCreationExtended;
+//        case CREATE_DEFERRED_PAYMENT:
+//            CreateDeferredPaymentResult createDeferredPaymentResult;
+//        case CLOSE_DEFERRED_PAYMENT:
+//             CloseDeferredPaymentResult closeDeferredPaymentResult;
+//
 //        } typeExt;
 //
 //        //: Reserved for future use
@@ -43708,6 +45460,38 @@ type ReviewableRequestResourceDataRemove struct {
 	Ext  EmptyExt `json:"ext,omitempty"`
 }
 
+// ReviewableRequestResourceCreateDeferredPayment is an XDR NestedStruct defines as:
+//
+//   struct
+//        {
+//            AssetCode assetCode;
+//
+//            uint64 assetType;
+//            EmptyExt ext;
+//        }
+//
+type ReviewableRequestResourceCreateDeferredPayment struct {
+	AssetCode AssetCode `json:"assetCode,omitempty"`
+	AssetType Uint64    `json:"assetType,omitempty"`
+	Ext       EmptyExt  `json:"ext,omitempty"`
+}
+
+// ReviewableRequestResourceCloseDeferredPayment is an XDR NestedStruct defines as:
+//
+//   struct
+//        {
+//            AssetCode assetCode;
+//
+//            uint64 assetType;
+//            EmptyExt ext;
+//        }
+//
+type ReviewableRequestResourceCloseDeferredPayment struct {
+	AssetCode AssetCode `json:"assetCode,omitempty"`
+	AssetType Uint64    `json:"assetType,omitempty"`
+	Ext       EmptyExt  `json:"ext,omitempty"`
+}
+
 // ReviewableRequestResource is an XDR Union defines as:
 //
 //   //: Describes properties of some reviewable request types that
@@ -43867,6 +45651,22 @@ type ReviewableRequestResourceDataRemove struct {
 //            //: Reserved for future extension
 //            EmptyExt ext;
 //        } dataRemove;
+//    case CREATE_DEFERRED_PAYMENT:
+//        struct
+//        {
+//            AssetCode assetCode;
+//
+//            uint64 assetType;
+//            EmptyExt ext;
+//        } createDeferredPayment;
+//    case CLOSE_DEFERRED_PAYMENT:
+//        struct
+//        {
+//            AssetCode assetCode;
+//
+//            uint64 assetType;
+//            EmptyExt ext;
+//        } closeDeferredPayment;
 //    default:
 //        //: reserved for future extension
 //        EmptyExt ext;
@@ -43886,6 +45686,8 @@ type ReviewableRequestResource struct {
 	DataCreation           *ReviewableRequestResourceDataCreation           `json:"dataCreation,omitempty"`
 	DataUpdate             *ReviewableRequestResourceDataUpdate             `json:"dataUpdate,omitempty"`
 	DataRemove             *ReviewableRequestResourceDataRemove             `json:"dataRemove,omitempty"`
+	CreateDeferredPayment  *ReviewableRequestResourceCreateDeferredPayment  `json:"createDeferredPayment,omitempty"`
+	CloseDeferredPayment   *ReviewableRequestResourceCloseDeferredPayment   `json:"closeDeferredPayment,omitempty"`
 	Ext                    *EmptyExt                                        `json:"ext,omitempty"`
 }
 
@@ -43923,6 +45725,10 @@ func (u ReviewableRequestResource) ArmForSwitch(sw int32) (string, bool) {
 		return "DataUpdate", true
 	case ReviewableRequestTypeDataRemove:
 		return "DataRemove", true
+	case ReviewableRequestTypeCreateDeferredPayment:
+		return "CreateDeferredPayment", true
+	case ReviewableRequestTypeCloseDeferredPayment:
+		return "CloseDeferredPayment", true
 	default:
 		return "Ext", true
 	}
@@ -44016,6 +45822,20 @@ func NewReviewableRequestResource(requestType ReviewableRequestType, value inter
 			return
 		}
 		result.DataRemove = &tv
+	case ReviewableRequestTypeCreateDeferredPayment:
+		tv, ok := value.(ReviewableRequestResourceCreateDeferredPayment)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be ReviewableRequestResourceCreateDeferredPayment")
+			return
+		}
+		result.CreateDeferredPayment = &tv
+	case ReviewableRequestTypeCloseDeferredPayment:
+		tv, ok := value.(ReviewableRequestResourceCloseDeferredPayment)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be ReviewableRequestResourceCloseDeferredPayment")
+			return
+		}
+		result.CloseDeferredPayment = &tv
 	default:
 		tv, ok := value.(EmptyExt)
 		if !ok {
@@ -44321,6 +46141,56 @@ func (u ReviewableRequestResource) GetDataRemove() (result ReviewableRequestReso
 
 	if armName == "DataRemove" {
 		result = *u.DataRemove
+		ok = true
+	}
+
+	return
+}
+
+// MustCreateDeferredPayment retrieves the CreateDeferredPayment value from the union,
+// panicing if the value is not set.
+func (u ReviewableRequestResource) MustCreateDeferredPayment() ReviewableRequestResourceCreateDeferredPayment {
+	val, ok := u.GetCreateDeferredPayment()
+
+	if !ok {
+		panic("arm CreateDeferredPayment is not set")
+	}
+
+	return val
+}
+
+// GetCreateDeferredPayment retrieves the CreateDeferredPayment value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u ReviewableRequestResource) GetCreateDeferredPayment() (result ReviewableRequestResourceCreateDeferredPayment, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.RequestType))
+
+	if armName == "CreateDeferredPayment" {
+		result = *u.CreateDeferredPayment
+		ok = true
+	}
+
+	return
+}
+
+// MustCloseDeferredPayment retrieves the CloseDeferredPayment value from the union,
+// panicing if the value is not set.
+func (u ReviewableRequestResource) MustCloseDeferredPayment() ReviewableRequestResourceCloseDeferredPayment {
+	val, ok := u.GetCloseDeferredPayment()
+
+	if !ok {
+		panic("arm CloseDeferredPayment is not set")
+	}
+
+	return val
+}
+
+// GetCloseDeferredPayment retrieves the CloseDeferredPayment value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u ReviewableRequestResource) GetCloseDeferredPayment() (result ReviewableRequestResourceCloseDeferredPayment, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.RequestType))
+
+	if armName == "CloseDeferredPayment" {
+		result = *u.CloseDeferredPayment
 		ok = true
 	}
 
@@ -47434,6 +49304,240 @@ type ChangeRoleRequest struct {
 	Ext                ChangeRoleRequestExt `json:"ext,omitempty"`
 }
 
+// CloseDeferredPaymentDestinationType is an XDR Enum defines as:
+//
+//   //: Defines the type of destination of the payment
+//    enum CloseDeferredPaymentDestinationType {
+//        ACCOUNT = 0,
+//        BALANCE = 1
+//    };
+//
+type CloseDeferredPaymentDestinationType int32
+
+const (
+	CloseDeferredPaymentDestinationTypeAccount CloseDeferredPaymentDestinationType = 0
+	CloseDeferredPaymentDestinationTypeBalance CloseDeferredPaymentDestinationType = 1
+)
+
+var CloseDeferredPaymentDestinationTypeAll = []CloseDeferredPaymentDestinationType{
+	CloseDeferredPaymentDestinationTypeAccount,
+	CloseDeferredPaymentDestinationTypeBalance,
+}
+
+var closeDeferredPaymentDestinationTypeMap = map[int32]string{
+	0: "CloseDeferredPaymentDestinationTypeAccount",
+	1: "CloseDeferredPaymentDestinationTypeBalance",
+}
+
+var closeDeferredPaymentDestinationTypeShortMap = map[int32]string{
+	0: "account",
+	1: "balance",
+}
+
+var closeDeferredPaymentDestinationTypeRevMap = map[string]int32{
+	"CloseDeferredPaymentDestinationTypeAccount": 0,
+	"CloseDeferredPaymentDestinationTypeBalance": 1,
+}
+
+// ValidEnum validates a proposed value for this enum.  Implements
+// the Enum interface for CloseDeferredPaymentDestinationType
+func (e CloseDeferredPaymentDestinationType) ValidEnum(v int32) bool {
+	_, ok := closeDeferredPaymentDestinationTypeMap[v]
+	return ok
+}
+func (e CloseDeferredPaymentDestinationType) isFlag() bool {
+	for i := len(CloseDeferredPaymentDestinationTypeAll) - 1; i >= 0; i-- {
+		expected := CloseDeferredPaymentDestinationType(2) << uint64(len(CloseDeferredPaymentDestinationTypeAll)-1) >> uint64(len(CloseDeferredPaymentDestinationTypeAll)-i)
+		if expected != CloseDeferredPaymentDestinationTypeAll[i] {
+			return false
+		}
+	}
+	return true
+}
+
+// String returns the name of `e`
+func (e CloseDeferredPaymentDestinationType) String() string {
+	name, _ := closeDeferredPaymentDestinationTypeMap[int32(e)]
+	return name
+}
+
+func (e CloseDeferredPaymentDestinationType) ShortString() string {
+	name, _ := closeDeferredPaymentDestinationTypeShortMap[int32(e)]
+	return name
+}
+
+func (e CloseDeferredPaymentDestinationType) MarshalJSON() ([]byte, error) {
+	if e.isFlag() {
+		// marshal as mask
+		result := flag{
+			Value: int32(e),
+			Flags: make([]flagValue, 0),
+		}
+		for _, value := range CloseDeferredPaymentDestinationTypeAll {
+			if (value & e) == value {
+				result.Flags = append(result.Flags, flagValue{
+					Value: int32(value),
+					Name:  value.ShortString(),
+				})
+			}
+		}
+		return json.Marshal(&result)
+	} else {
+		// marshal as enum
+		result := enum{
+			Value:  int32(e),
+			String: e.ShortString(),
+		}
+		return json.Marshal(&result)
+	}
+}
+
+func (e *CloseDeferredPaymentDestinationType) UnmarshalJSON(data []byte) error {
+	var t value
+	if err := json.Unmarshal(data, &t); err != nil {
+		return err
+	}
+	*e = CloseDeferredPaymentDestinationType(t.Value)
+	return nil
+}
+
+// CloseDeferredPaymentRequestDestination is an XDR NestedUnion defines as:
+//
+//   union switch (CloseDeferredPaymentDestinationType type) {
+//            case ACCOUNT:
+//                AccountID accountID;
+//            case BALANCE:
+//                BalanceID balanceID;
+//        }
+//
+type CloseDeferredPaymentRequestDestination struct {
+	Type      CloseDeferredPaymentDestinationType `json:"type,omitempty"`
+	AccountId *AccountId                          `json:"accountID,omitempty"`
+	BalanceId *BalanceId                          `json:"balanceID,omitempty"`
+}
+
+// SwitchFieldName returns the field name in which this union's
+// discriminant is stored
+func (u CloseDeferredPaymentRequestDestination) SwitchFieldName() string {
+	return "Type"
+}
+
+// ArmForSwitch returns which field name should be used for storing
+// the value for an instance of CloseDeferredPaymentRequestDestination
+func (u CloseDeferredPaymentRequestDestination) ArmForSwitch(sw int32) (string, bool) {
+	switch CloseDeferredPaymentDestinationType(sw) {
+	case CloseDeferredPaymentDestinationTypeAccount:
+		return "AccountId", true
+	case CloseDeferredPaymentDestinationTypeBalance:
+		return "BalanceId", true
+	}
+	return "-", false
+}
+
+// NewCloseDeferredPaymentRequestDestination creates a new  CloseDeferredPaymentRequestDestination.
+func NewCloseDeferredPaymentRequestDestination(aType CloseDeferredPaymentDestinationType, value interface{}) (result CloseDeferredPaymentRequestDestination, err error) {
+	result.Type = aType
+	switch CloseDeferredPaymentDestinationType(aType) {
+	case CloseDeferredPaymentDestinationTypeAccount:
+		tv, ok := value.(AccountId)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be AccountId")
+			return
+		}
+		result.AccountId = &tv
+	case CloseDeferredPaymentDestinationTypeBalance:
+		tv, ok := value.(BalanceId)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be BalanceId")
+			return
+		}
+		result.BalanceId = &tv
+	}
+	return
+}
+
+// MustAccountId retrieves the AccountId value from the union,
+// panicing if the value is not set.
+func (u CloseDeferredPaymentRequestDestination) MustAccountId() AccountId {
+	val, ok := u.GetAccountId()
+
+	if !ok {
+		panic("arm AccountId is not set")
+	}
+
+	return val
+}
+
+// GetAccountId retrieves the AccountId value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u CloseDeferredPaymentRequestDestination) GetAccountId() (result AccountId, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.Type))
+
+	if armName == "AccountId" {
+		result = *u.AccountId
+		ok = true
+	}
+
+	return
+}
+
+// MustBalanceId retrieves the BalanceId value from the union,
+// panicing if the value is not set.
+func (u CloseDeferredPaymentRequestDestination) MustBalanceId() BalanceId {
+	val, ok := u.GetBalanceId()
+
+	if !ok {
+		panic("arm BalanceId is not set")
+	}
+
+	return val
+}
+
+// GetBalanceId retrieves the BalanceId value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u CloseDeferredPaymentRequestDestination) GetBalanceId() (result BalanceId, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.Type))
+
+	if armName == "BalanceId" {
+		result = *u.BalanceId
+		ok = true
+	}
+
+	return
+}
+
+// CloseDeferredPaymentRequest is an XDR Struct defines as:
+//
+//   struct CloseDeferredPaymentRequest {
+//        uint64 deferredPaymentID;
+//
+//        //: `destination` defines the type of instance that receives the payment based on given PaymentDestinationType
+//        union switch (CloseDeferredPaymentDestinationType type) {
+//            case ACCOUNT:
+//                AccountID accountID;
+//            case BALANCE:
+//                BalanceID balanceID;
+//        } destination;
+//
+//        //: Arbitrary stringified json object that can be used to attach data to be reviewed by an admin
+//        longstring creatorDetails; // details set by requester
+//
+//        uint64 amount;
+//
+//        uint32 sequenceNumber;
+//
+//        EmptyExt ext;
+//    };
+//
+type CloseDeferredPaymentRequest struct {
+	DeferredPaymentId Uint64                                 `json:"deferredPaymentID,omitempty"`
+	Destination       CloseDeferredPaymentRequestDestination `json:"destination,omitempty"`
+	CreatorDetails    Longstring                             `json:"creatorDetails,omitempty"`
+	Amount            Uint64                                 `json:"amount,omitempty"`
+	SequenceNumber    Uint32                                 `json:"sequenceNumber,omitempty"`
+	Ext               EmptyExt                               `json:"ext,omitempty"`
+}
+
 // ContractRequestExt is an XDR NestedUnion defines as:
 //
 //   union switch (LedgerVersion v)
@@ -47573,6 +49677,29 @@ type DataCreationRequest struct {
 	Value          Longstring             `json:"value,omitempty"`
 	CreatorDetails Longstring             `json:"creatorDetails,omitempty"`
 	Ext            DataCreationRequestExt `json:"ext,omitempty"`
+}
+
+// CreateDeferredPaymentRequest is an XDR Struct defines as:
+//
+//   struct CreateDeferredPaymentRequest {
+//        BalanceID sourceBalance;
+//        AccountID destination;
+//
+//        uint64 amount;
+//        uint32 sequenceNumber;
+//
+//        longstring creatorDetails; // details set by requester
+//
+//        EmptyExt ext;
+//    };
+//
+type CreateDeferredPaymentRequest struct {
+	SourceBalance  BalanceId  `json:"sourceBalance,omitempty"`
+	Destination    AccountId  `json:"destination,omitempty"`
+	Amount         Uint64     `json:"amount,omitempty"`
+	SequenceNumber Uint32     `json:"sequenceNumber,omitempty"`
+	CreatorDetails Longstring `json:"creatorDetails,omitempty"`
+	Ext            EmptyExt   `json:"ext,omitempty"`
 }
 
 // CreatePollRequestExt is an XDR NestedUnion defines as:
@@ -48915,6 +51042,15 @@ type WithdrawalRequest struct {
 //            CancelDataUpdateRequestOp cancelDataUpdateRequestOp;
 //        case CANCEL_DATA_REMOVE_REQUEST:
 //            CancelDataRemoveRequestOp cancelDataRemoveRequestOp;
+//        case CREATE_DEFERRED_PAYMENT_CREATION_REQUEST:
+//            CreateDeferredPaymentCreationRequestOp createDeferredPaymentCreationRequestOp;
+//        case CANCEL_DEFERRED_PAYMENT_CREATION_REQUEST:
+//            CancelDeferredPaymentCreationRequestOp cancelDeferredPaymentCreationRequestOp;
+//        case CREATE_CLOSE_DEFERRED_PAYMENT_REQUEST:
+//            CreateCloseDeferredPaymentRequestOp createCloseDeferredPaymentRequestOp;
+//        case CANCEL_CLOSE_DEFERRED_PAYMENT_REQUEST:
+//            CancelCloseDeferredPaymentRequestOp cancelCloseDeferredPaymentRequestOp;
+//
 //        }
 //
 type OperationBody struct {
@@ -48978,6 +51114,10 @@ type OperationBody struct {
 	CreateDataRemoveRequestOp                *CreateDataRemoveRequestOp                `json:"createDataRemoveRequestOp,omitempty"`
 	CancelDataUpdateRequestOp                *CancelDataUpdateRequestOp                `json:"cancelDataUpdateRequestOp,omitempty"`
 	CancelDataRemoveRequestOp                *CancelDataRemoveRequestOp                `json:"cancelDataRemoveRequestOp,omitempty"`
+	CreateDeferredPaymentCreationRequestOp   *CreateDeferredPaymentCreationRequestOp   `json:"createDeferredPaymentCreationRequestOp,omitempty"`
+	CancelDeferredPaymentCreationRequestOp   *CancelDeferredPaymentCreationRequestOp   `json:"cancelDeferredPaymentCreationRequestOp,omitempty"`
+	CreateCloseDeferredPaymentRequestOp      *CreateCloseDeferredPaymentRequestOp      `json:"createCloseDeferredPaymentRequestOp,omitempty"`
+	CancelCloseDeferredPaymentRequestOp      *CancelCloseDeferredPaymentRequestOp      `json:"cancelCloseDeferredPaymentRequestOp,omitempty"`
 }
 
 // SwitchFieldName returns the field name in which this union's
@@ -49108,6 +51248,14 @@ func (u OperationBody) ArmForSwitch(sw int32) (string, bool) {
 		return "CancelDataUpdateRequestOp", true
 	case OperationTypeCancelDataRemoveRequest:
 		return "CancelDataRemoveRequestOp", true
+	case OperationTypeCreateDeferredPaymentCreationRequest:
+		return "CreateDeferredPaymentCreationRequestOp", true
+	case OperationTypeCancelDeferredPaymentCreationRequest:
+		return "CancelDeferredPaymentCreationRequestOp", true
+	case OperationTypeCreateCloseDeferredPaymentRequest:
+		return "CreateCloseDeferredPaymentRequestOp", true
+	case OperationTypeCancelCloseDeferredPaymentRequest:
+		return "CancelCloseDeferredPaymentRequestOp", true
 	}
 	return "-", false
 }
@@ -49529,6 +51677,34 @@ func NewOperationBody(aType OperationType, value interface{}) (result OperationB
 			return
 		}
 		result.CancelDataRemoveRequestOp = &tv
+	case OperationTypeCreateDeferredPaymentCreationRequest:
+		tv, ok := value.(CreateDeferredPaymentCreationRequestOp)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be CreateDeferredPaymentCreationRequestOp")
+			return
+		}
+		result.CreateDeferredPaymentCreationRequestOp = &tv
+	case OperationTypeCancelDeferredPaymentCreationRequest:
+		tv, ok := value.(CancelDeferredPaymentCreationRequestOp)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be CancelDeferredPaymentCreationRequestOp")
+			return
+		}
+		result.CancelDeferredPaymentCreationRequestOp = &tv
+	case OperationTypeCreateCloseDeferredPaymentRequest:
+		tv, ok := value.(CreateCloseDeferredPaymentRequestOp)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be CreateCloseDeferredPaymentRequestOp")
+			return
+		}
+		result.CreateCloseDeferredPaymentRequestOp = &tv
+	case OperationTypeCancelCloseDeferredPaymentRequest:
+		tv, ok := value.(CancelCloseDeferredPaymentRequestOp)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be CancelCloseDeferredPaymentRequestOp")
+			return
+		}
+		result.CancelCloseDeferredPaymentRequestOp = &tv
 	}
 	return
 }
@@ -51008,6 +53184,106 @@ func (u OperationBody) GetCancelDataRemoveRequestOp() (result CancelDataRemoveRe
 	return
 }
 
+// MustCreateDeferredPaymentCreationRequestOp retrieves the CreateDeferredPaymentCreationRequestOp value from the union,
+// panicing if the value is not set.
+func (u OperationBody) MustCreateDeferredPaymentCreationRequestOp() CreateDeferredPaymentCreationRequestOp {
+	val, ok := u.GetCreateDeferredPaymentCreationRequestOp()
+
+	if !ok {
+		panic("arm CreateDeferredPaymentCreationRequestOp is not set")
+	}
+
+	return val
+}
+
+// GetCreateDeferredPaymentCreationRequestOp retrieves the CreateDeferredPaymentCreationRequestOp value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u OperationBody) GetCreateDeferredPaymentCreationRequestOp() (result CreateDeferredPaymentCreationRequestOp, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.Type))
+
+	if armName == "CreateDeferredPaymentCreationRequestOp" {
+		result = *u.CreateDeferredPaymentCreationRequestOp
+		ok = true
+	}
+
+	return
+}
+
+// MustCancelDeferredPaymentCreationRequestOp retrieves the CancelDeferredPaymentCreationRequestOp value from the union,
+// panicing if the value is not set.
+func (u OperationBody) MustCancelDeferredPaymentCreationRequestOp() CancelDeferredPaymentCreationRequestOp {
+	val, ok := u.GetCancelDeferredPaymentCreationRequestOp()
+
+	if !ok {
+		panic("arm CancelDeferredPaymentCreationRequestOp is not set")
+	}
+
+	return val
+}
+
+// GetCancelDeferredPaymentCreationRequestOp retrieves the CancelDeferredPaymentCreationRequestOp value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u OperationBody) GetCancelDeferredPaymentCreationRequestOp() (result CancelDeferredPaymentCreationRequestOp, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.Type))
+
+	if armName == "CancelDeferredPaymentCreationRequestOp" {
+		result = *u.CancelDeferredPaymentCreationRequestOp
+		ok = true
+	}
+
+	return
+}
+
+// MustCreateCloseDeferredPaymentRequestOp retrieves the CreateCloseDeferredPaymentRequestOp value from the union,
+// panicing if the value is not set.
+func (u OperationBody) MustCreateCloseDeferredPaymentRequestOp() CreateCloseDeferredPaymentRequestOp {
+	val, ok := u.GetCreateCloseDeferredPaymentRequestOp()
+
+	if !ok {
+		panic("arm CreateCloseDeferredPaymentRequestOp is not set")
+	}
+
+	return val
+}
+
+// GetCreateCloseDeferredPaymentRequestOp retrieves the CreateCloseDeferredPaymentRequestOp value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u OperationBody) GetCreateCloseDeferredPaymentRequestOp() (result CreateCloseDeferredPaymentRequestOp, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.Type))
+
+	if armName == "CreateCloseDeferredPaymentRequestOp" {
+		result = *u.CreateCloseDeferredPaymentRequestOp
+		ok = true
+	}
+
+	return
+}
+
+// MustCancelCloseDeferredPaymentRequestOp retrieves the CancelCloseDeferredPaymentRequestOp value from the union,
+// panicing if the value is not set.
+func (u OperationBody) MustCancelCloseDeferredPaymentRequestOp() CancelCloseDeferredPaymentRequestOp {
+	val, ok := u.GetCancelCloseDeferredPaymentRequestOp()
+
+	if !ok {
+		panic("arm CancelCloseDeferredPaymentRequestOp is not set")
+	}
+
+	return val
+}
+
+// GetCancelCloseDeferredPaymentRequestOp retrieves the CancelCloseDeferredPaymentRequestOp value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u OperationBody) GetCancelCloseDeferredPaymentRequestOp() (result CancelCloseDeferredPaymentRequestOp, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.Type))
+
+	if armName == "CancelCloseDeferredPaymentRequestOp" {
+		result = *u.CancelCloseDeferredPaymentRequestOp
+		ok = true
+	}
+
+	return
+}
+
 // Operation is an XDR Struct defines as:
 //
 //   //: An operation is the lowest unit of work that a transaction does
@@ -51138,6 +53414,15 @@ func (u OperationBody) GetCancelDataRemoveRequestOp() (result CancelDataRemoveRe
 //            CancelDataUpdateRequestOp cancelDataUpdateRequestOp;
 //        case CANCEL_DATA_REMOVE_REQUEST:
 //            CancelDataRemoveRequestOp cancelDataRemoveRequestOp;
+//        case CREATE_DEFERRED_PAYMENT_CREATION_REQUEST:
+//            CreateDeferredPaymentCreationRequestOp createDeferredPaymentCreationRequestOp;
+//        case CANCEL_DEFERRED_PAYMENT_CREATION_REQUEST:
+//            CancelDeferredPaymentCreationRequestOp cancelDeferredPaymentCreationRequestOp;
+//        case CREATE_CLOSE_DEFERRED_PAYMENT_REQUEST:
+//            CreateCloseDeferredPaymentRequestOp createCloseDeferredPaymentRequestOp;
+//        case CANCEL_CLOSE_DEFERRED_PAYMENT_REQUEST:
+//            CancelCloseDeferredPaymentRequestOp cancelCloseDeferredPaymentRequestOp;
+//
 //        }
 //
 //        body;
@@ -51874,6 +54159,15 @@ type AccountRuleRequirement struct {
 //            CancelDataUpdateRequestResult cancelDataUpdateRequestResult;
 //        case CANCEL_DATA_REMOVE_REQUEST:
 //            CancelDataRemoveRequestResult cancelDataRemoveRequestResult;
+//        case CREATE_DEFERRED_PAYMENT_CREATION_REQUEST:
+//                CreateDeferredPaymentCreationRequestResult createDeferredPaymentCreationRequestResult;
+//        case CANCEL_DEFERRED_PAYMENT_CREATION_REQUEST:
+//            CancelDeferredPaymentCreationRequestResult cancelDeferredPaymentCreationRequestResult;
+//        case CREATE_CLOSE_DEFERRED_PAYMENT_REQUEST:
+//            CreateCloseDeferredPaymentRequestResult createCloseDeferredPaymentRequestResult;
+//        case CANCEL_CLOSE_DEFERRED_PAYMENT_REQUEST:
+//            CancelCloseDeferredPaymentRequestResult cancelCloseDeferredPaymentRequestResult;
+//
 //        }
 //
 type OperationResultTr struct {
@@ -51937,6 +54231,10 @@ type OperationResultTr struct {
 	CreateDataRemoveRequestResult                *CreateDataRemoveRequestResult                `json:"createDataRemoveRequestResult,omitempty"`
 	CancelDataUpdateRequestResult                *CancelDataUpdateRequestResult                `json:"cancelDataUpdateRequestResult,omitempty"`
 	CancelDataRemoveRequestResult                *CancelDataRemoveRequestResult                `json:"cancelDataRemoveRequestResult,omitempty"`
+	CreateDeferredPaymentCreationRequestResult   *CreateDeferredPaymentCreationRequestResult   `json:"createDeferredPaymentCreationRequestResult,omitempty"`
+	CancelDeferredPaymentCreationRequestResult   *CancelDeferredPaymentCreationRequestResult   `json:"cancelDeferredPaymentCreationRequestResult,omitempty"`
+	CreateCloseDeferredPaymentRequestResult      *CreateCloseDeferredPaymentRequestResult      `json:"createCloseDeferredPaymentRequestResult,omitempty"`
+	CancelCloseDeferredPaymentRequestResult      *CancelCloseDeferredPaymentRequestResult      `json:"cancelCloseDeferredPaymentRequestResult,omitempty"`
 }
 
 // SwitchFieldName returns the field name in which this union's
@@ -52067,6 +54365,14 @@ func (u OperationResultTr) ArmForSwitch(sw int32) (string, bool) {
 		return "CancelDataUpdateRequestResult", true
 	case OperationTypeCancelDataRemoveRequest:
 		return "CancelDataRemoveRequestResult", true
+	case OperationTypeCreateDeferredPaymentCreationRequest:
+		return "CreateDeferredPaymentCreationRequestResult", true
+	case OperationTypeCancelDeferredPaymentCreationRequest:
+		return "CancelDeferredPaymentCreationRequestResult", true
+	case OperationTypeCreateCloseDeferredPaymentRequest:
+		return "CreateCloseDeferredPaymentRequestResult", true
+	case OperationTypeCancelCloseDeferredPaymentRequest:
+		return "CancelCloseDeferredPaymentRequestResult", true
 	}
 	return "-", false
 }
@@ -52488,6 +54794,34 @@ func NewOperationResultTr(aType OperationType, value interface{}) (result Operat
 			return
 		}
 		result.CancelDataRemoveRequestResult = &tv
+	case OperationTypeCreateDeferredPaymentCreationRequest:
+		tv, ok := value.(CreateDeferredPaymentCreationRequestResult)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be CreateDeferredPaymentCreationRequestResult")
+			return
+		}
+		result.CreateDeferredPaymentCreationRequestResult = &tv
+	case OperationTypeCancelDeferredPaymentCreationRequest:
+		tv, ok := value.(CancelDeferredPaymentCreationRequestResult)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be CancelDeferredPaymentCreationRequestResult")
+			return
+		}
+		result.CancelDeferredPaymentCreationRequestResult = &tv
+	case OperationTypeCreateCloseDeferredPaymentRequest:
+		tv, ok := value.(CreateCloseDeferredPaymentRequestResult)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be CreateCloseDeferredPaymentRequestResult")
+			return
+		}
+		result.CreateCloseDeferredPaymentRequestResult = &tv
+	case OperationTypeCancelCloseDeferredPaymentRequest:
+		tv, ok := value.(CancelCloseDeferredPaymentRequestResult)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be CancelCloseDeferredPaymentRequestResult")
+			return
+		}
+		result.CancelCloseDeferredPaymentRequestResult = &tv
 	}
 	return
 }
@@ -53967,6 +56301,106 @@ func (u OperationResultTr) GetCancelDataRemoveRequestResult() (result CancelData
 	return
 }
 
+// MustCreateDeferredPaymentCreationRequestResult retrieves the CreateDeferredPaymentCreationRequestResult value from the union,
+// panicing if the value is not set.
+func (u OperationResultTr) MustCreateDeferredPaymentCreationRequestResult() CreateDeferredPaymentCreationRequestResult {
+	val, ok := u.GetCreateDeferredPaymentCreationRequestResult()
+
+	if !ok {
+		panic("arm CreateDeferredPaymentCreationRequestResult is not set")
+	}
+
+	return val
+}
+
+// GetCreateDeferredPaymentCreationRequestResult retrieves the CreateDeferredPaymentCreationRequestResult value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u OperationResultTr) GetCreateDeferredPaymentCreationRequestResult() (result CreateDeferredPaymentCreationRequestResult, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.Type))
+
+	if armName == "CreateDeferredPaymentCreationRequestResult" {
+		result = *u.CreateDeferredPaymentCreationRequestResult
+		ok = true
+	}
+
+	return
+}
+
+// MustCancelDeferredPaymentCreationRequestResult retrieves the CancelDeferredPaymentCreationRequestResult value from the union,
+// panicing if the value is not set.
+func (u OperationResultTr) MustCancelDeferredPaymentCreationRequestResult() CancelDeferredPaymentCreationRequestResult {
+	val, ok := u.GetCancelDeferredPaymentCreationRequestResult()
+
+	if !ok {
+		panic("arm CancelDeferredPaymentCreationRequestResult is not set")
+	}
+
+	return val
+}
+
+// GetCancelDeferredPaymentCreationRequestResult retrieves the CancelDeferredPaymentCreationRequestResult value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u OperationResultTr) GetCancelDeferredPaymentCreationRequestResult() (result CancelDeferredPaymentCreationRequestResult, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.Type))
+
+	if armName == "CancelDeferredPaymentCreationRequestResult" {
+		result = *u.CancelDeferredPaymentCreationRequestResult
+		ok = true
+	}
+
+	return
+}
+
+// MustCreateCloseDeferredPaymentRequestResult retrieves the CreateCloseDeferredPaymentRequestResult value from the union,
+// panicing if the value is not set.
+func (u OperationResultTr) MustCreateCloseDeferredPaymentRequestResult() CreateCloseDeferredPaymentRequestResult {
+	val, ok := u.GetCreateCloseDeferredPaymentRequestResult()
+
+	if !ok {
+		panic("arm CreateCloseDeferredPaymentRequestResult is not set")
+	}
+
+	return val
+}
+
+// GetCreateCloseDeferredPaymentRequestResult retrieves the CreateCloseDeferredPaymentRequestResult value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u OperationResultTr) GetCreateCloseDeferredPaymentRequestResult() (result CreateCloseDeferredPaymentRequestResult, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.Type))
+
+	if armName == "CreateCloseDeferredPaymentRequestResult" {
+		result = *u.CreateCloseDeferredPaymentRequestResult
+		ok = true
+	}
+
+	return
+}
+
+// MustCancelCloseDeferredPaymentRequestResult retrieves the CancelCloseDeferredPaymentRequestResult value from the union,
+// panicing if the value is not set.
+func (u OperationResultTr) MustCancelCloseDeferredPaymentRequestResult() CancelCloseDeferredPaymentRequestResult {
+	val, ok := u.GetCancelCloseDeferredPaymentRequestResult()
+
+	if !ok {
+		panic("arm CancelCloseDeferredPaymentRequestResult is not set")
+	}
+
+	return val
+}
+
+// GetCancelCloseDeferredPaymentRequestResult retrieves the CancelCloseDeferredPaymentRequestResult value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u OperationResultTr) GetCancelCloseDeferredPaymentRequestResult() (result CancelCloseDeferredPaymentRequestResult, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.Type))
+
+	if armName == "CancelCloseDeferredPaymentRequestResult" {
+		result = *u.CancelCloseDeferredPaymentRequestResult
+		ok = true
+	}
+
+	return
+}
+
 // OperationResult is an XDR Union defines as:
 //
 //   union OperationResult switch (OperationResultCode code)
@@ -54092,6 +56526,15 @@ func (u OperationResultTr) GetCancelDataRemoveRequestResult() (result CancelData
 //            CancelDataUpdateRequestResult cancelDataUpdateRequestResult;
 //        case CANCEL_DATA_REMOVE_REQUEST:
 //            CancelDataRemoveRequestResult cancelDataRemoveRequestResult;
+//        case CREATE_DEFERRED_PAYMENT_CREATION_REQUEST:
+//                CreateDeferredPaymentCreationRequestResult createDeferredPaymentCreationRequestResult;
+//        case CANCEL_DEFERRED_PAYMENT_CREATION_REQUEST:
+//            CancelDeferredPaymentCreationRequestResult cancelDeferredPaymentCreationRequestResult;
+//        case CREATE_CLOSE_DEFERRED_PAYMENT_REQUEST:
+//            CreateCloseDeferredPaymentRequestResult createCloseDeferredPaymentRequestResult;
+//        case CANCEL_CLOSE_DEFERRED_PAYMENT_REQUEST:
+//            CancelCloseDeferredPaymentRequestResult cancelCloseDeferredPaymentRequestResult;
+//
 //        }
 //        tr;
 //    case opNO_ENTRY:
@@ -54706,7 +57149,8 @@ type TransactionResult struct {
 //        MOVEMENT_REQUESTS_DETAILS = 27,
 //        FIX_CRASH_CORE_WITH_PAYMENT = 28,
 //        FIX_INVEST_TO_IMMEDIATE_SALE = 29,
-//        FIX_PAYMENT_TASKS_WILDCARD_VALUE = 30
+//        FIX_PAYMENT_TASKS_WILDCARD_VALUE = 30,
+//        FIX_CHANGE_ROLE_REQUEST_REQUESTOR = 31
 //    };
 //
 type LedgerVersion int32
@@ -54743,6 +57187,7 @@ const (
 	LedgerVersionFixCrashCoreWithPayment           LedgerVersion = 28
 	LedgerVersionFixInvestToImmediateSale          LedgerVersion = 29
 	LedgerVersionFixPaymentTasksWildcardValue      LedgerVersion = 30
+	LedgerVersionFixChangeRoleRequestRequestor     LedgerVersion = 31
 )
 
 var LedgerVersionAll = []LedgerVersion{
@@ -54777,6 +57222,7 @@ var LedgerVersionAll = []LedgerVersion{
 	LedgerVersionFixCrashCoreWithPayment,
 	LedgerVersionFixInvestToImmediateSale,
 	LedgerVersionFixPaymentTasksWildcardValue,
+	LedgerVersionFixChangeRoleRequestRequestor,
 }
 
 var ledgerVersionMap = map[int32]string{
@@ -54811,6 +57257,7 @@ var ledgerVersionMap = map[int32]string{
 	28: "LedgerVersionFixCrashCoreWithPayment",
 	29: "LedgerVersionFixInvestToImmediateSale",
 	30: "LedgerVersionFixPaymentTasksWildcardValue",
+	31: "LedgerVersionFixChangeRoleRequestRequestor",
 }
 
 var ledgerVersionShortMap = map[int32]string{
@@ -54845,6 +57292,7 @@ var ledgerVersionShortMap = map[int32]string{
 	28: "fix_crash_core_with_payment",
 	29: "fix_invest_to_immediate_sale",
 	30: "fix_payment_tasks_wildcard_value",
+	31: "fix_change_role_request_requestor",
 }
 
 var ledgerVersionRevMap = map[string]int32{
@@ -54879,6 +57327,7 @@ var ledgerVersionRevMap = map[string]int32{
 	"LedgerVersionFixCrashCoreWithPayment":           28,
 	"LedgerVersionFixInvestToImmediateSale":          29,
 	"LedgerVersionFixPaymentTasksWildcardValue":      30,
+	"LedgerVersionFixChangeRoleRequestRequestor":     31,
 }
 
 // ValidEnum validates a proposed value for this enum.  Implements
@@ -55309,7 +57758,8 @@ func (u PublicKey) GetEd25519() (result Uint256, ok bool) {
 //        INITIATE_KYC_RECOVERY = 37,
 //        SWAP = 38,
 //        DATA = 39,
-//        CUSTOM = 40
+//        CUSTOM = 40,
+//        DEFERRED_PAYMENT = 41
 //    };
 //
 type LedgerEntryType int32
@@ -55353,6 +57803,7 @@ const (
 	LedgerEntryTypeSwap                             LedgerEntryType = 38
 	LedgerEntryTypeData                             LedgerEntryType = 39
 	LedgerEntryTypeCustom                           LedgerEntryType = 40
+	LedgerEntryTypeDeferredPayment                  LedgerEntryType = 41
 )
 
 var LedgerEntryTypeAll = []LedgerEntryType{
@@ -55394,6 +57845,7 @@ var LedgerEntryTypeAll = []LedgerEntryType{
 	LedgerEntryTypeSwap,
 	LedgerEntryTypeData,
 	LedgerEntryTypeCustom,
+	LedgerEntryTypeDeferredPayment,
 }
 
 var ledgerEntryTypeMap = map[int32]string{
@@ -55435,6 +57887,7 @@ var ledgerEntryTypeMap = map[int32]string{
 	38: "LedgerEntryTypeSwap",
 	39: "LedgerEntryTypeData",
 	40: "LedgerEntryTypeCustom",
+	41: "LedgerEntryTypeDeferredPayment",
 }
 
 var ledgerEntryTypeShortMap = map[int32]string{
@@ -55476,6 +57929,7 @@ var ledgerEntryTypeShortMap = map[int32]string{
 	38: "swap",
 	39: "data",
 	40: "custom",
+	41: "deferred_payment",
 }
 
 var ledgerEntryTypeRevMap = map[string]int32{
@@ -55517,6 +57971,7 @@ var ledgerEntryTypeRevMap = map[string]int32{
 	"LedgerEntryTypeSwap":                             38,
 	"LedgerEntryTypeData":                             39,
 	"LedgerEntryTypeCustom":                           40,
+	"LedgerEntryTypeDeferredPayment":                  41,
 }
 
 // ValidEnum validates a proposed value for this enum.  Implements
@@ -55940,7 +58395,11 @@ type Fee struct {
 //        CREATE_DATA_UPDATE_REQUEST = 62,
 //        CREATE_DATA_REMOVE_REQUEST = 63,
 //        CANCEL_DATA_UPDATE_REQUEST = 64,
-//        CANCEL_DATA_REMOVE_REQUEST = 65
+//        CANCEL_DATA_REMOVE_REQUEST = 65,
+//        CREATE_DEFERRED_PAYMENT_CREATION_REQUEST = 66,
+//        CANCEL_DEFERRED_PAYMENT_CREATION_REQUEST = 67,
+//        CREATE_CLOSE_DEFERRED_PAYMENT_REQUEST = 68,
+//        CANCEL_CLOSE_DEFERRED_PAYMENT_REQUEST = 69
 //    };
 //
 type OperationType int32
@@ -56005,6 +58464,10 @@ const (
 	OperationTypeCreateDataRemoveRequest                OperationType = 63
 	OperationTypeCancelDataUpdateRequest                OperationType = 64
 	OperationTypeCancelDataRemoveRequest                OperationType = 65
+	OperationTypeCreateDeferredPaymentCreationRequest   OperationType = 66
+	OperationTypeCancelDeferredPaymentCreationRequest   OperationType = 67
+	OperationTypeCreateCloseDeferredPaymentRequest      OperationType = 68
+	OperationTypeCancelCloseDeferredPaymentRequest      OperationType = 69
 )
 
 var OperationTypeAll = []OperationType{
@@ -56067,6 +58530,10 @@ var OperationTypeAll = []OperationType{
 	OperationTypeCreateDataRemoveRequest,
 	OperationTypeCancelDataUpdateRequest,
 	OperationTypeCancelDataRemoveRequest,
+	OperationTypeCreateDeferredPaymentCreationRequest,
+	OperationTypeCancelDeferredPaymentCreationRequest,
+	OperationTypeCreateCloseDeferredPaymentRequest,
+	OperationTypeCancelCloseDeferredPaymentRequest,
 }
 
 var operationTypeMap = map[int32]string{
@@ -56129,6 +58596,10 @@ var operationTypeMap = map[int32]string{
 	63: "OperationTypeCreateDataRemoveRequest",
 	64: "OperationTypeCancelDataUpdateRequest",
 	65: "OperationTypeCancelDataRemoveRequest",
+	66: "OperationTypeCreateDeferredPaymentCreationRequest",
+	67: "OperationTypeCancelDeferredPaymentCreationRequest",
+	68: "OperationTypeCreateCloseDeferredPaymentRequest",
+	69: "OperationTypeCancelCloseDeferredPaymentRequest",
 }
 
 var operationTypeShortMap = map[int32]string{
@@ -56191,6 +58662,10 @@ var operationTypeShortMap = map[int32]string{
 	63: "create_data_remove_request",
 	64: "cancel_data_update_request",
 	65: "cancel_data_remove_request",
+	66: "create_deferred_payment_creation_request",
+	67: "cancel_deferred_payment_creation_request",
+	68: "create_close_deferred_payment_request",
+	69: "cancel_close_deferred_payment_request",
 }
 
 var operationTypeRevMap = map[string]int32{
@@ -56253,6 +58728,10 @@ var operationTypeRevMap = map[string]int32{
 	"OperationTypeCreateDataRemoveRequest":                63,
 	"OperationTypeCancelDataUpdateRequest":                64,
 	"OperationTypeCancelDataRemoveRequest":                65,
+	"OperationTypeCreateDeferredPaymentCreationRequest":   66,
+	"OperationTypeCancelDeferredPaymentCreationRequest":   67,
+	"OperationTypeCreateCloseDeferredPaymentRequest":      68,
+	"OperationTypeCancelCloseDeferredPaymentRequest":      69,
 }
 
 // ValidEnum validates a proposed value for this enum.  Implements
@@ -56331,4 +58810,4 @@ type DecoratedSignature struct {
 }
 
 var fmtTest = fmt.Sprint("this is a dummy usage of fmt")
-var Revision = "e874e2dbfd3bed84017331fa2cd6ee10907ff53c"
+var Revision = "066600aac9f4c93f1d4c37e1bb7c559beafb2b6c"
