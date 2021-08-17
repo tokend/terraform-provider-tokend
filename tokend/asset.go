@@ -28,6 +28,10 @@ func resourceAsset() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"type": {
+				Type:     schema.TypeInt,
+				Optional: true,
+			},
 			"max_issuance_amount": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -100,6 +104,15 @@ func resourceAssetCreate(d *schema.ResourceData, _m interface{}) (err error) {
 		return errors.Wrap(err, "failed to get details")
 	}
 
+	rawAssetType := d.Get("type")
+	var assetType uint64
+	if rawAssetType != nil {
+		assetType, err = cast.ToUint64E(rawAssetType)
+		if err != nil {
+			return errors.Wrap(err, "failed to cast asset type")
+		}
+	}
+
 	env, err := m.Builder.Transaction(m.Source).Op(&xdrbuild.CreateAsset{
 		CreatorDetails:           details,
 		Code:                     d.Get("code").(string),
@@ -109,6 +122,7 @@ func resourceAssetCreate(d *schema.ResourceData, _m interface{}) (err error) {
 		TrailingDigitsCount:      uint32(d.Get("trailing_digits_count").(int)),
 		Policies:                 policies,
 		AllTasks:                 &zero,
+		Type:                     assetType,
 	}).Sign(m.Signer).Marshal()
 	if err != nil {
 		return errors.Wrap(err, "failed to marshal tx")

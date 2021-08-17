@@ -112,14 +112,6 @@ func (d IssuanceDetails) ReviewRequestDetails() xdr.ReviewRequestOpRequestDetail
 	}
 }
 
-type CreateSaleDetails struct{}
-
-func (d CreateSaleDetails) ReviewRequestDetails() xdr.ReviewRequestOpRequestDetails {
-	return xdr.ReviewRequestOpRequestDetails{
-		RequestType: xdr.ReviewableRequestTypeCreateSale,
-	}
-}
-
 type ReviewableRequestBaseDetails struct {
 	RequestType xdr.ReviewableRequestType
 }

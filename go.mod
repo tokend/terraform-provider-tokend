@@ -12,7 +12,7 @@ require (
 	github.com/stretchr/testify v1.7.0
 	gitlab.com/distributed_lab/kit v1.8.5 // indirect
 	gitlab.com/distributed_lab/logan v3.8.0+incompatible
-	gitlab.com/tokend/go v3.13.1+incompatible
+	gitlab.com/tokend/go v3.15.0+incompatible
 	gitlab.com/tokend/horizon-connector v4.3.0+incompatible
 	gitlab.com/tokend/keypair v0.0.0-20190412110653-b9d7e0c8b312
 	gitlab.com/tokend/regources v4.9.1+incompatible
