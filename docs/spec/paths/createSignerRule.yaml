@@ -51,3 +51,4 @@ get:
           - $ref: '#/components/schemas/SignerRuleEntryTypeReviewableRequest'
           - $ref: '#/components/schemas/SignerRuleEntryTypeStamp'
           - $ref: '#/components/schemas/SignerRuleEntryTypeLicense'
+          - $ref: '#/components/schemas/SignerRuleEntryTypeOffer'
