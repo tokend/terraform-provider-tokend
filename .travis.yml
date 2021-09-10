@@ -1,6 +1,7 @@
 if: tag IS present
 
 language: go
+install: true
 
 go:
   - 1.16.x
