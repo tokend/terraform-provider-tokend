@@ -21,9 +21,9 @@ env:
 script:
   - export IMAGE_TAG=$(test -z $TRAVIS_TAG && echo $TRAVIS_COMMIT || echo $TRAVIS_TAG)
   - docker build -t $PROJECT/$IMAGE_NAME:$IMAGE_TAG .
-  - CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o terraform-provider-tokend-linux -v github.com/tokend/terraform-provider-tokend
-  - CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -o terraform-provider-tokend-darwin -v github.com/tokend/terraform-provider-tokend
-  - CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -o terraform-provider-tokend-windows -v github.com/tokend/terraform-provider-tokend
+  - CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -mod vendor -o terraform-provider-tokend-linux -v github.com/tokend/terraform-provider-tokend
+  - CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -mod vendor -o terraform-provider-tokend-darwin -v github.com/tokend/terraform-provider-tokend
+  - CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -mod vendor -o terraform-provider-tokend-windows -v github.com/tokend/terraform-provider-tokend
 before_deploy:
   - echo "$DOCKERHUB_PASSWORD" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
 deploy:
