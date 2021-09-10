@@ -22,9 +22,6 @@ env:
 script:
   - export IMAGE_TAG=$(test -z $TRAVIS_TAG && echo $TRAVIS_COMMIT || echo $TRAVIS_TAG)
   - docker build -t $PROJECT/$IMAGE_NAME:$IMAGE_TAG .
-  - CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -mod vendor -o terraform-provider-tokend-linux -v github.com/tokend/terraform-provider-tokend
-  - CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -mod vendor -o terraform-provider-tokend-darwin -v github.com/tokend/terraform-provider-tokend
-  - CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -mod vendor -o terraform-provider-tokend-windows -v github.com/tokend/terraform-provider-tokend
 deploy:
   - provider: script
     script:
@@ -32,13 +29,4 @@ deploy:
       - docker push $PROJECT/$IMAGE_NAME:$IMAGE_TAG
     on:
       all_branches: true
-      tags: true
-  - skip_cleanup: true
-    provider: releases
-    file:
-      - terraform-provider-tokend-linux
-      - terraform-provider-tokend-darwin
-      - terraform-provider-tokend-windows
-    on:
-      repo: tokend/terraform-provider-tokend
       tags: true
