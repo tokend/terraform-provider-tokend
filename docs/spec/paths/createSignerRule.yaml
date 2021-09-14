@@ -52,3 +52,4 @@ get:
           - $ref: '#/components/schemas/SignerRuleEntryTypeStamp'
           - $ref: '#/components/schemas/SignerRuleEntryTypeLicense'
           - $ref: '#/components/schemas/SignerRuleEntryTypeOffer'
+          - $ref: '#/components/schemas/SignerRuleEntryTypeBalance'
