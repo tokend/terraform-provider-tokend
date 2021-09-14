@@ -25,7 +25,7 @@ script:
 deploy:
   - provider: script
     script:
-      - docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD
+      - echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin
       - docker push $PROJECT/$IMAGE_NAME:$IMAGE_TAG
     on:
       all_branches: true
