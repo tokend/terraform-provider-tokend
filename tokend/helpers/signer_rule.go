@@ -27,6 +27,7 @@ var SignerRuleEntries = map[string]SignerRuleEntryFunc{
 	"asset_pair":         signerRuleResourceAssetPair,
 	"data":               signerRuleResourceData,
 	"offer":              signerRuleResourceOffer,
+	"balance":            signerRuleResourceBalance,
 }
 
 func SignerRuleEntry(d *schema.ResourceData) (*xdr.SignerRuleResource, error) {
@@ -274,4 +275,11 @@ func signerRuleResourceOffer(d *schema.ResourceData) (*xdr.SignerRuleResource, e
 		IsBuy:          isBuy,
 	}
 	return &resource, nil
+}
+
+func signerRuleResourceBalance(_ *schema.ResourceData) (*xdr.SignerRuleResource, error) {
+	return &xdr.SignerRuleResource{
+		Type: xdr.LedgerEntryTypeBalance,
+		Ext:  &xdr.EmptyExt{},
+	}, nil
 }
