@@ -144,6 +144,12 @@ func signerRuleResourceReviewableRequest(d *schema.ResourceData) (*xdr.SignerRul
 		resource.ReviewableRequest.Details.DataRemove = &xdr.ReviewableRequestResourceDataRemove{
 			Type: xdr.Uint64(dataType),
 		}
+
+	case xdr.ReviewableRequestTypeCreateWithdraw:
+		resource.ReviewableRequest.Details.CreateWithdraw = &xdr.ReviewableRequestResourceCreateWithdraw{
+			AssetCode: "*",            //TODO
+			AssetType: math.MaxUint64, //TODO
+		}
 	}
 
 	return &resource, nil
