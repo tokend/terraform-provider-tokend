@@ -7,4 +7,5 @@ RUN CGO_ENABLED=0 GOOS=linux go build -o /terraform-provider-tokend -v github.co
 
 FROM zenika/terraform-aws-cli:release-5.1_terraform-0.11.15_awscli-1.20.41
 WORKDIR /opt
+COPY ./run.sh /bin/run.sh
 COPY --from=builder /terraform-provider-tokend /bin/terraform-provider-tokend
