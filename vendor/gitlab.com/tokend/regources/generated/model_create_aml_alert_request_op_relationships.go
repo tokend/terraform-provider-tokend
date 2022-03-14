@@ -6,4 +6,5 @@ package regources
 
 type CreateAmlAlertRequestOpRelationships struct {
 	Balance *Relation `json:"balance,omitempty"`
+	Request *Relation `json:"request,omitempty"`
 }

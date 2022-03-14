@@ -1,12 +1,11 @@
 package keyvalues
 
 import (
-	"encoding/json"
-	"fmt"
+	regources "gitlab.com/tokend/regources/generated"
 
+	"gitlab.com/distributed_lab/json-api-connector/client"
 	"gitlab.com/distributed_lab/logan/v3/errors"
-	"gitlab.com/tokend/horizon-connector"
-	"gitlab.com/tokend/regources/generated"
+	"gitlab.com/tokend/connectors/keyvalue"
 )
 
 //go:generate mockery -case underscore -name KeyValues
@@ -15,29 +14,20 @@ type KeyValues interface {
 }
 
 type keyValues struct {
-	client *horizon.Client
+	client *keyvalue.KeyValuer
 }
 
-func NewKeyValues(client *horizon.Client) KeyValues {
+func NewKeyValues(client client.Client) KeyValues {
 	return &keyValues{
-		client: client,
+		client: keyvalue.New(client),
 	}
 }
 
 func (q *keyValues) Value(key string) (*regources.KeyValueEntryValue, error) {
-	resp, err := q.client.Get(fmt.Sprintf("/v3/key_values/%s", key))
+	entry, err := q.client.KeyValue(key)
 	if err != nil {
-		return nil, errors.Wrap(err, "failed to get key value")
+		return nil, errors.Wrap(err, "failed to get key value entry")
 	}
 
-	if resp == nil {
-		return nil, nil
-	}
-
-	var result regources.KeyValueEntryResponse
-	if err := json.Unmarshal(resp, &result); err != nil {
-		return nil, errors.Wrap(err, "Failed to unmarshal key value")
-	}
-
-	return &result.Data.Attributes.Value, nil
+	return &entry.Attributes.Value, nil
 }

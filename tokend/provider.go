@@ -1,7 +1,10 @@
 package tokend
 
 import (
+	"net/http"
 	"net/url"
+
+	"gitlab.com/tokend/connectors/signed"
 
 	"github.com/tokend/terraform-provider-tokend/tokend/data"
 
@@ -11,8 +14,8 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/pkg/errors"
 	"github.com/tokend/terraform-provider-tokend/tokend/helpers/validation"
+	"gitlab.com/tokend/connectors/submit"
 	"gitlab.com/tokend/go/xdrbuild"
-	"gitlab.com/tokend/horizon-connector"
 	"gitlab.com/tokend/keypair"
 )
 
@@ -63,16 +66,16 @@ func Provider() terraform.ResourceProvider {
 				return nil, errors.Wrap(err, "failed to parse source")
 			}
 
-			hrz := horizon.NewConnector(endpoint).WithSigner(signer)
-
-			builder, err := hrz.TXBuilder()
+			client := signed.NewClient(http.DefaultClient, endpoint).WithSigner(signer).WithSource(source)
+			submitter := submit.New(client)
+			builder, err := submitter.TXBuilder()
 			if err != nil {
-				return nil, errors.Wrap(err, "failed to init builder")
+				return nil, errors.Wrap(err, "failed to init tx builder")
 			}
 
 			return Meta{
-				Horizon:   hrz,
-				Connector: connector.NewConnector(hrz.Client()),
+				Horizon:   connector.NewSubmitter(submitter),
+				Connector: connector.NewConnector(client),
 				Builder:   *builder,
 				Source:    source,
 				Signer:    signer,
@@ -82,7 +85,7 @@ func Provider() terraform.ResourceProvider {
 }
 
 type Meta struct {
-	Horizon   *horizon.Connector
+	Horizon   *connector.HorizonSubmitter
 	Connector data.Connector
 	Signer    keypair.Full
 	Source    keypair.Address
