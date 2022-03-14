@@ -3,6 +3,7 @@ package tokend
 import (
 	"context"
 	"fmt"
+
 	"gitlab.com/tokend/go/xdr"
 
 	"github.com/hashicorp/terraform/helper/schema"
@@ -131,7 +132,7 @@ func resourceKeyValueRead(d *schema.ResourceData, _m interface{}) error {
 
 	key := d.Get("key").(string)
 
-	rawValue, err := m.Connector.KeyValues().Value(key)
+	rawValue, err := m.Horizon.KeyValues().Value(key)
 	if err != nil {
 		return errors.Wrap(err, "failed to get value")
 	}

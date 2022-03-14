@@ -1,4 +1,4 @@
-package connector
+package tx
 
 import (
 	"context"
@@ -6,21 +6,21 @@ import (
 	"gitlab.com/tokend/connectors/submit"
 )
 
-type HorizonSubmitter struct {
+type HorizonSubmitter interface {
+	Submit(ctx context.Context, envelope string) Result
+}
+
+type horizonSubmitter struct {
 	submitter *submit.Submitter
 }
 
-func NewSubmitter(submitter *submit.Submitter) *HorizonSubmitter {
-	return &HorizonSubmitter{
+func NewSubmitter(submitter *submit.Submitter) HorizonSubmitter {
+	return &horizonSubmitter{
 		submitter: submitter,
 	}
 }
 
-func (s *HorizonSubmitter) Submitter() *HorizonSubmitter {
-	return s
-}
-
-func (s *HorizonSubmitter) Submit(ctx context.Context, envelope string) Result {
+func (s *horizonSubmitter) Submit(ctx context.Context, envelope string) Result {
 	response, err := s.submitter.Submit(ctx, envelope, true, false)
 	if err != nil {
 		if txFailed, ok := err.(submit.TxFailure); ok {

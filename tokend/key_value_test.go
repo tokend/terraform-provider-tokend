@@ -17,7 +17,7 @@ import (
 func TestKeyValue_Read(t *testing.T) {
 	connector := mocks.Connector{}
 	keyValues := mocks2.KeyValues{}
-	m := Meta{Connector: &connector}
+	m := Meta{Horizon: &connector}
 
 	t.Run("new type", func(t *testing.T) {
 		c := map[string]interface{}{

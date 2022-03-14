@@ -74,20 +74,18 @@ func Provider() terraform.ResourceProvider {
 			}
 
 			return Meta{
-				Horizon:   connector.NewSubmitter(submitter),
-				Connector: connector.NewConnector(client),
-				Builder:   *builder,
-				Source:    source,
-				Signer:    signer,
+				Horizon: connector.NewConnector(client, submitter),
+				Builder: *builder,
+				Source:  source,
+				Signer:  signer,
 			}, nil
 		},
 	}
 }
 
 type Meta struct {
-	Horizon   *connector.HorizonSubmitter
-	Connector data.Connector
-	Signer    keypair.Full
-	Source    keypair.Address
-	Builder   xdrbuild.Builder
+	Horizon data.Connector
+	Signer  keypair.Full
+	Source  keypair.Address
+	Builder xdrbuild.Builder
 }
