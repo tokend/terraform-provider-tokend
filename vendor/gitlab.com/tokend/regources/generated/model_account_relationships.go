@@ -13,4 +13,5 @@ type AccountRelationships struct {
 	LimitsWithStats   *RelationCollection `json:"limits_with_stats,omitempty"`
 	Referrer          *Relation           `json:"referrer,omitempty"`
 	Role              *Relation           `json:"role,omitempty"`
+	Signers           *RelationCollection `json:"signers,omitempty"`
 }

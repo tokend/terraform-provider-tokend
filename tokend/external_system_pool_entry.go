@@ -3,6 +3,7 @@ package tokend
 import (
 	"context"
 	"fmt"
+
 	"gitlab.com/tokend/go/xdr"
 
 	"github.com/tokend/terraform-provider-tokend/tokend/helpers"
@@ -42,7 +43,7 @@ func resourceExternalSystemPoolEntry() *schema.Resource {
 func resourceExternalSystemPoolEntryCreate(d *schema.ResourceData, _m interface{}) (err error) {
 	m := _m.(Meta)
 
-	stellarExternalSystemType, err := m.Connector.KeyValues().Value(externalSystemTypeStellarKey)
+	stellarExternalSystemType, err := m.Horizon.KeyValues().Value(externalSystemTypeStellarKey)
 	if err != nil {
 		return errors.Wrap(err, "failed to get stellar external system type")
 	}

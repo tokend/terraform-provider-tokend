@@ -7,16 +7,19 @@ github.com/apparentlymart/go-textseg/v12/textseg
 # github.com/apparentlymart/go-versions v1.0.1
 github.com/apparentlymart/go-versions/versions
 github.com/apparentlymart/go-versions/versions/constraints
+# github.com/asaskevich/govalidator v0.0.0-20210307081110-f21760c49a8d
+## explicit
 # github.com/bmatcuk/doublestar v1.1.5
 github.com/bmatcuk/doublestar
 # github.com/davecgh/go-spew v1.1.1
 github.com/davecgh/go-spew/spew
-# github.com/fsnotify/fsnotify v1.4.7
+# github.com/fatih/structs v1.1.0
+github.com/fatih/structs
+# github.com/fsnotify/fsnotify v1.4.9
 github.com/fsnotify/fsnotify
 # github.com/getsentry/sentry-go v0.7.0
 github.com/getsentry/sentry-go
 # github.com/go-ozzo/ozzo-validation v3.6.0+incompatible
-## explicit
 github.com/go-ozzo/ozzo-validation
 # github.com/golang/protobuf v1.4.2
 github.com/golang/protobuf/proto
@@ -114,9 +117,7 @@ github.com/hashicorp/terraform-svchost/auth
 github.com/hashicorp/terraform-svchost/disco
 # github.com/hashicorp/yamux v0.0.0-20181012175058-2f1d1f20f75d
 github.com/hashicorp/yamux
-# github.com/konsorten/go-windows-terminal-sequences v1.0.3
-github.com/konsorten/go-windows-terminal-sequences
-# github.com/magiconair/properties v1.8.0
+# github.com/magiconair/properties v1.8.1
 github.com/magiconair/properties
 # github.com/mitchellh/copystructure v1.0.0
 github.com/mitchellh/copystructure
@@ -132,7 +133,6 @@ github.com/mitchellh/mapstructure
 # github.com/mitchellh/reflectwalk v1.0.1
 github.com/mitchellh/reflectwalk
 # github.com/nullstyle/go-xdr v0.0.0-20180726165426-f4c839f75077
-## explicit
 github.com/nullstyle/go-xdr/xdr3
 # github.com/oklog/run v1.0.0
 github.com/oklog/run
@@ -143,19 +143,19 @@ github.com/pelletier/go-toml
 github.com/pkg/errors
 # github.com/pmezard/go-difflib v1.0.0
 github.com/pmezard/go-difflib/difflib
-# github.com/sirupsen/logrus v1.6.0
+# github.com/sirupsen/logrus v1.7.0
 github.com/sirupsen/logrus
 # github.com/spf13/afero v1.2.2
 github.com/spf13/afero
 github.com/spf13/afero/mem
-# github.com/spf13/cast v1.3.1
+# github.com/spf13/cast v1.4.1
 ## explicit
 github.com/spf13/cast
 # github.com/spf13/jwalterweatherman v1.0.0
 github.com/spf13/jwalterweatherman
 # github.com/spf13/pflag v1.0.3
 github.com/spf13/pflag
-# github.com/spf13/viper v1.3.2
+# github.com/spf13/viper v1.7.1
 github.com/spf13/viper
 # github.com/stretchr/objx v0.1.1
 github.com/stretchr/objx
@@ -163,6 +163,8 @@ github.com/stretchr/objx
 ## explicit
 github.com/stretchr/testify/assert
 github.com/stretchr/testify/mock
+# github.com/subosito/gotenv v1.2.0
+github.com/subosito/gotenv
 # github.com/vmihailenco/msgpack/v4 v4.3.12
 github.com/vmihailenco/msgpack/v4
 github.com/vmihailenco/msgpack/v4/codes
@@ -185,8 +187,13 @@ github.com/zclconf/go-cty/cty/set
 github.com/zclconf/go-cty-yaml
 # gitlab.com/distributed_lab/figure v2.1.0+incompatible
 gitlab.com/distributed_lab/figure
-# gitlab.com/distributed_lab/kit v1.8.5
+# gitlab.com/distributed_lab/json-api-connector v0.2.4
 ## explicit
+gitlab.com/distributed_lab/json-api-connector
+gitlab.com/distributed_lab/json-api-connector/base
+gitlab.com/distributed_lab/json-api-connector/cerrors
+gitlab.com/distributed_lab/json-api-connector/client
+# gitlab.com/distributed_lab/kit v1.8.6
 gitlab.com/distributed_lab/kit/comfig
 gitlab.com/distributed_lab/kit/kv
 # gitlab.com/distributed_lab/logan v3.8.0+incompatible
@@ -194,6 +201,13 @@ gitlab.com/distributed_lab/kit/kv
 gitlab.com/distributed_lab/logan/v3
 gitlab.com/distributed_lab/logan/v3/errors
 gitlab.com/distributed_lab/logan/v3/fields
+# gitlab.com/tokend/connectors v0.1.9
+## explicit
+gitlab.com/tokend/connectors/keyer
+gitlab.com/tokend/connectors/keyvalue
+gitlab.com/tokend/connectors/lazyinfo
+gitlab.com/tokend/connectors/signed
+gitlab.com/tokend/connectors/submit
 # gitlab.com/tokend/go v3.15.0+incompatible
 ## explicit
 gitlab.com/tokend/go/amount
@@ -201,39 +215,12 @@ gitlab.com/tokend/go/crc16
 gitlab.com/tokend/go/hash
 gitlab.com/tokend/go/keypair
 gitlab.com/tokend/go/network
-gitlab.com/tokend/go/resources
 gitlab.com/tokend/go/signcontrol
 gitlab.com/tokend/go/signcontrol/internal/httpsignatures
 gitlab.com/tokend/go/strkey
 gitlab.com/tokend/go/xdr
 gitlab.com/tokend/go/xdrbuild
 gitlab.com/tokend/go/xdrbuild/internal
-# gitlab.com/tokend/horizon-connector v4.3.0+incompatible
-## explicit
-gitlab.com/tokend/horizon-connector
-gitlab.com/tokend/horizon-connector/internal
-gitlab.com/tokend/horizon-connector/internal/account
-gitlab.com/tokend/horizon-connector/internal/asset
-gitlab.com/tokend/horizon-connector/internal/balance
-gitlab.com/tokend/horizon-connector/internal/blob
-gitlab.com/tokend/horizon-connector/internal/document
-gitlab.com/tokend/horizon-connector/internal/errors
-gitlab.com/tokend/horizon-connector/internal/keyvalue
-gitlab.com/tokend/horizon-connector/internal/listener
-gitlab.com/tokend/horizon-connector/internal/operation
-gitlab.com/tokend/horizon-connector/internal/orders
-gitlab.com/tokend/horizon-connector/internal/poll
-gitlab.com/tokend/horizon-connector/internal/resources
-gitlab.com/tokend/horizon-connector/internal/resources/operations
-gitlab.com/tokend/horizon-connector/internal/responses
-gitlab.com/tokend/horizon-connector/internal/sale
-gitlab.com/tokend/horizon-connector/internal/system
-gitlab.com/tokend/horizon-connector/internal/templates
-gitlab.com/tokend/horizon-connector/internal/transaction
-gitlab.com/tokend/horizon-connector/internal/transactionv2
-gitlab.com/tokend/horizon-connector/internal/user
-gitlab.com/tokend/horizon-connector/internal/wallets
-gitlab.com/tokend/horizon-connector/types
 # gitlab.com/tokend/keypair v0.0.0-20190412110653-b9d7e0c8b312
 ## explicit
 gitlab.com/tokend/keypair
@@ -241,11 +228,9 @@ gitlab.com/tokend/keypair/figurekeypair
 gitlab.com/tokend/keypair/internal
 gitlab.com/tokend/keypair/internal/crc16
 gitlab.com/tokend/keypair/internal/strkey
-# gitlab.com/tokend/regources v4.9.1+incompatible
+# gitlab.com/tokend/regources v4.9.2-0.20210809204843-6ec3aa755883+incompatible
 ## explicit
-gitlab.com/tokend/regources
 gitlab.com/tokend/regources/generated
-gitlab.com/tokend/regources/v2
 # golang.org/x/crypto v0.0.0-20200820211705-5c72a883971a
 golang.org/x/crypto/bcrypt
 golang.org/x/crypto/blowfish
@@ -394,7 +379,9 @@ google.golang.org/protobuf/types/known/anypb
 google.golang.org/protobuf/types/known/durationpb
 google.golang.org/protobuf/types/known/emptypb
 google.golang.org/protobuf/types/known/timestamppb
-# gopkg.in/yaml.v2 v2.2.8
+# gopkg.in/ini.v1 v1.51.0
+gopkg.in/ini.v1
+# gopkg.in/yaml.v2 v2.3.0
 gopkg.in/yaml.v2
 # gopkg.in/yaml.v3 v3.0.0-20200313102051-9f266ea9e77c
 gopkg.in/yaml.v3
