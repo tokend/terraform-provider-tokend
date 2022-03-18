@@ -1,5 +1,5 @@
-// revision: 066600aac9f4c93f1d4c37e1bb7c559beafb2b6c
-// branch:   (HEAD
+// revision: e0b64cd344cdb8711aff3c37e6856cabf8bca226
+// branch:   feature/liquidity-pool
 // Package xdr is generated from:
 //
 //  xdr/SCP.x
@@ -22,6 +22,7 @@
 //  xdr/ledger-entries-key-value.x
 //  xdr/ledger-entries-license.x
 //  xdr/ledger-entries-limits-v2.x
+//  xdr/ledger-entries-liquidity-pool.x
 //  xdr/ledger-entries-offer.x
 //  xdr/ledger-entries-pending-statistics.x
 //  xdr/ledger-entries-poll.x
@@ -72,6 +73,9 @@
 //  xdr/operation-create-withdrawal-request.x
 //  xdr/operation-initiate-kyc-recovery.x
 //  xdr/operation-license.x
+//  xdr/operation-lp-add-liquidity.x
+//  xdr/operation-lp-remove-liquidity.x
+//  xdr/operation-lp-swap.x
 //  xdr/operation-manage-account-role.x
 //  xdr/operation-manage-account-rule.x
 //  xdr/operation-manage-account-specific-rule.x
@@ -3084,6 +3088,48 @@ type LimitsV2Entry struct {
 	Ext             LimitsV2EntryExt `json:"ext,omitempty"`
 }
 
+// LiquidityPoolEntry is an XDR Struct defines as:
+//
+//   struct LiquidityPoolEntry
+//        {
+//            //: Unique sequential identifier of the liquidity pool
+//            uint64 id;
+//
+//            //: Account that holds balances of the liquidity pool
+//            AccountID liquidityPoolAccount;
+//
+//            //: Asset code of the LP token
+//            AssetCode lpTokenAssetCode;
+//
+//            //: Balance of first asset
+//            BalanceID firstAssetBalance;
+//            //: Balance of second asset
+//            BalanceID secondAssetBalance;
+//
+//            //: Total amount of all LP tokens
+//            uint64 lpTokensTotalCap;
+//
+//            //: Amount of first asset stored in liquidity pool
+//            uint64 firstReserve;
+//            //: Amount of second asset stored in liquidity pool
+//            uint64 secondReserve;
+//
+//            //: Reserved for future usage
+//            EmptyExt ext;
+//        };
+//
+type LiquidityPoolEntry struct {
+	Id                   Uint64    `json:"id,omitempty"`
+	LiquidityPoolAccount AccountId `json:"liquidityPoolAccount,omitempty"`
+	LpTokenAssetCode     AssetCode `json:"lpTokenAssetCode,omitempty"`
+	FirstAssetBalance    BalanceId `json:"firstAssetBalance,omitempty"`
+	SecondAssetBalance   BalanceId `json:"secondAssetBalance,omitempty"`
+	LpTokensTotalCap     Uint64    `json:"lpTokensTotalCap,omitempty"`
+	FirstReserve         Uint64    `json:"firstReserve,omitempty"`
+	SecondReserve        Uint64    `json:"secondReserve,omitempty"`
+	Ext                  EmptyExt  `json:"ext,omitempty"`
+}
+
 // OfferEntryExt is an XDR NestedUnion defines as:
 //
 //   union switch (LedgerVersion v)
@@ -3238,29 +3284,35 @@ type PendingStatisticsEntry struct {
 //   //: Functional type of poll
 //    enum PollType
 //    {
-//        SINGLE_CHOICE = 0
+//        SINGLE_CHOICE = 0,
+//        CUSTOM_CHOICE = 1
 //    };
 //
 type PollType int32
 
 const (
 	PollTypeSingleChoice PollType = 0
+	PollTypeCustomChoice PollType = 1
 )
 
 var PollTypeAll = []PollType{
 	PollTypeSingleChoice,
+	PollTypeCustomChoice,
 }
 
 var pollTypeMap = map[int32]string{
 	0: "PollTypeSingleChoice",
+	1: "PollTypeCustomChoice",
 }
 
 var pollTypeShortMap = map[int32]string{
 	0: "single_choice",
+	1: "custom_choice",
 }
 
 var pollTypeRevMap = map[string]int32{
 	"PollTypeSingleChoice": 0,
+	"PollTypeCustomChoice": 1,
 }
 
 // ValidEnum validates a proposed value for this enum.  Implements
@@ -3332,11 +3384,14 @@ func (e *PollType) UnmarshalJSON(data []byte) error {
 //    {
 //    case SINGLE_CHOICE:
 //        EmptyExt ext;
+//    case CUSTOM_CHOICE:
+//    	EmptyExt customChoiceExt;
 //    };
 //
 type PollData struct {
-	Type PollType  `json:"type,omitempty"`
-	Ext  *EmptyExt `json:"ext,omitempty"`
+	Type            PollType  `json:"type,omitempty"`
+	Ext             *EmptyExt `json:"ext,omitempty"`
+	CustomChoiceExt *EmptyExt `json:"customChoiceExt,omitempty"`
 }
 
 // SwitchFieldName returns the field name in which this union's
@@ -3351,6 +3406,8 @@ func (u PollData) ArmForSwitch(sw int32) (string, bool) {
 	switch PollType(sw) {
 	case PollTypeSingleChoice:
 		return "Ext", true
+	case PollTypeCustomChoice:
+		return "CustomChoiceExt", true
 	}
 	return "-", false
 }
@@ -3366,6 +3423,13 @@ func NewPollData(aType PollType, value interface{}) (result PollData, err error)
 			return
 		}
 		result.Ext = &tv
+	case PollTypeCustomChoice:
+		tv, ok := value.(EmptyExt)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be EmptyExt")
+			return
+		}
+		result.CustomChoiceExt = &tv
 	}
 	return
 }
@@ -3389,6 +3453,31 @@ func (u PollData) GetExt() (result EmptyExt, ok bool) {
 
 	if armName == "Ext" {
 		result = *u.Ext
+		ok = true
+	}
+
+	return
+}
+
+// MustCustomChoiceExt retrieves the CustomChoiceExt value from the union,
+// panicing if the value is not set.
+func (u PollData) MustCustomChoiceExt() EmptyExt {
+	val, ok := u.GetCustomChoiceExt()
+
+	if !ok {
+		panic("arm CustomChoiceExt is not set")
+	}
+
+	return val
+}
+
+// GetCustomChoiceExt retrieves the CustomChoiceExt value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u PollData) GetCustomChoiceExt() (result EmptyExt, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.Type))
+
+	if armName == "CustomChoiceExt" {
+		result = *u.CustomChoiceExt
 		ok = true
 	}
 
@@ -5933,6 +6022,8 @@ type SingleChoiceVote struct {
 //    {
 //    case SINGLE_CHOICE:
 //        SingleChoiceVote single;
+//    case CUSTOM_CHOICE:
+//    	longstring custom;
 //    //case MULTIPLE_CHOICE:
 //    //    MultipleChoiceVote multiple;
 //    };
@@ -5940,6 +6031,7 @@ type SingleChoiceVote struct {
 type VoteData struct {
 	PollType PollType          `json:"pollType,omitempty"`
 	Single   *SingleChoiceVote `json:"single,omitempty"`
+	Custom   *Longstring       `json:"custom,omitempty"`
 }
 
 // SwitchFieldName returns the field name in which this union's
@@ -5954,6 +6046,8 @@ func (u VoteData) ArmForSwitch(sw int32) (string, bool) {
 	switch PollType(sw) {
 	case PollTypeSingleChoice:
 		return "Single", true
+	case PollTypeCustomChoice:
+		return "Custom", true
 	}
 	return "-", false
 }
@@ -5969,6 +6063,13 @@ func NewVoteData(pollType PollType, value interface{}) (result VoteData, err err
 			return
 		}
 		result.Single = &tv
+	case PollTypeCustomChoice:
+		tv, ok := value.(Longstring)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be Longstring")
+			return
+		}
+		result.Custom = &tv
 	}
 	return
 }
@@ -5992,6 +6093,31 @@ func (u VoteData) GetSingle() (result SingleChoiceVote, ok bool) {
 
 	if armName == "Single" {
 		result = *u.Single
+		ok = true
+	}
+
+	return
+}
+
+// MustCustom retrieves the Custom value from the union,
+// panicing if the value is not set.
+func (u VoteData) MustCustom() Longstring {
+	val, ok := u.GetCustom()
+
+	if !ok {
+		panic("arm Custom is not set")
+	}
+
+	return val
+}
+
+// GetCustom retrieves the Custom value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u VoteData) GetCustom() (result Longstring, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.PollType))
+
+	if armName == "Custom" {
+		result = *u.Custom
 		ok = true
 	}
 
@@ -6197,6 +6323,8 @@ func (e *ThresholdIndexes) UnmarshalJSON(data []byte) error {
 //            DataEntry data;
 //        case DEFERRED_PAYMENT:
 //            DeferredPaymentEntry deferredPayment;
+//        case LIQUIDITY_POOL:
+//            LiquidityPoolEntry liquidityPool;
 //        }
 //
 type LedgerEntryData struct {
@@ -6234,6 +6362,7 @@ type LedgerEntryData struct {
 	Swap                             *SwapEntry                        `json:"swap,omitempty"`
 	Data                             *DataEntry                        `json:"data,omitempty"`
 	DeferredPayment                  *DeferredPaymentEntry             `json:"deferredPayment,omitempty"`
+	LiquidityPool                    *LiquidityPoolEntry               `json:"liquidityPool,omitempty"`
 }
 
 // SwitchFieldName returns the field name in which this union's
@@ -6312,6 +6441,8 @@ func (u LedgerEntryData) ArmForSwitch(sw int32) (string, bool) {
 		return "Data", true
 	case LedgerEntryTypeDeferredPayment:
 		return "DeferredPayment", true
+	case LedgerEntryTypeLiquidityPool:
+		return "LiquidityPool", true
 	}
 	return "-", false
 }
@@ -6551,6 +6682,13 @@ func NewLedgerEntryData(aType LedgerEntryType, value interface{}) (result Ledger
 			return
 		}
 		result.DeferredPayment = &tv
+	case LedgerEntryTypeLiquidityPool:
+		tv, ok := value.(LiquidityPoolEntry)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be LiquidityPoolEntry")
+			return
+		}
+		result.LiquidityPool = &tv
 	}
 	return
 }
@@ -7380,6 +7518,31 @@ func (u LedgerEntryData) GetDeferredPayment() (result DeferredPaymentEntry, ok b
 	return
 }
 
+// MustLiquidityPool retrieves the LiquidityPool value from the union,
+// panicing if the value is not set.
+func (u LedgerEntryData) MustLiquidityPool() LiquidityPoolEntry {
+	val, ok := u.GetLiquidityPool()
+
+	if !ok {
+		panic("arm LiquidityPool is not set")
+	}
+
+	return val
+}
+
+// GetLiquidityPool retrieves the LiquidityPool value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u LedgerEntryData) GetLiquidityPool() (result LiquidityPoolEntry, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.Type))
+
+	if armName == "LiquidityPool" {
+		result = *u.LiquidityPool
+		ok = true
+	}
+
+	return
+}
+
 // LedgerEntryExt is an XDR NestedUnion defines as:
 //
 //   union switch (LedgerVersion v)
@@ -7492,6 +7655,8 @@ func NewLedgerEntryExt(v LedgerVersion, value interface{}) (result LedgerEntryEx
 //            DataEntry data;
 //        case DEFERRED_PAYMENT:
 //            DeferredPaymentEntry deferredPayment;
+//        case LIQUIDITY_POOL:
+//            LiquidityPoolEntry liquidityPool;
 //        }
 //        data;
 //
@@ -9156,6 +9321,19 @@ type LedgerKeyDeferredPayment struct {
 	Ext EmptyExt `json:"ext,omitempty"`
 }
 
+// LedgerKeyLiquidityPool is an XDR NestedStruct defines as:
+//
+//   struct {
+//            uint64 id;
+//
+//            EmptyExt ext;
+//        }
+//
+type LedgerKeyLiquidityPool struct {
+	Id  Uint64   `json:"id,omitempty"`
+	Ext EmptyExt `json:"ext,omitempty"`
+}
+
 // LedgerKey is an XDR Union defines as:
 //
 //   union LedgerKey switch (LedgerEntryType type)
@@ -9475,6 +9653,12 @@ type LedgerKeyDeferredPayment struct {
 //
 //            EmptyExt ext;
 //        } deferredPayment;
+//    case LIQUIDITY_POOL:
+//        struct {
+//            uint64 id;
+//
+//            EmptyExt ext;
+//        } liquidityPool;
 //    };
 //
 type LedgerKey struct {
@@ -9512,6 +9696,7 @@ type LedgerKey struct {
 	Swap                             *LedgerKeySwap                             `json:"swap,omitempty"`
 	Data                             *LedgerKeyData                             `json:"data,omitempty"`
 	DeferredPayment                  *LedgerKeyDeferredPayment                  `json:"deferredPayment,omitempty"`
+	LiquidityPool                    *LedgerKeyLiquidityPool                    `json:"liquidityPool,omitempty"`
 }
 
 // SwitchFieldName returns the field name in which this union's
@@ -9590,6 +9775,8 @@ func (u LedgerKey) ArmForSwitch(sw int32) (string, bool) {
 		return "Data", true
 	case LedgerEntryTypeDeferredPayment:
 		return "DeferredPayment", true
+	case LedgerEntryTypeLiquidityPool:
+		return "LiquidityPool", true
 	}
 	return "-", false
 }
@@ -9829,6 +10016,13 @@ func NewLedgerKey(aType LedgerEntryType, value interface{}) (result LedgerKey, e
 			return
 		}
 		result.DeferredPayment = &tv
+	case LedgerEntryTypeLiquidityPool:
+		tv, ok := value.(LedgerKeyLiquidityPool)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be LedgerKeyLiquidityPool")
+			return
+		}
+		result.LiquidityPool = &tv
 	}
 	return
 }
@@ -10652,6 +10846,31 @@ func (u LedgerKey) GetDeferredPayment() (result LedgerKeyDeferredPayment, ok boo
 
 	if armName == "DeferredPayment" {
 		result = *u.DeferredPayment
+		ok = true
+	}
+
+	return
+}
+
+// MustLiquidityPool retrieves the LiquidityPool value from the union,
+// panicing if the value is not set.
+func (u LedgerKey) MustLiquidityPool() LedgerKeyLiquidityPool {
+	val, ok := u.GetLiquidityPool()
+
+	if !ok {
+		panic("arm LiquidityPool is not set")
+	}
+
+	return val
+}
+
+// GetLiquidityPool retrieves the LiquidityPool value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u LedgerKey) GetLiquidityPool() (result LedgerKeyLiquidityPool, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.Type))
+
+	if armName == "LiquidityPool" {
+		result = *u.LiquidityPool
 		ok = true
 	}
 
@@ -23692,6 +23911,1258 @@ func (u LicenseResult) GetSuccess() (result LicenseSuccess, ok bool) {
 	return
 }
 
+// LpAddLiquidityOp is an XDR Struct defines as:
+//
+//   struct LPAddLiquidityOp
+//        {
+//            //: Balance for first asset of the pair
+//            BalanceID firstAssetBalanceID;
+//            //: Balance for second asset of the pair
+//            BalanceID secondAssetBalanceID;
+//
+//            //: Desired amount of first asset to be provided
+//            uint64 firstAssetDesiredAmount;
+//            //: Desired amount of second asset to be provided
+//            uint64 secondAssetDesiredAmount;
+//
+//            //: Minimal amount of first asset to be provided
+//            uint64 firstAssetMinAmount;
+//            //: Minimal amount of second asset to be provided
+//            uint64 secondAssetMinAmount;
+//
+//            //: Reserved for future use
+//            EmptyExt ext;
+//        };
+//
+type LpAddLiquidityOp struct {
+	FirstAssetBalanceId      BalanceId `json:"firstAssetBalanceID,omitempty"`
+	SecondAssetBalanceId     BalanceId `json:"secondAssetBalanceID,omitempty"`
+	FirstAssetDesiredAmount  Uint64    `json:"firstAssetDesiredAmount,omitempty"`
+	SecondAssetDesiredAmount Uint64    `json:"secondAssetDesiredAmount,omitempty"`
+	FirstAssetMinAmount      Uint64    `json:"firstAssetMinAmount,omitempty"`
+	SecondAssetMinAmount     Uint64    `json:"secondAssetMinAmount,omitempty"`
+	Ext                      EmptyExt  `json:"ext,omitempty"`
+}
+
+// LpAddLiquidityResultCode is an XDR Enum defines as:
+//
+//   enum LPAddLiquidityResultCode
+//        {
+//            //: LP add liquidity was successful
+//            SUCCESS = 0,
+//
+//            //: Assets in the pair are equal
+//            SAME_ASSETS = -1,
+//            //: Not enough funds in the source account
+//            UNDERFUNDED = -2,
+//            //: After adding liquidity, the destination balance will exceed the limit (total amount on the balance will be greater than UINT64_MAX)
+//            BALANCE_OVERFLOW = -3,
+//            //: Provided asset does not have a `SWAPPABLE` policy set
+//            NOT_ALLOWED_BY_ASSET_POLICY = -4,
+//            //: Source balance not found
+//            SRC_BALANCE_NOT_FOUND = -5,
+//            //: Zero desired amount not allowed
+//            INVALID_DESIRED_AMOUNT = -6,
+//            //: Zero min amount not allowed
+//            INVALID_MIN_AMOUNT = -7,
+//            //: Amount precision and asset precision are mismatched
+//            INCORRECT_AMOUNT_PRECISION = -8,
+//            //: Amount of first asset is insufficient to provide liquidity
+//            INSUFFICIENT_FIRST_ASSET_AMOUNT = -9,
+//            //: Amount of second asset is insufficient to provide liquidity
+//            INSUFFICIENT_SECOND_ASSET_AMOUNT = -10,
+//            //: Min amount cannot be bigger than desired amount
+//            MIN_AMOUNT_BIGGER_THAN_DESIRED = -11,
+//            //: Amount of the LP tokens to issue equals to zero
+//            INSUFFICIENT_LIQUIDITY_PROVIDED = -12,
+//            //: Source balances are equal
+//            SAME_BALANCES = -13
+//        };
+//
+type LpAddLiquidityResultCode int32
+
+const (
+	LpAddLiquidityResultCodeSuccess                       LpAddLiquidityResultCode = 0
+	LpAddLiquidityResultCodeSameAssets                    LpAddLiquidityResultCode = -1
+	LpAddLiquidityResultCodeUnderfunded                   LpAddLiquidityResultCode = -2
+	LpAddLiquidityResultCodeBalanceOverflow               LpAddLiquidityResultCode = -3
+	LpAddLiquidityResultCodeNotAllowedByAssetPolicy       LpAddLiquidityResultCode = -4
+	LpAddLiquidityResultCodeSrcBalanceNotFound            LpAddLiquidityResultCode = -5
+	LpAddLiquidityResultCodeInvalidDesiredAmount          LpAddLiquidityResultCode = -6
+	LpAddLiquidityResultCodeInvalidMinAmount              LpAddLiquidityResultCode = -7
+	LpAddLiquidityResultCodeIncorrectAmountPrecision      LpAddLiquidityResultCode = -8
+	LpAddLiquidityResultCodeInsufficientFirstAssetAmount  LpAddLiquidityResultCode = -9
+	LpAddLiquidityResultCodeInsufficientSecondAssetAmount LpAddLiquidityResultCode = -10
+	LpAddLiquidityResultCodeMinAmountBiggerThanDesired    LpAddLiquidityResultCode = -11
+	LpAddLiquidityResultCodeInsufficientLiquidityProvided LpAddLiquidityResultCode = -12
+	LpAddLiquidityResultCodeSameBalances                  LpAddLiquidityResultCode = -13
+)
+
+var LpAddLiquidityResultCodeAll = []LpAddLiquidityResultCode{
+	LpAddLiquidityResultCodeSuccess,
+	LpAddLiquidityResultCodeSameAssets,
+	LpAddLiquidityResultCodeUnderfunded,
+	LpAddLiquidityResultCodeBalanceOverflow,
+	LpAddLiquidityResultCodeNotAllowedByAssetPolicy,
+	LpAddLiquidityResultCodeSrcBalanceNotFound,
+	LpAddLiquidityResultCodeInvalidDesiredAmount,
+	LpAddLiquidityResultCodeInvalidMinAmount,
+	LpAddLiquidityResultCodeIncorrectAmountPrecision,
+	LpAddLiquidityResultCodeInsufficientFirstAssetAmount,
+	LpAddLiquidityResultCodeInsufficientSecondAssetAmount,
+	LpAddLiquidityResultCodeMinAmountBiggerThanDesired,
+	LpAddLiquidityResultCodeInsufficientLiquidityProvided,
+	LpAddLiquidityResultCodeSameBalances,
+}
+
+var lpAddLiquidityResultCodeMap = map[int32]string{
+	0:   "LpAddLiquidityResultCodeSuccess",
+	-1:  "LpAddLiquidityResultCodeSameAssets",
+	-2:  "LpAddLiquidityResultCodeUnderfunded",
+	-3:  "LpAddLiquidityResultCodeBalanceOverflow",
+	-4:  "LpAddLiquidityResultCodeNotAllowedByAssetPolicy",
+	-5:  "LpAddLiquidityResultCodeSrcBalanceNotFound",
+	-6:  "LpAddLiquidityResultCodeInvalidDesiredAmount",
+	-7:  "LpAddLiquidityResultCodeInvalidMinAmount",
+	-8:  "LpAddLiquidityResultCodeIncorrectAmountPrecision",
+	-9:  "LpAddLiquidityResultCodeInsufficientFirstAssetAmount",
+	-10: "LpAddLiquidityResultCodeInsufficientSecondAssetAmount",
+	-11: "LpAddLiquidityResultCodeMinAmountBiggerThanDesired",
+	-12: "LpAddLiquidityResultCodeInsufficientLiquidityProvided",
+	-13: "LpAddLiquidityResultCodeSameBalances",
+}
+
+var lpAddLiquidityResultCodeShortMap = map[int32]string{
+	0:   "success",
+	-1:  "same_assets",
+	-2:  "underfunded",
+	-3:  "balance_overflow",
+	-4:  "not_allowed_by_asset_policy",
+	-5:  "src_balance_not_found",
+	-6:  "invalid_desired_amount",
+	-7:  "invalid_min_amount",
+	-8:  "incorrect_amount_precision",
+	-9:  "insufficient_first_asset_amount",
+	-10: "insufficient_second_asset_amount",
+	-11: "min_amount_bigger_than_desired",
+	-12: "insufficient_liquidity_provided",
+	-13: "same_balances",
+}
+
+var lpAddLiquidityResultCodeRevMap = map[string]int32{
+	"LpAddLiquidityResultCodeSuccess":                       0,
+	"LpAddLiquidityResultCodeSameAssets":                    -1,
+	"LpAddLiquidityResultCodeUnderfunded":                   -2,
+	"LpAddLiquidityResultCodeBalanceOverflow":               -3,
+	"LpAddLiquidityResultCodeNotAllowedByAssetPolicy":       -4,
+	"LpAddLiquidityResultCodeSrcBalanceNotFound":            -5,
+	"LpAddLiquidityResultCodeInvalidDesiredAmount":          -6,
+	"LpAddLiquidityResultCodeInvalidMinAmount":              -7,
+	"LpAddLiquidityResultCodeIncorrectAmountPrecision":      -8,
+	"LpAddLiquidityResultCodeInsufficientFirstAssetAmount":  -9,
+	"LpAddLiquidityResultCodeInsufficientSecondAssetAmount": -10,
+	"LpAddLiquidityResultCodeMinAmountBiggerThanDesired":    -11,
+	"LpAddLiquidityResultCodeInsufficientLiquidityProvided": -12,
+	"LpAddLiquidityResultCodeSameBalances":                  -13,
+}
+
+// ValidEnum validates a proposed value for this enum.  Implements
+// the Enum interface for LpAddLiquidityResultCode
+func (e LpAddLiquidityResultCode) ValidEnum(v int32) bool {
+	_, ok := lpAddLiquidityResultCodeMap[v]
+	return ok
+}
+func (e LpAddLiquidityResultCode) isFlag() bool {
+	for i := len(LpAddLiquidityResultCodeAll) - 1; i >= 0; i-- {
+		expected := LpAddLiquidityResultCode(2) << uint64(len(LpAddLiquidityResultCodeAll)-1) >> uint64(len(LpAddLiquidityResultCodeAll)-i)
+		if expected != LpAddLiquidityResultCodeAll[i] {
+			return false
+		}
+	}
+	return true
+}
+
+// String returns the name of `e`
+func (e LpAddLiquidityResultCode) String() string {
+	name, _ := lpAddLiquidityResultCodeMap[int32(e)]
+	return name
+}
+
+func (e LpAddLiquidityResultCode) ShortString() string {
+	name, _ := lpAddLiquidityResultCodeShortMap[int32(e)]
+	return name
+}
+
+func (e LpAddLiquidityResultCode) MarshalJSON() ([]byte, error) {
+	if e.isFlag() {
+		// marshal as mask
+		result := flag{
+			Value: int32(e),
+			Flags: make([]flagValue, 0),
+		}
+		for _, value := range LpAddLiquidityResultCodeAll {
+			if (value & e) == value {
+				result.Flags = append(result.Flags, flagValue{
+					Value: int32(value),
+					Name:  value.ShortString(),
+				})
+			}
+		}
+		return json.Marshal(&result)
+	} else {
+		// marshal as enum
+		result := enum{
+			Value:  int32(e),
+			String: e.ShortString(),
+		}
+		return json.Marshal(&result)
+	}
+}
+
+func (e *LpAddLiquidityResultCode) UnmarshalJSON(data []byte) error {
+	var t value
+	if err := json.Unmarshal(data, &t); err != nil {
+		return err
+	}
+	*e = LpAddLiquidityResultCode(t.Value)
+	return nil
+}
+
+// LpAddLiquiditySuccess is an XDR Struct defines as:
+//
+//   struct LPAddLiquiditySuccess
+//        {
+//            //: Unique identifier of the liquidity pool
+//            uint64 liquidityPoolID;
+//
+//            //: ID of the pool account
+//            AccountID poolAccount;
+//
+//            //: ID of the first asset balance in LP
+//            BalanceID lpFirstAssetBalanceID;
+//            //: ID of the second asset balance in LP
+//            BalanceID lpSecondAssetBalanceID;
+//
+//            //: ID of the source first asset balance
+//            BalanceID sourceFirstAssetBalanceID;
+//            //: ID of the source second asset balance
+//            BalanceID sourceSecondAssetBalanceID;
+//
+//            //: Amount of tokens charged from source first balance
+//            uint64 firstAssetAmount;
+//            //: Amount of tokens charged from source second balance
+//            uint64 secondAssetAmount;
+//
+//            //: ID of the LP tokens asset balance
+//            BalanceID lpTokensBalanceID;
+//            //: Amount of LP tokens issued for provided liquidity
+//            uint64 lpTokensAmount;
+//
+//            //: Reserved for future extension
+//            EmptyExt ext;
+//        };
+//
+type LpAddLiquiditySuccess struct {
+	LiquidityPoolId            Uint64    `json:"liquidityPoolID,omitempty"`
+	PoolAccount                AccountId `json:"poolAccount,omitempty"`
+	LpFirstAssetBalanceId      BalanceId `json:"lpFirstAssetBalanceID,omitempty"`
+	LpSecondAssetBalanceId     BalanceId `json:"lpSecondAssetBalanceID,omitempty"`
+	SourceFirstAssetBalanceId  BalanceId `json:"sourceFirstAssetBalanceID,omitempty"`
+	SourceSecondAssetBalanceId BalanceId `json:"sourceSecondAssetBalanceID,omitempty"`
+	FirstAssetAmount           Uint64    `json:"firstAssetAmount,omitempty"`
+	SecondAssetAmount          Uint64    `json:"secondAssetAmount,omitempty"`
+	LpTokensBalanceId          BalanceId `json:"lpTokensBalanceID,omitempty"`
+	LpTokensAmount             Uint64    `json:"lpTokensAmount,omitempty"`
+	Ext                        EmptyExt  `json:"ext,omitempty"`
+}
+
+// LpAddLiquidityResult is an XDR Union defines as:
+//
+//   union LPAddLiquidityResult switch (LPAddLiquidityResultCode code)
+//        {
+//            case SUCCESS:
+//                LPAddLiquiditySuccess success;
+//            default:
+//                void;
+//        };
+//
+type LpAddLiquidityResult struct {
+	Code    LpAddLiquidityResultCode `json:"code,omitempty"`
+	Success *LpAddLiquiditySuccess   `json:"success,omitempty"`
+}
+
+// SwitchFieldName returns the field name in which this union's
+// discriminant is stored
+func (u LpAddLiquidityResult) SwitchFieldName() string {
+	return "Code"
+}
+
+// ArmForSwitch returns which field name should be used for storing
+// the value for an instance of LpAddLiquidityResult
+func (u LpAddLiquidityResult) ArmForSwitch(sw int32) (string, bool) {
+	switch LpAddLiquidityResultCode(sw) {
+	case LpAddLiquidityResultCodeSuccess:
+		return "Success", true
+	default:
+		return "", true
+	}
+}
+
+// NewLpAddLiquidityResult creates a new  LpAddLiquidityResult.
+func NewLpAddLiquidityResult(code LpAddLiquidityResultCode, value interface{}) (result LpAddLiquidityResult, err error) {
+	result.Code = code
+	switch LpAddLiquidityResultCode(code) {
+	case LpAddLiquidityResultCodeSuccess:
+		tv, ok := value.(LpAddLiquiditySuccess)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be LpAddLiquiditySuccess")
+			return
+		}
+		result.Success = &tv
+	default:
+		// void
+	}
+	return
+}
+
+// MustSuccess retrieves the Success value from the union,
+// panicing if the value is not set.
+func (u LpAddLiquidityResult) MustSuccess() LpAddLiquiditySuccess {
+	val, ok := u.GetSuccess()
+
+	if !ok {
+		panic("arm Success is not set")
+	}
+
+	return val
+}
+
+// GetSuccess retrieves the Success value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u LpAddLiquidityResult) GetSuccess() (result LpAddLiquiditySuccess, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.Code))
+
+	if armName == "Success" {
+		result = *u.Success
+		ok = true
+	}
+
+	return
+}
+
+// LpRemoveLiquidityOp is an XDR Struct defines as:
+//
+//   struct LPRemoveLiquidityOp
+//        {
+//            //: Balance of an LP token
+//            BalanceID lpTokenBalance;
+//            //: Amount of the LP tokens to be exchanged for assets pair
+//            uint64 lpTokensAmount;
+//
+//            //: Minimal amount of first asset to be received
+//            uint64 firstAssetMinAmount;
+//            //: Minimal amount of second asset to be received
+//            uint64 secondAssetMinAmount;
+//
+//            //: Reserved for future use
+//            EmptyExt ext;
+//        };
+//
+type LpRemoveLiquidityOp struct {
+	LpTokenBalance       BalanceId `json:"lpTokenBalance,omitempty"`
+	LpTokensAmount       Uint64    `json:"lpTokensAmount,omitempty"`
+	FirstAssetMinAmount  Uint64    `json:"firstAssetMinAmount,omitempty"`
+	SecondAssetMinAmount Uint64    `json:"secondAssetMinAmount,omitempty"`
+	Ext                  EmptyExt  `json:"ext,omitempty"`
+}
+
+// LpRemoveLiquidityResultCode is an XDR Enum defines as:
+//
+//   enum LPRemoveLiquidityResultCode
+//        {
+//            //: LP remove liquidity was successful
+//            SUCCESS = 0,
+//
+//            //: LP token balance doesn't exists
+//            LP_TOKEN_BALANCE_NOT_FOUND = -1,
+//            //: Not enough LP tokens in the source account
+//            UNDERFUNDED = -2,
+//            //: After the removing liquidity fulfillment, the destination balance will exceed the limit (total amount on the balance will be greater than UINT64_MAX)
+//            BALANCE_OVERFLOW = -3,
+//            //: Liquidity pool not found
+//            LP_NOT_FOUND = -4,
+//            //: Zero LP tokens amount not allowed
+//            INVALID_LP_TOKENS_AMOUNT = -5,
+//            //: Calculated first asset amount is less than min amount
+//            INSUFFICIENT_FIRST_AMOUNT = -6,
+//            //: Calculated second asset amount is less than min amount
+//            INSUFFICIENT_SECOND_AMOUNT = -7,
+//            //: Amount precision and asset precision are mismatched
+//            INCORRECT_AMOUNT_PRECISION = -8
+//        };
+//
+type LpRemoveLiquidityResultCode int32
+
+const (
+	LpRemoveLiquidityResultCodeSuccess                  LpRemoveLiquidityResultCode = 0
+	LpRemoveLiquidityResultCodeLpTokenBalanceNotFound   LpRemoveLiquidityResultCode = -1
+	LpRemoveLiquidityResultCodeUnderfunded              LpRemoveLiquidityResultCode = -2
+	LpRemoveLiquidityResultCodeBalanceOverflow          LpRemoveLiquidityResultCode = -3
+	LpRemoveLiquidityResultCodeLpNotFound               LpRemoveLiquidityResultCode = -4
+	LpRemoveLiquidityResultCodeInvalidLpTokensAmount    LpRemoveLiquidityResultCode = -5
+	LpRemoveLiquidityResultCodeInsufficientFirstAmount  LpRemoveLiquidityResultCode = -6
+	LpRemoveLiquidityResultCodeInsufficientSecondAmount LpRemoveLiquidityResultCode = -7
+	LpRemoveLiquidityResultCodeIncorrectAmountPrecision LpRemoveLiquidityResultCode = -8
+)
+
+var LpRemoveLiquidityResultCodeAll = []LpRemoveLiquidityResultCode{
+	LpRemoveLiquidityResultCodeSuccess,
+	LpRemoveLiquidityResultCodeLpTokenBalanceNotFound,
+	LpRemoveLiquidityResultCodeUnderfunded,
+	LpRemoveLiquidityResultCodeBalanceOverflow,
+	LpRemoveLiquidityResultCodeLpNotFound,
+	LpRemoveLiquidityResultCodeInvalidLpTokensAmount,
+	LpRemoveLiquidityResultCodeInsufficientFirstAmount,
+	LpRemoveLiquidityResultCodeInsufficientSecondAmount,
+	LpRemoveLiquidityResultCodeIncorrectAmountPrecision,
+}
+
+var lpRemoveLiquidityResultCodeMap = map[int32]string{
+	0:  "LpRemoveLiquidityResultCodeSuccess",
+	-1: "LpRemoveLiquidityResultCodeLpTokenBalanceNotFound",
+	-2: "LpRemoveLiquidityResultCodeUnderfunded",
+	-3: "LpRemoveLiquidityResultCodeBalanceOverflow",
+	-4: "LpRemoveLiquidityResultCodeLpNotFound",
+	-5: "LpRemoveLiquidityResultCodeInvalidLpTokensAmount",
+	-6: "LpRemoveLiquidityResultCodeInsufficientFirstAmount",
+	-7: "LpRemoveLiquidityResultCodeInsufficientSecondAmount",
+	-8: "LpRemoveLiquidityResultCodeIncorrectAmountPrecision",
+}
+
+var lpRemoveLiquidityResultCodeShortMap = map[int32]string{
+	0:  "success",
+	-1: "lp_token_balance_not_found",
+	-2: "underfunded",
+	-3: "balance_overflow",
+	-4: "lp_not_found",
+	-5: "invalid_lp_tokens_amount",
+	-6: "insufficient_first_amount",
+	-7: "insufficient_second_amount",
+	-8: "incorrect_amount_precision",
+}
+
+var lpRemoveLiquidityResultCodeRevMap = map[string]int32{
+	"LpRemoveLiquidityResultCodeSuccess":                  0,
+	"LpRemoveLiquidityResultCodeLpTokenBalanceNotFound":   -1,
+	"LpRemoveLiquidityResultCodeUnderfunded":              -2,
+	"LpRemoveLiquidityResultCodeBalanceOverflow":          -3,
+	"LpRemoveLiquidityResultCodeLpNotFound":               -4,
+	"LpRemoveLiquidityResultCodeInvalidLpTokensAmount":    -5,
+	"LpRemoveLiquidityResultCodeInsufficientFirstAmount":  -6,
+	"LpRemoveLiquidityResultCodeInsufficientSecondAmount": -7,
+	"LpRemoveLiquidityResultCodeIncorrectAmountPrecision": -8,
+}
+
+// ValidEnum validates a proposed value for this enum.  Implements
+// the Enum interface for LpRemoveLiquidityResultCode
+func (e LpRemoveLiquidityResultCode) ValidEnum(v int32) bool {
+	_, ok := lpRemoveLiquidityResultCodeMap[v]
+	return ok
+}
+func (e LpRemoveLiquidityResultCode) isFlag() bool {
+	for i := len(LpRemoveLiquidityResultCodeAll) - 1; i >= 0; i-- {
+		expected := LpRemoveLiquidityResultCode(2) << uint64(len(LpRemoveLiquidityResultCodeAll)-1) >> uint64(len(LpRemoveLiquidityResultCodeAll)-i)
+		if expected != LpRemoveLiquidityResultCodeAll[i] {
+			return false
+		}
+	}
+	return true
+}
+
+// String returns the name of `e`
+func (e LpRemoveLiquidityResultCode) String() string {
+	name, _ := lpRemoveLiquidityResultCodeMap[int32(e)]
+	return name
+}
+
+func (e LpRemoveLiquidityResultCode) ShortString() string {
+	name, _ := lpRemoveLiquidityResultCodeShortMap[int32(e)]
+	return name
+}
+
+func (e LpRemoveLiquidityResultCode) MarshalJSON() ([]byte, error) {
+	if e.isFlag() {
+		// marshal as mask
+		result := flag{
+			Value: int32(e),
+			Flags: make([]flagValue, 0),
+		}
+		for _, value := range LpRemoveLiquidityResultCodeAll {
+			if (value & e) == value {
+				result.Flags = append(result.Flags, flagValue{
+					Value: int32(value),
+					Name:  value.ShortString(),
+				})
+			}
+		}
+		return json.Marshal(&result)
+	} else {
+		// marshal as enum
+		result := enum{
+			Value:  int32(e),
+			String: e.ShortString(),
+		}
+		return json.Marshal(&result)
+	}
+}
+
+func (e *LpRemoveLiquidityResultCode) UnmarshalJSON(data []byte) error {
+	var t value
+	if err := json.Unmarshal(data, &t); err != nil {
+		return err
+	}
+	*e = LpRemoveLiquidityResultCode(t.Value)
+	return nil
+}
+
+// LpRemoveLiquiditySuccess is an XDR Struct defines as:
+//
+//   struct LPRemoveLiquiditySuccess
+//        {
+//            //: Unique identifier of the liquidity pool
+//            uint64 liquidityPoolID;
+//
+//            //: ID of the first asset balance in LP
+//            BalanceID lpFirstAssetBalanceID;
+//            //: ID of the second asset balance in LP
+//            BalanceID lpSecondAssetBalanceID;
+//
+//            //: ID of the first asset balance
+//            BalanceID sourceFirstAssetBalanceID;
+//            //: ID of the second asset balance
+//            BalanceID sourceSecondAssetBalanceID;
+//
+//            //: Amount of the first asset
+//            uint64 firstAssetAmount;
+//            //: Amount of the second asset
+//            uint64 secondAssetAmount;
+//
+//            //: Reserved for future extension
+//            EmptyExt ext;
+//        };
+//
+type LpRemoveLiquiditySuccess struct {
+	LiquidityPoolId            Uint64    `json:"liquidityPoolID,omitempty"`
+	LpFirstAssetBalanceId      BalanceId `json:"lpFirstAssetBalanceID,omitempty"`
+	LpSecondAssetBalanceId     BalanceId `json:"lpSecondAssetBalanceID,omitempty"`
+	SourceFirstAssetBalanceId  BalanceId `json:"sourceFirstAssetBalanceID,omitempty"`
+	SourceSecondAssetBalanceId BalanceId `json:"sourceSecondAssetBalanceID,omitempty"`
+	FirstAssetAmount           Uint64    `json:"firstAssetAmount,omitempty"`
+	SecondAssetAmount          Uint64    `json:"secondAssetAmount,omitempty"`
+	Ext                        EmptyExt  `json:"ext,omitempty"`
+}
+
+// LpRemoveLiquidityResult is an XDR Union defines as:
+//
+//   union LPRemoveLiquidityResult switch (LPRemoveLiquidityResultCode code)
+//        {
+//            case SUCCESS:
+//                LPRemoveLiquiditySuccess success;
+//            default:
+//                void;
+//        };
+//
+type LpRemoveLiquidityResult struct {
+	Code    LpRemoveLiquidityResultCode `json:"code,omitempty"`
+	Success *LpRemoveLiquiditySuccess   `json:"success,omitempty"`
+}
+
+// SwitchFieldName returns the field name in which this union's
+// discriminant is stored
+func (u LpRemoveLiquidityResult) SwitchFieldName() string {
+	return "Code"
+}
+
+// ArmForSwitch returns which field name should be used for storing
+// the value for an instance of LpRemoveLiquidityResult
+func (u LpRemoveLiquidityResult) ArmForSwitch(sw int32) (string, bool) {
+	switch LpRemoveLiquidityResultCode(sw) {
+	case LpRemoveLiquidityResultCodeSuccess:
+		return "Success", true
+	default:
+		return "", true
+	}
+}
+
+// NewLpRemoveLiquidityResult creates a new  LpRemoveLiquidityResult.
+func NewLpRemoveLiquidityResult(code LpRemoveLiquidityResultCode, value interface{}) (result LpRemoveLiquidityResult, err error) {
+	result.Code = code
+	switch LpRemoveLiquidityResultCode(code) {
+	case LpRemoveLiquidityResultCodeSuccess:
+		tv, ok := value.(LpRemoveLiquiditySuccess)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be LpRemoveLiquiditySuccess")
+			return
+		}
+		result.Success = &tv
+	default:
+		// void
+	}
+	return
+}
+
+// MustSuccess retrieves the Success value from the union,
+// panicing if the value is not set.
+func (u LpRemoveLiquidityResult) MustSuccess() LpRemoveLiquiditySuccess {
+	val, ok := u.GetSuccess()
+
+	if !ok {
+		panic("arm Success is not set")
+	}
+
+	return val
+}
+
+// GetSuccess retrieves the Success value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u LpRemoveLiquidityResult) GetSuccess() (result LpRemoveLiquiditySuccess, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.Code))
+
+	if armName == "Success" {
+		result = *u.Success
+		ok = true
+	}
+
+	return
+}
+
+// LpSwapType is an XDR Enum defines as:
+//
+//   enum LPSwapType
+//        {
+//            EXACT_IN_TOKENS_FOR_OUT_TOKENS = 0,
+//            EXACT_OUT_TOKENS_FOR_IN_TOKENS = 1
+//        };
+//
+type LpSwapType int32
+
+const (
+	LpSwapTypeExactInTokensForOutTokens LpSwapType = 0
+	LpSwapTypeExactOutTokensForInTokens LpSwapType = 1
+)
+
+var LpSwapTypeAll = []LpSwapType{
+	LpSwapTypeExactInTokensForOutTokens,
+	LpSwapTypeExactOutTokensForInTokens,
+}
+
+var lpSwapTypeMap = map[int32]string{
+	0: "LpSwapTypeExactInTokensForOutTokens",
+	1: "LpSwapTypeExactOutTokensForInTokens",
+}
+
+var lpSwapTypeShortMap = map[int32]string{
+	0: "exact_in_tokens_for_out_tokens",
+	1: "exact_out_tokens_for_in_tokens",
+}
+
+var lpSwapTypeRevMap = map[string]int32{
+	"LpSwapTypeExactInTokensForOutTokens": 0,
+	"LpSwapTypeExactOutTokensForInTokens": 1,
+}
+
+// ValidEnum validates a proposed value for this enum.  Implements
+// the Enum interface for LpSwapType
+func (e LpSwapType) ValidEnum(v int32) bool {
+	_, ok := lpSwapTypeMap[v]
+	return ok
+}
+func (e LpSwapType) isFlag() bool {
+	for i := len(LpSwapTypeAll) - 1; i >= 0; i-- {
+		expected := LpSwapType(2) << uint64(len(LpSwapTypeAll)-1) >> uint64(len(LpSwapTypeAll)-i)
+		if expected != LpSwapTypeAll[i] {
+			return false
+		}
+	}
+	return true
+}
+
+// String returns the name of `e`
+func (e LpSwapType) String() string {
+	name, _ := lpSwapTypeMap[int32(e)]
+	return name
+}
+
+func (e LpSwapType) ShortString() string {
+	name, _ := lpSwapTypeShortMap[int32(e)]
+	return name
+}
+
+func (e LpSwapType) MarshalJSON() ([]byte, error) {
+	if e.isFlag() {
+		// marshal as mask
+		result := flag{
+			Value: int32(e),
+			Flags: make([]flagValue, 0),
+		}
+		for _, value := range LpSwapTypeAll {
+			if (value & e) == value {
+				result.Flags = append(result.Flags, flagValue{
+					Value: int32(value),
+					Name:  value.ShortString(),
+				})
+			}
+		}
+		return json.Marshal(&result)
+	} else {
+		// marshal as enum
+		result := enum{
+			Value:  int32(e),
+			String: e.ShortString(),
+		}
+		return json.Marshal(&result)
+	}
+}
+
+func (e *LpSwapType) UnmarshalJSON(data []byte) error {
+	var t value
+	if err := json.Unmarshal(data, &t); err != nil {
+		return err
+	}
+	*e = LpSwapType(t.Value)
+	return nil
+}
+
+// LpSwapOpSwapExactOutTokensForInTokens is an XDR NestedStruct defines as:
+//
+//   struct
+//                    {
+//                        //: Maximum amount to send in the swap
+//                        uint64 amountInMax;
+//                        //: Desired amount to be received
+//                        uint64 amountOut;
+//                    }
+//
+type LpSwapOpSwapExactOutTokensForInTokens struct {
+	AmountInMax Uint64 `json:"amountInMax,omitempty"`
+	AmountOut   Uint64 `json:"amountOut,omitempty"`
+}
+
+// LpSwapOpSwapExactInTokensForOutTokens is an XDR NestedStruct defines as:
+//
+//   struct
+//                    {
+//                        //: Amount to send in the swap
+//                        uint64 amountIn;
+//                        //: Minimum amount to be received
+//                        uint64 amountOutMin;
+//                    }
+//
+type LpSwapOpSwapExactInTokensForOutTokens struct {
+	AmountIn     Uint64 `json:"amountIn,omitempty"`
+	AmountOutMin Uint64 `json:"amountOutMin,omitempty"`
+}
+
+// LpSwapOpLpSwapRequest is an XDR NestedUnion defines as:
+//
+//   union switch(LPSwapType type)
+//            {
+//                //: Execute swap for exact output amount
+//                case EXACT_OUT_TOKENS_FOR_IN_TOKENS:
+//                    struct
+//                    {
+//                        //: Maximum amount to send in the swap
+//                        uint64 amountInMax;
+//                        //: Desired amount to be received
+//                        uint64 amountOut;
+//                    } swapExactOutTokensForInTokens;
+//                //: Execute swap for exact input amount
+//                case EXACT_IN_TOKENS_FOR_OUT_TOKENS:
+//                    struct
+//                    {
+//                        //: Amount to send in the swap
+//                        uint64 amountIn;
+//                        //: Minimum amount to be received
+//                        uint64 amountOutMin;
+//                    } swapExactInTokensForOutTokens;
+//            }
+//
+type LpSwapOpLpSwapRequest struct {
+	Type                          LpSwapType                             `json:"type,omitempty"`
+	SwapExactOutTokensForInTokens *LpSwapOpSwapExactOutTokensForInTokens `json:"swapExactOutTokensForInTokens,omitempty"`
+	SwapExactInTokensForOutTokens *LpSwapOpSwapExactInTokensForOutTokens `json:"swapExactInTokensForOutTokens,omitempty"`
+}
+
+// SwitchFieldName returns the field name in which this union's
+// discriminant is stored
+func (u LpSwapOpLpSwapRequest) SwitchFieldName() string {
+	return "Type"
+}
+
+// ArmForSwitch returns which field name should be used for storing
+// the value for an instance of LpSwapOpLpSwapRequest
+func (u LpSwapOpLpSwapRequest) ArmForSwitch(sw int32) (string, bool) {
+	switch LpSwapType(sw) {
+	case LpSwapTypeExactOutTokensForInTokens:
+		return "SwapExactOutTokensForInTokens", true
+	case LpSwapTypeExactInTokensForOutTokens:
+		return "SwapExactInTokensForOutTokens", true
+	}
+	return "-", false
+}
+
+// NewLpSwapOpLpSwapRequest creates a new  LpSwapOpLpSwapRequest.
+func NewLpSwapOpLpSwapRequest(aType LpSwapType, value interface{}) (result LpSwapOpLpSwapRequest, err error) {
+	result.Type = aType
+	switch LpSwapType(aType) {
+	case LpSwapTypeExactOutTokensForInTokens:
+		tv, ok := value.(LpSwapOpSwapExactOutTokensForInTokens)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be LpSwapOpSwapExactOutTokensForInTokens")
+			return
+		}
+		result.SwapExactOutTokensForInTokens = &tv
+	case LpSwapTypeExactInTokensForOutTokens:
+		tv, ok := value.(LpSwapOpSwapExactInTokensForOutTokens)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be LpSwapOpSwapExactInTokensForOutTokens")
+			return
+		}
+		result.SwapExactInTokensForOutTokens = &tv
+	}
+	return
+}
+
+// MustSwapExactOutTokensForInTokens retrieves the SwapExactOutTokensForInTokens value from the union,
+// panicing if the value is not set.
+func (u LpSwapOpLpSwapRequest) MustSwapExactOutTokensForInTokens() LpSwapOpSwapExactOutTokensForInTokens {
+	val, ok := u.GetSwapExactOutTokensForInTokens()
+
+	if !ok {
+		panic("arm SwapExactOutTokensForInTokens is not set")
+	}
+
+	return val
+}
+
+// GetSwapExactOutTokensForInTokens retrieves the SwapExactOutTokensForInTokens value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u LpSwapOpLpSwapRequest) GetSwapExactOutTokensForInTokens() (result LpSwapOpSwapExactOutTokensForInTokens, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.Type))
+
+	if armName == "SwapExactOutTokensForInTokens" {
+		result = *u.SwapExactOutTokensForInTokens
+		ok = true
+	}
+
+	return
+}
+
+// MustSwapExactInTokensForOutTokens retrieves the SwapExactInTokensForOutTokens value from the union,
+// panicing if the value is not set.
+func (u LpSwapOpLpSwapRequest) MustSwapExactInTokensForOutTokens() LpSwapOpSwapExactInTokensForOutTokens {
+	val, ok := u.GetSwapExactInTokensForOutTokens()
+
+	if !ok {
+		panic("arm SwapExactInTokensForOutTokens is not set")
+	}
+
+	return val
+}
+
+// GetSwapExactInTokensForOutTokens retrieves the SwapExactInTokensForOutTokens value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u LpSwapOpLpSwapRequest) GetSwapExactInTokensForOutTokens() (result LpSwapOpSwapExactInTokensForOutTokens, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.Type))
+
+	if armName == "SwapExactInTokensForOutTokens" {
+		result = *u.SwapExactInTokensForOutTokens
+		ok = true
+	}
+
+	return
+}
+
+// LpSwapOp is an XDR Struct defines as:
+//
+//   struct LPSwapOp
+//        {
+//            //: Balance of the provided asset
+//            BalanceID fromBalance;
+//            //: Balance of the desired asset
+//            BalanceID toBalance;
+//
+//            union switch(LPSwapType type)
+//            {
+//                //: Execute swap for exact output amount
+//                case EXACT_OUT_TOKENS_FOR_IN_TOKENS:
+//                    struct
+//                    {
+//                        //: Maximum amount to send in the swap
+//                        uint64 amountInMax;
+//                        //: Desired amount to be received
+//                        uint64 amountOut;
+//                    } swapExactOutTokensForInTokens;
+//                //: Execute swap for exact input amount
+//                case EXACT_IN_TOKENS_FOR_OUT_TOKENS:
+//                    struct
+//                    {
+//                        //: Amount to send in the swap
+//                        uint64 amountIn;
+//                        //: Minimum amount to be received
+//                        uint64 amountOutMin;
+//                    } swapExactInTokensForOutTokens;
+//            } lpSwapRequest;
+//
+//            //: Fee data for the swap
+//            PaymentFeeData feeData;
+//
+//            //: Reserved for future use
+//            EmptyExt ext;
+//        };
+//
+type LpSwapOp struct {
+	FromBalance   BalanceId             `json:"fromBalance,omitempty"`
+	ToBalance     BalanceId             `json:"toBalance,omitempty"`
+	LpSwapRequest LpSwapOpLpSwapRequest `json:"lpSwapRequest,omitempty"`
+	FeeData       PaymentFeeData        `json:"feeData,omitempty"`
+	Ext           EmptyExt              `json:"ext,omitempty"`
+}
+
+// LpSwapResultCode is an XDR Enum defines as:
+//
+//   enum LPSwapResultCode
+//        {
+//            //: LP swap was successful
+//            SUCCESS = 0,
+//
+//            //: Source and target balances are the same
+//            SAME_BALANCES = -1,
+//            //: Not enough funds in the source account
+//            UNDERFUNDED = -2,
+//            //: Sender balance asset and receiver balance asset are not equal
+//            BALANCE_ASSETS_MATCHED = -3,
+//            //: There is no balance found with ID provided in `fromBalance`
+//            FROM_BALANCE_NOT_FOUND = -4,
+//            //: There is no balance found with ID provided in `toBalance`
+//            TO_BALANCE_NOT_FOUND = -5,
+//            //: Payment asset does not have a `SWAPPABLE` policy set
+//            NOT_ALLOWED_BY_ASSET_POLICY = -6,
+//            //: Overflow during total fee calculation
+//            INVALID_DESTINATION_FEE = -7,
+//            //: Payment fee amount is insufficient
+//            INSUFFICIENT_FEE_AMOUNT = -8,
+//            //: Fee charged from destination balance is greater than the amount
+//            AMOUNT_IS_LESS_THAN_DEST_FEE = -9,
+//            //: Amount precision and asset precision are mismatched
+//            INCORRECT_AMOUNT_PRECISION = -10,
+//            //: Zero input amount not allowed
+//            INSUFFICIENT_INPUT_AMOUNT = -11,
+//            //: Output amount is less than allowed
+//            INSUFFICIENT_OUTPUT_AMOUNT = -12,
+//            //: From and to assets are the same
+//            SAME_ASSETS = -13,
+//            //: Liquidity pool for assets from balances not found
+//            LIQUIDITY_POOL_NOT_FOUND = -14,
+//            //: Reserves of the liquidity pool are insufficient for swap
+//            INSUFFICIENT_LIQUIDITY = -15,
+//            //: Calculated input amount is greater than provided amountInMax
+//            EXCESSIVE_INPUT_AMOUNT = -16,
+//            //: The destination balance will exceed the limit (total amount on the balance will be greater than UINT64_MAX)
+//            BALANCE_OVERFLOW = -17
+//        };
+//
+type LpSwapResultCode int32
+
+const (
+	LpSwapResultCodeSuccess                  LpSwapResultCode = 0
+	LpSwapResultCodeSameBalances             LpSwapResultCode = -1
+	LpSwapResultCodeUnderfunded              LpSwapResultCode = -2
+	LpSwapResultCodeBalanceAssetsMatched     LpSwapResultCode = -3
+	LpSwapResultCodeFromBalanceNotFound      LpSwapResultCode = -4
+	LpSwapResultCodeToBalanceNotFound        LpSwapResultCode = -5
+	LpSwapResultCodeNotAllowedByAssetPolicy  LpSwapResultCode = -6
+	LpSwapResultCodeInvalidDestinationFee    LpSwapResultCode = -7
+	LpSwapResultCodeInsufficientFeeAmount    LpSwapResultCode = -8
+	LpSwapResultCodeAmountIsLessThanDestFee  LpSwapResultCode = -9
+	LpSwapResultCodeIncorrectAmountPrecision LpSwapResultCode = -10
+	LpSwapResultCodeInsufficientInputAmount  LpSwapResultCode = -11
+	LpSwapResultCodeInsufficientOutputAmount LpSwapResultCode = -12
+	LpSwapResultCodeSameAssets               LpSwapResultCode = -13
+	LpSwapResultCodeLiquidityPoolNotFound    LpSwapResultCode = -14
+	LpSwapResultCodeInsufficientLiquidity    LpSwapResultCode = -15
+	LpSwapResultCodeExcessiveInputAmount     LpSwapResultCode = -16
+	LpSwapResultCodeBalanceOverflow          LpSwapResultCode = -17
+)
+
+var LpSwapResultCodeAll = []LpSwapResultCode{
+	LpSwapResultCodeSuccess,
+	LpSwapResultCodeSameBalances,
+	LpSwapResultCodeUnderfunded,
+	LpSwapResultCodeBalanceAssetsMatched,
+	LpSwapResultCodeFromBalanceNotFound,
+	LpSwapResultCodeToBalanceNotFound,
+	LpSwapResultCodeNotAllowedByAssetPolicy,
+	LpSwapResultCodeInvalidDestinationFee,
+	LpSwapResultCodeInsufficientFeeAmount,
+	LpSwapResultCodeAmountIsLessThanDestFee,
+	LpSwapResultCodeIncorrectAmountPrecision,
+	LpSwapResultCodeInsufficientInputAmount,
+	LpSwapResultCodeInsufficientOutputAmount,
+	LpSwapResultCodeSameAssets,
+	LpSwapResultCodeLiquidityPoolNotFound,
+	LpSwapResultCodeInsufficientLiquidity,
+	LpSwapResultCodeExcessiveInputAmount,
+	LpSwapResultCodeBalanceOverflow,
+}
+
+var lpSwapResultCodeMap = map[int32]string{
+	0:   "LpSwapResultCodeSuccess",
+	-1:  "LpSwapResultCodeSameBalances",
+	-2:  "LpSwapResultCodeUnderfunded",
+	-3:  "LpSwapResultCodeBalanceAssetsMatched",
+	-4:  "LpSwapResultCodeFromBalanceNotFound",
+	-5:  "LpSwapResultCodeToBalanceNotFound",
+	-6:  "LpSwapResultCodeNotAllowedByAssetPolicy",
+	-7:  "LpSwapResultCodeInvalidDestinationFee",
+	-8:  "LpSwapResultCodeInsufficientFeeAmount",
+	-9:  "LpSwapResultCodeAmountIsLessThanDestFee",
+	-10: "LpSwapResultCodeIncorrectAmountPrecision",
+	-11: "LpSwapResultCodeInsufficientInputAmount",
+	-12: "LpSwapResultCodeInsufficientOutputAmount",
+	-13: "LpSwapResultCodeSameAssets",
+	-14: "LpSwapResultCodeLiquidityPoolNotFound",
+	-15: "LpSwapResultCodeInsufficientLiquidity",
+	-16: "LpSwapResultCodeExcessiveInputAmount",
+	-17: "LpSwapResultCodeBalanceOverflow",
+}
+
+var lpSwapResultCodeShortMap = map[int32]string{
+	0:   "success",
+	-1:  "same_balances",
+	-2:  "underfunded",
+	-3:  "balance_assets_matched",
+	-4:  "from_balance_not_found",
+	-5:  "to_balance_not_found",
+	-6:  "not_allowed_by_asset_policy",
+	-7:  "invalid_destination_fee",
+	-8:  "insufficient_fee_amount",
+	-9:  "amount_is_less_than_dest_fee",
+	-10: "incorrect_amount_precision",
+	-11: "insufficient_input_amount",
+	-12: "insufficient_output_amount",
+	-13: "same_assets",
+	-14: "liquidity_pool_not_found",
+	-15: "insufficient_liquidity",
+	-16: "excessive_input_amount",
+	-17: "balance_overflow",
+}
+
+var lpSwapResultCodeRevMap = map[string]int32{
+	"LpSwapResultCodeSuccess":                  0,
+	"LpSwapResultCodeSameBalances":             -1,
+	"LpSwapResultCodeUnderfunded":              -2,
+	"LpSwapResultCodeBalanceAssetsMatched":     -3,
+	"LpSwapResultCodeFromBalanceNotFound":      -4,
+	"LpSwapResultCodeToBalanceNotFound":        -5,
+	"LpSwapResultCodeNotAllowedByAssetPolicy":  -6,
+	"LpSwapResultCodeInvalidDestinationFee":    -7,
+	"LpSwapResultCodeInsufficientFeeAmount":    -8,
+	"LpSwapResultCodeAmountIsLessThanDestFee":  -9,
+	"LpSwapResultCodeIncorrectAmountPrecision": -10,
+	"LpSwapResultCodeInsufficientInputAmount":  -11,
+	"LpSwapResultCodeInsufficientOutputAmount": -12,
+	"LpSwapResultCodeSameAssets":               -13,
+	"LpSwapResultCodeLiquidityPoolNotFound":    -14,
+	"LpSwapResultCodeInsufficientLiquidity":    -15,
+	"LpSwapResultCodeExcessiveInputAmount":     -16,
+	"LpSwapResultCodeBalanceOverflow":          -17,
+}
+
+// ValidEnum validates a proposed value for this enum.  Implements
+// the Enum interface for LpSwapResultCode
+func (e LpSwapResultCode) ValidEnum(v int32) bool {
+	_, ok := lpSwapResultCodeMap[v]
+	return ok
+}
+func (e LpSwapResultCode) isFlag() bool {
+	for i := len(LpSwapResultCodeAll) - 1; i >= 0; i-- {
+		expected := LpSwapResultCode(2) << uint64(len(LpSwapResultCodeAll)-1) >> uint64(len(LpSwapResultCodeAll)-i)
+		if expected != LpSwapResultCodeAll[i] {
+			return false
+		}
+	}
+	return true
+}
+
+// String returns the name of `e`
+func (e LpSwapResultCode) String() string {
+	name, _ := lpSwapResultCodeMap[int32(e)]
+	return name
+}
+
+func (e LpSwapResultCode) ShortString() string {
+	name, _ := lpSwapResultCodeShortMap[int32(e)]
+	return name
+}
+
+func (e LpSwapResultCode) MarshalJSON() ([]byte, error) {
+	if e.isFlag() {
+		// marshal as mask
+		result := flag{
+			Value: int32(e),
+			Flags: make([]flagValue, 0),
+		}
+		for _, value := range LpSwapResultCodeAll {
+			if (value & e) == value {
+				result.Flags = append(result.Flags, flagValue{
+					Value: int32(value),
+					Name:  value.ShortString(),
+				})
+			}
+		}
+		return json.Marshal(&result)
+	} else {
+		// marshal as enum
+		result := enum{
+			Value:  int32(e),
+			String: e.ShortString(),
+		}
+		return json.Marshal(&result)
+	}
+}
+
+func (e *LpSwapResultCode) UnmarshalJSON(data []byte) error {
+	var t value
+	if err := json.Unmarshal(data, &t); err != nil {
+		return err
+	}
+	*e = LpSwapResultCode(t.Value)
+	return nil
+}
+
+// LpSwapSuccess is an XDR Struct defines as:
+//
+//   struct LPSwapSuccess
+//        {
+//            //: Unique identifier of the liquidity pool
+//            uint64 liquidityPoolID;
+//
+//            //: ID of the pool account
+//            AccountID poolAccount;
+//
+//            //: ID of the in balance for LP
+//            BalanceID lpInBalanceID;
+//            //: ID of the out balance for LP
+//            BalanceID lpOutBalanceID;
+//
+//            //: ID of the in balance for source
+//            BalanceID sourceInBalanceID;
+//            //: ID of the out balance for source
+//            BalanceID sourceOutBalanceID;
+//
+//            //: Amount of the in asset used for swap
+//            uint64 swapInAmount;
+//            //: Amount of the out asset received from swap
+//            uint64 swapOutAmount;
+//
+//            //: Fee charged from the source balance
+//            Fee actualSourcePaymentFee;
+//            //: Fee charged from the destination balance
+//            Fee actualDestinationPaymentFee;
+//
+//            //: Reserved for future extension
+//            EmptyExt ext;
+//        };
+//
+type LpSwapSuccess struct {
+	LiquidityPoolId             Uint64    `json:"liquidityPoolID,omitempty"`
+	PoolAccount                 AccountId `json:"poolAccount,omitempty"`
+	LpInBalanceId               BalanceId `json:"lpInBalanceID,omitempty"`
+	LpOutBalanceId              BalanceId `json:"lpOutBalanceID,omitempty"`
+	SourceInBalanceId           BalanceId `json:"sourceInBalanceID,omitempty"`
+	SourceOutBalanceId          BalanceId `json:"sourceOutBalanceID,omitempty"`
+	SwapInAmount                Uint64    `json:"swapInAmount,omitempty"`
+	SwapOutAmount               Uint64    `json:"swapOutAmount,omitempty"`
+	ActualSourcePaymentFee      Fee       `json:"actualSourcePaymentFee,omitempty"`
+	ActualDestinationPaymentFee Fee       `json:"actualDestinationPaymentFee,omitempty"`
+	Ext                         EmptyExt  `json:"ext,omitempty"`
+}
+
+// LpSwapResult is an XDR Union defines as:
+//
+//   union LPSwapResult switch (LPSwapResultCode code)
+//        {
+//            case SUCCESS:
+//                LPSwapSuccess success;
+//            default:
+//                void;
+//        };
+//
+type LpSwapResult struct {
+	Code    LpSwapResultCode `json:"code,omitempty"`
+	Success *LpSwapSuccess   `json:"success,omitempty"`
+}
+
+// SwitchFieldName returns the field name in which this union's
+// discriminant is stored
+func (u LpSwapResult) SwitchFieldName() string {
+	return "Code"
+}
+
+// ArmForSwitch returns which field name should be used for storing
+// the value for an instance of LpSwapResult
+func (u LpSwapResult) ArmForSwitch(sw int32) (string, bool) {
+	switch LpSwapResultCode(sw) {
+	case LpSwapResultCodeSuccess:
+		return "Success", true
+	default:
+		return "", true
+	}
+}
+
+// NewLpSwapResult creates a new  LpSwapResult.
+func NewLpSwapResult(code LpSwapResultCode, value interface{}) (result LpSwapResult, err error) {
+	result.Code = code
+	switch LpSwapResultCode(code) {
+	case LpSwapResultCodeSuccess:
+		tv, ok := value.(LpSwapSuccess)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be LpSwapSuccess")
+			return
+		}
+		result.Success = &tv
+	default:
+		// void
+	}
+	return
+}
+
+// MustSuccess retrieves the Success value from the union,
+// panicing if the value is not set.
+func (u LpSwapResult) MustSuccess() LpSwapSuccess {
+	val, ok := u.GetSuccess()
+
+	if !ok {
+		panic("arm Success is not set")
+	}
+
+	return val
+}
+
+// GetSuccess retrieves the Success value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u LpSwapResult) GetSuccess() (result LpSwapSuccess, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.Code))
+
+	if armName == "Success" {
+		result = *u.Success
+		ok = true
+	}
+
+	return
+}
+
 // ManageAccountRoleAction is an XDR Enum defines as:
 //
 //   //: Actions that can be performed with the account role
@@ -34755,7 +36226,8 @@ func (u ManagePollResult) GetExt() (result EmptyExt, ok bool) {
 //   enum ManageSaleAction
 //    {
 //        CREATE_UPDATE_DETAILS_REQUEST = 1,
-//        CANCEL = 2
+//        CANCEL = 2,
+//        UPDATE_TIME = 3
 //    };
 //
 type ManageSaleAction int32
@@ -34763,26 +36235,31 @@ type ManageSaleAction int32
 const (
 	ManageSaleActionCreateUpdateDetailsRequest ManageSaleAction = 1
 	ManageSaleActionCancel                     ManageSaleAction = 2
+	ManageSaleActionUpdateTime                 ManageSaleAction = 3
 )
 
 var ManageSaleActionAll = []ManageSaleAction{
 	ManageSaleActionCreateUpdateDetailsRequest,
 	ManageSaleActionCancel,
+	ManageSaleActionUpdateTime,
 }
 
 var manageSaleActionMap = map[int32]string{
 	1: "ManageSaleActionCreateUpdateDetailsRequest",
 	2: "ManageSaleActionCancel",
+	3: "ManageSaleActionUpdateTime",
 }
 
 var manageSaleActionShortMap = map[int32]string{
 	1: "create_update_details_request",
 	2: "cancel",
+	3: "update_time",
 }
 
 var manageSaleActionRevMap = map[string]int32{
 	"ManageSaleActionCreateUpdateDetailsRequest": 1,
 	"ManageSaleActionCancel":                     2,
+	"ManageSaleActionUpdateTime":                 3,
 }
 
 // ValidEnum validates a proposed value for this enum.  Implements
@@ -34912,6 +36389,67 @@ type UpdateSaleDetailsData struct {
 	Ext            UpdateSaleDetailsDataExt `json:"ext,omitempty"`
 }
 
+// UpdateTimeDataExt is an XDR NestedUnion defines as:
+//
+//   union switch (LedgerVersion v)
+//        {
+//        case EMPTY_VERSION:
+//            void;
+//        }
+//
+type UpdateTimeDataExt struct {
+	V LedgerVersion `json:"v,omitempty"`
+}
+
+// SwitchFieldName returns the field name in which this union's
+// discriminant is stored
+func (u UpdateTimeDataExt) SwitchFieldName() string {
+	return "V"
+}
+
+// ArmForSwitch returns which field name should be used for storing
+// the value for an instance of UpdateTimeDataExt
+func (u UpdateTimeDataExt) ArmForSwitch(sw int32) (string, bool) {
+	switch LedgerVersion(sw) {
+	case LedgerVersionEmptyVersion:
+		return "", true
+	}
+	return "-", false
+}
+
+// NewUpdateTimeDataExt creates a new  UpdateTimeDataExt.
+func NewUpdateTimeDataExt(v LedgerVersion, value interface{}) (result UpdateTimeDataExt, err error) {
+	result.V = v
+	switch LedgerVersion(v) {
+	case LedgerVersionEmptyVersion:
+		// void
+	}
+	return
+}
+
+// UpdateTimeData is an XDR Struct defines as:
+//
+//   //: Details are valid if one of the fileds is not zero
+//    struct UpdateTimeData {
+//        //: start time can be updated if sale is not started yet (zero means no changes)
+//        uint64 newStartTime;
+//        //: end time should be greater than start time (zero means no changes)
+//        uint64 newEndTime;
+//
+//        //: Reserved for future use
+//        union switch (LedgerVersion v)
+//        {
+//        case EMPTY_VERSION:
+//            void;
+//        } ext;
+//    };
+//
+type UpdateTimeData struct {
+	NewStartTime Uint64            `json:"newStartTime,omitempty"`
+	NewEndTime   Uint64            `json:"newEndTime,omitempty"`
+	Ext          UpdateTimeDataExt `json:"ext,omitempty"`
+}
+
 // ManageSaleOpData is an XDR NestedUnion defines as:
 //
 //   union switch (ManageSaleAction action) {
@@ -34919,11 +36457,14 @@ type UpdateSaleDetailsData struct {
 //            UpdateSaleDetailsData updateSaleDetailsData;
 //        case CANCEL:
 //            void;
+//        case UPDATE_TIME:
+//            UpdateTimeData updateTime;
 //        }
 //
 type ManageSaleOpData struct {
 	Action                ManageSaleAction       `json:"action,omitempty"`
 	UpdateSaleDetailsData *UpdateSaleDetailsData `json:"updateSaleDetailsData,omitempty"`
+	UpdateTime            *UpdateTimeData        `json:"updateTime,omitempty"`
 }
 
 // SwitchFieldName returns the field name in which this union's
@@ -34940,6 +36481,8 @@ func (u ManageSaleOpData) ArmForSwitch(sw int32) (string, bool) {
 		return "UpdateSaleDetailsData", true
 	case ManageSaleActionCancel:
 		return "", true
+	case ManageSaleActionUpdateTime:
+		return "UpdateTime", true
 	}
 	return "-", false
 }
@@ -34957,6 +36500,13 @@ func NewManageSaleOpData(action ManageSaleAction, value interface{}) (result Man
 		result.UpdateSaleDetailsData = &tv
 	case ManageSaleActionCancel:
 		// void
+	case ManageSaleActionUpdateTime:
+		tv, ok := value.(UpdateTimeData)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be UpdateTimeData")
+			return
+		}
+		result.UpdateTime = &tv
 	}
 	return
 }
@@ -34980,6 +36530,31 @@ func (u ManageSaleOpData) GetUpdateSaleDetailsData() (result UpdateSaleDetailsDa
 
 	if armName == "UpdateSaleDetailsData" {
 		result = *u.UpdateSaleDetailsData
+		ok = true
+	}
+
+	return
+}
+
+// MustUpdateTime retrieves the UpdateTime value from the union,
+// panicing if the value is not set.
+func (u ManageSaleOpData) MustUpdateTime() UpdateTimeData {
+	val, ok := u.GetUpdateTime()
+
+	if !ok {
+		panic("arm UpdateTime is not set")
+	}
+
+	return val
+}
+
+// GetUpdateTime retrieves the UpdateTime value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u ManageSaleOpData) GetUpdateTime() (result UpdateTimeData, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.Action))
+
+	if armName == "UpdateTime" {
+		result = *u.UpdateTime
 		ok = true
 	}
 
@@ -35037,6 +36612,8 @@ func NewManageSaleOpExt(v LedgerVersion, value interface{}) (result ManageSaleOp
 //            UpdateSaleDetailsData updateSaleDetailsData;
 //        case CANCEL:
 //            void;
+//        case UPDATE_TIME:
+//            UpdateTimeData updateTime;
 //        } data;
 //
 //        //: Reserved for future use
@@ -35073,7 +36650,13 @@ type ManageSaleOp struct {
 //        //: It is not allowed to set allTasks for a pending reviewable request
 //        NOT_ALLOWED_TO_SET_TASKS_ON_UPDATE = -5, // not allowed to set allTasks on request update
 //        //: Update sale details tasks are not set in the system, i.e. it's not allowed to perform the update of sale details
-//        SALE_UPDATE_DETAILS_TASKS_NOT_FOUND = -6
+//        SALE_UPDATE_DETAILS_TASKS_NOT_FOUND = -6,
+//        //: Both fields are zero
+//        INVALID_UPDATE_TIME_DATA = -7,
+//        //: Start time could not be updated (sale has already started)
+//        INVALID_START_TIME = -8,
+//        //: End time could not be less than start time
+//        INVALID_END_TIME = -9
 //    };
 //
 type ManageSaleResultCode int32
@@ -35086,6 +36669,9 @@ const (
 	ManageSaleResultCodeUpdateDetailsRequestNotFound      ManageSaleResultCode = -4
 	ManageSaleResultCodeNotAllowedToSetTasksOnUpdate      ManageSaleResultCode = -5
 	ManageSaleResultCodeSaleUpdateDetailsTasksNotFound    ManageSaleResultCode = -6
+	ManageSaleResultCodeInvalidUpdateTimeData             ManageSaleResultCode = -7
+	ManageSaleResultCodeInvalidStartTime                  ManageSaleResultCode = -8
+	ManageSaleResultCodeInvalidEndTime                    ManageSaleResultCode = -9
 )
 
 var ManageSaleResultCodeAll = []ManageSaleResultCode{
@@ -35096,6 +36682,9 @@ var ManageSaleResultCodeAll = []ManageSaleResultCode{
 	ManageSaleResultCodeUpdateDetailsRequestNotFound,
 	ManageSaleResultCodeNotAllowedToSetTasksOnUpdate,
 	ManageSaleResultCodeSaleUpdateDetailsTasksNotFound,
+	ManageSaleResultCodeInvalidUpdateTimeData,
+	ManageSaleResultCodeInvalidStartTime,
+	ManageSaleResultCodeInvalidEndTime,
 }
 
 var manageSaleResultCodeMap = map[int32]string{
@@ -35106,6 +36695,9 @@ var manageSaleResultCodeMap = map[int32]string{
 	-4: "ManageSaleResultCodeUpdateDetailsRequestNotFound",
 	-5: "ManageSaleResultCodeNotAllowedToSetTasksOnUpdate",
 	-6: "ManageSaleResultCodeSaleUpdateDetailsTasksNotFound",
+	-7: "ManageSaleResultCodeInvalidUpdateTimeData",
+	-8: "ManageSaleResultCodeInvalidStartTime",
+	-9: "ManageSaleResultCodeInvalidEndTime",
 }
 
 var manageSaleResultCodeShortMap = map[int32]string{
@@ -35116,6 +36708,9 @@ var manageSaleResultCodeShortMap = map[int32]string{
 	-4: "update_details_request_not_found",
 	-5: "not_allowed_to_set_tasks_on_update",
 	-6: "sale_update_details_tasks_not_found",
+	-7: "invalid_update_time_data",
+	-8: "invalid_start_time",
+	-9: "invalid_end_time",
 }
 
 var manageSaleResultCodeRevMap = map[string]int32{
@@ -35126,6 +36721,9 @@ var manageSaleResultCodeRevMap = map[string]int32{
 	"ManageSaleResultCodeUpdateDetailsRequestNotFound":      -4,
 	"ManageSaleResultCodeNotAllowedToSetTasksOnUpdate":      -5,
 	"ManageSaleResultCodeSaleUpdateDetailsTasksNotFound":    -6,
+	"ManageSaleResultCodeInvalidUpdateTimeData":             -7,
+	"ManageSaleResultCodeInvalidStartTime":                  -8,
+	"ManageSaleResultCodeInvalidEndTime":                    -9,
 }
 
 // ValidEnum validates a proposed value for this enum.  Implements
@@ -35197,6 +36795,8 @@ func (e *ManageSaleResultCode) UnmarshalJSON(data []byte) error {
 //            uint64 requestID;
 //        case CANCEL:
 //            void;
+//        case UPDATE_TIME:
+//            void;
 //        }
 //
 type ManageSaleResultSuccessResponse struct {
@@ -35218,6 +36818,8 @@ func (u ManageSaleResultSuccessResponse) ArmForSwitch(sw int32) (string, bool) {
 		return "RequestId", true
 	case ManageSaleActionCancel:
 		return "", true
+	case ManageSaleActionUpdateTime:
+		return "", true
 	}
 	return "-", false
 }
@@ -35234,6 +36836,8 @@ func NewManageSaleResultSuccessResponse(action ManageSaleAction, value interface
 		}
 		result.RequestId = &tv
 	case ManageSaleActionCancel:
+		// void
+	case ManageSaleActionUpdateTime:
 		// void
 	}
 	return
@@ -35315,6 +36919,8 @@ func NewManageSaleResultSuccessExt(v LedgerVersion, value interface{}) (result M
 //        case CREATE_UPDATE_DETAILS_REQUEST:
 //            uint64 requestID;
 //        case CANCEL:
+//            void;
+//        case UPDATE_TIME:
 //            void;
 //        } response;
 //
@@ -46541,6 +48147,32 @@ type AccountRuleResourceData struct {
 	Ext  EmptyExt `json:"ext,omitempty"`
 }
 
+// AccountRuleResourceLiquidityPool is an XDR NestedStruct defines as:
+//
+//   struct
+//        {
+//            //: Code of the first asset in LP pair
+//            AssetCode firstAsset;
+//            //: Type of the first asset in LP pair
+//            uint64 firstAssetType;
+//
+//            //: Code of the second asset in LP pair
+//            AssetCode secondAsset;
+//            //: Type of the seconds asset in LP pair
+//            uint64 secondAssetType;
+//
+//            //: Reserved for future extension
+//            EmptyExt ext;
+//        }
+//
+type AccountRuleResourceLiquidityPool struct {
+	FirstAsset      AssetCode `json:"firstAsset,omitempty"`
+	FirstAssetType  Uint64    `json:"firstAssetType,omitempty"`
+	SecondAsset     AssetCode `json:"secondAsset,omitempty"`
+	SecondAssetType Uint64    `json:"secondAssetType,omitempty"`
+	Ext             EmptyExt  `json:"ext,omitempty"`
+}
+
 // AccountRuleResource is an XDR Union defines as:
 //
 //   //: Describes properties of some entries that can be used to restrict the usage of entries
@@ -46684,6 +48316,22 @@ type AccountRuleResourceData struct {
 //        } data;
 //    case CUSTOM:
 //        CustomRuleResource custom;
+//    case LIQUIDITY_POOL:
+//        struct
+//        {
+//            //: Code of the first asset in LP pair
+//            AssetCode firstAsset;
+//            //: Type of the first asset in LP pair
+//            uint64 firstAssetType;
+//
+//            //: Code of the second asset in LP pair
+//            AssetCode secondAsset;
+//            //: Type of the seconds asset in LP pair
+//            uint64 secondAssetType;
+//
+//            //: Reserved for future extension
+//            EmptyExt ext;
+//        } liquidityPool;
 //    default:
 //        //: reserved for future extension
 //        EmptyExt ext;
@@ -46704,6 +48352,7 @@ type AccountRuleResource struct {
 	Swap                   *AccountRuleResourceSwap                   `json:"swap,omitempty"`
 	Data                   *AccountRuleResourceData                   `json:"data,omitempty"`
 	Custom                 *CustomRuleResource                        `json:"custom,omitempty"`
+	LiquidityPool          *AccountRuleResourceLiquidityPool          `json:"liquidityPool,omitempty"`
 	Ext                    *EmptyExt                                  `json:"ext,omitempty"`
 }
 
@@ -46745,6 +48394,8 @@ func (u AccountRuleResource) ArmForSwitch(sw int32) (string, bool) {
 		return "Data", true
 	case LedgerEntryTypeCustom:
 		return "Custom", true
+	case LedgerEntryTypeLiquidityPool:
+		return "LiquidityPool", true
 	default:
 		return "Ext", true
 	}
@@ -46847,6 +48498,13 @@ func NewAccountRuleResource(aType LedgerEntryType, value interface{}) (result Ac
 			return
 		}
 		result.Custom = &tv
+	case LedgerEntryTypeLiquidityPool:
+		tv, ok := value.(AccountRuleResourceLiquidityPool)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be AccountRuleResourceLiquidityPool")
+			return
+		}
+		result.LiquidityPool = &tv
 	default:
 		tv, ok := value.(EmptyExt)
 		if !ok {
@@ -47183,6 +48841,31 @@ func (u AccountRuleResource) GetCustom() (result CustomRuleResource, ok bool) {
 	return
 }
 
+// MustLiquidityPool retrieves the LiquidityPool value from the union,
+// panicing if the value is not set.
+func (u AccountRuleResource) MustLiquidityPool() AccountRuleResourceLiquidityPool {
+	val, ok := u.GetLiquidityPool()
+
+	if !ok {
+		panic("arm LiquidityPool is not set")
+	}
+
+	return val
+}
+
+// GetLiquidityPool retrieves the LiquidityPool value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u AccountRuleResource) GetLiquidityPool() (result AccountRuleResourceLiquidityPool, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.Type))
+
+	if armName == "LiquidityPool" {
+		result = *u.LiquidityPool
+		ok = true
+	}
+
+	return
+}
+
 // MustExt retrieves the Ext value from the union,
 // panicing if the value is not set.
 func (u AccountRuleResource) MustExt() EmptyExt {
@@ -47237,7 +48920,10 @@ func (u AccountRuleResource) GetExt() (result EmptyExt, ok bool) {
 //        RECEIVE_REDEMPTION = 22,
 //        UPDATE = 23,
 //        UPDATE_FOR_OTHER = 24,
-//        CUSTOM = 25
+//        CUSTOM = 25,
+//        LP_ADD_LIQUIDITY = 26,
+//        LP_REMOVE_LIQUIDITY = 27,
+//        LP_SWAP = 28
 //    };
 //
 type AccountRuleAction int32
@@ -47268,6 +48954,9 @@ const (
 	AccountRuleActionUpdate                  AccountRuleAction = 23
 	AccountRuleActionUpdateForOther          AccountRuleAction = 24
 	AccountRuleActionCustom                  AccountRuleAction = 25
+	AccountRuleActionLpAddLiquidity          AccountRuleAction = 26
+	AccountRuleActionLpRemoveLiquidity       AccountRuleAction = 27
+	AccountRuleActionLpSwap                  AccountRuleAction = 28
 )
 
 var AccountRuleActionAll = []AccountRuleAction{
@@ -47296,6 +48985,9 @@ var AccountRuleActionAll = []AccountRuleAction{
 	AccountRuleActionUpdate,
 	AccountRuleActionUpdateForOther,
 	AccountRuleActionCustom,
+	AccountRuleActionLpAddLiquidity,
+	AccountRuleActionLpRemoveLiquidity,
+	AccountRuleActionLpSwap,
 }
 
 var accountRuleActionMap = map[int32]string{
@@ -47324,6 +49016,9 @@ var accountRuleActionMap = map[int32]string{
 	23: "AccountRuleActionUpdate",
 	24: "AccountRuleActionUpdateForOther",
 	25: "AccountRuleActionCustom",
+	26: "AccountRuleActionLpAddLiquidity",
+	27: "AccountRuleActionLpRemoveLiquidity",
+	28: "AccountRuleActionLpSwap",
 }
 
 var accountRuleActionShortMap = map[int32]string{
@@ -47352,6 +49047,9 @@ var accountRuleActionShortMap = map[int32]string{
 	23: "update",
 	24: "update_for_other",
 	25: "custom",
+	26: "lp_add_liquidity",
+	27: "lp_remove_liquidity",
+	28: "lp_swap",
 }
 
 var accountRuleActionRevMap = map[string]int32{
@@ -47380,6 +49078,9 @@ var accountRuleActionRevMap = map[string]int32{
 	"AccountRuleActionUpdate":                  23,
 	"AccountRuleActionUpdateForOther":          24,
 	"AccountRuleActionCustom":                  25,
+	"AccountRuleActionLpAddLiquidity":          26,
+	"AccountRuleActionLpRemoveLiquidity":       27,
+	"AccountRuleActionLpSwap":                  28,
 }
 
 // ValidEnum validates a proposed value for this enum.  Implements
@@ -47795,6 +49496,32 @@ type SignerRuleResourceData struct {
 	Ext  EmptyExt `json:"ext,omitempty"`
 }
 
+// SignerRuleResourceLiquidityPool is an XDR NestedStruct defines as:
+//
+//   struct
+//        {
+//            //: Code of the first asset in LP pair
+//            AssetCode firstAsset;
+//            //: Type of the first asset in LP pair
+//            uint64 firstAssetType;
+//
+//            //: Code of the second asset in LP pair
+//            AssetCode secondAsset;
+//            //: Type of the seconds asset in LP pair
+//            uint64 secondAssetType;
+//
+//            //: Reserved for future extension
+//            EmptyExt ext;
+//        }
+//
+type SignerRuleResourceLiquidityPool struct {
+	FirstAsset      AssetCode `json:"firstAsset,omitempty"`
+	FirstAssetType  Uint64    `json:"firstAssetType,omitempty"`
+	SecondAsset     AssetCode `json:"secondAsset,omitempty"`
+	SecondAssetType Uint64    `json:"secondAssetType,omitempty"`
+	Ext             EmptyExt  `json:"ext,omitempty"`
+}
+
 // SignerRuleResource is an XDR Union defines as:
 //
 //   //: Describes properties of some entries that can be used to restrict the usage of entries
@@ -47969,6 +49696,22 @@ type SignerRuleResourceData struct {
 //        } data;
 //    case CUSTOM:
 //        CustomRuleResource custom;
+//    case LIQUIDITY_POOL:
+//        struct
+//        {
+//            //: Code of the first asset in LP pair
+//            AssetCode firstAsset;
+//            //: Type of the first asset in LP pair
+//            uint64 firstAssetType;
+//
+//            //: Code of the second asset in LP pair
+//            AssetCode secondAsset;
+//            //: Type of the seconds asset in LP pair
+//            uint64 secondAssetType;
+//
+//            //: Reserved for future extension
+//            EmptyExt ext;
+//        } liquidityPool;
 //    default:
 //        //: reserved for future extension
 //        EmptyExt ext;
@@ -47992,6 +49735,7 @@ type SignerRuleResource struct {
 	Swap                   *SignerRuleResourceSwap                   `json:"swap,omitempty"`
 	Data                   *SignerRuleResourceData                   `json:"data,omitempty"`
 	Custom                 *CustomRuleResource                       `json:"custom,omitempty"`
+	LiquidityPool          *SignerRuleResourceLiquidityPool          `json:"liquidityPool,omitempty"`
 	Ext                    *EmptyExt                                 `json:"ext,omitempty"`
 }
 
@@ -48039,6 +49783,8 @@ func (u SignerRuleResource) ArmForSwitch(sw int32) (string, bool) {
 		return "Data", true
 	case LedgerEntryTypeCustom:
 		return "Custom", true
+	case LedgerEntryTypeLiquidityPool:
+		return "LiquidityPool", true
 	default:
 		return "Ext", true
 	}
@@ -48162,6 +49908,13 @@ func NewSignerRuleResource(aType LedgerEntryType, value interface{}) (result Sig
 			return
 		}
 		result.Custom = &tv
+	case LedgerEntryTypeLiquidityPool:
+		tv, ok := value.(SignerRuleResourceLiquidityPool)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be SignerRuleResourceLiquidityPool")
+			return
+		}
+		result.LiquidityPool = &tv
 	default:
 		tv, ok := value.(EmptyExt)
 		if !ok {
@@ -48573,6 +50326,31 @@ func (u SignerRuleResource) GetCustom() (result CustomRuleResource, ok bool) {
 	return
 }
 
+// MustLiquidityPool retrieves the LiquidityPool value from the union,
+// panicing if the value is not set.
+func (u SignerRuleResource) MustLiquidityPool() SignerRuleResourceLiquidityPool {
+	val, ok := u.GetLiquidityPool()
+
+	if !ok {
+		panic("arm LiquidityPool is not set")
+	}
+
+	return val
+}
+
+// GetLiquidityPool retrieves the LiquidityPool value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u SignerRuleResource) GetLiquidityPool() (result SignerRuleResourceLiquidityPool, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.Type))
+
+	if armName == "LiquidityPool" {
+		result = *u.LiquidityPool
+		ok = true
+	}
+
+	return
+}
+
 // MustExt retrieves the Ext value from the union,
 // panicing if the value is not set.
 func (u SignerRuleResource) MustExt() EmptyExt {
@@ -48624,7 +50402,10 @@ func (u SignerRuleResource) GetExt() (result EmptyExt, ok bool) {
 //        REMOVE_FOR_OTHER = 19,
 //        EXCHANGE = 20,
 //        UPDATE_FOR_OTHER = 21,
-//        CUSTOM = 22
+//        CUSTOM = 22,
+//        LP_ADD_LIQUIDITY = 23,
+//        LP_REMOVE_LIQUIDITY = 24,
+//        LP_SWAP = 25
 //    };
 //
 type SignerRuleAction int32
@@ -48652,6 +50433,9 @@ const (
 	SignerRuleActionExchange                SignerRuleAction = 20
 	SignerRuleActionUpdateForOther          SignerRuleAction = 21
 	SignerRuleActionCustom                  SignerRuleAction = 22
+	SignerRuleActionLpAddLiquidity          SignerRuleAction = 23
+	SignerRuleActionLpRemoveLiquidity       SignerRuleAction = 24
+	SignerRuleActionLpSwap                  SignerRuleAction = 25
 )
 
 var SignerRuleActionAll = []SignerRuleAction{
@@ -48677,6 +50461,9 @@ var SignerRuleActionAll = []SignerRuleAction{
 	SignerRuleActionExchange,
 	SignerRuleActionUpdateForOther,
 	SignerRuleActionCustom,
+	SignerRuleActionLpAddLiquidity,
+	SignerRuleActionLpRemoveLiquidity,
+	SignerRuleActionLpSwap,
 }
 
 var signerRuleActionMap = map[int32]string{
@@ -48702,6 +50489,9 @@ var signerRuleActionMap = map[int32]string{
 	20: "SignerRuleActionExchange",
 	21: "SignerRuleActionUpdateForOther",
 	22: "SignerRuleActionCustom",
+	23: "SignerRuleActionLpAddLiquidity",
+	24: "SignerRuleActionLpRemoveLiquidity",
+	25: "SignerRuleActionLpSwap",
 }
 
 var signerRuleActionShortMap = map[int32]string{
@@ -48727,6 +50517,9 @@ var signerRuleActionShortMap = map[int32]string{
 	20: "exchange",
 	21: "update_for_other",
 	22: "custom",
+	23: "lp_add_liquidity",
+	24: "lp_remove_liquidity",
+	25: "lp_swap",
 }
 
 var signerRuleActionRevMap = map[string]int32{
@@ -48752,6 +50545,9 @@ var signerRuleActionRevMap = map[string]int32{
 	"SignerRuleActionExchange":                20,
 	"SignerRuleActionUpdateForOther":          21,
 	"SignerRuleActionCustom":                  22,
+	"SignerRuleActionLpAddLiquidity":          23,
+	"SignerRuleActionLpRemoveLiquidity":       24,
+	"SignerRuleActionLpSwap":                  25,
 }
 
 // ValidEnum validates a proposed value for this enum.  Implements
@@ -51050,6 +52846,12 @@ type WithdrawalRequest struct {
 //            CreateCloseDeferredPaymentRequestOp createCloseDeferredPaymentRequestOp;
 //        case CANCEL_CLOSE_DEFERRED_PAYMENT_REQUEST:
 //            CancelCloseDeferredPaymentRequestOp cancelCloseDeferredPaymentRequestOp;
+//        case LP_SWAP:
+//            LPSwapOp lpSwapOp;
+//        case LP_ADD_LIQUIDITY:
+//            LPAddLiquidityOp lpAddLiquidityOp;
+//        case LP_REMOVE_LIQUIDITY:
+//            LPRemoveLiquidityOp lpRemoveLiquidityOp;
 //
 //        }
 //
@@ -51118,6 +52920,9 @@ type OperationBody struct {
 	CancelDeferredPaymentCreationRequestOp   *CancelDeferredPaymentCreationRequestOp   `json:"cancelDeferredPaymentCreationRequestOp,omitempty"`
 	CreateCloseDeferredPaymentRequestOp      *CreateCloseDeferredPaymentRequestOp      `json:"createCloseDeferredPaymentRequestOp,omitempty"`
 	CancelCloseDeferredPaymentRequestOp      *CancelCloseDeferredPaymentRequestOp      `json:"cancelCloseDeferredPaymentRequestOp,omitempty"`
+	LpSwapOp                                 *LpSwapOp                                 `json:"lpSwapOp,omitempty"`
+	LpAddLiquidityOp                         *LpAddLiquidityOp                         `json:"lpAddLiquidityOp,omitempty"`
+	LpRemoveLiquidityOp                      *LpRemoveLiquidityOp                      `json:"lpRemoveLiquidityOp,omitempty"`
 }
 
 // SwitchFieldName returns the field name in which this union's
@@ -51256,6 +53061,12 @@ func (u OperationBody) ArmForSwitch(sw int32) (string, bool) {
 		return "CreateCloseDeferredPaymentRequestOp", true
 	case OperationTypeCancelCloseDeferredPaymentRequest:
 		return "CancelCloseDeferredPaymentRequestOp", true
+	case OperationTypeLpSwap:
+		return "LpSwapOp", true
+	case OperationTypeLpAddLiquidity:
+		return "LpAddLiquidityOp", true
+	case OperationTypeLpRemoveLiquidity:
+		return "LpRemoveLiquidityOp", true
 	}
 	return "-", false
 }
@@ -51705,6 +53516,27 @@ func NewOperationBody(aType OperationType, value interface{}) (result OperationB
 			return
 		}
 		result.CancelCloseDeferredPaymentRequestOp = &tv
+	case OperationTypeLpSwap:
+		tv, ok := value.(LpSwapOp)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be LpSwapOp")
+			return
+		}
+		result.LpSwapOp = &tv
+	case OperationTypeLpAddLiquidity:
+		tv, ok := value.(LpAddLiquidityOp)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be LpAddLiquidityOp")
+			return
+		}
+		result.LpAddLiquidityOp = &tv
+	case OperationTypeLpRemoveLiquidity:
+		tv, ok := value.(LpRemoveLiquidityOp)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be LpRemoveLiquidityOp")
+			return
+		}
+		result.LpRemoveLiquidityOp = &tv
 	}
 	return
 }
@@ -53284,6 +55116,81 @@ func (u OperationBody) GetCancelCloseDeferredPaymentRequestOp() (result CancelCl
 	return
 }
 
+// MustLpSwapOp retrieves the LpSwapOp value from the union,
+// panicing if the value is not set.
+func (u OperationBody) MustLpSwapOp() LpSwapOp {
+	val, ok := u.GetLpSwapOp()
+
+	if !ok {
+		panic("arm LpSwapOp is not set")
+	}
+
+	return val
+}
+
+// GetLpSwapOp retrieves the LpSwapOp value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u OperationBody) GetLpSwapOp() (result LpSwapOp, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.Type))
+
+	if armName == "LpSwapOp" {
+		result = *u.LpSwapOp
+		ok = true
+	}
+
+	return
+}
+
+// MustLpAddLiquidityOp retrieves the LpAddLiquidityOp value from the union,
+// panicing if the value is not set.
+func (u OperationBody) MustLpAddLiquidityOp() LpAddLiquidityOp {
+	val, ok := u.GetLpAddLiquidityOp()
+
+	if !ok {
+		panic("arm LpAddLiquidityOp is not set")
+	}
+
+	return val
+}
+
+// GetLpAddLiquidityOp retrieves the LpAddLiquidityOp value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u OperationBody) GetLpAddLiquidityOp() (result LpAddLiquidityOp, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.Type))
+
+	if armName == "LpAddLiquidityOp" {
+		result = *u.LpAddLiquidityOp
+		ok = true
+	}
+
+	return
+}
+
+// MustLpRemoveLiquidityOp retrieves the LpRemoveLiquidityOp value from the union,
+// panicing if the value is not set.
+func (u OperationBody) MustLpRemoveLiquidityOp() LpRemoveLiquidityOp {
+	val, ok := u.GetLpRemoveLiquidityOp()
+
+	if !ok {
+		panic("arm LpRemoveLiquidityOp is not set")
+	}
+
+	return val
+}
+
+// GetLpRemoveLiquidityOp retrieves the LpRemoveLiquidityOp value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u OperationBody) GetLpRemoveLiquidityOp() (result LpRemoveLiquidityOp, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.Type))
+
+	if armName == "LpRemoveLiquidityOp" {
+		result = *u.LpRemoveLiquidityOp
+		ok = true
+	}
+
+	return
+}
+
 // Operation is an XDR Struct defines as:
 //
 //   //: An operation is the lowest unit of work that a transaction does
@@ -53422,6 +55329,12 @@ func (u OperationBody) GetCancelCloseDeferredPaymentRequestOp() (result CancelCl
 //            CreateCloseDeferredPaymentRequestOp createCloseDeferredPaymentRequestOp;
 //        case CANCEL_CLOSE_DEFERRED_PAYMENT_REQUEST:
 //            CancelCloseDeferredPaymentRequestOp cancelCloseDeferredPaymentRequestOp;
+//        case LP_SWAP:
+//            LPSwapOp lpSwapOp;
+//        case LP_ADD_LIQUIDITY:
+//            LPAddLiquidityOp lpAddLiquidityOp;
+//        case LP_REMOVE_LIQUIDITY:
+//            LPRemoveLiquidityOp lpRemoveLiquidityOp;
 //
 //        }
 //
@@ -54160,13 +56073,19 @@ type AccountRuleRequirement struct {
 //        case CANCEL_DATA_REMOVE_REQUEST:
 //            CancelDataRemoveRequestResult cancelDataRemoveRequestResult;
 //        case CREATE_DEFERRED_PAYMENT_CREATION_REQUEST:
-//                CreateDeferredPaymentCreationRequestResult createDeferredPaymentCreationRequestResult;
+//            CreateDeferredPaymentCreationRequestResult createDeferredPaymentCreationRequestResult;
 //        case CANCEL_DEFERRED_PAYMENT_CREATION_REQUEST:
 //            CancelDeferredPaymentCreationRequestResult cancelDeferredPaymentCreationRequestResult;
 //        case CREATE_CLOSE_DEFERRED_PAYMENT_REQUEST:
 //            CreateCloseDeferredPaymentRequestResult createCloseDeferredPaymentRequestResult;
 //        case CANCEL_CLOSE_DEFERRED_PAYMENT_REQUEST:
 //            CancelCloseDeferredPaymentRequestResult cancelCloseDeferredPaymentRequestResult;
+//        case LP_SWAP:
+//            LPSwapResult lpSwapResult;
+//        case LP_ADD_LIQUIDITY:
+//            LPAddLiquidityResult lpAddLiquidityResult;
+//        case LP_REMOVE_LIQUIDITY:
+//            LPRemoveLiquidityResult lpRemoveLiquidityResult;
 //
 //        }
 //
@@ -54235,6 +56154,9 @@ type OperationResultTr struct {
 	CancelDeferredPaymentCreationRequestResult   *CancelDeferredPaymentCreationRequestResult   `json:"cancelDeferredPaymentCreationRequestResult,omitempty"`
 	CreateCloseDeferredPaymentRequestResult      *CreateCloseDeferredPaymentRequestResult      `json:"createCloseDeferredPaymentRequestResult,omitempty"`
 	CancelCloseDeferredPaymentRequestResult      *CancelCloseDeferredPaymentRequestResult      `json:"cancelCloseDeferredPaymentRequestResult,omitempty"`
+	LpSwapResult                                 *LpSwapResult                                 `json:"lpSwapResult,omitempty"`
+	LpAddLiquidityResult                         *LpAddLiquidityResult                         `json:"lpAddLiquidityResult,omitempty"`
+	LpRemoveLiquidityResult                      *LpRemoveLiquidityResult                      `json:"lpRemoveLiquidityResult,omitempty"`
 }
 
 // SwitchFieldName returns the field name in which this union's
@@ -54373,6 +56295,12 @@ func (u OperationResultTr) ArmForSwitch(sw int32) (string, bool) {
 		return "CreateCloseDeferredPaymentRequestResult", true
 	case OperationTypeCancelCloseDeferredPaymentRequest:
 		return "CancelCloseDeferredPaymentRequestResult", true
+	case OperationTypeLpSwap:
+		return "LpSwapResult", true
+	case OperationTypeLpAddLiquidity:
+		return "LpAddLiquidityResult", true
+	case OperationTypeLpRemoveLiquidity:
+		return "LpRemoveLiquidityResult", true
 	}
 	return "-", false
 }
@@ -54822,6 +56750,27 @@ func NewOperationResultTr(aType OperationType, value interface{}) (result Operat
 			return
 		}
 		result.CancelCloseDeferredPaymentRequestResult = &tv
+	case OperationTypeLpSwap:
+		tv, ok := value.(LpSwapResult)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be LpSwapResult")
+			return
+		}
+		result.LpSwapResult = &tv
+	case OperationTypeLpAddLiquidity:
+		tv, ok := value.(LpAddLiquidityResult)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be LpAddLiquidityResult")
+			return
+		}
+		result.LpAddLiquidityResult = &tv
+	case OperationTypeLpRemoveLiquidity:
+		tv, ok := value.(LpRemoveLiquidityResult)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be LpRemoveLiquidityResult")
+			return
+		}
+		result.LpRemoveLiquidityResult = &tv
 	}
 	return
 }
@@ -56401,6 +58350,81 @@ func (u OperationResultTr) GetCancelCloseDeferredPaymentRequestResult() (result 
 	return
 }
 
+// MustLpSwapResult retrieves the LpSwapResult value from the union,
+// panicing if the value is not set.
+func (u OperationResultTr) MustLpSwapResult() LpSwapResult {
+	val, ok := u.GetLpSwapResult()
+
+	if !ok {
+		panic("arm LpSwapResult is not set")
+	}
+
+	return val
+}
+
+// GetLpSwapResult retrieves the LpSwapResult value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u OperationResultTr) GetLpSwapResult() (result LpSwapResult, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.Type))
+
+	if armName == "LpSwapResult" {
+		result = *u.LpSwapResult
+		ok = true
+	}
+
+	return
+}
+
+// MustLpAddLiquidityResult retrieves the LpAddLiquidityResult value from the union,
+// panicing if the value is not set.
+func (u OperationResultTr) MustLpAddLiquidityResult() LpAddLiquidityResult {
+	val, ok := u.GetLpAddLiquidityResult()
+
+	if !ok {
+		panic("arm LpAddLiquidityResult is not set")
+	}
+
+	return val
+}
+
+// GetLpAddLiquidityResult retrieves the LpAddLiquidityResult value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u OperationResultTr) GetLpAddLiquidityResult() (result LpAddLiquidityResult, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.Type))
+
+	if armName == "LpAddLiquidityResult" {
+		result = *u.LpAddLiquidityResult
+		ok = true
+	}
+
+	return
+}
+
+// MustLpRemoveLiquidityResult retrieves the LpRemoveLiquidityResult value from the union,
+// panicing if the value is not set.
+func (u OperationResultTr) MustLpRemoveLiquidityResult() LpRemoveLiquidityResult {
+	val, ok := u.GetLpRemoveLiquidityResult()
+
+	if !ok {
+		panic("arm LpRemoveLiquidityResult is not set")
+	}
+
+	return val
+}
+
+// GetLpRemoveLiquidityResult retrieves the LpRemoveLiquidityResult value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u OperationResultTr) GetLpRemoveLiquidityResult() (result LpRemoveLiquidityResult, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.Type))
+
+	if armName == "LpRemoveLiquidityResult" {
+		result = *u.LpRemoveLiquidityResult
+		ok = true
+	}
+
+	return
+}
+
 // OperationResult is an XDR Union defines as:
 //
 //   union OperationResult switch (OperationResultCode code)
@@ -56527,13 +58551,19 @@ func (u OperationResultTr) GetCancelCloseDeferredPaymentRequestResult() (result 
 //        case CANCEL_DATA_REMOVE_REQUEST:
 //            CancelDataRemoveRequestResult cancelDataRemoveRequestResult;
 //        case CREATE_DEFERRED_PAYMENT_CREATION_REQUEST:
-//                CreateDeferredPaymentCreationRequestResult createDeferredPaymentCreationRequestResult;
+//            CreateDeferredPaymentCreationRequestResult createDeferredPaymentCreationRequestResult;
 //        case CANCEL_DEFERRED_PAYMENT_CREATION_REQUEST:
 //            CancelDeferredPaymentCreationRequestResult cancelDeferredPaymentCreationRequestResult;
 //        case CREATE_CLOSE_DEFERRED_PAYMENT_REQUEST:
 //            CreateCloseDeferredPaymentRequestResult createCloseDeferredPaymentRequestResult;
 //        case CANCEL_CLOSE_DEFERRED_PAYMENT_REQUEST:
 //            CancelCloseDeferredPaymentRequestResult cancelCloseDeferredPaymentRequestResult;
+//        case LP_SWAP:
+//            LPSwapResult lpSwapResult;
+//        case LP_ADD_LIQUIDITY:
+//            LPAddLiquidityResult lpAddLiquidityResult;
+//        case LP_REMOVE_LIQUIDITY:
+//            LPRemoveLiquidityResult lpRemoveLiquidityResult;
 //
 //        }
 //        tr;
@@ -57150,7 +59180,10 @@ type TransactionResult struct {
 //        FIX_CRASH_CORE_WITH_PAYMENT = 28,
 //        FIX_INVEST_TO_IMMEDIATE_SALE = 29,
 //        FIX_PAYMENT_TASKS_WILDCARD_VALUE = 30,
-//        FIX_CHANGE_ROLE_REQUEST_REQUESTOR = 31
+//        FIX_CHANGE_ROLE_REQUEST_REQUESTOR = 31,
+//        FIX_UNORDERED_FEE_DESTINATION = 32,
+//        ADD_DEFAULT_FEE_RECEIVER_BALANCE_KV = 33,
+//        DELETE_REDEMPTION_ZERO_TASKS_CHECKING = 34
 //    };
 //
 type LedgerVersion int32
@@ -57188,6 +59221,9 @@ const (
 	LedgerVersionFixInvestToImmediateSale          LedgerVersion = 29
 	LedgerVersionFixPaymentTasksWildcardValue      LedgerVersion = 30
 	LedgerVersionFixChangeRoleRequestRequestor     LedgerVersion = 31
+	LedgerVersionFixUnorderedFeeDestination        LedgerVersion = 32
+	LedgerVersionAddDefaultFeeReceiverBalanceKv    LedgerVersion = 33
+	LedgerVersionDeleteRedemptionZeroTasksChecking LedgerVersion = 34
 )
 
 var LedgerVersionAll = []LedgerVersion{
@@ -57223,6 +59259,9 @@ var LedgerVersionAll = []LedgerVersion{
 	LedgerVersionFixInvestToImmediateSale,
 	LedgerVersionFixPaymentTasksWildcardValue,
 	LedgerVersionFixChangeRoleRequestRequestor,
+	LedgerVersionFixUnorderedFeeDestination,
+	LedgerVersionAddDefaultFeeReceiverBalanceKv,
+	LedgerVersionDeleteRedemptionZeroTasksChecking,
 }
 
 var ledgerVersionMap = map[int32]string{
@@ -57258,6 +59297,9 @@ var ledgerVersionMap = map[int32]string{
 	29: "LedgerVersionFixInvestToImmediateSale",
 	30: "LedgerVersionFixPaymentTasksWildcardValue",
 	31: "LedgerVersionFixChangeRoleRequestRequestor",
+	32: "LedgerVersionFixUnorderedFeeDestination",
+	33: "LedgerVersionAddDefaultFeeReceiverBalanceKv",
+	34: "LedgerVersionDeleteRedemptionZeroTasksChecking",
 }
 
 var ledgerVersionShortMap = map[int32]string{
@@ -57293,6 +59335,9 @@ var ledgerVersionShortMap = map[int32]string{
 	29: "fix_invest_to_immediate_sale",
 	30: "fix_payment_tasks_wildcard_value",
 	31: "fix_change_role_request_requestor",
+	32: "fix_unordered_fee_destination",
+	33: "add_default_fee_receiver_balance_kv",
+	34: "delete_redemption_zero_tasks_checking",
 }
 
 var ledgerVersionRevMap = map[string]int32{
@@ -57328,6 +59373,9 @@ var ledgerVersionRevMap = map[string]int32{
 	"LedgerVersionFixInvestToImmediateSale":          29,
 	"LedgerVersionFixPaymentTasksWildcardValue":      30,
 	"LedgerVersionFixChangeRoleRequestRequestor":     31,
+	"LedgerVersionFixUnorderedFeeDestination":        32,
+	"LedgerVersionAddDefaultFeeReceiverBalanceKv":    33,
+	"LedgerVersionDeleteRedemptionZeroTasksChecking": 34,
 }
 
 // ValidEnum validates a proposed value for this enum.  Implements
@@ -57759,7 +59807,8 @@ func (u PublicKey) GetEd25519() (result Uint256, ok bool) {
 //        SWAP = 38,
 //        DATA = 39,
 //        CUSTOM = 40,
-//        DEFERRED_PAYMENT = 41
+//        DEFERRED_PAYMENT = 41,
+//        LIQUIDITY_POOL = 42
 //    };
 //
 type LedgerEntryType int32
@@ -57804,6 +59853,7 @@ const (
 	LedgerEntryTypeData                             LedgerEntryType = 39
 	LedgerEntryTypeCustom                           LedgerEntryType = 40
 	LedgerEntryTypeDeferredPayment                  LedgerEntryType = 41
+	LedgerEntryTypeLiquidityPool                    LedgerEntryType = 42
 )
 
 var LedgerEntryTypeAll = []LedgerEntryType{
@@ -57846,6 +59896,7 @@ var LedgerEntryTypeAll = []LedgerEntryType{
 	LedgerEntryTypeData,
 	LedgerEntryTypeCustom,
 	LedgerEntryTypeDeferredPayment,
+	LedgerEntryTypeLiquidityPool,
 }
 
 var ledgerEntryTypeMap = map[int32]string{
@@ -57888,6 +59939,7 @@ var ledgerEntryTypeMap = map[int32]string{
 	39: "LedgerEntryTypeData",
 	40: "LedgerEntryTypeCustom",
 	41: "LedgerEntryTypeDeferredPayment",
+	42: "LedgerEntryTypeLiquidityPool",
 }
 
 var ledgerEntryTypeShortMap = map[int32]string{
@@ -57930,6 +59982,7 @@ var ledgerEntryTypeShortMap = map[int32]string{
 	39: "data",
 	40: "custom",
 	41: "deferred_payment",
+	42: "liquidity_pool",
 }
 
 var ledgerEntryTypeRevMap = map[string]int32{
@@ -57972,6 +60025,7 @@ var ledgerEntryTypeRevMap = map[string]int32{
 	"LedgerEntryTypeData":                             39,
 	"LedgerEntryTypeCustom":                           40,
 	"LedgerEntryTypeDeferredPayment":                  41,
+	"LedgerEntryTypeLiquidityPool":                    42,
 }
 
 // ValidEnum validates a proposed value for this enum.  Implements
@@ -58399,7 +60453,10 @@ type Fee struct {
 //        CREATE_DEFERRED_PAYMENT_CREATION_REQUEST = 66,
 //        CANCEL_DEFERRED_PAYMENT_CREATION_REQUEST = 67,
 //        CREATE_CLOSE_DEFERRED_PAYMENT_REQUEST = 68,
-//        CANCEL_CLOSE_DEFERRED_PAYMENT_REQUEST = 69
+//        CANCEL_CLOSE_DEFERRED_PAYMENT_REQUEST = 69,
+//        LP_SWAP = 70,
+//        LP_ADD_LIQUIDITY = 71,
+//        LP_REMOVE_LIQUIDITY = 72
 //    };
 //
 type OperationType int32
@@ -58468,6 +60525,9 @@ const (
 	OperationTypeCancelDeferredPaymentCreationRequest   OperationType = 67
 	OperationTypeCreateCloseDeferredPaymentRequest      OperationType = 68
 	OperationTypeCancelCloseDeferredPaymentRequest      OperationType = 69
+	OperationTypeLpSwap                                 OperationType = 70
+	OperationTypeLpAddLiquidity                         OperationType = 71
+	OperationTypeLpRemoveLiquidity                      OperationType = 72
 )
 
 var OperationTypeAll = []OperationType{
@@ -58534,6 +60594,9 @@ var OperationTypeAll = []OperationType{
 	OperationTypeCancelDeferredPaymentCreationRequest,
 	OperationTypeCreateCloseDeferredPaymentRequest,
 	OperationTypeCancelCloseDeferredPaymentRequest,
+	OperationTypeLpSwap,
+	OperationTypeLpAddLiquidity,
+	OperationTypeLpRemoveLiquidity,
 }
 
 var operationTypeMap = map[int32]string{
@@ -58600,6 +60663,9 @@ var operationTypeMap = map[int32]string{
 	67: "OperationTypeCancelDeferredPaymentCreationRequest",
 	68: "OperationTypeCreateCloseDeferredPaymentRequest",
 	69: "OperationTypeCancelCloseDeferredPaymentRequest",
+	70: "OperationTypeLpSwap",
+	71: "OperationTypeLpAddLiquidity",
+	72: "OperationTypeLpRemoveLiquidity",
 }
 
 var operationTypeShortMap = map[int32]string{
@@ -58666,6 +60732,9 @@ var operationTypeShortMap = map[int32]string{
 	67: "cancel_deferred_payment_creation_request",
 	68: "create_close_deferred_payment_request",
 	69: "cancel_close_deferred_payment_request",
+	70: "lp_swap",
+	71: "lp_add_liquidity",
+	72: "lp_remove_liquidity",
 }
 
 var operationTypeRevMap = map[string]int32{
@@ -58732,6 +60801,9 @@ var operationTypeRevMap = map[string]int32{
 	"OperationTypeCancelDeferredPaymentCreationRequest":   67,
 	"OperationTypeCreateCloseDeferredPaymentRequest":      68,
 	"OperationTypeCancelCloseDeferredPaymentRequest":      69,
+	"OperationTypeLpSwap":                                 70,
+	"OperationTypeLpAddLiquidity":                         71,
+	"OperationTypeLpRemoveLiquidity":                      72,
 }
 
 // ValidEnum validates a proposed value for this enum.  Implements
@@ -58810,4 +60882,4 @@ type DecoratedSignature struct {
 }
 
 var fmtTest = fmt.Sprint("this is a dummy usage of fmt")
-var Revision = "066600aac9f4c93f1d4c37e1bb7c559beafb2b6c"
+var Revision = "e0b64cd344cdb8711aff3c37e6856cabf8bca226"
