@@ -1,0 +1,23 @@
+type: object
+properties:
+  action:
+    type: string
+    enum:
+      - lp_add_liquidity
+      - lp_swap
+      - lp_remove_liquidity
+  entry_type:
+    type: string
+    enum:
+      - liquidity_pool
+  entry:
+    type: object
+    properties:
+      first_asset_code:
+        type: string
+      second_asset_code:
+        type: string
+      first_asset_type:
+        type: string
+      second_asset_type:
+        type: string
