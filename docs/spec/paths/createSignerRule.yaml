@@ -53,3 +53,4 @@ get:
           - $ref: '#/components/schemas/SignerRuleEntryTypeLicense'
           - $ref: '#/components/schemas/SignerRuleEntryTypeOffer'
           - $ref: '#/components/schemas/SignerRuleEntryTypeBalance'
+          - $ref: '#/components/schemas/SignerRuleEntryTypeLiquidityPool'

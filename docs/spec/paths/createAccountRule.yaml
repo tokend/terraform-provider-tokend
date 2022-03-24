@@ -51,5 +51,6 @@ get:
           - $ref: '#/components/schemas/AccountRuleEntryTypeReviewableRequest'
           - $ref: '#/components/schemas/AccountRuleEntryTypeOffer'
           - $ref: '#/components/schemas/AccountRuleEntryTypeSale'
+          - $ref: '#/components/schemas/AccountRuleEntryTypeLiquidityPool'
           - $ref: >-
               #/components/schemas/AccountRuleEntryTypeExternalSystemAccountIDPool
