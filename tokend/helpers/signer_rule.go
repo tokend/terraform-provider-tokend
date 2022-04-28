@@ -45,10 +45,21 @@ func SignerRuleEntry(d *schema.ResourceData) (*xdr.SignerRuleResource, error) {
 	return resource, nil
 }
 
-func signerRuleResourceSigner(_ *schema.ResourceData) (*xdr.SignerRuleResource, error) {
+func signerRuleResourceSigner(d *schema.ResourceData) (*xdr.SignerRuleResource, error) {
+	entry := d.Get("entry").(map[string]interface{})
+	roleIDRaw := entry["role_id"].(string)
+	roleID, err := WildCardUintFromRaw(roleIDRaw)
+	if err != nil {
+		return nil, errors.Wrap(err, "failed to cast role_id")
+	}
+
 	return &xdr.SignerRuleResource{
 		Type: xdr.LedgerEntryTypeSigner,
-		Ext:  &xdr.EmptyExt{},
+		Signer: &xdr.SignerRuleResourceSigner{
+			RoleId: xdr.Uint64(roleID),
+			Ext:    xdr.EmptyExt{},
+		},
+		Ext: &xdr.EmptyExt{},
 	}, nil
 }
 
