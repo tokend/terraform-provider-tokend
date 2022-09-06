@@ -26,7 +26,6 @@ var AccountEntries = map[string]AccountEntryFunc{
 	"atomic_swap_ask":                       accountRuleResourceAtomicSwapAsk,
 	"asset_pair":                            accountRuleResourceAssetPair,
 	"data":                                  accountRuleResourceData,
-	"liquidity_pool":                        accountRuleResourceLiquidityPool,
 }
 
 func AccountRuleEntry(d *schema.ResourceData) (*xdr.AccountRuleResource, error) {
@@ -292,34 +291,5 @@ func accountRuleResourceAtomicSwapAsk(d *schema.ResourceData) (*xdr.AccountRuleR
 		AssetCode: xdr.AssetCode(assetCode),
 		AssetType: xdr.Uint64(assetType),
 	}
-	return &resource, nil
-}
-
-func accountRuleResourceLiquidityPool(d *schema.ResourceData) (*xdr.AccountRuleResource, error) {
-	var resource xdr.AccountRuleResource
-	resource.Type = xdr.LedgerEntryTypeLiquidityPool
-	entry := d.Get("entry").(map[string]interface{})
-	firstAssetCode := entry["first_asset_code"].(string)
-	firstAssetTypeRaw := entry["first_asset_type"].(string)
-	secondAssetCode := entry["second_asset_code"].(string)
-	secondAssetTypeRaw := entry["second_asset_type"].(string)
-
-	firstAssetType, err := WildCardUintFromRaw(firstAssetTypeRaw)
-	if err != nil {
-		return nil, errors.Wrap(err, "failed to cast first_asset_type")
-	}
-
-	secondAssetType, err := WildCardUintFromRaw(secondAssetTypeRaw)
-	if err != nil {
-		return nil, errors.Wrap(err, "failed to cast second_asset_type")
-	}
-
-	resource.LiquidityPool = &xdr.AccountRuleResourceLiquidityPool{
-		FirstAsset:      xdr.AssetCode(firstAssetCode),
-		FirstAssetType:  xdr.Uint64(firstAssetType),
-		SecondAsset:     xdr.AssetCode(secondAssetCode),
-		SecondAssetType: xdr.Uint64(secondAssetType),
-	}
-
 	return &resource, nil
 }

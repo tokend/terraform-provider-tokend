@@ -28,7 +28,6 @@ var SignerRuleEntries = map[string]SignerRuleEntryFunc{
 	"data":               signerRuleResourceData,
 	"offer":              signerRuleResourceOffer,
 	"balance":            signerRuleResourceBalance,
-	"liquidity_pool":     signerRuleResourceLiquidityPool,
 }
 
 func SignerRuleEntry(d *schema.ResourceData) (*xdr.SignerRuleResource, error) {
@@ -289,33 +288,4 @@ func signerRuleResourceBalance(_ *schema.ResourceData) (*xdr.SignerRuleResource,
 		Type: xdr.LedgerEntryTypeBalance,
 		Ext:  &xdr.EmptyExt{},
 	}, nil
-}
-
-func signerRuleResourceLiquidityPool(d *schema.ResourceData) (*xdr.SignerRuleResource, error) {
-	var resource xdr.SignerRuleResource
-	resource.Type = xdr.LedgerEntryTypeLiquidityPool
-	entry := d.Get("entry").(map[string]interface{})
-	firstAssetCode := entry["first_asset_code"].(string)
-	firstAssetTypeRaw := entry["first_asset_type"].(string)
-	secondAssetCode := entry["second_asset_code"].(string)
-	secondAssetTypeRaw := entry["second_asset_type"].(string)
-
-	firstAssetType, err := WildCardUintFromRaw(firstAssetTypeRaw)
-	if err != nil {
-		return nil, errors.Wrap(err, "failed to cast first_asset_type")
-	}
-
-	secondAssetType, err := WildCardUintFromRaw(secondAssetTypeRaw)
-	if err != nil {
-		return nil, errors.Wrap(err, "failed to cast second_asset_type")
-	}
-
-	resource.LiquidityPool = &xdr.SignerRuleResourceLiquidityPool{
-		FirstAsset:      xdr.AssetCode(firstAssetCode),
-		FirstAssetType:  xdr.Uint64(firstAssetType),
-		SecondAsset:     xdr.AssetCode(secondAssetCode),
-		SecondAssetType: xdr.Uint64(secondAssetType),
-	}
-
-	return &resource, nil
 }

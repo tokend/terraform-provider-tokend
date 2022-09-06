@@ -1,5 +1,5 @@
-// revision: e0b64cd344cdb8711aff3c37e6856cabf8bca226
-// branch:   feature/liquidity-pool
+// revision: ac72d133b30a8737c688591af9b76e533e349bcb
+// branch:   feature/update-data-owner
 // Package xdr is generated from:
 //
 //  xdr/SCP.x
@@ -22,7 +22,6 @@
 //  xdr/ledger-entries-key-value.x
 //  xdr/ledger-entries-license.x
 //  xdr/ledger-entries-limits-v2.x
-//  xdr/ledger-entries-liquidity-pool.x
 //  xdr/ledger-entries-offer.x
 //  xdr/ledger-entries-pending-statistics.x
 //  xdr/ledger-entries-poll.x
@@ -45,6 +44,7 @@
 //  xdr/operation-cancel-change-role-request.x
 //  xdr/operation-cancel-close-deferred-payment-request.x
 //  xdr/operation-cancel-data-creation-request.x
+//  xdr/operation-cancel-data-owner-update-request.x
 //  xdr/operation-cancel-data-remove-request.x
 //  xdr/operation-cancel-data-update-request.x
 //  xdr/operation-cancel-deferred-payment-creation-request.x
@@ -58,6 +58,7 @@
 //  xdr/operation-create-change-role-request.x
 //  xdr/operation-create-close-deferred-payment-request.x
 //  xdr/operation-create-data-creation-request.x
+//  xdr/operation-create-data-owner-update-request.x
 //  xdr/operation-create-data-remove-request.x
 //  xdr/operation-create-data-update-request.x
 //  xdr/operation-create-data.x
@@ -73,9 +74,6 @@
 //  xdr/operation-create-withdrawal-request.x
 //  xdr/operation-initiate-kyc-recovery.x
 //  xdr/operation-license.x
-//  xdr/operation-lp-add-liquidity.x
-//  xdr/operation-lp-remove-liquidity.x
-//  xdr/operation-lp-swap.x
 //  xdr/operation-manage-account-role.x
 //  xdr/operation-manage-account-rule.x
 //  xdr/operation-manage-account-specific-rule.x
@@ -105,6 +103,7 @@
 //  xdr/operation-review-request.x
 //  xdr/operation-set-fees.x
 //  xdr/operation-stamp.x
+//  xdr/operation-update-data-owner.x
 //  xdr/operation-update-data.x
 //  xdr/overlay.x
 //  xdr/resource-account-rule.x
@@ -128,6 +127,7 @@
 //  xdr/reviewable-request-redemption.x
 //  xdr/reviewable-request-remove-data.x
 //  xdr/reviewable-request-sale.x
+//  xdr/reviewable-request-update-data-owner.x
 //  xdr/reviewable-request-update-data.x
 //  xdr/reviewable-request-update-sale-details.x
 //  xdr/reviewable-request-withdrawal.x
@@ -3088,48 +3088,6 @@ type LimitsV2Entry struct {
 	Ext             LimitsV2EntryExt `json:"ext,omitempty"`
 }
 
-// LiquidityPoolEntry is an XDR Struct defines as:
-//
-//   struct LiquidityPoolEntry
-//        {
-//            //: Unique sequential identifier of the liquidity pool
-//            uint64 id;
-//
-//            //: Account that holds balances of the liquidity pool
-//            AccountID liquidityPoolAccount;
-//
-//            //: Asset code of the LP token
-//            AssetCode lpTokenAssetCode;
-//
-//            //: Balance of first asset
-//            BalanceID firstAssetBalance;
-//            //: Balance of second asset
-//            BalanceID secondAssetBalance;
-//
-//            //: Total amount of all LP tokens
-//            uint64 lpTokensTotalCap;
-//
-//            //: Amount of first asset stored in liquidity pool
-//            uint64 firstReserve;
-//            //: Amount of second asset stored in liquidity pool
-//            uint64 secondReserve;
-//
-//            //: Reserved for future usage
-//            EmptyExt ext;
-//        };
-//
-type LiquidityPoolEntry struct {
-	Id                   Uint64    `json:"id,omitempty"`
-	LiquidityPoolAccount AccountId `json:"liquidityPoolAccount,omitempty"`
-	LpTokenAssetCode     AssetCode `json:"lpTokenAssetCode,omitempty"`
-	FirstAssetBalance    BalanceId `json:"firstAssetBalance,omitempty"`
-	SecondAssetBalance   BalanceId `json:"secondAssetBalance,omitempty"`
-	LpTokensTotalCap     Uint64    `json:"lpTokensTotalCap,omitempty"`
-	FirstReserve         Uint64    `json:"firstReserve,omitempty"`
-	SecondReserve        Uint64    `json:"secondReserve,omitempty"`
-	Ext                  EmptyExt  `json:"ext,omitempty"`
-}
-
 // OfferEntryExt is an XDR NestedUnion defines as:
 //
 //   union switch (LedgerVersion v)
@@ -3610,7 +3568,8 @@ type ReferenceEntry struct {
 //    	DATA_UPDATE = 23,
 //    	DATA_REMOVE = 24,
 //    	CREATE_DEFERRED_PAYMENT = 25,
-//        CLOSE_DEFERRED_PAYMENT = 26
+//        CLOSE_DEFERRED_PAYMENT = 26,
+//        DATA_OWNER_UPDATE = 27
 //    };
 //
 type ReviewableRequestType int32
@@ -3642,6 +3601,7 @@ const (
 	ReviewableRequestTypeDataRemove            ReviewableRequestType = 24
 	ReviewableRequestTypeCreateDeferredPayment ReviewableRequestType = 25
 	ReviewableRequestTypeCloseDeferredPayment  ReviewableRequestType = 26
+	ReviewableRequestTypeDataOwnerUpdate       ReviewableRequestType = 27
 )
 
 var ReviewableRequestTypeAll = []ReviewableRequestType{
@@ -3671,6 +3631,7 @@ var ReviewableRequestTypeAll = []ReviewableRequestType{
 	ReviewableRequestTypeDataRemove,
 	ReviewableRequestTypeCreateDeferredPayment,
 	ReviewableRequestTypeCloseDeferredPayment,
+	ReviewableRequestTypeDataOwnerUpdate,
 }
 
 var reviewableRequestTypeMap = map[int32]string{
@@ -3700,6 +3661,7 @@ var reviewableRequestTypeMap = map[int32]string{
 	24: "ReviewableRequestTypeDataRemove",
 	25: "ReviewableRequestTypeCreateDeferredPayment",
 	26: "ReviewableRequestTypeCloseDeferredPayment",
+	27: "ReviewableRequestTypeDataOwnerUpdate",
 }
 
 var reviewableRequestTypeShortMap = map[int32]string{
@@ -3729,6 +3691,7 @@ var reviewableRequestTypeShortMap = map[int32]string{
 	24: "data_remove",
 	25: "create_deferred_payment",
 	26: "close_deferred_payment",
+	27: "data_owner_update",
 }
 
 var reviewableRequestTypeRevMap = map[string]int32{
@@ -3758,6 +3721,7 @@ var reviewableRequestTypeRevMap = map[string]int32{
 	"ReviewableRequestTypeDataRemove":            24,
 	"ReviewableRequestTypeCreateDeferredPayment": 25,
 	"ReviewableRequestTypeCloseDeferredPayment":  26,
+	"ReviewableRequestTypeDataOwnerUpdate":       27,
 }
 
 // ValidEnum validates a proposed value for this enum.  Implements
@@ -3937,6 +3901,8 @@ type TasksExt struct {
 //                CreateDeferredPaymentRequest createDeferredPaymentRequest;
 //            case CLOSE_DEFERRED_PAYMENT:
 //                CloseDeferredPaymentRequest closeDeferredPaymentRequest;
+//            case DATA_OWNER_UPDATE:
+//                DataOwnerUpdateRequest dataOwnerUpdateRequest;
 //
 //    	}
 //
@@ -3966,6 +3932,7 @@ type ReviewableRequestEntryBody struct {
 	DataRemoveRequest            *DataRemoveRequest            `json:"dataRemoveRequest,omitempty"`
 	CreateDeferredPaymentRequest *CreateDeferredPaymentRequest `json:"createDeferredPaymentRequest,omitempty"`
 	CloseDeferredPaymentRequest  *CloseDeferredPaymentRequest  `json:"closeDeferredPaymentRequest,omitempty"`
+	DataOwnerUpdateRequest       *DataOwnerUpdateRequest       `json:"dataOwnerUpdateRequest,omitempty"`
 }
 
 // SwitchFieldName returns the field name in which this union's
@@ -4026,6 +3993,8 @@ func (u ReviewableRequestEntryBody) ArmForSwitch(sw int32) (string, bool) {
 		return "CreateDeferredPaymentRequest", true
 	case ReviewableRequestTypeCloseDeferredPayment:
 		return "CloseDeferredPaymentRequest", true
+	case ReviewableRequestTypeDataOwnerUpdate:
+		return "DataOwnerUpdateRequest", true
 	}
 	return "-", false
 }
@@ -4202,6 +4171,13 @@ func NewReviewableRequestEntryBody(aType ReviewableRequestType, value interface{
 			return
 		}
 		result.CloseDeferredPaymentRequest = &tv
+	case ReviewableRequestTypeDataOwnerUpdate:
+		tv, ok := value.(DataOwnerUpdateRequest)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be DataOwnerUpdateRequest")
+			return
+		}
+		result.DataOwnerUpdateRequest = &tv
 	}
 	return
 }
@@ -4806,6 +4782,31 @@ func (u ReviewableRequestEntryBody) GetCloseDeferredPaymentRequest() (result Clo
 	return
 }
 
+// MustDataOwnerUpdateRequest retrieves the DataOwnerUpdateRequest value from the union,
+// panicing if the value is not set.
+func (u ReviewableRequestEntryBody) MustDataOwnerUpdateRequest() DataOwnerUpdateRequest {
+	val, ok := u.GetDataOwnerUpdateRequest()
+
+	if !ok {
+		panic("arm DataOwnerUpdateRequest is not set")
+	}
+
+	return val
+}
+
+// GetDataOwnerUpdateRequest retrieves the DataOwnerUpdateRequest value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u ReviewableRequestEntryBody) GetDataOwnerUpdateRequest() (result DataOwnerUpdateRequest, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.Type))
+
+	if armName == "DataOwnerUpdateRequest" {
+		result = *u.DataOwnerUpdateRequest
+		ok = true
+	}
+
+	return
+}
+
 // ReviewableRequestEntryExt is an XDR NestedUnion defines as:
 //
 //   union switch (LedgerVersion v)
@@ -4904,6 +4905,8 @@ func NewReviewableRequestEntryExt(v LedgerVersion, value interface{}) (result Re
 //                CreateDeferredPaymentRequest createDeferredPaymentRequest;
 //            case CLOSE_DEFERRED_PAYMENT:
 //                CloseDeferredPaymentRequest closeDeferredPaymentRequest;
+//            case DATA_OWNER_UPDATE:
+//                DataOwnerUpdateRequest dataOwnerUpdateRequest;
 //
 //    	} body;
 //
@@ -6323,8 +6326,6 @@ func (e *ThresholdIndexes) UnmarshalJSON(data []byte) error {
 //            DataEntry data;
 //        case DEFERRED_PAYMENT:
 //            DeferredPaymentEntry deferredPayment;
-//        case LIQUIDITY_POOL:
-//            LiquidityPoolEntry liquidityPool;
 //        }
 //
 type LedgerEntryData struct {
@@ -6362,7 +6363,6 @@ type LedgerEntryData struct {
 	Swap                             *SwapEntry                        `json:"swap,omitempty"`
 	Data                             *DataEntry                        `json:"data,omitempty"`
 	DeferredPayment                  *DeferredPaymentEntry             `json:"deferredPayment,omitempty"`
-	LiquidityPool                    *LiquidityPoolEntry               `json:"liquidityPool,omitempty"`
 }
 
 // SwitchFieldName returns the field name in which this union's
@@ -6441,8 +6441,6 @@ func (u LedgerEntryData) ArmForSwitch(sw int32) (string, bool) {
 		return "Data", true
 	case LedgerEntryTypeDeferredPayment:
 		return "DeferredPayment", true
-	case LedgerEntryTypeLiquidityPool:
-		return "LiquidityPool", true
 	}
 	return "-", false
 }
@@ -6682,13 +6680,6 @@ func NewLedgerEntryData(aType LedgerEntryType, value interface{}) (result Ledger
 			return
 		}
 		result.DeferredPayment = &tv
-	case LedgerEntryTypeLiquidityPool:
-		tv, ok := value.(LiquidityPoolEntry)
-		if !ok {
-			err = fmt.Errorf("invalid value, must be LiquidityPoolEntry")
-			return
-		}
-		result.LiquidityPool = &tv
 	}
 	return
 }
@@ -7518,31 +7509,6 @@ func (u LedgerEntryData) GetDeferredPayment() (result DeferredPaymentEntry, ok b
 	return
 }
 
-// MustLiquidityPool retrieves the LiquidityPool value from the union,
-// panicing if the value is not set.
-func (u LedgerEntryData) MustLiquidityPool() LiquidityPoolEntry {
-	val, ok := u.GetLiquidityPool()
-
-	if !ok {
-		panic("arm LiquidityPool is not set")
-	}
-
-	return val
-}
-
-// GetLiquidityPool retrieves the LiquidityPool value from the union,
-// returning ok if the union's switch indicated the value is valid.
-func (u LedgerEntryData) GetLiquidityPool() (result LiquidityPoolEntry, ok bool) {
-	armName, _ := u.ArmForSwitch(int32(u.Type))
-
-	if armName == "LiquidityPool" {
-		result = *u.LiquidityPool
-		ok = true
-	}
-
-	return
-}
-
 // LedgerEntryExt is an XDR NestedUnion defines as:
 //
 //   union switch (LedgerVersion v)
@@ -7655,8 +7621,6 @@ func NewLedgerEntryExt(v LedgerVersion, value interface{}) (result LedgerEntryEx
 //            DataEntry data;
 //        case DEFERRED_PAYMENT:
 //            DeferredPaymentEntry deferredPayment;
-//        case LIQUIDITY_POOL:
-//            LiquidityPoolEntry liquidityPool;
 //        }
 //        data;
 //
@@ -9321,19 +9285,6 @@ type LedgerKeyDeferredPayment struct {
 	Ext EmptyExt `json:"ext,omitempty"`
 }
 
-// LedgerKeyLiquidityPool is an XDR NestedStruct defines as:
-//
-//   struct {
-//            uint64 id;
-//
-//            EmptyExt ext;
-//        }
-//
-type LedgerKeyLiquidityPool struct {
-	Id  Uint64   `json:"id,omitempty"`
-	Ext EmptyExt `json:"ext,omitempty"`
-}
-
 // LedgerKey is an XDR Union defines as:
 //
 //   union LedgerKey switch (LedgerEntryType type)
@@ -9653,12 +9604,6 @@ type LedgerKeyLiquidityPool struct {
 //
 //            EmptyExt ext;
 //        } deferredPayment;
-//    case LIQUIDITY_POOL:
-//        struct {
-//            uint64 id;
-//
-//            EmptyExt ext;
-//        } liquidityPool;
 //    };
 //
 type LedgerKey struct {
@@ -9696,7 +9641,6 @@ type LedgerKey struct {
 	Swap                             *LedgerKeySwap                             `json:"swap,omitempty"`
 	Data                             *LedgerKeyData                             `json:"data,omitempty"`
 	DeferredPayment                  *LedgerKeyDeferredPayment                  `json:"deferredPayment,omitempty"`
-	LiquidityPool                    *LedgerKeyLiquidityPool                    `json:"liquidityPool,omitempty"`
 }
 
 // SwitchFieldName returns the field name in which this union's
@@ -9775,8 +9719,6 @@ func (u LedgerKey) ArmForSwitch(sw int32) (string, bool) {
 		return "Data", true
 	case LedgerEntryTypeDeferredPayment:
 		return "DeferredPayment", true
-	case LedgerEntryTypeLiquidityPool:
-		return "LiquidityPool", true
 	}
 	return "-", false
 }
@@ -10016,13 +9958,6 @@ func NewLedgerKey(aType LedgerEntryType, value interface{}) (result LedgerKey, e
 			return
 		}
 		result.DeferredPayment = &tv
-	case LedgerEntryTypeLiquidityPool:
-		tv, ok := value.(LedgerKeyLiquidityPool)
-		if !ok {
-			err = fmt.Errorf("invalid value, must be LedgerKeyLiquidityPool")
-			return
-		}
-		result.LiquidityPool = &tv
 	}
 	return
 }
@@ -10846,31 +10781,6 @@ func (u LedgerKey) GetDeferredPayment() (result LedgerKeyDeferredPayment, ok boo
 
 	if armName == "DeferredPayment" {
 		result = *u.DeferredPayment
-		ok = true
-	}
-
-	return
-}
-
-// MustLiquidityPool retrieves the LiquidityPool value from the union,
-// panicing if the value is not set.
-func (u LedgerKey) MustLiquidityPool() LedgerKeyLiquidityPool {
-	val, ok := u.GetLiquidityPool()
-
-	if !ok {
-		panic("arm LiquidityPool is not set")
-	}
-
-	return val
-}
-
-// GetLiquidityPool retrieves the LiquidityPool value from the union,
-// returning ok if the union's switch indicated the value is valid.
-func (u LedgerKey) GetLiquidityPool() (result LedgerKeyLiquidityPool, ok bool) {
-	armName, _ := u.ArmForSwitch(int32(u.Type))
-
-	if armName == "LiquidityPool" {
-		result = *u.LiquidityPool
 		ok = true
 	}
 
@@ -13687,6 +13597,309 @@ func (u CancelDataCreationRequestResult) MustSuccess() CancelDataCreationSuccess
 // GetSuccess retrieves the Success value from the union,
 // returning ok if the union's switch indicated the value is valid.
 func (u CancelDataCreationRequestResult) GetSuccess() (result CancelDataCreationSuccess, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.Code))
+
+	if armName == "Success" {
+		result = *u.Success
+		ok = true
+	}
+
+	return
+}
+
+// CancelDataOwnerUpdateRequestOpExt is an XDR NestedUnion defines as:
+//
+//   union switch (LedgerVersion v)
+//        {
+//        case EMPTY_VERSION:
+//            void;
+//        }
+//
+type CancelDataOwnerUpdateRequestOpExt struct {
+	V LedgerVersion `json:"v,omitempty"`
+}
+
+// SwitchFieldName returns the field name in which this union's
+// discriminant is stored
+func (u CancelDataOwnerUpdateRequestOpExt) SwitchFieldName() string {
+	return "V"
+}
+
+// ArmForSwitch returns which field name should be used for storing
+// the value for an instance of CancelDataOwnerUpdateRequestOpExt
+func (u CancelDataOwnerUpdateRequestOpExt) ArmForSwitch(sw int32) (string, bool) {
+	switch LedgerVersion(sw) {
+	case LedgerVersionEmptyVersion:
+		return "", true
+	}
+	return "-", false
+}
+
+// NewCancelDataOwnerUpdateRequestOpExt creates a new  CancelDataOwnerUpdateRequestOpExt.
+func NewCancelDataOwnerUpdateRequestOpExt(v LedgerVersion, value interface{}) (result CancelDataOwnerUpdateRequestOpExt, err error) {
+	result.V = v
+	switch LedgerVersion(v) {
+	case LedgerVersionEmptyVersion:
+		// void
+	}
+	return
+}
+
+// CancelDataOwnerUpdateRequestOp is an XDR Struct defines as:
+//
+//   //: CancelDataOwnerUpdateRequestOp is used to cancel reviwable request for an owner of data Update.
+//    //: If successful, request with the corresponding ID will be deleted
+//    struct CancelDataOwnerUpdateRequestOp
+//    {
+//        //: ID of the DataUpdateRequest request to be canceled
+//        uint64 requestID;
+//
+//        //: Reserved for future use
+//        union switch (LedgerVersion v)
+//        {
+//        case EMPTY_VERSION:
+//            void;
+//        }
+//        ext;
+//
+//    };
+//
+type CancelDataOwnerUpdateRequestOp struct {
+	RequestId Uint64                            `json:"requestID,omitempty"`
+	Ext       CancelDataOwnerUpdateRequestOpExt `json:"ext,omitempty"`
+}
+
+// CancelDataOwnerUpdateRequestResultCode is an XDR Enum defines as:
+//
+//   //: Result codes for CancelDataOwnerUpdateRequest operation
+//    enum CancelDataOwnerUpdateRequestResultCode
+//    {
+//        // codes considered as "success" for the operation
+//        //: Operation is successfully applied
+//        SUCCESS = 0,
+//
+//        // codes considered as "failure" for the operation
+//        //: ID of a request cannot be 0
+//        REQUEST_ID_INVALID = -1, // request id can not be equal zero
+//        //: request with provided ID is not found
+//        REQUEST_NOT_FOUND = -2 // trying to cancel not existing reviewable request
+//    };
+//
+type CancelDataOwnerUpdateRequestResultCode int32
+
+const (
+	CancelDataOwnerUpdateRequestResultCodeSuccess          CancelDataOwnerUpdateRequestResultCode = 0
+	CancelDataOwnerUpdateRequestResultCodeRequestIdInvalid CancelDataOwnerUpdateRequestResultCode = -1
+	CancelDataOwnerUpdateRequestResultCodeRequestNotFound  CancelDataOwnerUpdateRequestResultCode = -2
+)
+
+var CancelDataOwnerUpdateRequestResultCodeAll = []CancelDataOwnerUpdateRequestResultCode{
+	CancelDataOwnerUpdateRequestResultCodeSuccess,
+	CancelDataOwnerUpdateRequestResultCodeRequestIdInvalid,
+	CancelDataOwnerUpdateRequestResultCodeRequestNotFound,
+}
+
+var cancelDataOwnerUpdateRequestResultCodeMap = map[int32]string{
+	0:  "CancelDataOwnerUpdateRequestResultCodeSuccess",
+	-1: "CancelDataOwnerUpdateRequestResultCodeRequestIdInvalid",
+	-2: "CancelDataOwnerUpdateRequestResultCodeRequestNotFound",
+}
+
+var cancelDataOwnerUpdateRequestResultCodeShortMap = map[int32]string{
+	0:  "success",
+	-1: "request_id_invalid",
+	-2: "request_not_found",
+}
+
+var cancelDataOwnerUpdateRequestResultCodeRevMap = map[string]int32{
+	"CancelDataOwnerUpdateRequestResultCodeSuccess":          0,
+	"CancelDataOwnerUpdateRequestResultCodeRequestIdInvalid": -1,
+	"CancelDataOwnerUpdateRequestResultCodeRequestNotFound":  -2,
+}
+
+// ValidEnum validates a proposed value for this enum.  Implements
+// the Enum interface for CancelDataOwnerUpdateRequestResultCode
+func (e CancelDataOwnerUpdateRequestResultCode) ValidEnum(v int32) bool {
+	_, ok := cancelDataOwnerUpdateRequestResultCodeMap[v]
+	return ok
+}
+func (e CancelDataOwnerUpdateRequestResultCode) isFlag() bool {
+	for i := len(CancelDataOwnerUpdateRequestResultCodeAll) - 1; i >= 0; i-- {
+		expected := CancelDataOwnerUpdateRequestResultCode(2) << uint64(len(CancelDataOwnerUpdateRequestResultCodeAll)-1) >> uint64(len(CancelDataOwnerUpdateRequestResultCodeAll)-i)
+		if expected != CancelDataOwnerUpdateRequestResultCodeAll[i] {
+			return false
+		}
+	}
+	return true
+}
+
+// String returns the name of `e`
+func (e CancelDataOwnerUpdateRequestResultCode) String() string {
+	name, _ := cancelDataOwnerUpdateRequestResultCodeMap[int32(e)]
+	return name
+}
+
+func (e CancelDataOwnerUpdateRequestResultCode) ShortString() string {
+	name, _ := cancelDataOwnerUpdateRequestResultCodeShortMap[int32(e)]
+	return name
+}
+
+func (e CancelDataOwnerUpdateRequestResultCode) MarshalJSON() ([]byte, error) {
+	if e.isFlag() {
+		// marshal as mask
+		result := flag{
+			Value: int32(e),
+			Flags: make([]flagValue, 0),
+		}
+		for _, value := range CancelDataOwnerUpdateRequestResultCodeAll {
+			if (value & e) == value {
+				result.Flags = append(result.Flags, flagValue{
+					Value: int32(value),
+					Name:  value.ShortString(),
+				})
+			}
+		}
+		return json.Marshal(&result)
+	} else {
+		// marshal as enum
+		result := enum{
+			Value:  int32(e),
+			String: e.ShortString(),
+		}
+		return json.Marshal(&result)
+	}
+}
+
+func (e *CancelDataOwnerUpdateRequestResultCode) UnmarshalJSON(data []byte) error {
+	var t value
+	if err := json.Unmarshal(data, &t); err != nil {
+		return err
+	}
+	*e = CancelDataOwnerUpdateRequestResultCode(t.Value)
+	return nil
+}
+
+// CancelDataOwnerUpdateSuccessExt is an XDR NestedUnion defines as:
+//
+//   union switch (LedgerVersion v)
+//        {
+//        case EMPTY_VERSION:
+//            void;
+//        }
+//
+type CancelDataOwnerUpdateSuccessExt struct {
+	V LedgerVersion `json:"v,omitempty"`
+}
+
+// SwitchFieldName returns the field name in which this union's
+// discriminant is stored
+func (u CancelDataOwnerUpdateSuccessExt) SwitchFieldName() string {
+	return "V"
+}
+
+// ArmForSwitch returns which field name should be used for storing
+// the value for an instance of CancelDataOwnerUpdateSuccessExt
+func (u CancelDataOwnerUpdateSuccessExt) ArmForSwitch(sw int32) (string, bool) {
+	switch LedgerVersion(sw) {
+	case LedgerVersionEmptyVersion:
+		return "", true
+	}
+	return "-", false
+}
+
+// NewCancelDataOwnerUpdateSuccessExt creates a new  CancelDataOwnerUpdateSuccessExt.
+func NewCancelDataOwnerUpdateSuccessExt(v LedgerVersion, value interface{}) (result CancelDataOwnerUpdateSuccessExt, err error) {
+	result.V = v
+	switch LedgerVersion(v) {
+	case LedgerVersionEmptyVersion:
+		// void
+	}
+	return
+}
+
+// CancelDataOwnerUpdateSuccess is an XDR Struct defines as:
+//
+//   //: Result of successful `CancelDataUpdateRequestOp` application
+//    struct CancelDataOwnerUpdateSuccess {
+//
+//        //: Reserved for future use
+//        union switch (LedgerVersion v)
+//        {
+//        case EMPTY_VERSION:
+//            void;
+//        }
+//        ext;
+//    };
+//
+type CancelDataOwnerUpdateSuccess struct {
+	Ext CancelDataOwnerUpdateSuccessExt `json:"ext,omitempty"`
+}
+
+// CancelDataOwnerUpdateRequestResult is an XDR Union defines as:
+//
+//   //: Result of CancelDataOwnerUpdateRequest operation application along with the result code
+//    union CancelDataOwnerUpdateRequestResult switch (CancelDataOwnerUpdateRequestResultCode code)
+//    {
+//        case SUCCESS:
+//            CancelDataOwnerUpdateSuccess success;
+//        default:
+//            void;
+//    };
+//
+type CancelDataOwnerUpdateRequestResult struct {
+	Code    CancelDataOwnerUpdateRequestResultCode `json:"code,omitempty"`
+	Success *CancelDataOwnerUpdateSuccess          `json:"success,omitempty"`
+}
+
+// SwitchFieldName returns the field name in which this union's
+// discriminant is stored
+func (u CancelDataOwnerUpdateRequestResult) SwitchFieldName() string {
+	return "Code"
+}
+
+// ArmForSwitch returns which field name should be used for storing
+// the value for an instance of CancelDataOwnerUpdateRequestResult
+func (u CancelDataOwnerUpdateRequestResult) ArmForSwitch(sw int32) (string, bool) {
+	switch CancelDataOwnerUpdateRequestResultCode(sw) {
+	case CancelDataOwnerUpdateRequestResultCodeSuccess:
+		return "Success", true
+	default:
+		return "", true
+	}
+}
+
+// NewCancelDataOwnerUpdateRequestResult creates a new  CancelDataOwnerUpdateRequestResult.
+func NewCancelDataOwnerUpdateRequestResult(code CancelDataOwnerUpdateRequestResultCode, value interface{}) (result CancelDataOwnerUpdateRequestResult, err error) {
+	result.Code = code
+	switch CancelDataOwnerUpdateRequestResultCode(code) {
+	case CancelDataOwnerUpdateRequestResultCodeSuccess:
+		tv, ok := value.(CancelDataOwnerUpdateSuccess)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be CancelDataOwnerUpdateSuccess")
+			return
+		}
+		result.Success = &tv
+	default:
+		// void
+	}
+	return
+}
+
+// MustSuccess retrieves the Success value from the union,
+// panicing if the value is not set.
+func (u CancelDataOwnerUpdateRequestResult) MustSuccess() CancelDataOwnerUpdateSuccess {
+	val, ok := u.GetSuccess()
+
+	if !ok {
+		panic("arm Success is not set")
+	}
+
+	return val
+}
+
+// GetSuccess retrieves the Success value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u CancelDataOwnerUpdateRequestResult) GetSuccess() (result CancelDataOwnerUpdateSuccess, ok bool) {
 	armName, _ := u.ArmForSwitch(int32(u.Code))
 
 	if armName == "Success" {
@@ -18714,6 +18927,276 @@ func (u CreateDataCreationRequestResult) MustSuccess() CreateDataCreationRequest
 // GetSuccess retrieves the Success value from the union,
 // returning ok if the union's switch indicated the value is valid.
 func (u CreateDataCreationRequestResult) GetSuccess() (result CreateDataCreationRequestSuccess, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.Code))
+
+	if armName == "Success" {
+		result = *u.Success
+		ok = true
+	}
+
+	return
+}
+
+// CreateDataOwnerUpdateRequestOp is an XDR Struct defines as:
+//
+//   struct CreateDataOwnerUpdateRequestOp
+//    {
+//        //: ID of the DataOwnerUpdateRequest. If set to 0, a new request is created
+//        uint64 requestID;
+//
+//        DataOwnerUpdateRequest dataOwnerUpdateRequest;
+//
+//        uint32* allTasks;
+//
+//        //: Reserved for future extension
+//        EmptyExt ext;
+//    };
+//
+type CreateDataOwnerUpdateRequestOp struct {
+	RequestId              Uint64                 `json:"requestID,omitempty"`
+	DataOwnerUpdateRequest DataOwnerUpdateRequest `json:"dataOwnerUpdateRequest,omitempty"`
+	AllTasks               *Uint32                `json:"allTasks,omitempty"`
+	Ext                    EmptyExt               `json:"ext,omitempty"`
+}
+
+// CreateDataOwnerUpdateRequestResultCode is an XDR Enum defines as:
+//
+//   enum CreateDataOwnerUpdateRequestResultCode
+//    {
+//        SUCCESS = 0,
+//        UPDATE_DATA_OWNER_TASKS_NOT_FOUND = -1,
+//        DATA_NOT_FOUND = -2,
+//        INVALID_CREATOR_DETAILS = -3,
+//        REQUEST_NOT_FOUND = -4
+//    };
+//
+type CreateDataOwnerUpdateRequestResultCode int32
+
+const (
+	CreateDataOwnerUpdateRequestResultCodeSuccess                      CreateDataOwnerUpdateRequestResultCode = 0
+	CreateDataOwnerUpdateRequestResultCodeUpdateDataOwnerTasksNotFound CreateDataOwnerUpdateRequestResultCode = -1
+	CreateDataOwnerUpdateRequestResultCodeDataNotFound                 CreateDataOwnerUpdateRequestResultCode = -2
+	CreateDataOwnerUpdateRequestResultCodeInvalidCreatorDetails        CreateDataOwnerUpdateRequestResultCode = -3
+	CreateDataOwnerUpdateRequestResultCodeRequestNotFound              CreateDataOwnerUpdateRequestResultCode = -4
+)
+
+var CreateDataOwnerUpdateRequestResultCodeAll = []CreateDataOwnerUpdateRequestResultCode{
+	CreateDataOwnerUpdateRequestResultCodeSuccess,
+	CreateDataOwnerUpdateRequestResultCodeUpdateDataOwnerTasksNotFound,
+	CreateDataOwnerUpdateRequestResultCodeDataNotFound,
+	CreateDataOwnerUpdateRequestResultCodeInvalidCreatorDetails,
+	CreateDataOwnerUpdateRequestResultCodeRequestNotFound,
+}
+
+var createDataOwnerUpdateRequestResultCodeMap = map[int32]string{
+	0:  "CreateDataOwnerUpdateRequestResultCodeSuccess",
+	-1: "CreateDataOwnerUpdateRequestResultCodeUpdateDataOwnerTasksNotFound",
+	-2: "CreateDataOwnerUpdateRequestResultCodeDataNotFound",
+	-3: "CreateDataOwnerUpdateRequestResultCodeInvalidCreatorDetails",
+	-4: "CreateDataOwnerUpdateRequestResultCodeRequestNotFound",
+}
+
+var createDataOwnerUpdateRequestResultCodeShortMap = map[int32]string{
+	0:  "success",
+	-1: "update_data_owner_tasks_not_found",
+	-2: "data_not_found",
+	-3: "invalid_creator_details",
+	-4: "request_not_found",
+}
+
+var createDataOwnerUpdateRequestResultCodeRevMap = map[string]int32{
+	"CreateDataOwnerUpdateRequestResultCodeSuccess":                      0,
+	"CreateDataOwnerUpdateRequestResultCodeUpdateDataOwnerTasksNotFound": -1,
+	"CreateDataOwnerUpdateRequestResultCodeDataNotFound":                 -2,
+	"CreateDataOwnerUpdateRequestResultCodeInvalidCreatorDetails":        -3,
+	"CreateDataOwnerUpdateRequestResultCodeRequestNotFound":              -4,
+}
+
+// ValidEnum validates a proposed value for this enum.  Implements
+// the Enum interface for CreateDataOwnerUpdateRequestResultCode
+func (e CreateDataOwnerUpdateRequestResultCode) ValidEnum(v int32) bool {
+	_, ok := createDataOwnerUpdateRequestResultCodeMap[v]
+	return ok
+}
+func (e CreateDataOwnerUpdateRequestResultCode) isFlag() bool {
+	for i := len(CreateDataOwnerUpdateRequestResultCodeAll) - 1; i >= 0; i-- {
+		expected := CreateDataOwnerUpdateRequestResultCode(2) << uint64(len(CreateDataOwnerUpdateRequestResultCodeAll)-1) >> uint64(len(CreateDataOwnerUpdateRequestResultCodeAll)-i)
+		if expected != CreateDataOwnerUpdateRequestResultCodeAll[i] {
+			return false
+		}
+	}
+	return true
+}
+
+// String returns the name of `e`
+func (e CreateDataOwnerUpdateRequestResultCode) String() string {
+	name, _ := createDataOwnerUpdateRequestResultCodeMap[int32(e)]
+	return name
+}
+
+func (e CreateDataOwnerUpdateRequestResultCode) ShortString() string {
+	name, _ := createDataOwnerUpdateRequestResultCodeShortMap[int32(e)]
+	return name
+}
+
+func (e CreateDataOwnerUpdateRequestResultCode) MarshalJSON() ([]byte, error) {
+	if e.isFlag() {
+		// marshal as mask
+		result := flag{
+			Value: int32(e),
+			Flags: make([]flagValue, 0),
+		}
+		for _, value := range CreateDataOwnerUpdateRequestResultCodeAll {
+			if (value & e) == value {
+				result.Flags = append(result.Flags, flagValue{
+					Value: int32(value),
+					Name:  value.ShortString(),
+				})
+			}
+		}
+		return json.Marshal(&result)
+	} else {
+		// marshal as enum
+		result := enum{
+			Value:  int32(e),
+			String: e.ShortString(),
+		}
+		return json.Marshal(&result)
+	}
+}
+
+func (e *CreateDataOwnerUpdateRequestResultCode) UnmarshalJSON(data []byte) error {
+	var t value
+	if err := json.Unmarshal(data, &t); err != nil {
+		return err
+	}
+	*e = CreateDataOwnerUpdateRequestResultCode(t.Value)
+	return nil
+}
+
+// CreateDataOwnerUpdateRequestSuccessExt is an XDR NestedUnion defines as:
+//
+//   union switch (LedgerVersion v)
+//        {
+//        case EMPTY_VERSION:
+//            void;
+//        }
+//
+type CreateDataOwnerUpdateRequestSuccessExt struct {
+	V LedgerVersion `json:"v,omitempty"`
+}
+
+// SwitchFieldName returns the field name in which this union's
+// discriminant is stored
+func (u CreateDataOwnerUpdateRequestSuccessExt) SwitchFieldName() string {
+	return "V"
+}
+
+// ArmForSwitch returns which field name should be used for storing
+// the value for an instance of CreateDataOwnerUpdateRequestSuccessExt
+func (u CreateDataOwnerUpdateRequestSuccessExt) ArmForSwitch(sw int32) (string, bool) {
+	switch LedgerVersion(sw) {
+	case LedgerVersionEmptyVersion:
+		return "", true
+	}
+	return "-", false
+}
+
+// NewCreateDataOwnerUpdateRequestSuccessExt creates a new  CreateDataOwnerUpdateRequestSuccessExt.
+func NewCreateDataOwnerUpdateRequestSuccessExt(v LedgerVersion, value interface{}) (result CreateDataOwnerUpdateRequestSuccessExt, err error) {
+	result.V = v
+	switch LedgerVersion(v) {
+	case LedgerVersionEmptyVersion:
+		// void
+	}
+	return
+}
+
+// CreateDataOwnerUpdateRequestSuccess is an XDR Struct defines as:
+//
+//   struct CreateDataOwnerUpdateRequestSuccess {
+//        uint64 requestID;
+//        bool fulfilled;
+//
+//        //: Reserved for future use
+//        union switch (LedgerVersion v)
+//        {
+//        case EMPTY_VERSION:
+//            void;
+//        }
+//        ext;
+//    };
+//
+type CreateDataOwnerUpdateRequestSuccess struct {
+	RequestId Uint64                                 `json:"requestID,omitempty"`
+	Fulfilled bool                                   `json:"fulfilled,omitempty"`
+	Ext       CreateDataOwnerUpdateRequestSuccessExt `json:"ext,omitempty"`
+}
+
+// CreateDataOwnerUpdateRequestResult is an XDR Union defines as:
+//
+//   union CreateDataOwnerUpdateRequestResult switch (CreateDataOwnerUpdateRequestResultCode code)
+//    {
+//    case SUCCESS:
+//        CreateDataOwnerUpdateRequestSuccess success;
+//    default:
+//        void;
+//    };
+//
+type CreateDataOwnerUpdateRequestResult struct {
+	Code    CreateDataOwnerUpdateRequestResultCode `json:"code,omitempty"`
+	Success *CreateDataOwnerUpdateRequestSuccess   `json:"success,omitempty"`
+}
+
+// SwitchFieldName returns the field name in which this union's
+// discriminant is stored
+func (u CreateDataOwnerUpdateRequestResult) SwitchFieldName() string {
+	return "Code"
+}
+
+// ArmForSwitch returns which field name should be used for storing
+// the value for an instance of CreateDataOwnerUpdateRequestResult
+func (u CreateDataOwnerUpdateRequestResult) ArmForSwitch(sw int32) (string, bool) {
+	switch CreateDataOwnerUpdateRequestResultCode(sw) {
+	case CreateDataOwnerUpdateRequestResultCodeSuccess:
+		return "Success", true
+	default:
+		return "", true
+	}
+}
+
+// NewCreateDataOwnerUpdateRequestResult creates a new  CreateDataOwnerUpdateRequestResult.
+func NewCreateDataOwnerUpdateRequestResult(code CreateDataOwnerUpdateRequestResultCode, value interface{}) (result CreateDataOwnerUpdateRequestResult, err error) {
+	result.Code = code
+	switch CreateDataOwnerUpdateRequestResultCode(code) {
+	case CreateDataOwnerUpdateRequestResultCodeSuccess:
+		tv, ok := value.(CreateDataOwnerUpdateRequestSuccess)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be CreateDataOwnerUpdateRequestSuccess")
+			return
+		}
+		result.Success = &tv
+	default:
+		// void
+	}
+	return
+}
+
+// MustSuccess retrieves the Success value from the union,
+// panicing if the value is not set.
+func (u CreateDataOwnerUpdateRequestResult) MustSuccess() CreateDataOwnerUpdateRequestSuccess {
+	val, ok := u.GetSuccess()
+
+	if !ok {
+		panic("arm Success is not set")
+	}
+
+	return val
+}
+
+// GetSuccess retrieves the Success value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u CreateDataOwnerUpdateRequestResult) GetSuccess() (result CreateDataOwnerUpdateRequestSuccess, ok bool) {
 	armName, _ := u.ArmForSwitch(int32(u.Code))
 
 	if armName == "Success" {
@@ -23901,1258 +24384,6 @@ func (u LicenseResult) MustSuccess() LicenseSuccess {
 // GetSuccess retrieves the Success value from the union,
 // returning ok if the union's switch indicated the value is valid.
 func (u LicenseResult) GetSuccess() (result LicenseSuccess, ok bool) {
-	armName, _ := u.ArmForSwitch(int32(u.Code))
-
-	if armName == "Success" {
-		result = *u.Success
-		ok = true
-	}
-
-	return
-}
-
-// LpAddLiquidityOp is an XDR Struct defines as:
-//
-//   struct LPAddLiquidityOp
-//        {
-//            //: Balance for first asset of the pair
-//            BalanceID firstAssetBalanceID;
-//            //: Balance for second asset of the pair
-//            BalanceID secondAssetBalanceID;
-//
-//            //: Desired amount of first asset to be provided
-//            uint64 firstAssetDesiredAmount;
-//            //: Desired amount of second asset to be provided
-//            uint64 secondAssetDesiredAmount;
-//
-//            //: Minimal amount of first asset to be provided
-//            uint64 firstAssetMinAmount;
-//            //: Minimal amount of second asset to be provided
-//            uint64 secondAssetMinAmount;
-//
-//            //: Reserved for future use
-//            EmptyExt ext;
-//        };
-//
-type LpAddLiquidityOp struct {
-	FirstAssetBalanceId      BalanceId `json:"firstAssetBalanceID,omitempty"`
-	SecondAssetBalanceId     BalanceId `json:"secondAssetBalanceID,omitempty"`
-	FirstAssetDesiredAmount  Uint64    `json:"firstAssetDesiredAmount,omitempty"`
-	SecondAssetDesiredAmount Uint64    `json:"secondAssetDesiredAmount,omitempty"`
-	FirstAssetMinAmount      Uint64    `json:"firstAssetMinAmount,omitempty"`
-	SecondAssetMinAmount     Uint64    `json:"secondAssetMinAmount,omitempty"`
-	Ext                      EmptyExt  `json:"ext,omitempty"`
-}
-
-// LpAddLiquidityResultCode is an XDR Enum defines as:
-//
-//   enum LPAddLiquidityResultCode
-//        {
-//            //: LP add liquidity was successful
-//            SUCCESS = 0,
-//
-//            //: Assets in the pair are equal
-//            SAME_ASSETS = -1,
-//            //: Not enough funds in the source account
-//            UNDERFUNDED = -2,
-//            //: After adding liquidity, the destination balance will exceed the limit (total amount on the balance will be greater than UINT64_MAX)
-//            BALANCE_OVERFLOW = -3,
-//            //: Provided asset does not have a `SWAPPABLE` policy set
-//            NOT_ALLOWED_BY_ASSET_POLICY = -4,
-//            //: Source balance not found
-//            SRC_BALANCE_NOT_FOUND = -5,
-//            //: Zero desired amount not allowed
-//            INVALID_DESIRED_AMOUNT = -6,
-//            //: Zero min amount not allowed
-//            INVALID_MIN_AMOUNT = -7,
-//            //: Amount precision and asset precision are mismatched
-//            INCORRECT_AMOUNT_PRECISION = -8,
-//            //: Amount of first asset is insufficient to provide liquidity
-//            INSUFFICIENT_FIRST_ASSET_AMOUNT = -9,
-//            //: Amount of second asset is insufficient to provide liquidity
-//            INSUFFICIENT_SECOND_ASSET_AMOUNT = -10,
-//            //: Min amount cannot be bigger than desired amount
-//            MIN_AMOUNT_BIGGER_THAN_DESIRED = -11,
-//            //: Amount of the LP tokens to issue equals to zero
-//            INSUFFICIENT_LIQUIDITY_PROVIDED = -12,
-//            //: Source balances are equal
-//            SAME_BALANCES = -13
-//        };
-//
-type LpAddLiquidityResultCode int32
-
-const (
-	LpAddLiquidityResultCodeSuccess                       LpAddLiquidityResultCode = 0
-	LpAddLiquidityResultCodeSameAssets                    LpAddLiquidityResultCode = -1
-	LpAddLiquidityResultCodeUnderfunded                   LpAddLiquidityResultCode = -2
-	LpAddLiquidityResultCodeBalanceOverflow               LpAddLiquidityResultCode = -3
-	LpAddLiquidityResultCodeNotAllowedByAssetPolicy       LpAddLiquidityResultCode = -4
-	LpAddLiquidityResultCodeSrcBalanceNotFound            LpAddLiquidityResultCode = -5
-	LpAddLiquidityResultCodeInvalidDesiredAmount          LpAddLiquidityResultCode = -6
-	LpAddLiquidityResultCodeInvalidMinAmount              LpAddLiquidityResultCode = -7
-	LpAddLiquidityResultCodeIncorrectAmountPrecision      LpAddLiquidityResultCode = -8
-	LpAddLiquidityResultCodeInsufficientFirstAssetAmount  LpAddLiquidityResultCode = -9
-	LpAddLiquidityResultCodeInsufficientSecondAssetAmount LpAddLiquidityResultCode = -10
-	LpAddLiquidityResultCodeMinAmountBiggerThanDesired    LpAddLiquidityResultCode = -11
-	LpAddLiquidityResultCodeInsufficientLiquidityProvided LpAddLiquidityResultCode = -12
-	LpAddLiquidityResultCodeSameBalances                  LpAddLiquidityResultCode = -13
-)
-
-var LpAddLiquidityResultCodeAll = []LpAddLiquidityResultCode{
-	LpAddLiquidityResultCodeSuccess,
-	LpAddLiquidityResultCodeSameAssets,
-	LpAddLiquidityResultCodeUnderfunded,
-	LpAddLiquidityResultCodeBalanceOverflow,
-	LpAddLiquidityResultCodeNotAllowedByAssetPolicy,
-	LpAddLiquidityResultCodeSrcBalanceNotFound,
-	LpAddLiquidityResultCodeInvalidDesiredAmount,
-	LpAddLiquidityResultCodeInvalidMinAmount,
-	LpAddLiquidityResultCodeIncorrectAmountPrecision,
-	LpAddLiquidityResultCodeInsufficientFirstAssetAmount,
-	LpAddLiquidityResultCodeInsufficientSecondAssetAmount,
-	LpAddLiquidityResultCodeMinAmountBiggerThanDesired,
-	LpAddLiquidityResultCodeInsufficientLiquidityProvided,
-	LpAddLiquidityResultCodeSameBalances,
-}
-
-var lpAddLiquidityResultCodeMap = map[int32]string{
-	0:   "LpAddLiquidityResultCodeSuccess",
-	-1:  "LpAddLiquidityResultCodeSameAssets",
-	-2:  "LpAddLiquidityResultCodeUnderfunded",
-	-3:  "LpAddLiquidityResultCodeBalanceOverflow",
-	-4:  "LpAddLiquidityResultCodeNotAllowedByAssetPolicy",
-	-5:  "LpAddLiquidityResultCodeSrcBalanceNotFound",
-	-6:  "LpAddLiquidityResultCodeInvalidDesiredAmount",
-	-7:  "LpAddLiquidityResultCodeInvalidMinAmount",
-	-8:  "LpAddLiquidityResultCodeIncorrectAmountPrecision",
-	-9:  "LpAddLiquidityResultCodeInsufficientFirstAssetAmount",
-	-10: "LpAddLiquidityResultCodeInsufficientSecondAssetAmount",
-	-11: "LpAddLiquidityResultCodeMinAmountBiggerThanDesired",
-	-12: "LpAddLiquidityResultCodeInsufficientLiquidityProvided",
-	-13: "LpAddLiquidityResultCodeSameBalances",
-}
-
-var lpAddLiquidityResultCodeShortMap = map[int32]string{
-	0:   "success",
-	-1:  "same_assets",
-	-2:  "underfunded",
-	-3:  "balance_overflow",
-	-4:  "not_allowed_by_asset_policy",
-	-5:  "src_balance_not_found",
-	-6:  "invalid_desired_amount",
-	-7:  "invalid_min_amount",
-	-8:  "incorrect_amount_precision",
-	-9:  "insufficient_first_asset_amount",
-	-10: "insufficient_second_asset_amount",
-	-11: "min_amount_bigger_than_desired",
-	-12: "insufficient_liquidity_provided",
-	-13: "same_balances",
-}
-
-var lpAddLiquidityResultCodeRevMap = map[string]int32{
-	"LpAddLiquidityResultCodeSuccess":                       0,
-	"LpAddLiquidityResultCodeSameAssets":                    -1,
-	"LpAddLiquidityResultCodeUnderfunded":                   -2,
-	"LpAddLiquidityResultCodeBalanceOverflow":               -3,
-	"LpAddLiquidityResultCodeNotAllowedByAssetPolicy":       -4,
-	"LpAddLiquidityResultCodeSrcBalanceNotFound":            -5,
-	"LpAddLiquidityResultCodeInvalidDesiredAmount":          -6,
-	"LpAddLiquidityResultCodeInvalidMinAmount":              -7,
-	"LpAddLiquidityResultCodeIncorrectAmountPrecision":      -8,
-	"LpAddLiquidityResultCodeInsufficientFirstAssetAmount":  -9,
-	"LpAddLiquidityResultCodeInsufficientSecondAssetAmount": -10,
-	"LpAddLiquidityResultCodeMinAmountBiggerThanDesired":    -11,
-	"LpAddLiquidityResultCodeInsufficientLiquidityProvided": -12,
-	"LpAddLiquidityResultCodeSameBalances":                  -13,
-}
-
-// ValidEnum validates a proposed value for this enum.  Implements
-// the Enum interface for LpAddLiquidityResultCode
-func (e LpAddLiquidityResultCode) ValidEnum(v int32) bool {
-	_, ok := lpAddLiquidityResultCodeMap[v]
-	return ok
-}
-func (e LpAddLiquidityResultCode) isFlag() bool {
-	for i := len(LpAddLiquidityResultCodeAll) - 1; i >= 0; i-- {
-		expected := LpAddLiquidityResultCode(2) << uint64(len(LpAddLiquidityResultCodeAll)-1) >> uint64(len(LpAddLiquidityResultCodeAll)-i)
-		if expected != LpAddLiquidityResultCodeAll[i] {
-			return false
-		}
-	}
-	return true
-}
-
-// String returns the name of `e`
-func (e LpAddLiquidityResultCode) String() string {
-	name, _ := lpAddLiquidityResultCodeMap[int32(e)]
-	return name
-}
-
-func (e LpAddLiquidityResultCode) ShortString() string {
-	name, _ := lpAddLiquidityResultCodeShortMap[int32(e)]
-	return name
-}
-
-func (e LpAddLiquidityResultCode) MarshalJSON() ([]byte, error) {
-	if e.isFlag() {
-		// marshal as mask
-		result := flag{
-			Value: int32(e),
-			Flags: make([]flagValue, 0),
-		}
-		for _, value := range LpAddLiquidityResultCodeAll {
-			if (value & e) == value {
-				result.Flags = append(result.Flags, flagValue{
-					Value: int32(value),
-					Name:  value.ShortString(),
-				})
-			}
-		}
-		return json.Marshal(&result)
-	} else {
-		// marshal as enum
-		result := enum{
-			Value:  int32(e),
-			String: e.ShortString(),
-		}
-		return json.Marshal(&result)
-	}
-}
-
-func (e *LpAddLiquidityResultCode) UnmarshalJSON(data []byte) error {
-	var t value
-	if err := json.Unmarshal(data, &t); err != nil {
-		return err
-	}
-	*e = LpAddLiquidityResultCode(t.Value)
-	return nil
-}
-
-// LpAddLiquiditySuccess is an XDR Struct defines as:
-//
-//   struct LPAddLiquiditySuccess
-//        {
-//            //: Unique identifier of the liquidity pool
-//            uint64 liquidityPoolID;
-//
-//            //: ID of the pool account
-//            AccountID poolAccount;
-//
-//            //: ID of the first asset balance in LP
-//            BalanceID lpFirstAssetBalanceID;
-//            //: ID of the second asset balance in LP
-//            BalanceID lpSecondAssetBalanceID;
-//
-//            //: ID of the source first asset balance
-//            BalanceID sourceFirstAssetBalanceID;
-//            //: ID of the source second asset balance
-//            BalanceID sourceSecondAssetBalanceID;
-//
-//            //: Amount of tokens charged from source first balance
-//            uint64 firstAssetAmount;
-//            //: Amount of tokens charged from source second balance
-//            uint64 secondAssetAmount;
-//
-//            //: ID of the LP tokens asset balance
-//            BalanceID lpTokensBalanceID;
-//            //: Amount of LP tokens issued for provided liquidity
-//            uint64 lpTokensAmount;
-//
-//            //: Reserved for future extension
-//            EmptyExt ext;
-//        };
-//
-type LpAddLiquiditySuccess struct {
-	LiquidityPoolId            Uint64    `json:"liquidityPoolID,omitempty"`
-	PoolAccount                AccountId `json:"poolAccount,omitempty"`
-	LpFirstAssetBalanceId      BalanceId `json:"lpFirstAssetBalanceID,omitempty"`
-	LpSecondAssetBalanceId     BalanceId `json:"lpSecondAssetBalanceID,omitempty"`
-	SourceFirstAssetBalanceId  BalanceId `json:"sourceFirstAssetBalanceID,omitempty"`
-	SourceSecondAssetBalanceId BalanceId `json:"sourceSecondAssetBalanceID,omitempty"`
-	FirstAssetAmount           Uint64    `json:"firstAssetAmount,omitempty"`
-	SecondAssetAmount          Uint64    `json:"secondAssetAmount,omitempty"`
-	LpTokensBalanceId          BalanceId `json:"lpTokensBalanceID,omitempty"`
-	LpTokensAmount             Uint64    `json:"lpTokensAmount,omitempty"`
-	Ext                        EmptyExt  `json:"ext,omitempty"`
-}
-
-// LpAddLiquidityResult is an XDR Union defines as:
-//
-//   union LPAddLiquidityResult switch (LPAddLiquidityResultCode code)
-//        {
-//            case SUCCESS:
-//                LPAddLiquiditySuccess success;
-//            default:
-//                void;
-//        };
-//
-type LpAddLiquidityResult struct {
-	Code    LpAddLiquidityResultCode `json:"code,omitempty"`
-	Success *LpAddLiquiditySuccess   `json:"success,omitempty"`
-}
-
-// SwitchFieldName returns the field name in which this union's
-// discriminant is stored
-func (u LpAddLiquidityResult) SwitchFieldName() string {
-	return "Code"
-}
-
-// ArmForSwitch returns which field name should be used for storing
-// the value for an instance of LpAddLiquidityResult
-func (u LpAddLiquidityResult) ArmForSwitch(sw int32) (string, bool) {
-	switch LpAddLiquidityResultCode(sw) {
-	case LpAddLiquidityResultCodeSuccess:
-		return "Success", true
-	default:
-		return "", true
-	}
-}
-
-// NewLpAddLiquidityResult creates a new  LpAddLiquidityResult.
-func NewLpAddLiquidityResult(code LpAddLiquidityResultCode, value interface{}) (result LpAddLiquidityResult, err error) {
-	result.Code = code
-	switch LpAddLiquidityResultCode(code) {
-	case LpAddLiquidityResultCodeSuccess:
-		tv, ok := value.(LpAddLiquiditySuccess)
-		if !ok {
-			err = fmt.Errorf("invalid value, must be LpAddLiquiditySuccess")
-			return
-		}
-		result.Success = &tv
-	default:
-		// void
-	}
-	return
-}
-
-// MustSuccess retrieves the Success value from the union,
-// panicing if the value is not set.
-func (u LpAddLiquidityResult) MustSuccess() LpAddLiquiditySuccess {
-	val, ok := u.GetSuccess()
-
-	if !ok {
-		panic("arm Success is not set")
-	}
-
-	return val
-}
-
-// GetSuccess retrieves the Success value from the union,
-// returning ok if the union's switch indicated the value is valid.
-func (u LpAddLiquidityResult) GetSuccess() (result LpAddLiquiditySuccess, ok bool) {
-	armName, _ := u.ArmForSwitch(int32(u.Code))
-
-	if armName == "Success" {
-		result = *u.Success
-		ok = true
-	}
-
-	return
-}
-
-// LpRemoveLiquidityOp is an XDR Struct defines as:
-//
-//   struct LPRemoveLiquidityOp
-//        {
-//            //: Balance of an LP token
-//            BalanceID lpTokenBalance;
-//            //: Amount of the LP tokens to be exchanged for assets pair
-//            uint64 lpTokensAmount;
-//
-//            //: Minimal amount of first asset to be received
-//            uint64 firstAssetMinAmount;
-//            //: Minimal amount of second asset to be received
-//            uint64 secondAssetMinAmount;
-//
-//            //: Reserved for future use
-//            EmptyExt ext;
-//        };
-//
-type LpRemoveLiquidityOp struct {
-	LpTokenBalance       BalanceId `json:"lpTokenBalance,omitempty"`
-	LpTokensAmount       Uint64    `json:"lpTokensAmount,omitempty"`
-	FirstAssetMinAmount  Uint64    `json:"firstAssetMinAmount,omitempty"`
-	SecondAssetMinAmount Uint64    `json:"secondAssetMinAmount,omitempty"`
-	Ext                  EmptyExt  `json:"ext,omitempty"`
-}
-
-// LpRemoveLiquidityResultCode is an XDR Enum defines as:
-//
-//   enum LPRemoveLiquidityResultCode
-//        {
-//            //: LP remove liquidity was successful
-//            SUCCESS = 0,
-//
-//            //: LP token balance doesn't exists
-//            LP_TOKEN_BALANCE_NOT_FOUND = -1,
-//            //: Not enough LP tokens in the source account
-//            UNDERFUNDED = -2,
-//            //: After the removing liquidity fulfillment, the destination balance will exceed the limit (total amount on the balance will be greater than UINT64_MAX)
-//            BALANCE_OVERFLOW = -3,
-//            //: Liquidity pool not found
-//            LP_NOT_FOUND = -4,
-//            //: Zero LP tokens amount not allowed
-//            INVALID_LP_TOKENS_AMOUNT = -5,
-//            //: Calculated first asset amount is less than min amount
-//            INSUFFICIENT_FIRST_AMOUNT = -6,
-//            //: Calculated second asset amount is less than min amount
-//            INSUFFICIENT_SECOND_AMOUNT = -7,
-//            //: Amount precision and asset precision are mismatched
-//            INCORRECT_AMOUNT_PRECISION = -8
-//        };
-//
-type LpRemoveLiquidityResultCode int32
-
-const (
-	LpRemoveLiquidityResultCodeSuccess                  LpRemoveLiquidityResultCode = 0
-	LpRemoveLiquidityResultCodeLpTokenBalanceNotFound   LpRemoveLiquidityResultCode = -1
-	LpRemoveLiquidityResultCodeUnderfunded              LpRemoveLiquidityResultCode = -2
-	LpRemoveLiquidityResultCodeBalanceOverflow          LpRemoveLiquidityResultCode = -3
-	LpRemoveLiquidityResultCodeLpNotFound               LpRemoveLiquidityResultCode = -4
-	LpRemoveLiquidityResultCodeInvalidLpTokensAmount    LpRemoveLiquidityResultCode = -5
-	LpRemoveLiquidityResultCodeInsufficientFirstAmount  LpRemoveLiquidityResultCode = -6
-	LpRemoveLiquidityResultCodeInsufficientSecondAmount LpRemoveLiquidityResultCode = -7
-	LpRemoveLiquidityResultCodeIncorrectAmountPrecision LpRemoveLiquidityResultCode = -8
-)
-
-var LpRemoveLiquidityResultCodeAll = []LpRemoveLiquidityResultCode{
-	LpRemoveLiquidityResultCodeSuccess,
-	LpRemoveLiquidityResultCodeLpTokenBalanceNotFound,
-	LpRemoveLiquidityResultCodeUnderfunded,
-	LpRemoveLiquidityResultCodeBalanceOverflow,
-	LpRemoveLiquidityResultCodeLpNotFound,
-	LpRemoveLiquidityResultCodeInvalidLpTokensAmount,
-	LpRemoveLiquidityResultCodeInsufficientFirstAmount,
-	LpRemoveLiquidityResultCodeInsufficientSecondAmount,
-	LpRemoveLiquidityResultCodeIncorrectAmountPrecision,
-}
-
-var lpRemoveLiquidityResultCodeMap = map[int32]string{
-	0:  "LpRemoveLiquidityResultCodeSuccess",
-	-1: "LpRemoveLiquidityResultCodeLpTokenBalanceNotFound",
-	-2: "LpRemoveLiquidityResultCodeUnderfunded",
-	-3: "LpRemoveLiquidityResultCodeBalanceOverflow",
-	-4: "LpRemoveLiquidityResultCodeLpNotFound",
-	-5: "LpRemoveLiquidityResultCodeInvalidLpTokensAmount",
-	-6: "LpRemoveLiquidityResultCodeInsufficientFirstAmount",
-	-7: "LpRemoveLiquidityResultCodeInsufficientSecondAmount",
-	-8: "LpRemoveLiquidityResultCodeIncorrectAmountPrecision",
-}
-
-var lpRemoveLiquidityResultCodeShortMap = map[int32]string{
-	0:  "success",
-	-1: "lp_token_balance_not_found",
-	-2: "underfunded",
-	-3: "balance_overflow",
-	-4: "lp_not_found",
-	-5: "invalid_lp_tokens_amount",
-	-6: "insufficient_first_amount",
-	-7: "insufficient_second_amount",
-	-8: "incorrect_amount_precision",
-}
-
-var lpRemoveLiquidityResultCodeRevMap = map[string]int32{
-	"LpRemoveLiquidityResultCodeSuccess":                  0,
-	"LpRemoveLiquidityResultCodeLpTokenBalanceNotFound":   -1,
-	"LpRemoveLiquidityResultCodeUnderfunded":              -2,
-	"LpRemoveLiquidityResultCodeBalanceOverflow":          -3,
-	"LpRemoveLiquidityResultCodeLpNotFound":               -4,
-	"LpRemoveLiquidityResultCodeInvalidLpTokensAmount":    -5,
-	"LpRemoveLiquidityResultCodeInsufficientFirstAmount":  -6,
-	"LpRemoveLiquidityResultCodeInsufficientSecondAmount": -7,
-	"LpRemoveLiquidityResultCodeIncorrectAmountPrecision": -8,
-}
-
-// ValidEnum validates a proposed value for this enum.  Implements
-// the Enum interface for LpRemoveLiquidityResultCode
-func (e LpRemoveLiquidityResultCode) ValidEnum(v int32) bool {
-	_, ok := lpRemoveLiquidityResultCodeMap[v]
-	return ok
-}
-func (e LpRemoveLiquidityResultCode) isFlag() bool {
-	for i := len(LpRemoveLiquidityResultCodeAll) - 1; i >= 0; i-- {
-		expected := LpRemoveLiquidityResultCode(2) << uint64(len(LpRemoveLiquidityResultCodeAll)-1) >> uint64(len(LpRemoveLiquidityResultCodeAll)-i)
-		if expected != LpRemoveLiquidityResultCodeAll[i] {
-			return false
-		}
-	}
-	return true
-}
-
-// String returns the name of `e`
-func (e LpRemoveLiquidityResultCode) String() string {
-	name, _ := lpRemoveLiquidityResultCodeMap[int32(e)]
-	return name
-}
-
-func (e LpRemoveLiquidityResultCode) ShortString() string {
-	name, _ := lpRemoveLiquidityResultCodeShortMap[int32(e)]
-	return name
-}
-
-func (e LpRemoveLiquidityResultCode) MarshalJSON() ([]byte, error) {
-	if e.isFlag() {
-		// marshal as mask
-		result := flag{
-			Value: int32(e),
-			Flags: make([]flagValue, 0),
-		}
-		for _, value := range LpRemoveLiquidityResultCodeAll {
-			if (value & e) == value {
-				result.Flags = append(result.Flags, flagValue{
-					Value: int32(value),
-					Name:  value.ShortString(),
-				})
-			}
-		}
-		return json.Marshal(&result)
-	} else {
-		// marshal as enum
-		result := enum{
-			Value:  int32(e),
-			String: e.ShortString(),
-		}
-		return json.Marshal(&result)
-	}
-}
-
-func (e *LpRemoveLiquidityResultCode) UnmarshalJSON(data []byte) error {
-	var t value
-	if err := json.Unmarshal(data, &t); err != nil {
-		return err
-	}
-	*e = LpRemoveLiquidityResultCode(t.Value)
-	return nil
-}
-
-// LpRemoveLiquiditySuccess is an XDR Struct defines as:
-//
-//   struct LPRemoveLiquiditySuccess
-//        {
-//            //: Unique identifier of the liquidity pool
-//            uint64 liquidityPoolID;
-//
-//            //: ID of the first asset balance in LP
-//            BalanceID lpFirstAssetBalanceID;
-//            //: ID of the second asset balance in LP
-//            BalanceID lpSecondAssetBalanceID;
-//
-//            //: ID of the first asset balance
-//            BalanceID sourceFirstAssetBalanceID;
-//            //: ID of the second asset balance
-//            BalanceID sourceSecondAssetBalanceID;
-//
-//            //: Amount of the first asset
-//            uint64 firstAssetAmount;
-//            //: Amount of the second asset
-//            uint64 secondAssetAmount;
-//
-//            //: Reserved for future extension
-//            EmptyExt ext;
-//        };
-//
-type LpRemoveLiquiditySuccess struct {
-	LiquidityPoolId            Uint64    `json:"liquidityPoolID,omitempty"`
-	LpFirstAssetBalanceId      BalanceId `json:"lpFirstAssetBalanceID,omitempty"`
-	LpSecondAssetBalanceId     BalanceId `json:"lpSecondAssetBalanceID,omitempty"`
-	SourceFirstAssetBalanceId  BalanceId `json:"sourceFirstAssetBalanceID,omitempty"`
-	SourceSecondAssetBalanceId BalanceId `json:"sourceSecondAssetBalanceID,omitempty"`
-	FirstAssetAmount           Uint64    `json:"firstAssetAmount,omitempty"`
-	SecondAssetAmount          Uint64    `json:"secondAssetAmount,omitempty"`
-	Ext                        EmptyExt  `json:"ext,omitempty"`
-}
-
-// LpRemoveLiquidityResult is an XDR Union defines as:
-//
-//   union LPRemoveLiquidityResult switch (LPRemoveLiquidityResultCode code)
-//        {
-//            case SUCCESS:
-//                LPRemoveLiquiditySuccess success;
-//            default:
-//                void;
-//        };
-//
-type LpRemoveLiquidityResult struct {
-	Code    LpRemoveLiquidityResultCode `json:"code,omitempty"`
-	Success *LpRemoveLiquiditySuccess   `json:"success,omitempty"`
-}
-
-// SwitchFieldName returns the field name in which this union's
-// discriminant is stored
-func (u LpRemoveLiquidityResult) SwitchFieldName() string {
-	return "Code"
-}
-
-// ArmForSwitch returns which field name should be used for storing
-// the value for an instance of LpRemoveLiquidityResult
-func (u LpRemoveLiquidityResult) ArmForSwitch(sw int32) (string, bool) {
-	switch LpRemoveLiquidityResultCode(sw) {
-	case LpRemoveLiquidityResultCodeSuccess:
-		return "Success", true
-	default:
-		return "", true
-	}
-}
-
-// NewLpRemoveLiquidityResult creates a new  LpRemoveLiquidityResult.
-func NewLpRemoveLiquidityResult(code LpRemoveLiquidityResultCode, value interface{}) (result LpRemoveLiquidityResult, err error) {
-	result.Code = code
-	switch LpRemoveLiquidityResultCode(code) {
-	case LpRemoveLiquidityResultCodeSuccess:
-		tv, ok := value.(LpRemoveLiquiditySuccess)
-		if !ok {
-			err = fmt.Errorf("invalid value, must be LpRemoveLiquiditySuccess")
-			return
-		}
-		result.Success = &tv
-	default:
-		// void
-	}
-	return
-}
-
-// MustSuccess retrieves the Success value from the union,
-// panicing if the value is not set.
-func (u LpRemoveLiquidityResult) MustSuccess() LpRemoveLiquiditySuccess {
-	val, ok := u.GetSuccess()
-
-	if !ok {
-		panic("arm Success is not set")
-	}
-
-	return val
-}
-
-// GetSuccess retrieves the Success value from the union,
-// returning ok if the union's switch indicated the value is valid.
-func (u LpRemoveLiquidityResult) GetSuccess() (result LpRemoveLiquiditySuccess, ok bool) {
-	armName, _ := u.ArmForSwitch(int32(u.Code))
-
-	if armName == "Success" {
-		result = *u.Success
-		ok = true
-	}
-
-	return
-}
-
-// LpSwapType is an XDR Enum defines as:
-//
-//   enum LPSwapType
-//        {
-//            EXACT_IN_TOKENS_FOR_OUT_TOKENS = 0,
-//            EXACT_OUT_TOKENS_FOR_IN_TOKENS = 1
-//        };
-//
-type LpSwapType int32
-
-const (
-	LpSwapTypeExactInTokensForOutTokens LpSwapType = 0
-	LpSwapTypeExactOutTokensForInTokens LpSwapType = 1
-)
-
-var LpSwapTypeAll = []LpSwapType{
-	LpSwapTypeExactInTokensForOutTokens,
-	LpSwapTypeExactOutTokensForInTokens,
-}
-
-var lpSwapTypeMap = map[int32]string{
-	0: "LpSwapTypeExactInTokensForOutTokens",
-	1: "LpSwapTypeExactOutTokensForInTokens",
-}
-
-var lpSwapTypeShortMap = map[int32]string{
-	0: "exact_in_tokens_for_out_tokens",
-	1: "exact_out_tokens_for_in_tokens",
-}
-
-var lpSwapTypeRevMap = map[string]int32{
-	"LpSwapTypeExactInTokensForOutTokens": 0,
-	"LpSwapTypeExactOutTokensForInTokens": 1,
-}
-
-// ValidEnum validates a proposed value for this enum.  Implements
-// the Enum interface for LpSwapType
-func (e LpSwapType) ValidEnum(v int32) bool {
-	_, ok := lpSwapTypeMap[v]
-	return ok
-}
-func (e LpSwapType) isFlag() bool {
-	for i := len(LpSwapTypeAll) - 1; i >= 0; i-- {
-		expected := LpSwapType(2) << uint64(len(LpSwapTypeAll)-1) >> uint64(len(LpSwapTypeAll)-i)
-		if expected != LpSwapTypeAll[i] {
-			return false
-		}
-	}
-	return true
-}
-
-// String returns the name of `e`
-func (e LpSwapType) String() string {
-	name, _ := lpSwapTypeMap[int32(e)]
-	return name
-}
-
-func (e LpSwapType) ShortString() string {
-	name, _ := lpSwapTypeShortMap[int32(e)]
-	return name
-}
-
-func (e LpSwapType) MarshalJSON() ([]byte, error) {
-	if e.isFlag() {
-		// marshal as mask
-		result := flag{
-			Value: int32(e),
-			Flags: make([]flagValue, 0),
-		}
-		for _, value := range LpSwapTypeAll {
-			if (value & e) == value {
-				result.Flags = append(result.Flags, flagValue{
-					Value: int32(value),
-					Name:  value.ShortString(),
-				})
-			}
-		}
-		return json.Marshal(&result)
-	} else {
-		// marshal as enum
-		result := enum{
-			Value:  int32(e),
-			String: e.ShortString(),
-		}
-		return json.Marshal(&result)
-	}
-}
-
-func (e *LpSwapType) UnmarshalJSON(data []byte) error {
-	var t value
-	if err := json.Unmarshal(data, &t); err != nil {
-		return err
-	}
-	*e = LpSwapType(t.Value)
-	return nil
-}
-
-// LpSwapOpSwapExactOutTokensForInTokens is an XDR NestedStruct defines as:
-//
-//   struct
-//                    {
-//                        //: Maximum amount to send in the swap
-//                        uint64 amountInMax;
-//                        //: Desired amount to be received
-//                        uint64 amountOut;
-//                    }
-//
-type LpSwapOpSwapExactOutTokensForInTokens struct {
-	AmountInMax Uint64 `json:"amountInMax,omitempty"`
-	AmountOut   Uint64 `json:"amountOut,omitempty"`
-}
-
-// LpSwapOpSwapExactInTokensForOutTokens is an XDR NestedStruct defines as:
-//
-//   struct
-//                    {
-//                        //: Amount to send in the swap
-//                        uint64 amountIn;
-//                        //: Minimum amount to be received
-//                        uint64 amountOutMin;
-//                    }
-//
-type LpSwapOpSwapExactInTokensForOutTokens struct {
-	AmountIn     Uint64 `json:"amountIn,omitempty"`
-	AmountOutMin Uint64 `json:"amountOutMin,omitempty"`
-}
-
-// LpSwapOpLpSwapRequest is an XDR NestedUnion defines as:
-//
-//   union switch(LPSwapType type)
-//            {
-//                //: Execute swap for exact output amount
-//                case EXACT_OUT_TOKENS_FOR_IN_TOKENS:
-//                    struct
-//                    {
-//                        //: Maximum amount to send in the swap
-//                        uint64 amountInMax;
-//                        //: Desired amount to be received
-//                        uint64 amountOut;
-//                    } swapExactOutTokensForInTokens;
-//                //: Execute swap for exact input amount
-//                case EXACT_IN_TOKENS_FOR_OUT_TOKENS:
-//                    struct
-//                    {
-//                        //: Amount to send in the swap
-//                        uint64 amountIn;
-//                        //: Minimum amount to be received
-//                        uint64 amountOutMin;
-//                    } swapExactInTokensForOutTokens;
-//            }
-//
-type LpSwapOpLpSwapRequest struct {
-	Type                          LpSwapType                             `json:"type,omitempty"`
-	SwapExactOutTokensForInTokens *LpSwapOpSwapExactOutTokensForInTokens `json:"swapExactOutTokensForInTokens,omitempty"`
-	SwapExactInTokensForOutTokens *LpSwapOpSwapExactInTokensForOutTokens `json:"swapExactInTokensForOutTokens,omitempty"`
-}
-
-// SwitchFieldName returns the field name in which this union's
-// discriminant is stored
-func (u LpSwapOpLpSwapRequest) SwitchFieldName() string {
-	return "Type"
-}
-
-// ArmForSwitch returns which field name should be used for storing
-// the value for an instance of LpSwapOpLpSwapRequest
-func (u LpSwapOpLpSwapRequest) ArmForSwitch(sw int32) (string, bool) {
-	switch LpSwapType(sw) {
-	case LpSwapTypeExactOutTokensForInTokens:
-		return "SwapExactOutTokensForInTokens", true
-	case LpSwapTypeExactInTokensForOutTokens:
-		return "SwapExactInTokensForOutTokens", true
-	}
-	return "-", false
-}
-
-// NewLpSwapOpLpSwapRequest creates a new  LpSwapOpLpSwapRequest.
-func NewLpSwapOpLpSwapRequest(aType LpSwapType, value interface{}) (result LpSwapOpLpSwapRequest, err error) {
-	result.Type = aType
-	switch LpSwapType(aType) {
-	case LpSwapTypeExactOutTokensForInTokens:
-		tv, ok := value.(LpSwapOpSwapExactOutTokensForInTokens)
-		if !ok {
-			err = fmt.Errorf("invalid value, must be LpSwapOpSwapExactOutTokensForInTokens")
-			return
-		}
-		result.SwapExactOutTokensForInTokens = &tv
-	case LpSwapTypeExactInTokensForOutTokens:
-		tv, ok := value.(LpSwapOpSwapExactInTokensForOutTokens)
-		if !ok {
-			err = fmt.Errorf("invalid value, must be LpSwapOpSwapExactInTokensForOutTokens")
-			return
-		}
-		result.SwapExactInTokensForOutTokens = &tv
-	}
-	return
-}
-
-// MustSwapExactOutTokensForInTokens retrieves the SwapExactOutTokensForInTokens value from the union,
-// panicing if the value is not set.
-func (u LpSwapOpLpSwapRequest) MustSwapExactOutTokensForInTokens() LpSwapOpSwapExactOutTokensForInTokens {
-	val, ok := u.GetSwapExactOutTokensForInTokens()
-
-	if !ok {
-		panic("arm SwapExactOutTokensForInTokens is not set")
-	}
-
-	return val
-}
-
-// GetSwapExactOutTokensForInTokens retrieves the SwapExactOutTokensForInTokens value from the union,
-// returning ok if the union's switch indicated the value is valid.
-func (u LpSwapOpLpSwapRequest) GetSwapExactOutTokensForInTokens() (result LpSwapOpSwapExactOutTokensForInTokens, ok bool) {
-	armName, _ := u.ArmForSwitch(int32(u.Type))
-
-	if armName == "SwapExactOutTokensForInTokens" {
-		result = *u.SwapExactOutTokensForInTokens
-		ok = true
-	}
-
-	return
-}
-
-// MustSwapExactInTokensForOutTokens retrieves the SwapExactInTokensForOutTokens value from the union,
-// panicing if the value is not set.
-func (u LpSwapOpLpSwapRequest) MustSwapExactInTokensForOutTokens() LpSwapOpSwapExactInTokensForOutTokens {
-	val, ok := u.GetSwapExactInTokensForOutTokens()
-
-	if !ok {
-		panic("arm SwapExactInTokensForOutTokens is not set")
-	}
-
-	return val
-}
-
-// GetSwapExactInTokensForOutTokens retrieves the SwapExactInTokensForOutTokens value from the union,
-// returning ok if the union's switch indicated the value is valid.
-func (u LpSwapOpLpSwapRequest) GetSwapExactInTokensForOutTokens() (result LpSwapOpSwapExactInTokensForOutTokens, ok bool) {
-	armName, _ := u.ArmForSwitch(int32(u.Type))
-
-	if armName == "SwapExactInTokensForOutTokens" {
-		result = *u.SwapExactInTokensForOutTokens
-		ok = true
-	}
-
-	return
-}
-
-// LpSwapOp is an XDR Struct defines as:
-//
-//   struct LPSwapOp
-//        {
-//            //: Balance of the provided asset
-//            BalanceID fromBalance;
-//            //: Balance of the desired asset
-//            BalanceID toBalance;
-//
-//            union switch(LPSwapType type)
-//            {
-//                //: Execute swap for exact output amount
-//                case EXACT_OUT_TOKENS_FOR_IN_TOKENS:
-//                    struct
-//                    {
-//                        //: Maximum amount to send in the swap
-//                        uint64 amountInMax;
-//                        //: Desired amount to be received
-//                        uint64 amountOut;
-//                    } swapExactOutTokensForInTokens;
-//                //: Execute swap for exact input amount
-//                case EXACT_IN_TOKENS_FOR_OUT_TOKENS:
-//                    struct
-//                    {
-//                        //: Amount to send in the swap
-//                        uint64 amountIn;
-//                        //: Minimum amount to be received
-//                        uint64 amountOutMin;
-//                    } swapExactInTokensForOutTokens;
-//            } lpSwapRequest;
-//
-//            //: Fee data for the swap
-//            PaymentFeeData feeData;
-//
-//            //: Reserved for future use
-//            EmptyExt ext;
-//        };
-//
-type LpSwapOp struct {
-	FromBalance   BalanceId             `json:"fromBalance,omitempty"`
-	ToBalance     BalanceId             `json:"toBalance,omitempty"`
-	LpSwapRequest LpSwapOpLpSwapRequest `json:"lpSwapRequest,omitempty"`
-	FeeData       PaymentFeeData        `json:"feeData,omitempty"`
-	Ext           EmptyExt              `json:"ext,omitempty"`
-}
-
-// LpSwapResultCode is an XDR Enum defines as:
-//
-//   enum LPSwapResultCode
-//        {
-//            //: LP swap was successful
-//            SUCCESS = 0,
-//
-//            //: Source and target balances are the same
-//            SAME_BALANCES = -1,
-//            //: Not enough funds in the source account
-//            UNDERFUNDED = -2,
-//            //: Sender balance asset and receiver balance asset are not equal
-//            BALANCE_ASSETS_MATCHED = -3,
-//            //: There is no balance found with ID provided in `fromBalance`
-//            FROM_BALANCE_NOT_FOUND = -4,
-//            //: There is no balance found with ID provided in `toBalance`
-//            TO_BALANCE_NOT_FOUND = -5,
-//            //: Payment asset does not have a `SWAPPABLE` policy set
-//            NOT_ALLOWED_BY_ASSET_POLICY = -6,
-//            //: Overflow during total fee calculation
-//            INVALID_DESTINATION_FEE = -7,
-//            //: Payment fee amount is insufficient
-//            INSUFFICIENT_FEE_AMOUNT = -8,
-//            //: Fee charged from destination balance is greater than the amount
-//            AMOUNT_IS_LESS_THAN_DEST_FEE = -9,
-//            //: Amount precision and asset precision are mismatched
-//            INCORRECT_AMOUNT_PRECISION = -10,
-//            //: Zero input amount not allowed
-//            INSUFFICIENT_INPUT_AMOUNT = -11,
-//            //: Output amount is less than allowed
-//            INSUFFICIENT_OUTPUT_AMOUNT = -12,
-//            //: From and to assets are the same
-//            SAME_ASSETS = -13,
-//            //: Liquidity pool for assets from balances not found
-//            LIQUIDITY_POOL_NOT_FOUND = -14,
-//            //: Reserves of the liquidity pool are insufficient for swap
-//            INSUFFICIENT_LIQUIDITY = -15,
-//            //: Calculated input amount is greater than provided amountInMax
-//            EXCESSIVE_INPUT_AMOUNT = -16,
-//            //: The destination balance will exceed the limit (total amount on the balance will be greater than UINT64_MAX)
-//            BALANCE_OVERFLOW = -17
-//        };
-//
-type LpSwapResultCode int32
-
-const (
-	LpSwapResultCodeSuccess                  LpSwapResultCode = 0
-	LpSwapResultCodeSameBalances             LpSwapResultCode = -1
-	LpSwapResultCodeUnderfunded              LpSwapResultCode = -2
-	LpSwapResultCodeBalanceAssetsMatched     LpSwapResultCode = -3
-	LpSwapResultCodeFromBalanceNotFound      LpSwapResultCode = -4
-	LpSwapResultCodeToBalanceNotFound        LpSwapResultCode = -5
-	LpSwapResultCodeNotAllowedByAssetPolicy  LpSwapResultCode = -6
-	LpSwapResultCodeInvalidDestinationFee    LpSwapResultCode = -7
-	LpSwapResultCodeInsufficientFeeAmount    LpSwapResultCode = -8
-	LpSwapResultCodeAmountIsLessThanDestFee  LpSwapResultCode = -9
-	LpSwapResultCodeIncorrectAmountPrecision LpSwapResultCode = -10
-	LpSwapResultCodeInsufficientInputAmount  LpSwapResultCode = -11
-	LpSwapResultCodeInsufficientOutputAmount LpSwapResultCode = -12
-	LpSwapResultCodeSameAssets               LpSwapResultCode = -13
-	LpSwapResultCodeLiquidityPoolNotFound    LpSwapResultCode = -14
-	LpSwapResultCodeInsufficientLiquidity    LpSwapResultCode = -15
-	LpSwapResultCodeExcessiveInputAmount     LpSwapResultCode = -16
-	LpSwapResultCodeBalanceOverflow          LpSwapResultCode = -17
-)
-
-var LpSwapResultCodeAll = []LpSwapResultCode{
-	LpSwapResultCodeSuccess,
-	LpSwapResultCodeSameBalances,
-	LpSwapResultCodeUnderfunded,
-	LpSwapResultCodeBalanceAssetsMatched,
-	LpSwapResultCodeFromBalanceNotFound,
-	LpSwapResultCodeToBalanceNotFound,
-	LpSwapResultCodeNotAllowedByAssetPolicy,
-	LpSwapResultCodeInvalidDestinationFee,
-	LpSwapResultCodeInsufficientFeeAmount,
-	LpSwapResultCodeAmountIsLessThanDestFee,
-	LpSwapResultCodeIncorrectAmountPrecision,
-	LpSwapResultCodeInsufficientInputAmount,
-	LpSwapResultCodeInsufficientOutputAmount,
-	LpSwapResultCodeSameAssets,
-	LpSwapResultCodeLiquidityPoolNotFound,
-	LpSwapResultCodeInsufficientLiquidity,
-	LpSwapResultCodeExcessiveInputAmount,
-	LpSwapResultCodeBalanceOverflow,
-}
-
-var lpSwapResultCodeMap = map[int32]string{
-	0:   "LpSwapResultCodeSuccess",
-	-1:  "LpSwapResultCodeSameBalances",
-	-2:  "LpSwapResultCodeUnderfunded",
-	-3:  "LpSwapResultCodeBalanceAssetsMatched",
-	-4:  "LpSwapResultCodeFromBalanceNotFound",
-	-5:  "LpSwapResultCodeToBalanceNotFound",
-	-6:  "LpSwapResultCodeNotAllowedByAssetPolicy",
-	-7:  "LpSwapResultCodeInvalidDestinationFee",
-	-8:  "LpSwapResultCodeInsufficientFeeAmount",
-	-9:  "LpSwapResultCodeAmountIsLessThanDestFee",
-	-10: "LpSwapResultCodeIncorrectAmountPrecision",
-	-11: "LpSwapResultCodeInsufficientInputAmount",
-	-12: "LpSwapResultCodeInsufficientOutputAmount",
-	-13: "LpSwapResultCodeSameAssets",
-	-14: "LpSwapResultCodeLiquidityPoolNotFound",
-	-15: "LpSwapResultCodeInsufficientLiquidity",
-	-16: "LpSwapResultCodeExcessiveInputAmount",
-	-17: "LpSwapResultCodeBalanceOverflow",
-}
-
-var lpSwapResultCodeShortMap = map[int32]string{
-	0:   "success",
-	-1:  "same_balances",
-	-2:  "underfunded",
-	-3:  "balance_assets_matched",
-	-4:  "from_balance_not_found",
-	-5:  "to_balance_not_found",
-	-6:  "not_allowed_by_asset_policy",
-	-7:  "invalid_destination_fee",
-	-8:  "insufficient_fee_amount",
-	-9:  "amount_is_less_than_dest_fee",
-	-10: "incorrect_amount_precision",
-	-11: "insufficient_input_amount",
-	-12: "insufficient_output_amount",
-	-13: "same_assets",
-	-14: "liquidity_pool_not_found",
-	-15: "insufficient_liquidity",
-	-16: "excessive_input_amount",
-	-17: "balance_overflow",
-}
-
-var lpSwapResultCodeRevMap = map[string]int32{
-	"LpSwapResultCodeSuccess":                  0,
-	"LpSwapResultCodeSameBalances":             -1,
-	"LpSwapResultCodeUnderfunded":              -2,
-	"LpSwapResultCodeBalanceAssetsMatched":     -3,
-	"LpSwapResultCodeFromBalanceNotFound":      -4,
-	"LpSwapResultCodeToBalanceNotFound":        -5,
-	"LpSwapResultCodeNotAllowedByAssetPolicy":  -6,
-	"LpSwapResultCodeInvalidDestinationFee":    -7,
-	"LpSwapResultCodeInsufficientFeeAmount":    -8,
-	"LpSwapResultCodeAmountIsLessThanDestFee":  -9,
-	"LpSwapResultCodeIncorrectAmountPrecision": -10,
-	"LpSwapResultCodeInsufficientInputAmount":  -11,
-	"LpSwapResultCodeInsufficientOutputAmount": -12,
-	"LpSwapResultCodeSameAssets":               -13,
-	"LpSwapResultCodeLiquidityPoolNotFound":    -14,
-	"LpSwapResultCodeInsufficientLiquidity":    -15,
-	"LpSwapResultCodeExcessiveInputAmount":     -16,
-	"LpSwapResultCodeBalanceOverflow":          -17,
-}
-
-// ValidEnum validates a proposed value for this enum.  Implements
-// the Enum interface for LpSwapResultCode
-func (e LpSwapResultCode) ValidEnum(v int32) bool {
-	_, ok := lpSwapResultCodeMap[v]
-	return ok
-}
-func (e LpSwapResultCode) isFlag() bool {
-	for i := len(LpSwapResultCodeAll) - 1; i >= 0; i-- {
-		expected := LpSwapResultCode(2) << uint64(len(LpSwapResultCodeAll)-1) >> uint64(len(LpSwapResultCodeAll)-i)
-		if expected != LpSwapResultCodeAll[i] {
-			return false
-		}
-	}
-	return true
-}
-
-// String returns the name of `e`
-func (e LpSwapResultCode) String() string {
-	name, _ := lpSwapResultCodeMap[int32(e)]
-	return name
-}
-
-func (e LpSwapResultCode) ShortString() string {
-	name, _ := lpSwapResultCodeShortMap[int32(e)]
-	return name
-}
-
-func (e LpSwapResultCode) MarshalJSON() ([]byte, error) {
-	if e.isFlag() {
-		// marshal as mask
-		result := flag{
-			Value: int32(e),
-			Flags: make([]flagValue, 0),
-		}
-		for _, value := range LpSwapResultCodeAll {
-			if (value & e) == value {
-				result.Flags = append(result.Flags, flagValue{
-					Value: int32(value),
-					Name:  value.ShortString(),
-				})
-			}
-		}
-		return json.Marshal(&result)
-	} else {
-		// marshal as enum
-		result := enum{
-			Value:  int32(e),
-			String: e.ShortString(),
-		}
-		return json.Marshal(&result)
-	}
-}
-
-func (e *LpSwapResultCode) UnmarshalJSON(data []byte) error {
-	var t value
-	if err := json.Unmarshal(data, &t); err != nil {
-		return err
-	}
-	*e = LpSwapResultCode(t.Value)
-	return nil
-}
-
-// LpSwapSuccess is an XDR Struct defines as:
-//
-//   struct LPSwapSuccess
-//        {
-//            //: Unique identifier of the liquidity pool
-//            uint64 liquidityPoolID;
-//
-//            //: ID of the pool account
-//            AccountID poolAccount;
-//
-//            //: ID of the in balance for LP
-//            BalanceID lpInBalanceID;
-//            //: ID of the out balance for LP
-//            BalanceID lpOutBalanceID;
-//
-//            //: ID of the in balance for source
-//            BalanceID sourceInBalanceID;
-//            //: ID of the out balance for source
-//            BalanceID sourceOutBalanceID;
-//
-//            //: Amount of the in asset used for swap
-//            uint64 swapInAmount;
-//            //: Amount of the out asset received from swap
-//            uint64 swapOutAmount;
-//
-//            //: Fee charged from the source balance
-//            Fee actualSourcePaymentFee;
-//            //: Fee charged from the destination balance
-//            Fee actualDestinationPaymentFee;
-//
-//            //: Reserved for future extension
-//            EmptyExt ext;
-//        };
-//
-type LpSwapSuccess struct {
-	LiquidityPoolId             Uint64    `json:"liquidityPoolID,omitempty"`
-	PoolAccount                 AccountId `json:"poolAccount,omitempty"`
-	LpInBalanceId               BalanceId `json:"lpInBalanceID,omitempty"`
-	LpOutBalanceId              BalanceId `json:"lpOutBalanceID,omitempty"`
-	SourceInBalanceId           BalanceId `json:"sourceInBalanceID,omitempty"`
-	SourceOutBalanceId          BalanceId `json:"sourceOutBalanceID,omitempty"`
-	SwapInAmount                Uint64    `json:"swapInAmount,omitempty"`
-	SwapOutAmount               Uint64    `json:"swapOutAmount,omitempty"`
-	ActualSourcePaymentFee      Fee       `json:"actualSourcePaymentFee,omitempty"`
-	ActualDestinationPaymentFee Fee       `json:"actualDestinationPaymentFee,omitempty"`
-	Ext                         EmptyExt  `json:"ext,omitempty"`
-}
-
-// LpSwapResult is an XDR Union defines as:
-//
-//   union LPSwapResult switch (LPSwapResultCode code)
-//        {
-//            case SUCCESS:
-//                LPSwapSuccess success;
-//            default:
-//                void;
-//        };
-//
-type LpSwapResult struct {
-	Code    LpSwapResultCode `json:"code,omitempty"`
-	Success *LpSwapSuccess   `json:"success,omitempty"`
-}
-
-// SwitchFieldName returns the field name in which this union's
-// discriminant is stored
-func (u LpSwapResult) SwitchFieldName() string {
-	return "Code"
-}
-
-// ArmForSwitch returns which field name should be used for storing
-// the value for an instance of LpSwapResult
-func (u LpSwapResult) ArmForSwitch(sw int32) (string, bool) {
-	switch LpSwapResultCode(sw) {
-	case LpSwapResultCodeSuccess:
-		return "Success", true
-	default:
-		return "", true
-	}
-}
-
-// NewLpSwapResult creates a new  LpSwapResult.
-func NewLpSwapResult(code LpSwapResultCode, value interface{}) (result LpSwapResult, err error) {
-	result.Code = code
-	switch LpSwapResultCode(code) {
-	case LpSwapResultCodeSuccess:
-		tv, ok := value.(LpSwapSuccess)
-		if !ok {
-			err = fmt.Errorf("invalid value, must be LpSwapSuccess")
-			return
-		}
-		result.Success = &tv
-	default:
-		// void
-	}
-	return
-}
-
-// MustSuccess retrieves the Success value from the union,
-// panicing if the value is not set.
-func (u LpSwapResult) MustSuccess() LpSwapSuccess {
-	val, ok := u.GetSuccess()
-
-	if !ok {
-		panic("arm Success is not set")
-	}
-
-	return val
-}
-
-// GetSuccess retrieves the Success value from the union,
-// returning ok if the union's switch indicated the value is valid.
-func (u LpSwapResult) GetSuccess() (result LpSwapSuccess, ok bool) {
 	armName, _ := u.ArmForSwitch(int32(u.Code))
 
 	if armName == "Success" {
@@ -45292,6 +44523,235 @@ func (u StampResult) GetSuccess() (result StampSuccess, ok bool) {
 	return
 }
 
+// UpdateDataOwnerOp is an XDR Struct defines as:
+//
+//   struct UpdateDataOwnerOp
+//    {
+//        //: ID of the data entry to update an owner
+//        uint64 dataID;
+//        //: A new owner of the entry
+//        AccountID newOwner;
+//        //: Reserved for future extension
+//        EmptyExt ext;
+//    };
+//
+type UpdateDataOwnerOp struct {
+	DataId   Uint64    `json:"dataID,omitempty"`
+	NewOwner AccountId `json:"newOwner,omitempty"`
+	Ext      EmptyExt  `json:"ext,omitempty"`
+}
+
+// UpdateDataOwnerResultCode is an XDR Enum defines as:
+//
+//   enum UpdateDataOwnerResultCode
+//    {
+//        //: An owner of the data was successfully updated
+//        SUCCESS = 0,
+//        //: Entry with provided ID does not exist
+//        NOT_FOUND = -1,
+//        //: Only owner can update data entry
+//        NOT_AUTHORIZED = -2,
+//        //: A user does not exist
+//        USER_NOT_FOUND = -3,
+//        //: A user who changes a owner of data cannot changes it to himself
+//        OLD_AND_NEW_USERS_ARE_SAME = -4
+//    };
+//
+type UpdateDataOwnerResultCode int32
+
+const (
+	UpdateDataOwnerResultCodeSuccess               UpdateDataOwnerResultCode = 0
+	UpdateDataOwnerResultCodeNotFound              UpdateDataOwnerResultCode = -1
+	UpdateDataOwnerResultCodeNotAuthorized         UpdateDataOwnerResultCode = -2
+	UpdateDataOwnerResultCodeUserNotFound          UpdateDataOwnerResultCode = -3
+	UpdateDataOwnerResultCodeOldAndNewUsersAreSame UpdateDataOwnerResultCode = -4
+)
+
+var UpdateDataOwnerResultCodeAll = []UpdateDataOwnerResultCode{
+	UpdateDataOwnerResultCodeSuccess,
+	UpdateDataOwnerResultCodeNotFound,
+	UpdateDataOwnerResultCodeNotAuthorized,
+	UpdateDataOwnerResultCodeUserNotFound,
+	UpdateDataOwnerResultCodeOldAndNewUsersAreSame,
+}
+
+var updateDataOwnerResultCodeMap = map[int32]string{
+	0:  "UpdateDataOwnerResultCodeSuccess",
+	-1: "UpdateDataOwnerResultCodeNotFound",
+	-2: "UpdateDataOwnerResultCodeNotAuthorized",
+	-3: "UpdateDataOwnerResultCodeUserNotFound",
+	-4: "UpdateDataOwnerResultCodeOldAndNewUsersAreSame",
+}
+
+var updateDataOwnerResultCodeShortMap = map[int32]string{
+	0:  "success",
+	-1: "not_found",
+	-2: "not_authorized",
+	-3: "user_not_found",
+	-4: "old_and_new_users_are_same",
+}
+
+var updateDataOwnerResultCodeRevMap = map[string]int32{
+	"UpdateDataOwnerResultCodeSuccess":               0,
+	"UpdateDataOwnerResultCodeNotFound":              -1,
+	"UpdateDataOwnerResultCodeNotAuthorized":         -2,
+	"UpdateDataOwnerResultCodeUserNotFound":          -3,
+	"UpdateDataOwnerResultCodeOldAndNewUsersAreSame": -4,
+}
+
+// ValidEnum validates a proposed value for this enum.  Implements
+// the Enum interface for UpdateDataOwnerResultCode
+func (e UpdateDataOwnerResultCode) ValidEnum(v int32) bool {
+	_, ok := updateDataOwnerResultCodeMap[v]
+	return ok
+}
+func (e UpdateDataOwnerResultCode) isFlag() bool {
+	for i := len(UpdateDataOwnerResultCodeAll) - 1; i >= 0; i-- {
+		expected := UpdateDataOwnerResultCode(2) << uint64(len(UpdateDataOwnerResultCodeAll)-1) >> uint64(len(UpdateDataOwnerResultCodeAll)-i)
+		if expected != UpdateDataOwnerResultCodeAll[i] {
+			return false
+		}
+	}
+	return true
+}
+
+// String returns the name of `e`
+func (e UpdateDataOwnerResultCode) String() string {
+	name, _ := updateDataOwnerResultCodeMap[int32(e)]
+	return name
+}
+
+func (e UpdateDataOwnerResultCode) ShortString() string {
+	name, _ := updateDataOwnerResultCodeShortMap[int32(e)]
+	return name
+}
+
+func (e UpdateDataOwnerResultCode) MarshalJSON() ([]byte, error) {
+	if e.isFlag() {
+		// marshal as mask
+		result := flag{
+			Value: int32(e),
+			Flags: make([]flagValue, 0),
+		}
+		for _, value := range UpdateDataOwnerResultCodeAll {
+			if (value & e) == value {
+				result.Flags = append(result.Flags, flagValue{
+					Value: int32(value),
+					Name:  value.ShortString(),
+				})
+			}
+		}
+		return json.Marshal(&result)
+	} else {
+		// marshal as enum
+		result := enum{
+			Value:  int32(e),
+			String: e.ShortString(),
+		}
+		return json.Marshal(&result)
+	}
+}
+
+func (e *UpdateDataOwnerResultCode) UnmarshalJSON(data []byte) error {
+	var t value
+	if err := json.Unmarshal(data, &t); err != nil {
+		return err
+	}
+	*e = UpdateDataOwnerResultCode(t.Value)
+	return nil
+}
+
+// UpdateDataOwnerSuccess is an XDR Struct defines as:
+//
+//   //: Result of successful application of `UpdateDataOwner` operation
+//    struct UpdateDataOwnerSuccess
+//    {
+//        //: A new owner of the entry
+//        AccountID owner;
+//        //: Reserved for future extension
+//        EmptyExt ext;
+//    };
+//
+type UpdateDataOwnerSuccess struct {
+	Owner AccountId `json:"owner,omitempty"`
+	Ext   EmptyExt  `json:"ext,omitempty"`
+}
+
+// UpdateDataOwnerResult is an XDR Union defines as:
+//
+//   //: Result of operation application
+//    union UpdateDataOwnerResult switch (UpdateDataOwnerResultCode code)
+//    {
+//    case SUCCESS:
+//        UpdateDataOwnerSuccess success;
+//    default:
+//        void;
+//    };
+//
+type UpdateDataOwnerResult struct {
+	Code    UpdateDataOwnerResultCode `json:"code,omitempty"`
+	Success *UpdateDataOwnerSuccess   `json:"success,omitempty"`
+}
+
+// SwitchFieldName returns the field name in which this union's
+// discriminant is stored
+func (u UpdateDataOwnerResult) SwitchFieldName() string {
+	return "Code"
+}
+
+// ArmForSwitch returns which field name should be used for storing
+// the value for an instance of UpdateDataOwnerResult
+func (u UpdateDataOwnerResult) ArmForSwitch(sw int32) (string, bool) {
+	switch UpdateDataOwnerResultCode(sw) {
+	case UpdateDataOwnerResultCodeSuccess:
+		return "Success", true
+	default:
+		return "", true
+	}
+}
+
+// NewUpdateDataOwnerResult creates a new  UpdateDataOwnerResult.
+func NewUpdateDataOwnerResult(code UpdateDataOwnerResultCode, value interface{}) (result UpdateDataOwnerResult, err error) {
+	result.Code = code
+	switch UpdateDataOwnerResultCode(code) {
+	case UpdateDataOwnerResultCodeSuccess:
+		tv, ok := value.(UpdateDataOwnerSuccess)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be UpdateDataOwnerSuccess")
+			return
+		}
+		result.Success = &tv
+	default:
+		// void
+	}
+	return
+}
+
+// MustSuccess retrieves the Success value from the union,
+// panicing if the value is not set.
+func (u UpdateDataOwnerResult) MustSuccess() UpdateDataOwnerSuccess {
+	val, ok := u.GetSuccess()
+
+	if !ok {
+		panic("arm Success is not set")
+	}
+
+	return val
+}
+
+// GetSuccess retrieves the Success value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u UpdateDataOwnerResult) GetSuccess() (result UpdateDataOwnerSuccess, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.Code))
+
+	if armName == "Success" {
+		result = *u.Success
+		ok = true
+	}
+
+	return
+}
+
 // UpdateDataOp is an XDR Struct defines as:
 //
 //   struct UpdateDataOp
@@ -47051,6 +46511,21 @@ type ReviewableRequestResourceDataUpdate struct {
 	Ext  EmptyExt `json:"ext,omitempty"`
 }
 
+// ReviewableRequestResourceDataOwnerUpdate is an XDR NestedStruct defines as:
+//
+//   struct
+//        {
+//            //: Numeric type of the data
+//            uint64 type;
+//            //: Reserved for future extension
+//            EmptyExt ext;
+//        }
+//
+type ReviewableRequestResourceDataOwnerUpdate struct {
+	Type Uint64   `json:"type,omitempty"`
+	Ext  EmptyExt `json:"ext,omitempty"`
+}
+
 // ReviewableRequestResourceDataRemove is an XDR NestedStruct defines as:
 //
 //   struct
@@ -47249,6 +46724,14 @@ type ReviewableRequestResourceCloseDeferredPayment struct {
 //            //: Reserved for future extension
 //            EmptyExt ext;
 //        } dataUpdate;
+//    case DATA_OWNER_UPDATE:
+//        struct
+//        {
+//            //: Numeric type of the data
+//            uint64 type;
+//            //: Reserved for future extension
+//            EmptyExt ext;
+//        } dataOwnerUpdate;
 //    case DATA_REMOVE:
 //        struct
 //        {
@@ -47291,6 +46774,7 @@ type ReviewableRequestResource struct {
 	PerformRedemption      *ReviewableRequestResourcePerformRedemption      `json:"performRedemption,omitempty"`
 	DataCreation           *ReviewableRequestResourceDataCreation           `json:"dataCreation,omitempty"`
 	DataUpdate             *ReviewableRequestResourceDataUpdate             `json:"dataUpdate,omitempty"`
+	DataOwnerUpdate        *ReviewableRequestResourceDataOwnerUpdate        `json:"dataOwnerUpdate,omitempty"`
 	DataRemove             *ReviewableRequestResourceDataRemove             `json:"dataRemove,omitempty"`
 	CreateDeferredPayment  *ReviewableRequestResourceCreateDeferredPayment  `json:"createDeferredPayment,omitempty"`
 	CloseDeferredPayment   *ReviewableRequestResourceCloseDeferredPayment   `json:"closeDeferredPayment,omitempty"`
@@ -47329,6 +46813,8 @@ func (u ReviewableRequestResource) ArmForSwitch(sw int32) (string, bool) {
 		return "DataCreation", true
 	case ReviewableRequestTypeDataUpdate:
 		return "DataUpdate", true
+	case ReviewableRequestTypeDataOwnerUpdate:
+		return "DataOwnerUpdate", true
 	case ReviewableRequestTypeDataRemove:
 		return "DataRemove", true
 	case ReviewableRequestTypeCreateDeferredPayment:
@@ -47421,6 +46907,13 @@ func NewReviewableRequestResource(requestType ReviewableRequestType, value inter
 			return
 		}
 		result.DataUpdate = &tv
+	case ReviewableRequestTypeDataOwnerUpdate:
+		tv, ok := value.(ReviewableRequestResourceDataOwnerUpdate)
+		if !ok {
+			err = fmt.Errorf("invalid value, must be ReviewableRequestResourceDataOwnerUpdate")
+			return
+		}
+		result.DataOwnerUpdate = &tv
 	case ReviewableRequestTypeDataRemove:
 		tv, ok := value.(ReviewableRequestResourceDataRemove)
 		if !ok {
@@ -47722,6 +47215,31 @@ func (u ReviewableRequestResource) GetDataUpdate() (result ReviewableRequestReso
 
 	if armName == "DataUpdate" {
 		result = *u.DataUpdate
+		ok = true
+	}
+
+	return
+}
+
+// MustDataOwnerUpdate retrieves the DataOwnerUpdate value from the union,
+// panicing if the value is not set.
+func (u ReviewableRequestResource) MustDataOwnerUpdate() ReviewableRequestResourceDataOwnerUpdate {
+	val, ok := u.GetDataOwnerUpdate()
+
+	if !ok {
+		panic("arm DataOwnerUpdate is not set")
+	}
+
+	return val
+}
+
+// GetDataOwnerUpdate retrieves the DataOwnerUpdate value from the union,
+// returning ok if the union's switch indicated the value is valid.
+func (u ReviewableRequestResource) GetDataOwnerUpdate() (result ReviewableRequestResourceDataOwnerUpdate, ok bool) {
+	armName, _ := u.ArmForSwitch(int32(u.RequestType))
+
+	if armName == "DataOwnerUpdate" {
+		result = *u.DataOwnerUpdate
 		ok = true
 	}
 
@@ -48147,32 +47665,6 @@ type AccountRuleResourceData struct {
 	Ext  EmptyExt `json:"ext,omitempty"`
 }
 
-// AccountRuleResourceLiquidityPool is an XDR NestedStruct defines as:
-//
-//   struct
-//        {
-//            //: Code of the first asset in LP pair
-//            AssetCode firstAsset;
-//            //: Type of the first asset in LP pair
-//            uint64 firstAssetType;
-//
-//            //: Code of the second asset in LP pair
-//            AssetCode secondAsset;
-//            //: Type of the seconds asset in LP pair
-//            uint64 secondAssetType;
-//
-//            //: Reserved for future extension
-//            EmptyExt ext;
-//        }
-//
-type AccountRuleResourceLiquidityPool struct {
-	FirstAsset      AssetCode `json:"firstAsset,omitempty"`
-	FirstAssetType  Uint64    `json:"firstAssetType,omitempty"`
-	SecondAsset     AssetCode `json:"secondAsset,omitempty"`
-	SecondAssetType Uint64    `json:"secondAssetType,omitempty"`
-	Ext             EmptyExt  `json:"ext,omitempty"`
-}
-
 // AccountRuleResource is an XDR Union defines as:
 //
 //   //: Describes properties of some entries that can be used to restrict the usage of entries
@@ -48316,22 +47808,6 @@ type AccountRuleResourceLiquidityPool struct {
 //        } data;
 //    case CUSTOM:
 //        CustomRuleResource custom;
-//    case LIQUIDITY_POOL:
-//        struct
-//        {
-//            //: Code of the first asset in LP pair
-//            AssetCode firstAsset;
-//            //: Type of the first asset in LP pair
-//            uint64 firstAssetType;
-//
-//            //: Code of the second asset in LP pair
-//            AssetCode secondAsset;
-//            //: Type of the seconds asset in LP pair
-//            uint64 secondAssetType;
-//
-//            //: Reserved for future extension
-//            EmptyExt ext;
-//        } liquidityPool;
 //    default:
 //        //: reserved for future extension
 //        EmptyExt ext;
@@ -48352,7 +47828,6 @@ type AccountRuleResource struct {
 	Swap                   *AccountRuleResourceSwap                   `json:"swap,omitempty"`
 	Data                   *AccountRuleResourceData                   `json:"data,omitempty"`
 	Custom                 *CustomRuleResource                        `json:"custom,omitempty"`
-	LiquidityPool          *AccountRuleResourceLiquidityPool          `json:"liquidityPool,omitempty"`
 	Ext                    *EmptyExt                                  `json:"ext,omitempty"`
 }
 
@@ -48394,8 +47869,6 @@ func (u AccountRuleResource) ArmForSwitch(sw int32) (string, bool) {
 		return "Data", true
 	case LedgerEntryTypeCustom:
 		return "Custom", true
-	case LedgerEntryTypeLiquidityPool:
-		return "LiquidityPool", true
 	default:
 		return "Ext", true
 	}
@@ -48498,13 +47971,6 @@ func NewAccountRuleResource(aType LedgerEntryType, value interface{}) (result Ac
 			return
 		}
 		result.Custom = &tv
-	case LedgerEntryTypeLiquidityPool:
-		tv, ok := value.(AccountRuleResourceLiquidityPool)
-		if !ok {
-			err = fmt.Errorf("invalid value, must be AccountRuleResourceLiquidityPool")
-			return
-		}
-		result.LiquidityPool = &tv
 	default:
 		tv, ok := value.(EmptyExt)
 		if !ok {
@@ -48841,31 +48307,6 @@ func (u AccountRuleResource) GetCustom() (result CustomRuleResource, ok bool) {
 	return
 }
 
-// MustLiquidityPool retrieves the LiquidityPool value from the union,
-// panicing if the value is not set.
-func (u AccountRuleResource) MustLiquidityPool() AccountRuleResourceLiquidityPool {
-	val, ok := u.GetLiquidityPool()
-
-	if !ok {
-		panic("arm LiquidityPool is not set")
-	}
-
-	return val
-}
-
-// GetLiquidityPool retrieves the LiquidityPool value from the union,
-// returning ok if the union's switch indicated the value is valid.
-func (u AccountRuleResource) GetLiquidityPool() (result AccountRuleResourceLiquidityPool, ok bool) {
-	armName, _ := u.ArmForSwitch(int32(u.Type))
-
-	if armName == "LiquidityPool" {
-		result = *u.LiquidityPool
-		ok = true
-	}
-
-	return
-}
-
 // MustExt retrieves the Ext value from the union,
 // panicing if the value is not set.
 func (u AccountRuleResource) MustExt() EmptyExt {
@@ -48921,9 +48362,7 @@ func (u AccountRuleResource) GetExt() (result EmptyExt, ok bool) {
 //        UPDATE = 23,
 //        UPDATE_FOR_OTHER = 24,
 //        CUSTOM = 25,
-//        LP_ADD_LIQUIDITY = 26,
-//        LP_REMOVE_LIQUIDITY = 27,
-//        LP_SWAP = 28
+//        TRANSFER_OWNERSHIP = 26
 //    };
 //
 type AccountRuleAction int32
@@ -48954,9 +48393,7 @@ const (
 	AccountRuleActionUpdate                  AccountRuleAction = 23
 	AccountRuleActionUpdateForOther          AccountRuleAction = 24
 	AccountRuleActionCustom                  AccountRuleAction = 25
-	AccountRuleActionLpAddLiquidity          AccountRuleAction = 26
-	AccountRuleActionLpRemoveLiquidity       AccountRuleAction = 27
-	AccountRuleActionLpSwap                  AccountRuleAction = 28
+	AccountRuleActionTransferOwnership       AccountRuleAction = 26
 )
 
 var AccountRuleActionAll = []AccountRuleAction{
@@ -48985,9 +48422,7 @@ var AccountRuleActionAll = []AccountRuleAction{
 	AccountRuleActionUpdate,
 	AccountRuleActionUpdateForOther,
 	AccountRuleActionCustom,
-	AccountRuleActionLpAddLiquidity,
-	AccountRuleActionLpRemoveLiquidity,
-	AccountRuleActionLpSwap,
+	AccountRuleActionTransferOwnership,
 }
 
 var accountRuleActionMap = map[int32]string{
@@ -49016,9 +48451,7 @@ var accountRuleActionMap = map[int32]string{
 	23: "AccountRuleActionUpdate",
 	24: "AccountRuleActionUpdateForOther",
 	25: "AccountRuleActionCustom",
-	26: "AccountRuleActionLpAddLiquidity",
-	27: "AccountRuleActionLpRemoveLiquidity",
-	28: "AccountRuleActionLpSwap",
+	26: "AccountRuleActionTransferOwnership",
 }
 
 var accountRuleActionShortMap = map[int32]string{
@@ -49047,9 +48480,7 @@ var accountRuleActionShortMap = map[int32]string{
 	23: "update",
 	24: "update_for_other",
 	25: "custom",
-	26: "lp_add_liquidity",
-	27: "lp_remove_liquidity",
-	28: "lp_swap",
+	26: "transfer_ownership",
 }
 
 var accountRuleActionRevMap = map[string]int32{
@@ -49078,9 +48509,7 @@ var accountRuleActionRevMap = map[string]int32{
 	"AccountRuleActionUpdate":                  23,
 	"AccountRuleActionUpdateForOther":          24,
 	"AccountRuleActionCustom":                  25,
-	"AccountRuleActionLpAddLiquidity":          26,
-	"AccountRuleActionLpRemoveLiquidity":       27,
-	"AccountRuleActionLpSwap":                  28,
+	"AccountRuleActionTransferOwnership":       26,
 }
 
 // ValidEnum validates a proposed value for this enum.  Implements
@@ -49496,32 +48925,6 @@ type SignerRuleResourceData struct {
 	Ext  EmptyExt `json:"ext,omitempty"`
 }
 
-// SignerRuleResourceLiquidityPool is an XDR NestedStruct defines as:
-//
-//   struct
-//        {
-//            //: Code of the first asset in LP pair
-//            AssetCode firstAsset;
-//            //: Type of the first asset in LP pair
-//            uint64 firstAssetType;
-//
-//            //: Code of the second asset in LP pair
-//            AssetCode secondAsset;
-//            //: Type of the seconds asset in LP pair
-//            uint64 secondAssetType;
-//
-//            //: Reserved for future extension
-//            EmptyExt ext;
-//        }
-//
-type SignerRuleResourceLiquidityPool struct {
-	FirstAsset      AssetCode `json:"firstAsset,omitempty"`
-	FirstAssetType  Uint64    `json:"firstAssetType,omitempty"`
-	SecondAsset     AssetCode `json:"secondAsset,omitempty"`
-	SecondAssetType Uint64    `json:"secondAssetType,omitempty"`
-	Ext             EmptyExt  `json:"ext,omitempty"`
-}
-
 // SignerRuleResource is an XDR Union defines as:
 //
 //   //: Describes properties of some entries that can be used to restrict the usage of entries
@@ -49696,22 +49099,6 @@ type SignerRuleResourceLiquidityPool struct {
 //        } data;
 //    case CUSTOM:
 //        CustomRuleResource custom;
-//    case LIQUIDITY_POOL:
-//        struct
-//        {
-//            //: Code of the first asset in LP pair
-//            AssetCode firstAsset;
-//            //: Type of the first asset in LP pair
-//            uint64 firstAssetType;
-//
-//            //: Code of the second asset in LP pair
-//            AssetCode secondAsset;
-//            //: Type of the seconds asset in LP pair
-//            uint64 secondAssetType;
-//
-//            //: Reserved for future extension
-//            EmptyExt ext;
-//        } liquidityPool;
 //    default:
 //        //: reserved for future extension
 //        EmptyExt ext;
@@ -49735,7 +49122,6 @@ type SignerRuleResource struct {
 	Swap                   *SignerRuleResourceSwap                   `json:"swap,omitempty"`
 	Data                   *SignerRuleResourceData                   `json:"data,omitempty"`
 	Custom                 *CustomRuleResource                       `json:"custom,omitempty"`
-	LiquidityPool          *SignerRuleResourceLiquidityPool          `json:"liquidityPool,omitempty"`
 	Ext                    *EmptyExt                                 `json:"ext,omitempty"`
 }
 
@@ -49783,8 +49169,6 @@ func (u SignerRuleResource) ArmForSwitch(sw int32) (string, bool) {
 		return "Data", true
 	case LedgerEntryTypeCustom:
 		return "Custom", true
-	case LedgerEntryTypeLiquidityPool:
-		return "LiquidityPool", true
 	default:
 		return "Ext", true
 	}
@@ -49908,13 +49292,6 @@ func NewSignerRuleResource(aType LedgerEntryType, value interface{}) (result Sig
 			return
 		}
 		result.Custom = &tv
-	case LedgerEntryTypeLiquidityPool:
-		tv, ok := value.(SignerRuleResourceLiquidityPool)
-		if !ok {
-			err = fmt.Errorf("invalid value, must be SignerRuleResourceLiquidityPool")
-			return
-		}
-		result.LiquidityPool = &tv
 	default:
 		tv, ok := value.(EmptyExt)
 		if !ok {
@@ -50326,31 +49703,6 @@ func (u SignerRuleResource) GetCustom() (result CustomRuleResource, ok bool) {
 	return
 }
 
-// MustLiquidityPool retrieves the LiquidityPool value from the union,
-// panicing if the value is not set.
-func (u SignerRuleResource) MustLiquidityPool() SignerRuleResourceLiquidityPool {
-	val, ok := u.GetLiquidityPool()
-
-	if !ok {
-		panic("arm LiquidityPool is not set")
-	}
-
-	return val
-}
-
-// GetLiquidityPool retrieves the LiquidityPool value from the union,
-// returning ok if the union's switch indicated the value is valid.
-func (u SignerRuleResource) GetLiquidityPool() (result SignerRuleResourceLiquidityPool, ok bool) {
-	armName, _ := u.ArmForSwitch(int32(u.Type))
-
-	if armName == "LiquidityPool" {
-		result = *u.LiquidityPool
-		ok = true
-	}
-
-	return
-}
-
 // MustExt retrieves the Ext value from the union,
 // panicing if the value is not set.
 func (u SignerRuleResource) MustExt() EmptyExt {
@@ -50403,9 +49755,7 @@ func (u SignerRuleResource) GetExt() (result EmptyExt, ok bool) {
 //        EXCHANGE = 20,
 //        UPDATE_FOR_OTHER = 21,
 //        CUSTOM = 22,
-//        LP_ADD_LIQUIDITY = 23,
-//        LP_REMOVE_LIQUIDITY = 24,
-//        LP_SWAP = 25
+//        TRANSFER_OWNERSHIP = 23
 //    };
 //
 type SignerRuleAction int32
@@ -50433,9 +49783,7 @@ const (
 	SignerRuleActionExchange                SignerRuleAction = 20
 	SignerRuleActionUpdateForOther          SignerRuleAction = 21
 	SignerRuleActionCustom                  SignerRuleAction = 22
-	SignerRuleActionLpAddLiquidity          SignerRuleAction = 23
-	SignerRuleActionLpRemoveLiquidity       SignerRuleAction = 24
-	SignerRuleActionLpSwap                  SignerRuleAction = 25
+	SignerRuleActionTransferOwnership       SignerRuleAction = 23
 )
 
 var SignerRuleActionAll = []SignerRuleAction{
@@ -50461,9 +49809,7 @@ var SignerRuleActionAll = []SignerRuleAction{
 	SignerRuleActionExchange,
 	SignerRuleActionUpdateForOther,
 	SignerRuleActionCustom,
-	SignerRuleActionLpAddLiquidity,
-	SignerRuleActionLpRemoveLiquidity,
-	SignerRuleActionLpSwap,
+	SignerRuleActionTransferOwnership,
 }
 
 var signerRuleActionMap = map[int32]string{
@@ -50489,9 +49835,7 @@ var signerRuleActionMap = map[int32]string{
 	20: "SignerRuleActionExchange",
 	21: "SignerRuleActionUpdateForOther",
 	22: "SignerRuleActionCustom",
-	23: "SignerRuleActionLpAddLiquidity",
-	24: "SignerRuleActionLpRemoveLiquidity",
-	25: "SignerRuleActionLpSwap",
+	23: "SignerRuleActionTransferOwnership",
 }
 
 var signerRuleActionShortMap = map[int32]string{
@@ -50517,9 +49861,7 @@ var signerRuleActionShortMap = map[int32]string{
 	20: "exchange",
 	21: "update_for_other",
 	22: "custom",
-	23: "lp_add_liquidity",
-	24: "lp_remove_liquidity",
-	25: "lp_swap",
+	23: "transfer_ownership",
 }
 
 var signerRuleActionRevMap = map[string]int32{
@@ -50545,9 +49887,7 @@ var signerRuleActionRevMap = map[string]int32{
 	"SignerRuleActionExchange":                20,
 	"SignerRuleActionUpdateForOther":          21,
 	"SignerRuleActionCustom":                  22,
-	"SignerRuleActionLpAddLiquidity":          23,
-	"SignerRuleActionLpRemoveLiquidity":       24,
-	"SignerRuleActionLpSwap":                  25,
+	"SignerRuleActionTransferOwnership":       23,
 }
 
 // ValidEnum validates a proposed value for this enum.  Implements
@@ -52511,6 +51851,71 @@ type SaleCreationRequest struct {
 	Ext                         SaleCreationRequestExt          `json:"ext,omitempty"`
 }
 
+// DataOwnerUpdateRequestExt is an XDR NestedUnion defines as:
+//
+//   union switch (LedgerVersion v)
+//        {
+//        case EMPTY_VERSION:
+//            void;
+//        }
+//
+type DataOwnerUpdateRequestExt struct {
+	V LedgerVersion `json:"v,omitempty"`
+}
+
+// SwitchFieldName returns the field name in which this union's
+// discriminant is stored
+func (u DataOwnerUpdateRequestExt) SwitchFieldName() string {
+	return "V"
+}
+
+// ArmForSwitch returns which field name should be used for storing
+// the value for an instance of DataOwnerUpdateRequestExt
+func (u DataOwnerUpdateRequestExt) ArmForSwitch(sw int32) (string, bool) {
+	switch LedgerVersion(sw) {
+	case LedgerVersionEmptyVersion:
+		return "", true
+	}
+	return "-", false
+}
+
+// NewDataOwnerUpdateRequestExt creates a new  DataOwnerUpdateRequestExt.
+func NewDataOwnerUpdateRequestExt(v LedgerVersion, value interface{}) (result DataOwnerUpdateRequestExt, err error) {
+	result.V = v
+	switch LedgerVersion(v) {
+	case LedgerVersionEmptyVersion:
+		// void
+	}
+	return
+}
+
+// DataOwnerUpdateRequest is an XDR Struct defines as:
+//
+//   struct DataOwnerUpdateRequest {
+//        UpdateDataOwnerOp updateDataOwnerOp;
+//
+//        //: Sequence number increases when request is rejected
+//        uint32 sequenceNumber;
+//
+//        //: Arbitrary stringified json object that can be used to attach data to be reviewed by an admin
+//        longstring creatorDetails; // details set by requester
+//
+//        //: reserved for future use
+//        union switch (LedgerVersion v)
+//        {
+//        case EMPTY_VERSION:
+//            void;
+//        }
+//        ext;
+//    };
+//
+type DataOwnerUpdateRequest struct {
+	UpdateDataOwnerOp UpdateDataOwnerOp         `json:"updateDataOwnerOp,omitempty"`
+	SequenceNumber    Uint32                    `json:"sequenceNumber,omitempty"`
+	CreatorDetails    Longstring                `json:"creatorDetails,omitempty"`
+	Ext               DataOwnerUpdateRequestExt `json:"ext,omitempty"`
+}
+
 // DataUpdateRequestExt is an XDR NestedUnion defines as:
 //
 //   union switch (LedgerVersion v)
@@ -52846,13 +52251,12 @@ type WithdrawalRequest struct {
 //            CreateCloseDeferredPaymentRequestOp createCloseDeferredPaymentRequestOp;
 //        case CANCEL_CLOSE_DEFERRED_PAYMENT_REQUEST:
 //            CancelCloseDeferredPaymentRequestOp cancelCloseDeferredPaymentRequestOp;
-//        case LP_SWAP:
-//            LPSwapOp lpSwapOp;
-//        case LP_ADD_LIQUIDITY:
-//            LPAddLiquidityOp lpAddLiquidityOp;
-//        case LP_REMOVE_LIQUIDITY:
-//            LPRemoveLiquidityOp lpRemoveLiquidityOp;
-//
+//        case UPDATE_DATA_OWNER:
+//            UpdateDataOwnerOp updateDataOwnerOp;
+//        case CREATE_DATA_OWNER_UPDATE_REQUEST:
+//            CreateDataOwnerUpdateRequestOp createDataOwnerUpdateRequestOp;
+//        case CANCEL_DATA_OWNER_UPDATE_REQUEST:
+//            CancelDataOwnerUpdateRequestOp cancelDataOwnerUpdateRequestOp;
 //        }
 //
 type OperationBody struct {
@@ -52920,9 +52324,9 @@ type OperationBody struct {
 	CancelDeferredPaymentCreationRequestOp   *CancelDeferredPaymentCreationRequestOp   `json:"cancelDeferredPaymentCreationRequestOp,omitempty"`
 	CreateCloseDeferredPaymentRequestOp      *CreateCloseDeferredPaymentRequestOp      `json:"createCloseDeferredPaymentRequestOp,omitempty"`
 	CancelCloseDeferredPaymentRequestOp      *CancelCloseDeferredPaymentRequestOp      `json:"cancelCloseDeferredPaymentRequestOp,omitempty"`
-	LpSwapOp                                 *LpSwapOp                                 `json:"lpSwapOp,omitempty"`
-	LpAddLiquidityOp                         *LpAddLiquidityOp                         `json:"lpAddLiquidityOp,omitempty"`
-	LpRemoveLiquidityOp                      *LpRemoveLiquidityOp                      `json:"lpRemoveLiquidityOp,omitempty"`
+	UpdateDataOwnerOp                        *UpdateDataOwnerOp                        `json:"updateDataOwnerOp,omitempty"`
+	CreateDataOwnerUpdateRequestOp           *CreateDataOwnerUpdateRequestOp           `json:"createDataOwnerUpdateRequestOp,omitempty"`
+	CancelDataOwnerUpdateRequestOp           *CancelDataOwnerUpdateRequestOp           `json:"cancelDataOwnerUpdateRequestOp,omitempty"`
 }
 
 // SwitchFieldName returns the field name in which this union's
@@ -53061,12 +52465,12 @@ func (u OperationBody) ArmForSwitch(sw int32) (string, bool) {
 		return "CreateCloseDeferredPaymentRequestOp", true
 	case OperationTypeCancelCloseDeferredPaymentRequest:
 		return "CancelCloseDeferredPaymentRequestOp", true
-	case OperationTypeLpSwap:
-		return "LpSwapOp", true
-	case OperationTypeLpAddLiquidity:
-		return "LpAddLiquidityOp", true
-	case OperationTypeLpRemoveLiquidity:
-		return "LpRemoveLiquidityOp", true
+	case OperationTypeUpdateDataOwner:
+		return "UpdateDataOwnerOp", true
+	case OperationTypeCreateDataOwnerUpdateRequest:
+		return "CreateDataOwnerUpdateRequestOp", true
+	case OperationTypeCancelDataOwnerUpdateRequest:
+		return "CancelDataOwnerUpdateRequestOp", true
 	}
 	return "-", false
 }
@@ -53516,27 +52920,27 @@ func NewOperationBody(aType OperationType, value interface{}) (result OperationB
 			return
 		}
 		result.CancelCloseDeferredPaymentRequestOp = &tv
-	case OperationTypeLpSwap:
-		tv, ok := value.(LpSwapOp)
+	case OperationTypeUpdateDataOwner:
+		tv, ok := value.(UpdateDataOwnerOp)
 		if !ok {
-			err = fmt.Errorf("invalid value, must be LpSwapOp")
+			err = fmt.Errorf("invalid value, must be UpdateDataOwnerOp")
 			return
 		}
-		result.LpSwapOp = &tv
-	case OperationTypeLpAddLiquidity:
-		tv, ok := value.(LpAddLiquidityOp)
+		result.UpdateDataOwnerOp = &tv
+	case OperationTypeCreateDataOwnerUpdateRequest:
+		tv, ok := value.(CreateDataOwnerUpdateRequestOp)
 		if !ok {
-			err = fmt.Errorf("invalid value, must be LpAddLiquidityOp")
+			err = fmt.Errorf("invalid value, must be CreateDataOwnerUpdateRequestOp")
 			return
 		}
-		result.LpAddLiquidityOp = &tv
-	case OperationTypeLpRemoveLiquidity:
-		tv, ok := value.(LpRemoveLiquidityOp)
+		result.CreateDataOwnerUpdateRequestOp = &tv
+	case OperationTypeCancelDataOwnerUpdateRequest:
+		tv, ok := value.(CancelDataOwnerUpdateRequestOp)
 		if !ok {
-			err = fmt.Errorf("invalid value, must be LpRemoveLiquidityOp")
+			err = fmt.Errorf("invalid value, must be CancelDataOwnerUpdateRequestOp")
 			return
 		}
-		result.LpRemoveLiquidityOp = &tv
+		result.CancelDataOwnerUpdateRequestOp = &tv
 	}
 	return
 }
@@ -55116,75 +54520,75 @@ func (u OperationBody) GetCancelCloseDeferredPaymentRequestOp() (result CancelCl
 	return
 }
 
-// MustLpSwapOp retrieves the LpSwapOp value from the union,
+// MustUpdateDataOwnerOp retrieves the UpdateDataOwnerOp value from the union,
 // panicing if the value is not set.
-func (u OperationBody) MustLpSwapOp() LpSwapOp {
-	val, ok := u.GetLpSwapOp()
+func (u OperationBody) MustUpdateDataOwnerOp() UpdateDataOwnerOp {
+	val, ok := u.GetUpdateDataOwnerOp()
 
 	if !ok {
-		panic("arm LpSwapOp is not set")
+		panic("arm UpdateDataOwnerOp is not set")
 	}
 
 	return val
 }
 
-// GetLpSwapOp retrieves the LpSwapOp value from the union,
+// GetUpdateDataOwnerOp retrieves the UpdateDataOwnerOp value from the union,
 // returning ok if the union's switch indicated the value is valid.
-func (u OperationBody) GetLpSwapOp() (result LpSwapOp, ok bool) {
+func (u OperationBody) GetUpdateDataOwnerOp() (result UpdateDataOwnerOp, ok bool) {
 	armName, _ := u.ArmForSwitch(int32(u.Type))
 
-	if armName == "LpSwapOp" {
-		result = *u.LpSwapOp
+	if armName == "UpdateDataOwnerOp" {
+		result = *u.UpdateDataOwnerOp
 		ok = true
 	}
 
 	return
 }
 
-// MustLpAddLiquidityOp retrieves the LpAddLiquidityOp value from the union,
+// MustCreateDataOwnerUpdateRequestOp retrieves the CreateDataOwnerUpdateRequestOp value from the union,
 // panicing if the value is not set.
-func (u OperationBody) MustLpAddLiquidityOp() LpAddLiquidityOp {
-	val, ok := u.GetLpAddLiquidityOp()
+func (u OperationBody) MustCreateDataOwnerUpdateRequestOp() CreateDataOwnerUpdateRequestOp {
+	val, ok := u.GetCreateDataOwnerUpdateRequestOp()
 
 	if !ok {
-		panic("arm LpAddLiquidityOp is not set")
+		panic("arm CreateDataOwnerUpdateRequestOp is not set")
 	}
 
 	return val
 }
 
-// GetLpAddLiquidityOp retrieves the LpAddLiquidityOp value from the union,
+// GetCreateDataOwnerUpdateRequestOp retrieves the CreateDataOwnerUpdateRequestOp value from the union,
 // returning ok if the union's switch indicated the value is valid.
-func (u OperationBody) GetLpAddLiquidityOp() (result LpAddLiquidityOp, ok bool) {
+func (u OperationBody) GetCreateDataOwnerUpdateRequestOp() (result CreateDataOwnerUpdateRequestOp, ok bool) {
 	armName, _ := u.ArmForSwitch(int32(u.Type))
 
-	if armName == "LpAddLiquidityOp" {
-		result = *u.LpAddLiquidityOp
+	if armName == "CreateDataOwnerUpdateRequestOp" {
+		result = *u.CreateDataOwnerUpdateRequestOp
 		ok = true
 	}
 
 	return
 }
 
-// MustLpRemoveLiquidityOp retrieves the LpRemoveLiquidityOp value from the union,
+// MustCancelDataOwnerUpdateRequestOp retrieves the CancelDataOwnerUpdateRequestOp value from the union,
 // panicing if the value is not set.
-func (u OperationBody) MustLpRemoveLiquidityOp() LpRemoveLiquidityOp {
-	val, ok := u.GetLpRemoveLiquidityOp()
+func (u OperationBody) MustCancelDataOwnerUpdateRequestOp() CancelDataOwnerUpdateRequestOp {
+	val, ok := u.GetCancelDataOwnerUpdateRequestOp()
 
 	if !ok {
-		panic("arm LpRemoveLiquidityOp is not set")
+		panic("arm CancelDataOwnerUpdateRequestOp is not set")
 	}
 
 	return val
 }
 
-// GetLpRemoveLiquidityOp retrieves the LpRemoveLiquidityOp value from the union,
+// GetCancelDataOwnerUpdateRequestOp retrieves the CancelDataOwnerUpdateRequestOp value from the union,
 // returning ok if the union's switch indicated the value is valid.
-func (u OperationBody) GetLpRemoveLiquidityOp() (result LpRemoveLiquidityOp, ok bool) {
+func (u OperationBody) GetCancelDataOwnerUpdateRequestOp() (result CancelDataOwnerUpdateRequestOp, ok bool) {
 	armName, _ := u.ArmForSwitch(int32(u.Type))
 
-	if armName == "LpRemoveLiquidityOp" {
-		result = *u.LpRemoveLiquidityOp
+	if armName == "CancelDataOwnerUpdateRequestOp" {
+		result = *u.CancelDataOwnerUpdateRequestOp
 		ok = true
 	}
 
@@ -55329,13 +54733,12 @@ func (u OperationBody) GetLpRemoveLiquidityOp() (result LpRemoveLiquidityOp, ok 
 //            CreateCloseDeferredPaymentRequestOp createCloseDeferredPaymentRequestOp;
 //        case CANCEL_CLOSE_DEFERRED_PAYMENT_REQUEST:
 //            CancelCloseDeferredPaymentRequestOp cancelCloseDeferredPaymentRequestOp;
-//        case LP_SWAP:
-//            LPSwapOp lpSwapOp;
-//        case LP_ADD_LIQUIDITY:
-//            LPAddLiquidityOp lpAddLiquidityOp;
-//        case LP_REMOVE_LIQUIDITY:
-//            LPRemoveLiquidityOp lpRemoveLiquidityOp;
-//
+//        case UPDATE_DATA_OWNER:
+//            UpdateDataOwnerOp updateDataOwnerOp;
+//        case CREATE_DATA_OWNER_UPDATE_REQUEST:
+//            CreateDataOwnerUpdateRequestOp createDataOwnerUpdateRequestOp;
+//        case CANCEL_DATA_OWNER_UPDATE_REQUEST:
+//            CancelDataOwnerUpdateRequestOp cancelDataOwnerUpdateRequestOp;
 //        }
 //
 //        body;
@@ -56073,20 +55476,19 @@ type AccountRuleRequirement struct {
 //        case CANCEL_DATA_REMOVE_REQUEST:
 //            CancelDataRemoveRequestResult cancelDataRemoveRequestResult;
 //        case CREATE_DEFERRED_PAYMENT_CREATION_REQUEST:
-//            CreateDeferredPaymentCreationRequestResult createDeferredPaymentCreationRequestResult;
+//                CreateDeferredPaymentCreationRequestResult createDeferredPaymentCreationRequestResult;
 //        case CANCEL_DEFERRED_PAYMENT_CREATION_REQUEST:
 //            CancelDeferredPaymentCreationRequestResult cancelDeferredPaymentCreationRequestResult;
 //        case CREATE_CLOSE_DEFERRED_PAYMENT_REQUEST:
 //            CreateCloseDeferredPaymentRequestResult createCloseDeferredPaymentRequestResult;
 //        case CANCEL_CLOSE_DEFERRED_PAYMENT_REQUEST:
 //            CancelCloseDeferredPaymentRequestResult cancelCloseDeferredPaymentRequestResult;
-//        case LP_SWAP:
-//            LPSwapResult lpSwapResult;
-//        case LP_ADD_LIQUIDITY:
-//            LPAddLiquidityResult lpAddLiquidityResult;
-//        case LP_REMOVE_LIQUIDITY:
-//            LPRemoveLiquidityResult lpRemoveLiquidityResult;
-//
+//        case UPDATE_DATA_OWNER:
+//            UpdateDataOwnerResult updateDataOwnerResult;
+//        case CREATE_DATA_OWNER_UPDATE_REQUEST:
+//            CreateDataOwnerUpdateRequestResult createDataOwnerUpdateRequestResult;
+//        case CANCEL_DATA_OWNER_UPDATE_REQUEST:
+//            CancelDataOwnerUpdateRequestResult cancelDataOwnerUpdateRequestResult;
 //        }
 //
 type OperationResultTr struct {
@@ -56154,9 +55556,9 @@ type OperationResultTr struct {
 	CancelDeferredPaymentCreationRequestResult   *CancelDeferredPaymentCreationRequestResult   `json:"cancelDeferredPaymentCreationRequestResult,omitempty"`
 	CreateCloseDeferredPaymentRequestResult      *CreateCloseDeferredPaymentRequestResult      `json:"createCloseDeferredPaymentRequestResult,omitempty"`
 	CancelCloseDeferredPaymentRequestResult      *CancelCloseDeferredPaymentRequestResult      `json:"cancelCloseDeferredPaymentRequestResult,omitempty"`
-	LpSwapResult                                 *LpSwapResult                                 `json:"lpSwapResult,omitempty"`
-	LpAddLiquidityResult                         *LpAddLiquidityResult                         `json:"lpAddLiquidityResult,omitempty"`
-	LpRemoveLiquidityResult                      *LpRemoveLiquidityResult                      `json:"lpRemoveLiquidityResult,omitempty"`
+	UpdateDataOwnerResult                        *UpdateDataOwnerResult                        `json:"updateDataOwnerResult,omitempty"`
+	CreateDataOwnerUpdateRequestResult           *CreateDataOwnerUpdateRequestResult           `json:"createDataOwnerUpdateRequestResult,omitempty"`
+	CancelDataOwnerUpdateRequestResult           *CancelDataOwnerUpdateRequestResult           `json:"cancelDataOwnerUpdateRequestResult,omitempty"`
 }
 
 // SwitchFieldName returns the field name in which this union's
@@ -56295,12 +55697,12 @@ func (u OperationResultTr) ArmForSwitch(sw int32) (string, bool) {
 		return "CreateCloseDeferredPaymentRequestResult", true
 	case OperationTypeCancelCloseDeferredPaymentRequest:
 		return "CancelCloseDeferredPaymentRequestResult", true
-	case OperationTypeLpSwap:
-		return "LpSwapResult", true
-	case OperationTypeLpAddLiquidity:
-		return "LpAddLiquidityResult", true
-	case OperationTypeLpRemoveLiquidity:
-		return "LpRemoveLiquidityResult", true
+	case OperationTypeUpdateDataOwner:
+		return "UpdateDataOwnerResult", true
+	case OperationTypeCreateDataOwnerUpdateRequest:
+		return "CreateDataOwnerUpdateRequestResult", true
+	case OperationTypeCancelDataOwnerUpdateRequest:
+		return "CancelDataOwnerUpdateRequestResult", true
 	}
 	return "-", false
 }
@@ -56750,27 +56152,27 @@ func NewOperationResultTr(aType OperationType, value interface{}) (result Operat
 			return
 		}
 		result.CancelCloseDeferredPaymentRequestResult = &tv
-	case OperationTypeLpSwap:
-		tv, ok := value.(LpSwapResult)
+	case OperationTypeUpdateDataOwner:
+		tv, ok := value.(UpdateDataOwnerResult)
 		if !ok {
-			err = fmt.Errorf("invalid value, must be LpSwapResult")
+			err = fmt.Errorf("invalid value, must be UpdateDataOwnerResult")
 			return
 		}
-		result.LpSwapResult = &tv
-	case OperationTypeLpAddLiquidity:
-		tv, ok := value.(LpAddLiquidityResult)
+		result.UpdateDataOwnerResult = &tv
+	case OperationTypeCreateDataOwnerUpdateRequest:
+		tv, ok := value.(CreateDataOwnerUpdateRequestResult)
 		if !ok {
-			err = fmt.Errorf("invalid value, must be LpAddLiquidityResult")
+			err = fmt.Errorf("invalid value, must be CreateDataOwnerUpdateRequestResult")
 			return
 		}
-		result.LpAddLiquidityResult = &tv
-	case OperationTypeLpRemoveLiquidity:
-		tv, ok := value.(LpRemoveLiquidityResult)
+		result.CreateDataOwnerUpdateRequestResult = &tv
+	case OperationTypeCancelDataOwnerUpdateRequest:
+		tv, ok := value.(CancelDataOwnerUpdateRequestResult)
 		if !ok {
-			err = fmt.Errorf("invalid value, must be LpRemoveLiquidityResult")
+			err = fmt.Errorf("invalid value, must be CancelDataOwnerUpdateRequestResult")
 			return
 		}
-		result.LpRemoveLiquidityResult = &tv
+		result.CancelDataOwnerUpdateRequestResult = &tv
 	}
 	return
 }
@@ -58350,75 +57752,75 @@ func (u OperationResultTr) GetCancelCloseDeferredPaymentRequestResult() (result 
 	return
 }
 
-// MustLpSwapResult retrieves the LpSwapResult value from the union,
+// MustUpdateDataOwnerResult retrieves the UpdateDataOwnerResult value from the union,
 // panicing if the value is not set.
-func (u OperationResultTr) MustLpSwapResult() LpSwapResult {
-	val, ok := u.GetLpSwapResult()
+func (u OperationResultTr) MustUpdateDataOwnerResult() UpdateDataOwnerResult {
+	val, ok := u.GetUpdateDataOwnerResult()
 
 	if !ok {
-		panic("arm LpSwapResult is not set")
+		panic("arm UpdateDataOwnerResult is not set")
 	}
 
 	return val
 }
 
-// GetLpSwapResult retrieves the LpSwapResult value from the union,
+// GetUpdateDataOwnerResult retrieves the UpdateDataOwnerResult value from the union,
 // returning ok if the union's switch indicated the value is valid.
-func (u OperationResultTr) GetLpSwapResult() (result LpSwapResult, ok bool) {
+func (u OperationResultTr) GetUpdateDataOwnerResult() (result UpdateDataOwnerResult, ok bool) {
 	armName, _ := u.ArmForSwitch(int32(u.Type))
 
-	if armName == "LpSwapResult" {
-		result = *u.LpSwapResult
+	if armName == "UpdateDataOwnerResult" {
+		result = *u.UpdateDataOwnerResult
 		ok = true
 	}
 
 	return
 }
 
-// MustLpAddLiquidityResult retrieves the LpAddLiquidityResult value from the union,
+// MustCreateDataOwnerUpdateRequestResult retrieves the CreateDataOwnerUpdateRequestResult value from the union,
 // panicing if the value is not set.
-func (u OperationResultTr) MustLpAddLiquidityResult() LpAddLiquidityResult {
-	val, ok := u.GetLpAddLiquidityResult()
+func (u OperationResultTr) MustCreateDataOwnerUpdateRequestResult() CreateDataOwnerUpdateRequestResult {
+	val, ok := u.GetCreateDataOwnerUpdateRequestResult()
 
 	if !ok {
-		panic("arm LpAddLiquidityResult is not set")
+		panic("arm CreateDataOwnerUpdateRequestResult is not set")
 	}
 
 	return val
 }
 
-// GetLpAddLiquidityResult retrieves the LpAddLiquidityResult value from the union,
+// GetCreateDataOwnerUpdateRequestResult retrieves the CreateDataOwnerUpdateRequestResult value from the union,
 // returning ok if the union's switch indicated the value is valid.
-func (u OperationResultTr) GetLpAddLiquidityResult() (result LpAddLiquidityResult, ok bool) {
+func (u OperationResultTr) GetCreateDataOwnerUpdateRequestResult() (result CreateDataOwnerUpdateRequestResult, ok bool) {
 	armName, _ := u.ArmForSwitch(int32(u.Type))
 
-	if armName == "LpAddLiquidityResult" {
-		result = *u.LpAddLiquidityResult
+	if armName == "CreateDataOwnerUpdateRequestResult" {
+		result = *u.CreateDataOwnerUpdateRequestResult
 		ok = true
 	}
 
 	return
 }
 
-// MustLpRemoveLiquidityResult retrieves the LpRemoveLiquidityResult value from the union,
+// MustCancelDataOwnerUpdateRequestResult retrieves the CancelDataOwnerUpdateRequestResult value from the union,
 // panicing if the value is not set.
-func (u OperationResultTr) MustLpRemoveLiquidityResult() LpRemoveLiquidityResult {
-	val, ok := u.GetLpRemoveLiquidityResult()
+func (u OperationResultTr) MustCancelDataOwnerUpdateRequestResult() CancelDataOwnerUpdateRequestResult {
+	val, ok := u.GetCancelDataOwnerUpdateRequestResult()
 
 	if !ok {
-		panic("arm LpRemoveLiquidityResult is not set")
+		panic("arm CancelDataOwnerUpdateRequestResult is not set")
 	}
 
 	return val
 }
 
-// GetLpRemoveLiquidityResult retrieves the LpRemoveLiquidityResult value from the union,
+// GetCancelDataOwnerUpdateRequestResult retrieves the CancelDataOwnerUpdateRequestResult value from the union,
 // returning ok if the union's switch indicated the value is valid.
-func (u OperationResultTr) GetLpRemoveLiquidityResult() (result LpRemoveLiquidityResult, ok bool) {
+func (u OperationResultTr) GetCancelDataOwnerUpdateRequestResult() (result CancelDataOwnerUpdateRequestResult, ok bool) {
 	armName, _ := u.ArmForSwitch(int32(u.Type))
 
-	if armName == "LpRemoveLiquidityResult" {
-		result = *u.LpRemoveLiquidityResult
+	if armName == "CancelDataOwnerUpdateRequestResult" {
+		result = *u.CancelDataOwnerUpdateRequestResult
 		ok = true
 	}
 
@@ -58551,20 +57953,19 @@ func (u OperationResultTr) GetLpRemoveLiquidityResult() (result LpRemoveLiquidit
 //        case CANCEL_DATA_REMOVE_REQUEST:
 //            CancelDataRemoveRequestResult cancelDataRemoveRequestResult;
 //        case CREATE_DEFERRED_PAYMENT_CREATION_REQUEST:
-//            CreateDeferredPaymentCreationRequestResult createDeferredPaymentCreationRequestResult;
+//                CreateDeferredPaymentCreationRequestResult createDeferredPaymentCreationRequestResult;
 //        case CANCEL_DEFERRED_PAYMENT_CREATION_REQUEST:
 //            CancelDeferredPaymentCreationRequestResult cancelDeferredPaymentCreationRequestResult;
 //        case CREATE_CLOSE_DEFERRED_PAYMENT_REQUEST:
 //            CreateCloseDeferredPaymentRequestResult createCloseDeferredPaymentRequestResult;
 //        case CANCEL_CLOSE_DEFERRED_PAYMENT_REQUEST:
 //            CancelCloseDeferredPaymentRequestResult cancelCloseDeferredPaymentRequestResult;
-//        case LP_SWAP:
-//            LPSwapResult lpSwapResult;
-//        case LP_ADD_LIQUIDITY:
-//            LPAddLiquidityResult lpAddLiquidityResult;
-//        case LP_REMOVE_LIQUIDITY:
-//            LPRemoveLiquidityResult lpRemoveLiquidityResult;
-//
+//        case UPDATE_DATA_OWNER:
+//            UpdateDataOwnerResult updateDataOwnerResult;
+//        case CREATE_DATA_OWNER_UPDATE_REQUEST:
+//            CreateDataOwnerUpdateRequestResult createDataOwnerUpdateRequestResult;
+//        case CANCEL_DATA_OWNER_UPDATE_REQUEST:
+//            CancelDataOwnerUpdateRequestResult cancelDataOwnerUpdateRequestResult;
 //        }
 //        tr;
 //    case opNO_ENTRY:
@@ -59807,8 +59208,7 @@ func (u PublicKey) GetEd25519() (result Uint256, ok bool) {
 //        SWAP = 38,
 //        DATA = 39,
 //        CUSTOM = 40,
-//        DEFERRED_PAYMENT = 41,
-//        LIQUIDITY_POOL = 42
+//        DEFERRED_PAYMENT = 41
 //    };
 //
 type LedgerEntryType int32
@@ -59853,7 +59253,6 @@ const (
 	LedgerEntryTypeData                             LedgerEntryType = 39
 	LedgerEntryTypeCustom                           LedgerEntryType = 40
 	LedgerEntryTypeDeferredPayment                  LedgerEntryType = 41
-	LedgerEntryTypeLiquidityPool                    LedgerEntryType = 42
 )
 
 var LedgerEntryTypeAll = []LedgerEntryType{
@@ -59896,7 +59295,6 @@ var LedgerEntryTypeAll = []LedgerEntryType{
 	LedgerEntryTypeData,
 	LedgerEntryTypeCustom,
 	LedgerEntryTypeDeferredPayment,
-	LedgerEntryTypeLiquidityPool,
 }
 
 var ledgerEntryTypeMap = map[int32]string{
@@ -59939,7 +59337,6 @@ var ledgerEntryTypeMap = map[int32]string{
 	39: "LedgerEntryTypeData",
 	40: "LedgerEntryTypeCustom",
 	41: "LedgerEntryTypeDeferredPayment",
-	42: "LedgerEntryTypeLiquidityPool",
 }
 
 var ledgerEntryTypeShortMap = map[int32]string{
@@ -59982,7 +59379,6 @@ var ledgerEntryTypeShortMap = map[int32]string{
 	39: "data",
 	40: "custom",
 	41: "deferred_payment",
-	42: "liquidity_pool",
 }
 
 var ledgerEntryTypeRevMap = map[string]int32{
@@ -60025,7 +59421,6 @@ var ledgerEntryTypeRevMap = map[string]int32{
 	"LedgerEntryTypeData":                             39,
 	"LedgerEntryTypeCustom":                           40,
 	"LedgerEntryTypeDeferredPayment":                  41,
-	"LedgerEntryTypeLiquidityPool":                    42,
 }
 
 // ValidEnum validates a proposed value for this enum.  Implements
@@ -60454,9 +59849,9 @@ type Fee struct {
 //        CANCEL_DEFERRED_PAYMENT_CREATION_REQUEST = 67,
 //        CREATE_CLOSE_DEFERRED_PAYMENT_REQUEST = 68,
 //        CANCEL_CLOSE_DEFERRED_PAYMENT_REQUEST = 69,
-//        LP_SWAP = 70,
-//        LP_ADD_LIQUIDITY = 71,
-//        LP_REMOVE_LIQUIDITY = 72
+//        UPDATE_DATA_OWNER = 70,
+//        CREATE_DATA_OWNER_UPDATE_REQUEST = 71,
+//        CANCEL_DATA_OWNER_UPDATE_REQUEST = 72
 //    };
 //
 type OperationType int32
@@ -60525,9 +59920,9 @@ const (
 	OperationTypeCancelDeferredPaymentCreationRequest   OperationType = 67
 	OperationTypeCreateCloseDeferredPaymentRequest      OperationType = 68
 	OperationTypeCancelCloseDeferredPaymentRequest      OperationType = 69
-	OperationTypeLpSwap                                 OperationType = 70
-	OperationTypeLpAddLiquidity                         OperationType = 71
-	OperationTypeLpRemoveLiquidity                      OperationType = 72
+	OperationTypeUpdateDataOwner                        OperationType = 70
+	OperationTypeCreateDataOwnerUpdateRequest           OperationType = 71
+	OperationTypeCancelDataOwnerUpdateRequest           OperationType = 72
 )
 
 var OperationTypeAll = []OperationType{
@@ -60594,9 +59989,9 @@ var OperationTypeAll = []OperationType{
 	OperationTypeCancelDeferredPaymentCreationRequest,
 	OperationTypeCreateCloseDeferredPaymentRequest,
 	OperationTypeCancelCloseDeferredPaymentRequest,
-	OperationTypeLpSwap,
-	OperationTypeLpAddLiquidity,
-	OperationTypeLpRemoveLiquidity,
+	OperationTypeUpdateDataOwner,
+	OperationTypeCreateDataOwnerUpdateRequest,
+	OperationTypeCancelDataOwnerUpdateRequest,
 }
 
 var operationTypeMap = map[int32]string{
@@ -60663,9 +60058,9 @@ var operationTypeMap = map[int32]string{
 	67: "OperationTypeCancelDeferredPaymentCreationRequest",
 	68: "OperationTypeCreateCloseDeferredPaymentRequest",
 	69: "OperationTypeCancelCloseDeferredPaymentRequest",
-	70: "OperationTypeLpSwap",
-	71: "OperationTypeLpAddLiquidity",
-	72: "OperationTypeLpRemoveLiquidity",
+	70: "OperationTypeUpdateDataOwner",
+	71: "OperationTypeCreateDataOwnerUpdateRequest",
+	72: "OperationTypeCancelDataOwnerUpdateRequest",
 }
 
 var operationTypeShortMap = map[int32]string{
@@ -60732,9 +60127,9 @@ var operationTypeShortMap = map[int32]string{
 	67: "cancel_deferred_payment_creation_request",
 	68: "create_close_deferred_payment_request",
 	69: "cancel_close_deferred_payment_request",
-	70: "lp_swap",
-	71: "lp_add_liquidity",
-	72: "lp_remove_liquidity",
+	70: "update_data_owner",
+	71: "create_data_owner_update_request",
+	72: "cancel_data_owner_update_request",
 }
 
 var operationTypeRevMap = map[string]int32{
@@ -60801,9 +60196,9 @@ var operationTypeRevMap = map[string]int32{
 	"OperationTypeCancelDeferredPaymentCreationRequest":   67,
 	"OperationTypeCreateCloseDeferredPaymentRequest":      68,
 	"OperationTypeCancelCloseDeferredPaymentRequest":      69,
-	"OperationTypeLpSwap":                                 70,
-	"OperationTypeLpAddLiquidity":                         71,
-	"OperationTypeLpRemoveLiquidity":                      72,
+	"OperationTypeUpdateDataOwner":                        70,
+	"OperationTypeCreateDataOwnerUpdateRequest":           71,
+	"OperationTypeCancelDataOwnerUpdateRequest":           72,
 }
 
 // ValidEnum validates a proposed value for this enum.  Implements
@@ -60882,4 +60277,4 @@ type DecoratedSignature struct {
 }
 
 var fmtTest = fmt.Sprint("this is a dummy usage of fmt")
-var Revision = "e0b64cd344cdb8711aff3c37e6856cabf8bca226"
+var Revision = "ac72d133b30a8737c688591af9b76e533e349bcb"
