@@ -151,15 +151,24 @@ type UpdateDataOwnerRequest struct {
 	AllTasks       *uint32
 	CreatorDetails interface{}
 
-	UpdateDataOwnerOp xdr.UpdateDataOwnerOp
+	op UpdateDataOwner
 }
 
 func (r UpdateDataOwnerRequest) XDR() (*xdr.Operation, error) {
-	var err error
+	var newOwner xdr.AccountId
+	err := newOwner.SetAddress(r.op.NewOwner)
+	if err != nil {
+		return nil, errors.Wrap(err, "invalid new owner")
+	}
+
 	request := &xdr.CreateDataOwnerUpdateRequestOp{
 		RequestId: xdr.Uint64(r.RequestID),
 		DataOwnerUpdateRequest: xdr.DataOwnerUpdateRequest{
-			UpdateDataOwnerOp: xdr.UpdateDataOwnerOp(r.UpdateDataOwnerOp),
+			UpdateDataOwnerOp: xdr.UpdateDataOwnerOp{
+				DataId: xdr.Uint64(r.op.ID),
+				NewOwner: newOwner,
+				Ext:      xdr.EmptyExt{},
+			},
 			CreatorDetails:    xdr.Longstring("{}"),
 		},
 		Ext: xdr.EmptyExt{},

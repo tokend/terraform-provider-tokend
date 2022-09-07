@@ -76,12 +76,18 @@ type UpdateDataOwner struct {
 }
 
 func (u UpdateDataOwner) XDR() (*xdr.Operation, error) {
+	var newOwner xdr.AccountId
+	err := newOwner.SetAddress(u.NewOwner)
+	if err != nil {
+		return nil, errors.Wrap(err, "invalid new owner")
+	}
+
 	return &xdr.Operation{
 		Body: xdr.OperationBody{
 			Type: xdr.OperationTypeUpdateDataOwner,
 			UpdateDataOwnerOp: &xdr.UpdateDataOwnerOp{
 				DataId:   xdr.Uint64(u.ID),
-				NewOwner: convert(u.NewOwner),
+				NewOwner: newOwner,
 				Ext:      xdr.EmptyExt{},
 			},
 		},

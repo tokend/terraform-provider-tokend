@@ -208,7 +208,7 @@ gitlab.com/tokend/connectors/keyvalue
 gitlab.com/tokend/connectors/lazyinfo
 gitlab.com/tokend/connectors/signed
 gitlab.com/tokend/connectors/submit
-# gitlab.com/tokend/go v3.15.2+incompatible
+# gitlab.com/tokend/go v3.15.3-0.20220907224338-c4ace1c6d898+incompatible
 ## explicit
 gitlab.com/tokend/go/amount
 gitlab.com/tokend/go/crc16
