@@ -697,10 +697,10 @@ gitlab.com/tokend/doorman-svc v0.1.4/go.mod h1:O/DVFxyVYUj9dNdwggjHkG6KU/pVjWsJA
 gitlab.com/tokend/go v3.11.0+incompatible/go.mod h1:qz38YBc7VL29H2gnXbpRzcEVw2d1NUZ5SVDzIehqDCA=
 gitlab.com/tokend/go v3.13.0+incompatible/go.mod h1:qz38YBc7VL29H2gnXbpRzcEVw2d1NUZ5SVDzIehqDCA=
 gitlab.com/tokend/go v3.15.0+incompatible/go.mod h1:qz38YBc7VL29H2gnXbpRzcEVw2d1NUZ5SVDzIehqDCA=
-gitlab.com/tokend/go v3.15.2+incompatible h1:t9bfCX3nbTlc60OEJ2jIKpHgjDxFa3MqEkVRhP65EPs=
-gitlab.com/tokend/go v3.15.2+incompatible/go.mod h1:qz38YBc7VL29H2gnXbpRzcEVw2d1NUZ5SVDzIehqDCA=
-gitlab.com/tokend/go v3.15.3-0.20220907224338-c4ace1c6d898+incompatible h1:VwtGg8xIiSpE1jEwXCnTILOFSBAEfWJ7+FTBaYJhnIc=
-gitlab.com/tokend/go v3.15.3-0.20220907224338-c4ace1c6d898+incompatible/go.mod h1:qz38YBc7VL29H2gnXbpRzcEVw2d1NUZ5SVDzIehqDCA=
+gitlab.com/tokend/go v3.15.2-0.20220216101133-69e9b7915284+incompatible h1:h4ibREf07+jlnRcN8CZmHVlhgOsfdZi2gjxD5ua+VIk=
+gitlab.com/tokend/go v3.15.2-0.20220216101133-69e9b7915284+incompatible/go.mod h1:qz38YBc7VL29H2gnXbpRzcEVw2d1NUZ5SVDzIehqDCA=
+gitlab.com/tokend/go v3.15.3-0.20220909120635-1c9ae933c61f+incompatible h1:wq56WT2q2GSx51cOOVSYDJjYl0AbhnXj5xCkIOio5e4=
+gitlab.com/tokend/go v3.15.3-0.20220909120635-1c9ae933c61f+incompatible/go.mod h1:qz38YBc7VL29H2gnXbpRzcEVw2d1NUZ5SVDzIehqDCA=
 gitlab.com/tokend/go v3.16.0+incompatible h1:WKpbEsqOxf7L7fc0GGx9hoPy2dCph+AtPBd1JCbGWKk=
 gitlab.com/tokend/go v3.16.0+incompatible/go.mod h1:qz38YBc7VL29H2gnXbpRzcEVw2d1NUZ5SVDzIehqDCA=
 gitlab.com/tokend/keypair v0.0.0-20190412110653-b9d7e0c8b312 h1:u8pxrNw8QKIsrmClG71uuTPy22fkePAXBkHgxrXkMU8=
