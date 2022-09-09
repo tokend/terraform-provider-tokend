@@ -145,3 +145,52 @@ func (r RemoveDataRequest) XDR() (*xdr.Operation, error) {
 		},
 	}, nil
 }
+
+type UpdateDataOwnerRequest struct {
+	RequestID      uint64
+	AllTasks       *uint32
+	CreatorDetails interface{}
+
+	op UpdateDataOwner
+}
+
+func (r UpdateDataOwnerRequest) XDR() (*xdr.Operation, error) {
+	var newOwner xdr.AccountId
+	err := newOwner.SetAddress(r.op.NewOwner)
+	if err != nil {
+		return nil, errors.Wrap(err, "invalid new owner")
+	}
+
+	request := &xdr.CreateDataOwnerUpdateRequestOp{
+		RequestId: xdr.Uint64(r.RequestID),
+		DataOwnerUpdateRequest: xdr.DataOwnerUpdateRequest{
+			UpdateDataOwnerOp: xdr.UpdateDataOwnerOp{
+				DataId: xdr.Uint64(r.op.ID),
+				NewOwner: newOwner,
+				Ext:      xdr.EmptyExt{},
+			},
+			CreatorDetails:    xdr.Longstring("{}"),
+		},
+		Ext: xdr.EmptyExt{},
+	}
+
+	if r.CreatorDetails != nil {
+		details, err := json.Marshal(r.CreatorDetails)
+		if err != nil {
+			return nil, errors.Wrap(err, "failed to marshal creator details")
+		}
+		request.DataOwnerUpdateRequest.CreatorDetails = xdr.Longstring(details)
+	}
+
+	if r.AllTasks != nil {
+		allTasks := xdr.Uint32(*r.AllTasks)
+		request.AllTasks = &allTasks
+	}
+
+	return &xdr.Operation{
+		Body: xdr.OperationBody{
+			Type:                           xdr.OperationTypeCreateDataOwnerUpdateRequest,
+			CreateDataOwnerUpdateRequestOp: request,
+		},
+	}, err
+}
