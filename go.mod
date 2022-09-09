@@ -12,7 +12,7 @@ require (
 	gitlab.com/distributed_lab/json-api-connector v0.2.4
 	gitlab.com/distributed_lab/logan v3.8.0+incompatible
 	gitlab.com/tokend/connectors v0.1.9
-	gitlab.com/tokend/go v3.15.3-0.20220907224338-c4ace1c6d898+incompatible
+	gitlab.com/tokend/go v3.16.0+incompatible
 	gitlab.com/tokend/keypair v0.0.0-20190412110653-b9d7e0c8b312
 	gitlab.com/tokend/regources v4.9.2-0.20210809204843-6ec3aa755883+incompatible
 )
