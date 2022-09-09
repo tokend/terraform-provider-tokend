@@ -700,6 +700,10 @@ gitlab.com/tokend/go v3.15.0+incompatible h1:+FLJP11ppj5ttU3KNcvvummU3uE6hpju1CY
 gitlab.com/tokend/go v3.15.0+incompatible/go.mod h1:qz38YBc7VL29H2gnXbpRzcEVw2d1NUZ5SVDzIehqDCA=
 gitlab.com/tokend/go v3.15.2-0.20220216101133-69e9b7915284+incompatible h1:h4ibREf07+jlnRcN8CZmHVlhgOsfdZi2gjxD5ua+VIk=
 gitlab.com/tokend/go v3.15.2-0.20220216101133-69e9b7915284+incompatible/go.mod h1:qz38YBc7VL29H2gnXbpRzcEVw2d1NUZ5SVDzIehqDCA=
+gitlab.com/tokend/go v3.15.3-0.20220909120635-1c9ae933c61f+incompatible h1:wq56WT2q2GSx51cOOVSYDJjYl0AbhnXj5xCkIOio5e4=
+gitlab.com/tokend/go v3.15.3-0.20220909120635-1c9ae933c61f+incompatible/go.mod h1:qz38YBc7VL29H2gnXbpRzcEVw2d1NUZ5SVDzIehqDCA=
+gitlab.com/tokend/go v3.16.0+incompatible h1:WKpbEsqOxf7L7fc0GGx9hoPy2dCph+AtPBd1JCbGWKk=
+gitlab.com/tokend/go v3.16.0+incompatible/go.mod h1:qz38YBc7VL29H2gnXbpRzcEVw2d1NUZ5SVDzIehqDCA=
 gitlab.com/tokend/keypair v0.0.0-20190412110653-b9d7e0c8b312 h1:u8pxrNw8QKIsrmClG71uuTPy22fkePAXBkHgxrXkMU8=
 gitlab.com/tokend/keypair v0.0.0-20190412110653-b9d7e0c8b312/go.mod h1:vdlhN5/oQR7uY8EsGSqPf8bwnmQxxpaq7qrQn5Y3U/w=
 gitlab.com/tokend/rbac-svc v0.0.0-20200327131412-78f659719f5d/go.mod h1:2XR6rQ4Idszzk+OBZ6EBgpi18rhtLV4AsszDr1YZERA=

@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 
 	"gitlab.com/distributed_lab/logan/v3/errors"
+	"gitlab.com/tokend/go/strkey"
 	"gitlab.com/tokend/go/xdr"
 )
 
@@ -67,4 +68,40 @@ func (r RemoveData) XDR() (*xdr.Operation, error) {
 			},
 		},
 	}, nil
+}
+
+type UpdateDataOwner struct {
+	ID       uint64
+	NewOwner string
+}
+
+func (u UpdateDataOwner) XDR() (*xdr.Operation, error) {
+	var newOwner xdr.AccountId
+	err := newOwner.SetAddress(u.NewOwner)
+	if err != nil {
+		return nil, errors.Wrap(err, "invalid new owner")
+	}
+
+	return &xdr.Operation{
+		Body: xdr.OperationBody{
+			Type: xdr.OperationTypeUpdateDataOwner,
+			UpdateDataOwnerOp: &xdr.UpdateDataOwnerOp{
+				DataId:   xdr.Uint64(u.ID),
+				NewOwner: newOwner,
+				Ext:      xdr.EmptyExt{},
+			},
+		},
+	}, nil
+}
+
+func convert(accountId string) xdr.AccountId {
+
+	raw, _ := strkey.Decode(strkey.VersionByteAccountID, accountId)
+
+	var ui xdr.Uint256
+	copy(ui[:], raw)
+
+	result, _ := xdr.NewAccountId(xdr.CryptoKeyTypeKeyTypeEd25519, ui)
+
+	return result
 }
