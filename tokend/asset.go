@@ -11,7 +11,7 @@ import (
 	"github.com/tokend/terraform-provider-tokend/tokend/helpers/validation"
 	"gitlab.com/tokend/go/xdr"
 
-	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/pkg/errors"
 	"gitlab.com/tokend/go/amount"
 	"gitlab.com/tokend/go/xdrbuild"
