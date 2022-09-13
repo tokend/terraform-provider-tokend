@@ -2,6 +2,8 @@ FROM golang:1.18 as builder
 
 WORKDIR /go/src/github.com/tokend/terraform-provider-tokend
 COPY . .
+ARG CI_GILAB_TOKEN
+ENV CI_GILAB_TOKEN=${CI_GILAB_TOKEN}
 RUN git config --global url."https://gitlab-ci-token:$CI_GILAB_TOKEN@gitlab.com".insteadOf https://gitlab.com
 RUN go env -w GOPRIVATE=gitlab.com/*
 RUN go mod download all
