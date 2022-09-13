@@ -44,3 +44,5 @@ jobs:
           context: .
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
+          secrets: |
+                    CI_GILAB_TOKEN=${{ secrets.CI_GILAB_TOKEN }}
