@@ -6,7 +6,7 @@ import (
 
 	"github.com/tokend/terraform-provider-tokend/tokend/helpers/validation"
 
-	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/spf13/cast"
 	"gitlab.com/distributed_lab/logan/v3"
 	"gitlab.com/distributed_lab/logan/v3/errors"

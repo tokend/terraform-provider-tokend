@@ -4,7 +4,7 @@ import (
 	"context"
 	"gitlab.com/tokend/go/xdr"
 
-	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/pkg/errors"
 	"github.com/spf13/cast"
 	"github.com/tokend/terraform-provider-tokend/tokend/helpers"

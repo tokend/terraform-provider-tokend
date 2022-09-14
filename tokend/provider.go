@@ -10,8 +10,8 @@ import (
 
 	"github.com/tokend/terraform-provider-tokend/tokend/connector"
 
-	"github.com/hashicorp/terraform/helper/schema"
-	"github.com/hashicorp/terraform/terraform"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 	"github.com/pkg/errors"
 	"github.com/tokend/terraform-provider-tokend/tokend/helpers/validation"
 	"gitlab.com/tokend/connectors/submit"

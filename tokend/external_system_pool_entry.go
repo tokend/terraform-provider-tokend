@@ -8,7 +8,7 @@ import (
 
 	"github.com/tokend/terraform-provider-tokend/tokend/helpers"
 
-	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/pkg/errors"
 )
 
